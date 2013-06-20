@@ -1,0 +1,17 @@
+*.aux
+*.cb
+*.cb2
+*.synctex.gz
+*.out
+*~
+*.swp
+*.log
+.DS_Store
+*.class
+*.glo
+*.ist
+main.pdf
+*.thm
+*.toc
+*.acn
+target/*
