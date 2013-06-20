@@ -15,3 +15,8 @@ main.pdf
 *.toc
 *.acn
 target/*
+target
+/project/project
+.cache
+.classpath
+.project
