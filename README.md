@@ -1,3 +1,9 @@
+Download binaries
+=================
+
+You can download the binaries from [here](https://sourceforge.net/projects/stratagem-mc/).
+
+
 stratagem
 =========
 
