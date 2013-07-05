@@ -5,7 +5,7 @@ import org.scalatest.FlatSpec
 class SortTest extends FlatSpec {
   "A sort" should "not be instanciated with a null super sort" in {
     intercept[IllegalArgumentException] {
-      val sort = new Sort("bool", null)
+      val sort = new SubSort("bool", null)
     }
   }
 }

@@ -3,7 +3,7 @@ package ch.unige.cui.smv.stratagem.adt
 /**
  * Represents a term.
  */
-abstract class Term {
+abstract class ATerm {
    /**
    * @return the sort of the term.
    */
@@ -11,12 +11,12 @@ abstract class Term {
 }
 
 /**
- * Represents a non variable term.
+ * Represents a non variable term. A constant or a term with parameters.
  * 
  * @param operationSymbol the operation symbol.
  * @param subterms the list of subterms
  */
-case class NonVariableTerm(val operationSymbol:Operation, val subterms:List[Term]) extends Term {
+case class Term(val operationSymbol:Operation, val subterms:List[ATerm]) extends ATerm {
   require(operationSymbol.arity == subterms.map(_.sort))
   
   def sort = operationSymbol.returnType;
@@ -27,6 +27,6 @@ case class NonVariableTerm(val operationSymbol:Operation, val subterms:List[Term
  * Represents a variable in a term.
  * @param declaration link to the the declaration
  */
-case class Variable(val declaration:VariableDeclaration) extends Term {
+case class Variable(val declaration:VariableDeclaration) extends ATerm {
   def sort = declaration.sort
 }
