@@ -25,5 +25,4 @@ case class SubSort(name: String, superSort: ASort) {
  * Represents a top level sort.
  * @param name the name of the sort
  */
-case class Sort(name:String) { 
-}
+case class Sort(name:String)

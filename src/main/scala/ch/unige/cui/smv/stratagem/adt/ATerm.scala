@@ -20,6 +20,7 @@ case class Term(val operationSymbol:Operation, val subterms:List[ATerm]) extends
   require(operationSymbol.arity == subterms.map(_.sort))
   
   def sort = operationSymbol.returnType;
+  override def toString = operationSymbol.name + (if (subterms.isEmpty) "" else subterms.mkString("(", ", ", ")"))
 }
 
 
@@ -29,4 +30,5 @@ case class Term(val operationSymbol:Operation, val subterms:List[ATerm]) extends
  */
 case class Variable(val declaration:VariableDeclaration) extends ATerm {
   def sort = declaration.sort
+  override def toString = declaration.name
 }
