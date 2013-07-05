@@ -6,3 +6,4 @@ version := "0.1"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "1.9.1" % "test"
 
+testListeners <<= target.map(t => Seq(new eu.henkelmann.sbt.JUnitXmlTestsListener(t.getAbsolutePath)))
