@@ -10,6 +10,6 @@ package ch.unige.cui.smv.stratagem.adt
  * @author mundacho
  *
  */
-case class Operation (val name:String, val returnType:Sort, val arity:List[Sort]) {
+case class Operation (val name:String, val returnType:ASort, val arity:List[ASort]) {
   require(name != "")
 }

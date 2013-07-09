@@ -17,7 +17,7 @@ abstract class ASort
  * @author mundacho
  *
  */
-case class SubSort(name: String, superSort: ASort) {
+case class SubSort(name: String, superSort: ASort) extends ASort {
   require(superSort != null)
 }
 
@@ -25,4 +25,4 @@ case class SubSort(name: String, superSort: ASort) {
  * Represents a top level sort.
  * @param name the name of the sort
  */
-case class Sort(name:String)
+case class Sort(name:String) extends ASort

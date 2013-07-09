@@ -7,7 +7,7 @@ abstract class ATerm {
    /**
    * @return the sort of the term.
    */
-  def sort:Sort
+  def sort:ASort
 }
 
 /**

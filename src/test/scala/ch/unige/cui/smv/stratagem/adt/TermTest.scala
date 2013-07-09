@@ -13,7 +13,6 @@ class TermTest extends FlatSpec {
     val trueOp = Operation("true", booleanSort, Nil)
     val falseOp = Operation("false", booleanSort, Nil)
     val andOp = Operation("and", booleanSort, booleanSort :: booleanSort :: Nil)
-    val sign = new Signature(Set(booleanSort), Set(trueOp, falseOp), Set(andOp))
     intercept[IllegalArgumentException] {
       Term(andOp, Term(trueOp, Nil) :: Nil)
     }
@@ -33,7 +32,6 @@ class TermTest extends FlatSpec {
     val trueOp = Operation("true", booleanSort, Nil)
     val falseOp = Operation("false", booleanSort, Nil)
     val andOp = Operation("and", booleanSort, booleanSort :: booleanSort :: Nil)
-    val sign = new Signature(Set(booleanSort), Set(trueOp, falseOp), Set(andOp))
     val bVariableDec = new VariableDeclaration(booleanSort, "b")
     val xVariableDec = new VariableDeclaration(natSort, "x")
     val varBool = Variable(bVariableDec)
@@ -52,7 +50,6 @@ class TermTest extends FlatSpec {
     val trueOp = Operation("true", booleanSort, Nil)
     val falseOp = Operation("false", booleanSort, Nil)
     val andOp = Operation("and", booleanSort, booleanSort :: booleanSort :: Nil)
-    val sign = new Signature(Set(booleanSort), Set(trueOp, falseOp), Set(andOp))
 
     Term(andOp, Term(trueOp, Nil) :: Term(falseOp, Nil) :: Nil)
 
@@ -67,7 +64,6 @@ class TermTest extends FlatSpec {
     val trueOp = Operation("true", booleanSort, Nil)
     val falseOp = Operation("false", booleanSort, Nil)
     val andOp = Operation("and", booleanSort, booleanSort :: booleanSort :: Nil)
-    val sign = new Signature(Set(booleanSort), Set(trueOp, falseOp), Set(andOp))
     val bVariableDec = new VariableDeclaration(booleanSort, "b")
     val xVariableDec = new VariableDeclaration(natSort, "x")
     val varBool = Variable(bVariableDec)
