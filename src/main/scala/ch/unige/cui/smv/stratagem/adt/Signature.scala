@@ -7,7 +7,7 @@ package ch.unige.cui.smv.stratagem.adt
  * @param generators the set of generators.
  * @param operations the set of operations.
  */
-class Signature private (val sorts: Map[String, ASort], val generators: Map[String, Operation], operations: Map[String, Operation]) {
+class Signature private (val sorts: Map[String, ASort], val generators: Map[String, Operation], val operations: Map[String, Operation]) {
 
   /**
    * Creates a signature without sorts.

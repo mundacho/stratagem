@@ -17,7 +17,7 @@ abstract class ATerm {
  * @param subterms the list of subterms
  */
 case class Term(val operationSymbol:Operation, val subterms:List[ATerm]) extends ATerm {
-  require(operationSymbol.arity == subterms.map(_.sort))
+  require(operationSymbol.arity == subterms.map(_.sort), "Invalid parameter")
   
   def sort = operationSymbol.returnType;
   override def toString = operationSymbol.name + (if (subterms.isEmpty) "" else subterms.mkString("(", ", ", ")"))
