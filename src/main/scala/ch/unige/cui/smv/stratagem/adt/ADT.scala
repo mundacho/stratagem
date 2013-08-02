@@ -8,7 +8,7 @@ package ch.unige.cui.smv.stratagem.adt
  * @param variable a variable using sorts of this ADT.
  * @author mundacho
  */
-class ADT private (val name: String, val signature: Signature, val variables: Map[String, VariableDeclaration]) {
+class ADT private (val name: String, val signature: Signature, val variables: Map[String, VariableDeclaration], val equations: Set[Equation]) {
 
   /**
    * Creates an empty ADT.
@@ -16,20 +16,20 @@ class ADT private (val name: String, val signature: Signature, val variables: Ma
    * @param signature a signature.
    */
   def this(name: String, signature: Signature) = {
-    this(name, signature, Map.empty)
+    this(name, signature, Map.empty, Set.empty)
   }
 
   /**
    * Declares a variable in this ADT.
    *
    * @param name the variable's name
-   * @sortName its sort.
+   * @param sortName its sort.
    * @return an ADT with the variable.
    */
   def declareVariable(name: String, sortName: String) = {
     require(!variables.isDefinedAt(name), "A variable with the name \"" + name + "\" exists already")
     require(signature.sorts.isDefinedAt(sortName), "The sort \"" + sortName + "\" is not in the signature of this ADT")
-    new ADT(name, signature, variables + (name -> new VariableDeclaration(signature.sorts(sortName), name)))
+    new ADT(name, signature, variables + (name -> new VariableDeclaration(signature.sorts(sortName), name)), Set.empty)
   }
 
   /**
@@ -42,9 +42,21 @@ class ADT private (val name: String, val signature: Signature, val variables: Ma
     val operator = signature.generators ++ signature.operations // we fusion both maps, by construction their intersection is empty
     require(operator.isDefinedAt(op) || variables.isDefinedAt(op), "Operation: \"" + op + "\" is not a valid operation nor variable in adt \"" + name + "\".")
     if (operator.isDefinedAt(op))
-      Term(operator(op), params.toList)
+      Term(operator(op), params.toList, this)
     else 
-      Variable(variables(op))
+      Variable(variables(op), this)
   }
 
+  /**
+   * Returns a new ADT where the equation is included.
+   * 
+   * @param leftSide the left side of the equation.
+   * @param rightSide the right side of the equation.
+   * 
+   */
+  def withEquation(leftSide: ATerm, rightSide: ATerm) = {
+    
+  }
+  
+  
 }
