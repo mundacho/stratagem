@@ -8,4 +8,4 @@ package ch.unige.cui.smv.stratagem.adt
  * @author mundacho
  *
  */
-class Equation (val leftSide: ATerm, val rightSide: ATerm)
+case class Equation (val leftSide: ATerm, val rightSide: ATerm)

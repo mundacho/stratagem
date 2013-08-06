@@ -8,6 +8,11 @@ abstract class ATerm(val adt:ADT) {
    * @return the sort of the term.
    */
   def sort:ASort
+  
+  def ->(rightTerm: ATerm) = {
+    Equation(this, rightTerm)
+  }
+  
 }
 
 /**
