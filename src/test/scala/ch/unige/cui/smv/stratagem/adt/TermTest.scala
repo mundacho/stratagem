@@ -45,7 +45,7 @@ class TermTest extends FlatSpec with BeforeAndAfter {
   }
 
   "A term" should "allow to build well formed ground terms" in {
-    adt.term("and", adt.term("true", adt.term("false")))
+    adt.term("and", adt.term("true"), adt.term("false"))
 
     suc(suc(zero))
   }
