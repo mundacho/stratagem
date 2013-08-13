@@ -3,7 +3,6 @@ package ch.unige.cui.smv.stratagem.ts
 import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.adt.Equation
-import javax.media.j3d.DecalGroup
 
 /**
  * Represents a transition system.
