@@ -6,4 +6,4 @@ package ch.unige.cui.smv.stratagem.ts
  * @author mundacho
  *
  */
-class FixPointStrategy(S:Strategy) extends NonVariableStrategy
+case class FixPointStrategy(S:Strategy) extends NonVariableStrategy

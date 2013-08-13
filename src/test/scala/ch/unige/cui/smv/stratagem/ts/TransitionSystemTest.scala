@@ -43,12 +43,12 @@ class TransitionSystemTest extends FlatSpec {
     def philo(state: ATerm, fork: ATerm, ph: ATerm) = adt.term("philo", state, fork, ph)
 
     val ts = (new TransitionSystem(adt, philo(thinking, forkFree, philo(thinking, forkFree, philo(thinking, forkFree, emptytable)))))
-      .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P), false)
-      .declareStrategy("takeRightForkFromWaitingPhilo", philo(waiting, forkFree, P) -> philo(waitingForLeftFork, forkUsed, P), false)
-      .declareStrategy("takeRightForkFromWaitingForRightForkPhilo", philo(waitingForRightFork, forkFree, P) -> philo(eating, forkUsed, P), false)
-      .declareStrategy("takeLeftForkFromWaitingPhilo", philo(S, forkFree, philo(waiting, F, P)) -> philo(S, forkUsed, philo(waitingForRightFork, F, P)), false)
-      .declareStrategy("takeLeftForkFromWaitingForLeftForkPhilo", philo(S, forkFree, philo(waitingForLeftFork, forkUsed, P)) -> philo(S, forkUsed, philo(eating, forkUsed, P)), false)
-      .declareStrategy("goToThinkPhilo", philo(S, forkUsed, philo(eating, forkUsed, P)) -> philo(S, forkFree, philo(S, forkFree, P)), false)
+      .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
+      .declareStrategy("takeRightForkFromWaitingPhilo", philo(waiting, forkFree, P) -> philo(waitingForLeftFork, forkUsed, P))(false)
+      .declareStrategy("takeRightForkFromWaitingForRightForkPhilo", philo(waitingForRightFork, forkFree, P) -> philo(eating, forkUsed, P))(false)
+      .declareStrategy("takeLeftForkFromWaitingPhilo", philo(S, forkFree, philo(waiting, F, P)) -> philo(S, forkUsed, philo(waitingForRightFork, F, P)))(false)
+      .declareStrategy("takeLeftForkFromWaitingForLeftForkPhilo", philo(S, forkFree, philo(waitingForLeftFork, forkUsed, P)) -> philo(S, forkUsed, philo(eating, forkUsed, P)))(false)
+      .declareStrategy("goToThinkPhilo", philo(S, forkUsed, philo(eating, forkUsed, P)) -> philo(S, forkFree, philo(S, forkFree, P)))(false)
 
   }
 
@@ -89,17 +89,32 @@ class TransitionSystemTest extends FlatSpec {
 
     val S1 = VariableStrategy("S1")
     val S2 = VariableStrategy("S2")
-    
-    def Try(s:Strategy) = DeclaredStrategy("try", Choice(s, Identity()))
 
-    val ts = (new TransitionSystem(adt, philo(thinking, forkFree, philo(thinking, forkFree, philo(thinking, forkFree, emptytable)))))
-      .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P), false)
-      .declareStrategy("takeRightForkFromWaitingPhilo", philo(waiting, forkFree, P) -> philo(waitingForLeftFork, forkUsed, P), false)
-      .declareStrategy("takeRightForkFromWaitingForRightForkPhilo", philo(waitingForRightFork, forkFree, P) -> philo(eating, forkUsed, P), false)
-      .declareStrategy("takeLeftForkFromWaitingPhilo", philo(S, forkFree, philo(waiting, F, P)) -> philo(S, forkUsed, philo(waitingForRightFork, F, P)), false)
-      .declareStrategy("takeLeftForkFromWaitingForLeftForkPhilo", philo(S, forkFree, philo(waitingForLeftFork, forkUsed, P)) -> philo(S, forkUsed, philo(eating, forkUsed, P)), false)
-      .declareStrategy("goToThinkPhilo", philo(S, forkUsed, philo(eating, forkUsed, P)) -> philo(S, forkFree, philo(S, forkFree, P)), false)
+    def Try(s: Strategy) = DeclaredStrategyInstance("try", s)
+    def Repeat(s: Strategy) = DeclaredStrategyInstance("repeat", s)
+    def OnceBottomUp(s: Strategy) = DeclaredStrategyInstance("onceBottomUp", s)
+    def DoForAllPhil(s: Strategy) = DeclaredStrategyInstance("doForAllPhil", s)
+    def DoForLastPhil(s: Strategy) = DeclaredStrategyInstance("doForLastPhil", s)
 
+    var ts = (new TransitionSystem(adt, philo(thinking, forkFree, philo(thinking, forkFree, philo(thinking, forkFree, emptytable)))))
+      .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
+      .declareStrategy("takeRightForkFromWaitingPhilo", philo(waiting, forkFree, P) -> philo(waitingForLeftFork, forkUsed, P))(false)
+      .declareStrategy("takeRightForkFromWaitingForRightForkPhilo", philo(waitingForRightFork, forkFree, P) -> philo(eating, forkUsed, P))(false)
+      .declareStrategy("takeLeftForkFromWaitingPhilo", philo(S, forkFree, philo(waiting, F, P)) -> philo(S, forkUsed, philo(waitingForRightFork, F, P)))(false)
+      .declareStrategy("takeLeftForkFromWaitingForLeftForkPhilo", philo(S, forkFree, philo(waitingForLeftFork, forkUsed, P)) -> philo(S, forkUsed, philo(eating, forkUsed, P)))(false)
+      .declareStrategy("goToThinkPhilo", philo(S, forkUsed, philo(eating, forkUsed, P)) -> philo(S, forkFree, philo(S, forkFree, P)))(false)
+    ts = ts
+      .declareStrategy("try", S1) { Choice(S1, Identity()) }(false)
+      .declareStrategy("repeat", S1) { Try(Sequence(S1, Repeat(S1))) }(false)
+      .declareStrategy("onceBottomUp", S1) { Choice(One(OnceBottomUp(S1)), S1) }(false)
+      .declareStrategy("doForAllPhil", S1) { Union(Try(S1), Choice(One(DoForAllPhil(S1)), Identity())) }(false)
+      .declareStrategy("doForLastPhil", S1) { Choice(One(DoForLastPhil(S1)), Identity()) }(false)
+      .declareStrategy("goToWait") { DoForAllPhil(DeclaredStrategyInstance("goToWaitPhilo")) } (true)
+      .declareStrategy("takeRightForkFromWaiting") { DoForAllPhil(DeclaredStrategyInstance("takeRightForkFromWaitingPhilo")) } (true)
+      .declareStrategy("takeRightForkFromWaitingForRightFork") {DoForAllPhil(DeclaredStrategyInstance("takeRightForkFromWaitingForRightForkPhilo"))} (true)
+      .declareStrategy("takeLeftForkFromWaiting") {DoForAllPhil(DeclaredStrategyInstance("takeLeftForkFromWaitingPhilo"))} (true)
+      .declareStrategy("takeLeftForkFromWaitingForLeftFork") {DoForAllPhil(DeclaredStrategyInstance("takeLeftForkFromWaitingForLeftForkPhilo"))} (true)
+      .declareStrategy("goToThink") {DoForAllPhil(DeclaredStrategyInstance("goToThinkPhilo"))} (true)
   }
 
   "A transition system" should "not allow to declare twice a strategy with the same name" in {
@@ -138,8 +153,8 @@ class TransitionSystemTest extends FlatSpec {
     def philo(state: ATerm, fork: ATerm, ph: ATerm) = adt.term("philo", state, fork, ph)
     intercept[IllegalArgumentException] {
       val ts = (new TransitionSystem(adt, philo(thinking, forkFree, philo(thinking, forkFree, philo(thinking, forkFree, emptytable))))
-        .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P), false)
-        .declareStrategy("goToWaitPhilo", philo(waiting, forkFree, P) -> philo(waitingForLeftFork, forkUsed, P), false))
+        .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
+        .declareStrategy("goToWaitPhilo", philo(waiting, forkFree, P) -> philo(waitingForLeftFork, forkUsed, P))(false))
     }
 
   }

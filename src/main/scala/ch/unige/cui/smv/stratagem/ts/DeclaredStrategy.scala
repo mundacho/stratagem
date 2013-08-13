@@ -31,9 +31,11 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
       case Fail() => true
       case Identity() => true
       case One(s) => checkSyntax(s, params: _*)
+      case FixPointStrategy(s) => checkSyntax(s, params: _*)
       case Sequence(s1, s2) => checkSyntax(s1, params: _*) && checkSyntax(s2, params: _*)
       case Union(s1, s2) => checkSyntax(s1, params: _*) && checkSyntax(s2, params: _*)
       case v: VariableStrategy => if (params.toList.exists(elt => elt eq v)) true else false
+      case SimpleStrategy(List(_, _*)) => true
       case strategyInstance @ DeclaredStrategyInstance(name, _*) => {
         val theDeclaredStrategy = ts.strategyDeclarations(name).declaredStrategy
         // first check that the number of formal parameters is correct

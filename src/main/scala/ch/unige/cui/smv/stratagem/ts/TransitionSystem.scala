@@ -33,8 +33,8 @@ class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strat
    * @param equation the equation
    * @param isTransition true if the declared strategy is going to be used as a transition.
    */
-  def declareStrategy(label: String, equation:Equation, isTransition: Boolean):TransitionSystem = {
-    declareStrategy(label, equation::Nil, isTransition)
+  def declareStrategy(label: String, equation:Equation)(isTransition: Boolean):TransitionSystem = {
+    declareStrategy(label, equation::Nil)(isTransition)
   }
   
    /**
@@ -43,13 +43,13 @@ class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strat
    * @param equations the equations for the simple strategy.
    * @param isTransition true if the declared strategy is going to be used as a transition.
    */
-  def declareStrategy(label: String, equations:List[Equation], isTransition: Boolean):TransitionSystem = {
-    addDeclaredStrategy(DeclaredStrategy(label, SimpleStrategy(equations)), isTransition)
+  def declareStrategy(label: String, equations:List[Equation])(isTransition: Boolean):TransitionSystem = {
+    addDeclaredStrategy(DeclaredStrategy(label, SimpleStrategy(equations))) (isTransition)
   }
   
   
-  def addDeclaredStrategy(declaredStrategy: DeclaredStrategy, isTransition: Boolean) = {
-    require(strategyDeclarations.contains(declaredStrategy.label), "A strategy with that name is already defined in this transition system")
+  def addDeclaredStrategy(declaredStrategy: DeclaredStrategy)(isTransition: Boolean) = {
+    require(!strategyDeclarations.contains(declaredStrategy.label), "A strategy with that name is already defined in this transition system")
     val ts = new TransitionSystem(adt, initialState, strategyDeclarations + (declaredStrategy.label -> StrategyDeclaration(declaredStrategy, isTransition)))
     require(declaredStrategy.syntaxCheck(ts),  "There is a syntax error in the declaration of strategy: " + declaredStrategy.label)
     ts
@@ -62,7 +62,7 @@ class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strat
    * @param params the list of parameters that it uses.
    * @param body the body of the declared strategy.
    */
-  def declareStrategy(label: String, isTransition:Boolean, body:NonVariableStrategy, params:VariableStrategy*):TransitionSystem = {
+  def declareStrategy(label: String, params:VariableStrategy*)(body:NonVariableStrategy)(isTransition:Boolean):TransitionSystem = {
     new TransitionSystem(adt, initialState, strategyDeclarations + (label -> StrategyDeclaration(DeclaredStrategy(label, body, params:_*), false)))
   }
 
