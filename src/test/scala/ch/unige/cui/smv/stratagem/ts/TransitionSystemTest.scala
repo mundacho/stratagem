@@ -133,6 +133,23 @@ class TransitionSystemTest extends FlatSpec {
     }
     assert(e.getMessage().endsWith(DeclaredStrategy.errorMessageStringNotDefined.format("try")))
 
+  } 
+  
+  "A transition system" should "not allow to use a strategy with the wrong number of parameters" in {
+    val signature = (new Signature)
+      .withSort("ph")
+      .withGenerator("p0", "ph")
+
+    val adt = new ADT("philoModel", signature)
+
+    val S1 = VariableStrategy("S1")
+
+    val e = intercept[IllegalArgumentException] {
+      val ts = new TransitionSystem(adt, adt.term("p0"))
+      	.declareStrategy("try", S1) {Identity} (false)
+        .declareStrategy("newStrategy", S1) { DeclaredStrategyInstance("try", S1, S1)} { false }
+    }
+    assert(e.getMessage().endsWith(DeclaredStrategy.errorBadNumberOfParameters.format("try", 1, 2)))
   }
 
   "A transition system" should "not allow to declare twice a strategy with the same name" in {

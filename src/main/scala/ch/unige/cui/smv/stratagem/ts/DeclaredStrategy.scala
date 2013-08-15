@@ -76,7 +76,7 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
             }
             (res, mes)
           } else {
-            (false, "\nStrategy " + theDeclaredStrategy.label + " does not have the good number of parameters. Expected " + theDeclaredStrategy.formalParameters.size + " and found " + strategyInstance.actualParams.size)
+            (false, DeclaredStrategy.errorBadNumberOfParameters.format(theDeclaredStrategy.label, theDeclaredStrategy.formalParameters.size, strategyInstance.actualParams.size))
           }
         } else {
           (false, DeclaredStrategy.errorMessageStringNotDefined.format(name))
@@ -89,4 +89,6 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
 
 object DeclaredStrategy {
   val errorMessageStringNotDefined = "\nStrategy \"%s\" is not defined in the transition system"
+  val errorBadNumberOfParameters = "\nStrategy %s does not have the good number of parameters. Expected %d and found %d" 
+
 }
