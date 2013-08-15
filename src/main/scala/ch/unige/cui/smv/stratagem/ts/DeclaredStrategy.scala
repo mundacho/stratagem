@@ -60,7 +60,9 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
         val (result2, message2) = checkSyntax(s2, params: _*)
         (result1 && result2, message1 + message2)
       }
-      case v: VariableStrategy => if (params.toList.exists(elt => elt eq v)) (true, "") else (false, "\nVariable " + v.name + " does not reference the same variable in the parameters")
+      case v: VariableStrategy => if (params.toList.exists(elt => elt eq v)) (true, "") else {
+        (false, DeclaredStrategy.errorInvalidVariable.format(v.name))
+      }
       case SimpleStrategy(List(_, _*)) => (true, "")
       case strategyInstance @ DeclaredStrategyInstance(name, _*) => {
         // check if the strategy is already defined
@@ -76,7 +78,8 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
             }
             (res, mes)
           } else {
-            (false, DeclaredStrategy.errorBadNumberOfParameters.format(theDeclaredStrategy.label, theDeclaredStrategy.formalParameters.size, strategyInstance.actualParams.size))
+            (false, DeclaredStrategy.errorBadNumberOfParameters.format(
+                theDeclaredStrategy.label, theDeclaredStrategy.formalParameters.size, strategyInstance.actualParams.size))
           }
         } else {
           (false, DeclaredStrategy.errorMessageStringNotDefined.format(name))
@@ -89,6 +92,6 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
 
 object DeclaredStrategy {
   val errorMessageStringNotDefined = "\nStrategy \"%s\" is not defined in the transition system"
-  val errorBadNumberOfParameters = "\nStrategy %s does not have the good number of parameters. Expected %d and found %d" 
-
+  val errorBadNumberOfParameters = "\nStrategy %s does not have the good number of parameters. Expected %d and found %d"
+  val errorInvalidVariable = "\nVariable %s does not reference the same variable in the parameters"
 }

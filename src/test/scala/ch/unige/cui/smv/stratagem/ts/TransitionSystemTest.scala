@@ -133,8 +133,8 @@ class TransitionSystemTest extends FlatSpec {
     }
     assert(e.getMessage().endsWith(DeclaredStrategy.errorMessageStringNotDefined.format("try")))
 
-  } 
-  
+  }
+
   "A transition system" should "not allow to use a strategy with the wrong number of parameters" in {
     val signature = (new Signature)
       .withSort("ph")
@@ -146,10 +146,28 @@ class TransitionSystemTest extends FlatSpec {
 
     val e = intercept[IllegalArgumentException] {
       val ts = new TransitionSystem(adt, adt.term("p0"))
-      	.declareStrategy("try", S1) {Identity} (false)
-        .declareStrategy("newStrategy", S1) { DeclaredStrategyInstance("try", S1, S1)} { false }
+        .declareStrategy("try", S1) { Identity }(false)
+        .declareStrategy("newStrategy", S1) { DeclaredStrategyInstance("try", S1, S1) } { false }
     }
     assert(e.getMessage().endsWith(DeclaredStrategy.errorBadNumberOfParameters.format("try", 1, 2)))
+  }
+
+  "A transition system" should "not allow to define a strategy that uses a variable that is not exatly the same as that used in its definition." in {
+    val signature = (new Signature)
+      .withSort("ph")
+      .withGenerator("p0", "ph")
+
+    val adt = new ADT("philoModel", signature)
+
+    val S1 = VariableStrategy("S1")
+    val S2 = VariableStrategy("S2")
+
+    val e = intercept[IllegalArgumentException] {
+      val ts = new TransitionSystem(adt, adt.term("p0"))
+        .declareStrategy("try", S1) { Identity }(false)
+        .declareStrategy("newStrategy", S1) { DeclaredStrategyInstance("try", S2) } { false }
+    }
+    assert(e.getMessage().endsWith(DeclaredStrategy.errorInvalidVariable.format(S2.name)))
   }
 
   "A transition system" should "not allow to declare twice a strategy with the same name" in {
