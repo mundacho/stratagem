@@ -50,7 +50,8 @@ class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strat
   def addDeclaredStrategy(declaredStrategy: DeclaredStrategy)(isTransition: Boolean) = {
     require(!strategyDeclarations.contains(declaredStrategy.label), "A strategy with that name is already defined in this transition system")
     val ts = new TransitionSystem(adt, initialState, strategyDeclarations + (declaredStrategy.label -> StrategyDeclaration(declaredStrategy, isTransition)))
-    require(declaredStrategy.syntaxCheck(ts),  "There is a syntax error in the declaration of strategy: " + declaredStrategy.label)
+    val (result, message) = declaredStrategy.syntaxCheck(ts)
+    require(result,  "There is a syntax error in the declaration of strategy: " + message)
     ts
   }
   
@@ -62,7 +63,7 @@ class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strat
    * @param body the body of the declared strategy.
    */
   def declareStrategy(label: String, params:VariableStrategy*)(body:NonVariableStrategy)(isTransition:Boolean):TransitionSystem = {
-    new TransitionSystem(adt, initialState, strategyDeclarations + (label -> StrategyDeclaration(DeclaredStrategy(label, body, params:_*), false)))
+    addDeclaredStrategy(DeclaredStrategy(label, body, params:_*))(isTransition)
   }
 
 }

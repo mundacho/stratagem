@@ -5,4 +5,4 @@ package ch.unige.cui.smv.stratagem.ts
  * @author mundacho
  *
  */
-case class Identity() extends NonVariableStrategy
+case object Identity extends NonVariableStrategy

@@ -5,4 +5,4 @@ package ch.unige.cui.smv.stratagem.ts
  * @author mundacho
  *
  */
-case class Fail() extends NonVariableStrategy
+case object Fail extends NonVariableStrategy

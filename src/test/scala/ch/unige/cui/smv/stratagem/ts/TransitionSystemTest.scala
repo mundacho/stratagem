@@ -104,17 +104,35 @@ class TransitionSystemTest extends FlatSpec {
       .declareStrategy("takeLeftForkFromWaitingForLeftForkPhilo", philo(S, forkFree, philo(waitingForLeftFork, forkUsed, P)) -> philo(S, forkUsed, philo(eating, forkUsed, P)))(false)
       .declareStrategy("goToThinkPhilo", philo(S, forkUsed, philo(eating, forkUsed, P)) -> philo(S, forkFree, philo(S, forkFree, P)))(false)
     ts = ts
-      .declareStrategy("try", S1) { Choice(S1, Identity()) }(false)
+      .declareStrategy("try", S1) { Choice(S1, Identity) }(false)
       .declareStrategy("repeat", S1) { Try(Sequence(S1, Repeat(S1))) }(false)
       .declareStrategy("onceBottomUp", S1) { Choice(One(OnceBottomUp(S1)), S1) }(false)
-      .declareStrategy("doForAllPhil", S1) { Union(Try(S1), Choice(One(DoForAllPhil(S1)), Identity())) }(false)
-      .declareStrategy("doForLastPhil", S1) { Choice(One(DoForLastPhil(S1)), Identity()) }(false)
-      .declareStrategy("goToWait") { DoForAllPhil(DeclaredStrategyInstance("goToWaitPhilo")) } (true)
-      .declareStrategy("takeRightForkFromWaiting") { DoForAllPhil(DeclaredStrategyInstance("takeRightForkFromWaitingPhilo")) } (true)
-      .declareStrategy("takeRightForkFromWaitingForRightFork") {DoForAllPhil(DeclaredStrategyInstance("takeRightForkFromWaitingForRightForkPhilo"))} (true)
-      .declareStrategy("takeLeftForkFromWaiting") {DoForAllPhil(DeclaredStrategyInstance("takeLeftForkFromWaitingPhilo"))} (true)
-      .declareStrategy("takeLeftForkFromWaitingForLeftFork") {DoForAllPhil(DeclaredStrategyInstance("takeLeftForkFromWaitingForLeftForkPhilo"))} (true)
-      .declareStrategy("goToThink") {DoForAllPhil(DeclaredStrategyInstance("goToThinkPhilo"))} (true)
+      .declareStrategy("doForAllPhil", S1) { Union(Try(S1), Choice(One(DoForAllPhil(S1)), Identity)) }(false)
+      .declareStrategy("doForLastPhil", S1) { Choice(One(DoForLastPhil(S1)), Identity) }(false)
+      .declareStrategy("goToWait") { DoForAllPhil(DeclaredStrategyInstance("goToWaitPhilo")) }(true)
+      .declareStrategy("takeRightForkFromWaiting") { DoForAllPhil(DeclaredStrategyInstance("takeRightForkFromWaitingPhilo")) }(true)
+      .declareStrategy("takeRightForkFromWaitingForRightFork") { DoForAllPhil(DeclaredStrategyInstance("takeRightForkFromWaitingForRightForkPhilo")) }(true)
+      .declareStrategy("takeLeftForkFromWaiting") { DoForAllPhil(DeclaredStrategyInstance("takeLeftForkFromWaitingPhilo")) }(true)
+      .declareStrategy("takeLeftForkFromWaitingForLeftFork") { DoForAllPhil(DeclaredStrategyInstance("takeLeftForkFromWaitingForLeftForkPhilo")) }(true)
+      .declareStrategy("goToThink") { DoForAllPhil(DeclaredStrategyInstance("goToThinkPhilo")) }(true)
+  }
+
+  "A transition system" should "not allow to use a strategy that has not been declared" in {
+    val signature = (new Signature)
+      .withSort("ph")
+      .withGenerator("p0", "ph")
+
+    val adt = new ADT("philoModel", signature)
+
+    val S1 = VariableStrategy("S1")
+
+    def Try(s: Strategy) = DeclaredStrategyInstance("try", s)
+    val e = intercept[IllegalArgumentException] {
+      val ts = new TransitionSystem(adt, adt.term("p0"))
+        .declareStrategy("newStrategy", S1) { Try(S1) } { false }
+    }
+    assert(e.getMessage().endsWith(DeclaredStrategy.errorMessageStringNotDefined.format("try")))
+
   }
 
   "A transition system" should "not allow to declare twice a strategy with the same name" in {
@@ -156,7 +174,6 @@ class TransitionSystemTest extends FlatSpec {
         .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
         .declareStrategy("goToWaitPhilo", philo(waiting, forkFree, P) -> philo(waitingForLeftFork, forkUsed, P))(false))
     }
-
   }
 
   "A transition system" should "not allow an initial state which is not built using the transition system's adt" in {
