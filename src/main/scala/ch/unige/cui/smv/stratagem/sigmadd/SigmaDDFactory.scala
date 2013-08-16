@@ -10,6 +10,9 @@ import ch.unige.cui.smv.stratagem.adt.ATerm
  */
 abstract class SigmaDDFactory {
 	
+  /**
+   * The that will be produced by this factory.
+   */
 	type ImplementationType <:SigmaDD
   
   /**
