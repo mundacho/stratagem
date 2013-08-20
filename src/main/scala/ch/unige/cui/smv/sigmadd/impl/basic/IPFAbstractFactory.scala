@@ -2,7 +2,6 @@ package ch.unige.cui.smv.sigmadd.impl.basic
 
 import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
 import scala.collection.mutable.WeakHashMap
-import scala.collection.convert.Wrappers.SetWrapper
 
 abstract class IPFAbstractFactory extends CanonicalFactory {
 

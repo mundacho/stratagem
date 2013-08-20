@@ -1,7 +1,7 @@
 package ch.unige.cui.smv.sigmadd.impl.basic
 
 import scala.collection.mutable.WeakHashMap
-import scala.collection.convert.Wrappers.SetWrapper
+
 
 /**
  * Trait for canonical objets.
