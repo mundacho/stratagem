@@ -8,7 +8,7 @@ import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
  * Represents a factory for our set wrappers. We use a factory because we are using interning with the sets to use less memory.
  */
 abstract class SetWrapperFactory extends CanonicalFactory {
-  
+
   type CanonicalType = SetWrapper
 
   /**
@@ -22,7 +22,7 @@ abstract class SetWrapperFactory extends CanonicalFactory {
    * @author mundacho
    *
    */
-  abstract class SetWrapper(val set: Set[T]) extends LatticeElement{
+  abstract class SetWrapper(val set: Set[T]) extends LatticeElement {
 
     type LatticeElementImplementationType = SetWrapper
 
@@ -45,12 +45,14 @@ abstract class SetWrapperFactory extends CanonicalFactory {
 object StringSetWrapperFactory extends SetWrapperFactory {
   type T = String
 
-  class StringSetWrapper(set: Set[String]) extends SetWrapper(set)
+  class StringSetWrapper(set: Set[String]) extends SetWrapper(set) {
+    val bottomElement = makeFrom(Set.empty)
+  }
 
-  def makeFrom(set: Set[String]):StringSetWrapper = makeFrom(set.asInstanceOf[AnyRef])
+  def makeFrom(set: Set[String]): StringSetWrapper = makeFrom(set.asInstanceOf[AnyRef])
 
   def makeFrom(set: AnyRef) = new StringSetWrapper(set.asInstanceOf[Set[String]])
-  
+
 }
 
 

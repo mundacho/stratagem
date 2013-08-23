@@ -1,6 +1,7 @@
 package ch.unige.cui.smv.sigmadd.impl.basic
 
 import scala.collection.mutable.WeakHashMap
+import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
 
 
 /**

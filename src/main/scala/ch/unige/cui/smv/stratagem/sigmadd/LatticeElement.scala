@@ -12,24 +12,26 @@ trait LatticeElement {
    * The type of this implementation of the LatticeElement.
    */
   type LatticeElementImplementationType <: AnyRef
+  
+  def bottomElement: LatticeElementImplementationType
 
   /**
    * The union of two LatticeElements.
-   * @param sigmaDD the LatticeElement to add to this LatticeElement.
+   * @param that the LatticeElement to add to this LatticeElement.
    */
-  def v (sigmaDD: LatticeElementImplementationType): LatticeElementImplementationType
+  def v (that: LatticeElementImplementationType): LatticeElementImplementationType
 
   /**
    * The intersection of LatticeElements.
-   * @param sigmaDD the LatticeElement to intersect with this LatticeElement.
+   * @param that the LatticeElement to intersect with this LatticeElement.
    */
-  def ^(sigmaDD: LatticeElementImplementationType): LatticeElementImplementationType
+  def ^(that: LatticeElementImplementationType): LatticeElementImplementationType
 
   /**
    * The difference of LatticeElements.
-   * @param sigmaDD the LatticeElement to subtract from this LatticeElement.
+   * @param that the LatticeElement to subtract from this LatticeElement.
    */
-  def \(sigmaDD: LatticeElementImplementationType): LatticeElementImplementationType
+  def \(that: LatticeElementImplementationType): LatticeElementImplementationType
 
 
 }
