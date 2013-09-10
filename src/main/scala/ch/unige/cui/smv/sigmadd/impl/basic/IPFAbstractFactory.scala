@@ -5,9 +5,11 @@ import scala.collection.immutable.HashMap
 
 abstract class IPFAbstractFactory extends CanonicalFactory {
 
-  type CanonicalType = IPF
+  type AbstractCanonicalType = IPF
 
-  abstract class IPF extends LatticeElement
+  private [basic] abstract class IPF extends LatticeElement {
+    type LatticeElementType = IPF 
+  }
 
   /**
    * Represents an IPF (Injective Partitioned function).
@@ -15,10 +17,10 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
    * @author mundacho
    *
    */
-  abstract class InductiveIPF extends IPF {
-    type DomainType <: LatticeElement { type LatticeElementImplementationType = DomainType }
-    type ImageType <: LatticeElement { type LatticeElementImplementationType = ImageType }
-    type LatticeElementImplementationType = IPF
+  private [basic] abstract class InductiveIPF extends IPF {
+    type DomainType <: LatticeElement { type LatticeElementType = DomainType }
+    type ImageType <: LatticeElement { type LatticeElementType = ImageType }
+
 
     val alpha: Map[DomainType, ImageType]
 
@@ -69,10 +71,6 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
       })
       result
     }
-
-    def ^(that: LatticeElementImplementationType): LatticeElementImplementationType
-
-    def \(that: LatticeElementImplementationType): LatticeElementImplementationType
 
   }
 }

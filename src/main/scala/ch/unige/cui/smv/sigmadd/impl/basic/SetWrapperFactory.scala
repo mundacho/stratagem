@@ -1,7 +1,5 @@
 package ch.unige.cui.smv.sigmadd.impl.basic
 
-import scala.collection.mutable.WeakHashMap
-
 import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
 
 /**
@@ -9,34 +7,34 @@ import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
  */
 abstract class SetWrapperFactory extends CanonicalFactory {
 
-  type CanonicalType = SetWrapper
-
   /**
    * The type contained in the sets that we are wrapping.
    */
   type T
 
+  type CanonicalType <: SetWrapper
+
+  type FromType = Set[T]
+
   /**
-   * Represents a set in a SigmaDD. It just wraps a scala set.
+   * Represents a set in a SigmaDD. It just wraps a scala set. It
    *
    * @author mundacho
    *
    */
   abstract class SetWrapper(val set: Set[T]) extends LatticeElement {
 
-    type LatticeElementImplementationType = SetWrapper
+    type LatticeElementType = SetWrapper
 
-    def v(that: SetWrapper): SetWrapper = {
-      create(that.set ++ set)
-    }
+    override def hashCode() = set.hashCode
 
-    def ^(that: SetWrapper): SetWrapper = {
-      create(that.set.intersect(that.set))
-    }
+    def v(that: SetWrapper): SetWrapper = create(this.set ++ that.set)
 
-    def \(that: SetWrapper): SetWrapper = {
-      null
-    }
+    def ^(that: SetWrapper): SetWrapper = create(this.set intersect that.set)
+
+    def \(that: SetWrapper): SetWrapper = create(this.set -- that.set)
+
+    def bottomElement = create(Set.empty)
 
   }
 
@@ -45,11 +43,15 @@ abstract class SetWrapperFactory extends CanonicalFactory {
 object StringSetWrapperFactory extends SetWrapperFactory {
   type T = String
 
-  class StringSetWrapper(set: Set[String]) extends SetWrapper(set) {
-    val bottomElement = makeFrom(Set.empty)
-  }
+  type CanonicalType = StringSetWrapper
 
-  def makeFrom(set: Set[String]): StringSetWrapper = makeFrom(set.asInstanceOf[AnyRef])
+  class StringSetWrapper(set: Set[String]) extends SetWrapper(set) {
+
+    override def equals(obj: Any) = obj match {
+      case o: StringSetWrapper => (o eq this) || o.set == this.set
+      case _ => false
+    }
+  }
 
   def makeFrom(set: AnyRef) = new StringSetWrapper(set.asInstanceOf[Set[String]])
 

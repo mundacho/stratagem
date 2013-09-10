@@ -1,30 +1,37 @@
 package ch.unige.cui.smv.sigmadd.impl.basic
 
 import scala.collection.mutable.WeakHashMap
-import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
 
 
 /**
- * Trait for canonical objets.
+ * Trait for canonical objects.
+ * @param [CanonicalType] the type to be stored canonically.
  */
 trait CanonicalFactory {
   
-  type CanonicalType
   
   /**
-   * The unicity table.
+   * This is the concrete type created by this canonical factory.
+   */
+  type CanonicalType
+  
+  type FromType <: AnyRef
+  
+  /**
+   * The canonical map.
    */
   val unicityTable = new WeakHashMap[CanonicalType, CanonicalType]
+  
   
   /**
    * Create a new element from any object.
    * @param from the object that will be used to generate a new instance of your canonical object.
    */
-  def create(from:AnyRef) = unicityTable.getOrElseUpdate(makeFrom(from), makeFrom(from))
+  def create(from:FromType) = unicityTable.getOrElseUpdate(makeFrom(from), makeFrom(from))
   
   /**
    * Its implementation should be able to create a new instance of the canonical class.
    */
-  protected def makeFrom(instance:AnyRef):CanonicalType
+  protected def makeFrom(instance: AnyRef):CanonicalType
   
 }
