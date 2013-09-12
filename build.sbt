@@ -2,7 +2,7 @@ name := "stratagem"
 
 version := "0.1"
 
-// scalaVersion := "2.10"
+scalaVersion := "2.10"
 
 testOptions in Test += Tests.Argument("-oD")
 
