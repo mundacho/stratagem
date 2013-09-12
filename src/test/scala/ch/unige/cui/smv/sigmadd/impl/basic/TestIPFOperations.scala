@@ -53,7 +53,7 @@ class TestIPFUnion extends FlatSpec {
       def \(that: IPF): IPF = {
         null // TODO
       }
-      val bottomElement = create(Map[StringSetWrapperFactory.SetWrapper, StringSetWrapperFactory.SetWrapper]())
+      def bottomElement = create(Map.empty)
     }
 
   } // end of InductiveIPFTestFactory
