@@ -7,8 +7,29 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
 
   type AbstractCanonicalType = IPF
 
-  private [basic] abstract class IPF extends LatticeElement {
-    type LatticeElementType = IPF 
+  private[basic] abstract class IPF extends LatticeElement {
+
+    override def hashCode: Int = throw new NotImplementedError("All subclasses of" + this.getClass().getName() + " should implement hashcode")
+
+    override def equals(obj: Any): Boolean = throw new NotImplementedError("All subclasses of " + this.getClass().getName() + " should implement equals")
+
+    type LatticeElementType = IPF
+
+    /**
+     * The type of the domain elements.
+     */
+    type DomainTypeElt
+    
+    /**
+     * The type of the image elements.
+     */
+    type ImageTypeElt
+
+    def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)]
+
+    type DomainType <: LatticeElement { type LatticeElementType = DomainType }
+    type ImageType <: LatticeElement { type LatticeElementType = ImageType }
+
   }
 
   /**
@@ -17,12 +38,11 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
    * @author mundacho
    *
    */
-  private [basic] abstract class InductiveIPF extends IPF {
-    type DomainType <: LatticeElement { type LatticeElementType = DomainType }
-    type ImageType <: LatticeElement { type LatticeElementType = ImageType }
-
+  private[basic] abstract class InductiveIPF extends IPF {
 
     val alpha: Map[DomainType, ImageType]
+
+    override def toString = alpha.map((entry) => { entry._1 + " -> " + entry._2 }).mkString(",\n")
 
     /**
      * Does the union of two alphas. We assume that Domain and Image type are canonical elements.
@@ -37,11 +57,11 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
           val (tail1, key1) = entry1
           val existingMappings = new scala.collection.mutable.HashMap[ImageType, DomainType]
           var keyFromRemoving = key1
-          W.view.filter(_ != entry1) // first we filter out the entry
+          W.view.filter(_ != entry1) // first we filter out the entry itself
             .foreach((entry2) => {
               val (tail2, key2) = entry2
               val keyIntersection = key1 ^ key2
-              if (keyIntersection != key1.bottomElement) { // don't bother if the intersection is empty
+              if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm
                 val tailUnion = tail1 v tail2
                 if (existingMappings.isDefinedAt(tailUnion)) {
                   result(existingMappings(tailUnion) v (key1 ^ key2)) = tailUnion
@@ -49,14 +69,15 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
                   result(key1 ^ key2) = tailUnion
                   existingMappings(tailUnion) = keyIntersection
                 }
-              } else if (keyFromRemoving != key1.bottomElement) { // the intersection is not empty
-                keyFromRemoving = keyFromRemoving \ key2
+                if (keyFromRemoving != key1.bottomElement) { // if there are still some elements in keyFromRemoving
+                  keyFromRemoving = keyFromRemoving \ key2
+                }
               }
             })
           if (keyFromRemoving != key1.bottomElement)
             result(keyFromRemoving) = tail1
         })
-      HashMap(result.toArray : _*)
+      HashMap(result.toArray: _*)
     }
     /**
      * Performs the square union between two alphas.

@@ -26,7 +26,11 @@ abstract class SetWrapperFactory extends CanonicalFactory {
 
     type LatticeElementType = SetWrapper
 
-    override def hashCode() = set.hashCode
+    override def hashCode: Int = throw new NotImplementedError("All subclasses of" + this.getClass().getName() + " should implement hashcode")
+
+    override def equals(obj: Any): Boolean = throw new NotImplementedError("All subclasses of " + this.getClass().getName() + " should implement equals")
+
+    override def toString = set.mkString("{", ", ", "}")
 
     def v(that: SetWrapper): SetWrapper = create(this.set ++ that.set)
 
@@ -45,8 +49,10 @@ object StringSetWrapperFactory extends SetWrapperFactory {
 
   type CanonicalType = StringSetWrapper
 
-  class StringSetWrapper(set: Set[String]) extends SetWrapper(set) {
+  class StringSetWrapper private[StringSetWrapperFactory] (set: Set[String]) extends SetWrapper(set) {
 
+    override lazy val hashCode = set.hashCode 
+    
     override def equals(obj: Any) = obj match {
       case o: StringSetWrapper => (o eq this) || o.set == this.set
       case _ => false
