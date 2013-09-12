@@ -21,7 +21,7 @@ class TestIPFUnion extends FlatSpec {
       Map(StringSetWrapperFactory.create(Set(elt)) -> StringSetWrapperFactory.create(Set(image))))
 
     class SimpleIPFImplementation private[InductiveIPFTestFactory] (
-      val alpha: Map[StringSetWrapperFactory.SetWrapper, StringSetWrapperFactory.SetWrapper] = Map[StringSetWrapperFactory.SetWrapper, StringSetWrapperFactory.SetWrapper]()) extends InductiveIPF {
+      val alpha: Map[StringSetWrapperFactory.SetWrapper, StringSetWrapperFactory.SetWrapper] = Map[StringSetWrapperFactory.SetWrapper, StringSetWrapperFactory.SetWrapper]()) extends IPF {
 
       type DomainType = StringSetWrapperFactory.SetWrapper
       type ImageType = StringSetWrapperFactory.SetWrapper
@@ -29,13 +29,13 @@ class TestIPFUnion extends FlatSpec {
       type DomainTypeElt = String
       type ImageTypeElt = String
 
-      def asBinaryRelation = for (
+      override lazy val hashCode = alpha ##
+
+      def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)] = for (
         (key, value) <- alpha.toSet;
         elt1 <- key.set;
         elt2 <- value.set
       ) yield (elt1, elt2)
-
-      override lazy val hashCode = alpha ##
 
       override def equals(obj: Any) = obj match {
         case o: SimpleIPFImplementation => (o eq this) || this.alpha == o.alpha
@@ -44,33 +44,16 @@ class TestIPFUnion extends FlatSpec {
 
       def v(that: IPF): IPF = that match {
         case t: SimpleIPFImplementation => create(alphaUnion(this.alpha, t.alpha))
-        case EmptyIPF => create(this.alpha)
       }
 
-      def ^(that: IPF): IPF = {
-        null // TODO
+      def ^(that: IPF): IPF = that match {
+        case t: SimpleIPFImplementation => create(alphaIntersection(this.alpha, t.alpha))
       }
 
       def \(that: IPF): IPF = {
         null // TODO
       }
-      val bottomElement = EmptyIPF
-    }
-
-    object EmptyIPF extends IPF {
-
-      type DomainTypeElt = String
-      type ImageTypeElt = String
-
-      def asBinaryRelation = Set.empty
-
-      def v(that: IPF): IPF = that
-
-      def ^(that: IPF): IPF = EmptyIPF
-
-      def \(that: IPF): IPF = EmptyIPF
-
-      def bottomElement = this
+      val bottomElement = create(Map[StringSetWrapperFactory.SetWrapper, StringSetWrapperFactory.SetWrapper]())
     }
 
   } // end of InductiveIPFTestFactory
@@ -106,8 +89,8 @@ class TestIPFUnion extends FlatSpec {
       InductiveIPFTestFactory.create("5", "4"),
       InductiveIPFTestFactory.create("6", "4"))
 
-    val seqOfUnions = (for (permutation <- ipfs.permutations) yield permutation.reduce(_ v _ )).toList // all possible unions of the elements in ipfs
-    assert((true /: seqOfUnions.tail.map(_ eq seqOfUnions.head)) (_ && _)) // all elements of the sequence of unions are equal to the first one
+    val seqOfUnions = (for (permutation <- ipfs.permutations) yield permutation.reduce(_ v _)).toList // all possible unions of the elements in ipfs
+    assert((true /: seqOfUnions.tail.map(_ eq seqOfUnions.head))(_ && _)) // all elements of the sequence of unions are equal to the first one
 
   }
 

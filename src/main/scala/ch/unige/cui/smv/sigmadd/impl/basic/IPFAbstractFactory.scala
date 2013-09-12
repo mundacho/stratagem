@@ -9,17 +9,17 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
 
   private[basic] abstract class IPF extends LatticeElement {
 
+    type LatticeElementType = IPF
+
     override def hashCode: Int = throw new NotImplementedError("All subclasses of" + this.getClass().getName() + " should implement hashcode")
 
     override def equals(obj: Any): Boolean = throw new NotImplementedError("All subclasses of " + this.getClass().getName() + " should implement equals")
-
-    type LatticeElementType = IPF
 
     /**
      * The type of the domain elements.
      */
     type DomainTypeElt
-    
+
     /**
      * The type of the image elements.
      */
@@ -29,16 +29,6 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
 
     type DomainType <: LatticeElement { type LatticeElementType = DomainType }
     type ImageType <: LatticeElement { type LatticeElementType = ImageType }
-
-  }
-
-  /**
-   * Represents an IPF (Injective Partitioned function).
-   *
-   * @author mundacho
-   *
-   */
-  private[basic] abstract class InductiveIPF extends IPF {
 
     val alpha: Map[DomainType, ImageType]
 
@@ -55,7 +45,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
       W.foreach(
         (entry1) => {
           val (tail1, key1) = entry1
-          val existingMappings = new scala.collection.mutable.HashMap[ImageType, DomainType]
+          val existingMappings = new scala.collection.mutable.HashMap[ImageType, DomainType] // keeps a log of elements with a mapping
           var keyFromRemoving = key1
           W.view.filter(_ != entry1) // first we filter out the entry itself
             .foreach((entry2) => {
@@ -63,7 +53,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
               val keyIntersection = key1 ^ key2
               if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm
                 val tailUnion = tail1 v tail2
-                if (existingMappings.isDefinedAt(tailUnion)) {
+                if (existingMappings.isDefinedAt(tailUnion)) { // if the tail we just created has a key pointing to it, we enrich that key
                   result(existingMappings(tailUnion) v (key1 ^ key2)) = tailUnion
                 } else {
                   result(key1 ^ key2) = tailUnion
@@ -79,6 +69,34 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
         })
       HashMap(result.toArray: _*)
     }
+
+    def alphaIntersection(alpha1: Map[DomainType, ImageType], alpha2: Map[DomainType, ImageType]): Map[DomainType, ImageType] = {
+      val W = squareUnion(alpha1, alpha2)
+      val result = new scala.collection.mutable.HashMap[DomainType, ImageType]
+      W.foreach(
+        (entry1) => {
+          val (tail1, key1) = entry1
+          val existingMappings = new scala.collection.mutable.HashMap[ImageType, DomainType]
+          W.view.filter(_ != entry1) // first we filter out the entry itself
+            .foreach((entry2) => {
+              val (tail2, key2) = entry2
+              val keyIntersection = key1 ^ key2
+              if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm
+                val tailIntersection = tail1 ^ tail2
+                if (tailIntersection != tail1.bottomElement) { // if the tail is not empty, then we continue with the algorithm
+                  if (existingMappings.isDefinedAt(tailIntersection)) { // if the tail we just created has a key pointing to it, we enrich that key
+                    result(existingMappings(tailIntersection) v (key1 ^ key2)) = tailIntersection
+                  } else { // else we create a new tail
+                    result(key1 ^ key2) = tailIntersection
+                    existingMappings(tailIntersection) = keyIntersection // and we keep track of it
+                  }
+                }
+              }
+            })
+        })
+      HashMap(result.toArray: _*)
+    }
+
     /**
      * Performs the square union between two alphas.
      * @param alpha1 the first operand
@@ -92,6 +110,5 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
       })
       result
     }
-
   }
 }
