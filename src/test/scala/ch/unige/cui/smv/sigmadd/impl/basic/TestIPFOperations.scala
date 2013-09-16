@@ -91,6 +91,30 @@ class TestIPFUnion extends FlatSpec {
 
     val seqOfUnions = (for (permutation <- ipfs.permutations) yield permutation.reduce(_ v _)).toList // all possible unions of the elements in ipfs
     assert((true /: seqOfUnions.tail.map(_ eq seqOfUnions.head))(_ && _)) // all elements of the sequence of unions are equal to the first one
+  }
+
+  "The difference of IPFs" should "be commutative and associative respecting reference equality" in {
+    val ipfs1 = List(InductiveIPFTestFactory.create("1", "1"),
+      InductiveIPFTestFactory.create("2", "3"),
+      InductiveIPFTestFactory.create("3", "3"),
+      InductiveIPFTestFactory.create("5", "4"),
+      InductiveIPFTestFactory.create("6", "4"))
+
+    val ipf123 = ipfs1(1) v ipfs1(2) v ipfs1(3)
+    val ipf213 = ipfs1(2) v ipfs1(1) v ipfs1(3)
+
+    val f = ipfs1.reduce(_ v _)
+
+    val ipfs2 = List(InductiveIPFTestFactory.create("1", "2"),
+      InductiveIPFTestFactory.create("3", "4"),
+      InductiveIPFTestFactory.create("4", "4"),
+      InductiveIPFTestFactory.create("5", "4"))
+
+    val g = ipfs2.reduce(_ v _)
+
+    val fvg = f v g
+    
+    println(fvg.squareUnion(fvg.alpha, f.alpha.asInstanceOf[Map[fvg.DomainType,fvg.ImageType]]))
 
   }
 

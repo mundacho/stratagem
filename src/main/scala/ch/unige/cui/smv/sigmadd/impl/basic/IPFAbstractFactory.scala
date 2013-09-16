@@ -53,48 +53,77 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
               val keyIntersection = key1 ^ key2
               if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm
                 val tailUnion = tail1 v tail2
-                if (existingMappings.isDefinedAt(tailUnion)) { // if the tail we just created has a key pointing to it, we enrich that key
-                  result(existingMappings(tailUnion) v (key1 ^ key2)) = tailUnion
-                } else {
-                  result(key1 ^ key2) = tailUnion
-                  existingMappings(tailUnion) = keyIntersection
+                existingMappings.lift(tailUnion) match {
+                  case Some(existingKey) =>
+                    result -= existingKey
+                    result(existingKey v keyIntersection) = tailUnion
+                    existingMappings(tailUnion) = existingKey v keyIntersection // and keep track of it
+                  case None =>
+                    result(key1 ^ key2) = tailUnion
+                    existingMappings(tailUnion) = keyIntersection
                 }
                 if (keyFromRemoving != key1.bottomElement) { // if there are still some elements in keyFromRemoving
                   keyFromRemoving = keyFromRemoving \ key2
                 }
               }
             })
-          if (keyFromRemoving != key1.bottomElement)
+          if (keyFromRemoving != key1.bottomElement) {
             result(keyFromRemoving) = tail1
+          }
         })
       HashMap(result.toArray: _*)
     }
 
     def alphaIntersection(alpha1: Map[DomainType, ImageType], alpha2: Map[DomainType, ImageType]): Map[DomainType, ImageType] = {
       val W = squareUnion(alpha1, alpha2)
-      val result = new scala.collection.mutable.HashMap[DomainType, ImageType]
+      val existingMappings = new scala.collection.mutable.HashMap[ImageType, DomainType]
       W.foreach(
         (entry1) => {
           val (tail1, key1) = entry1
-          val existingMappings = new scala.collection.mutable.HashMap[ImageType, DomainType]
           W.view.filter(_ != entry1) // first we filter out the entry itself
             .foreach((entry2) => {
               val (tail2, key2) = entry2
               val keyIntersection = key1 ^ key2
               if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm
                 val tailIntersection = tail1 ^ tail2
-                if (tailIntersection != tail1.bottomElement) { // if the tail is not empty, then we continue with the algorithm
-                  if (existingMappings.isDefinedAt(tailIntersection)) { // if the tail we just created has a key pointing to it, we enrich that key
-                    result(existingMappings(tailIntersection) v (key1 ^ key2)) = tailIntersection
-                  } else { // else we create a new tail
-                    result(key1 ^ key2) = tailIntersection
+                existingMappings.lift(tailIntersection) match {
+                  case Some(existingKey) =>
+                    existingMappings(tailIntersection) = existingKey v keyIntersection
+                  case None =>
                     existingMappings(tailIntersection) = keyIntersection // and we keep track of it
-                  }
                 }
               }
             })
         })
-      HashMap(result.toArray: _*)
+      HashMap(existingMappings.toArray.map(_.swap): _*)
+    }
+
+    def alphaDifference(alpha1: Map[DomainType, ImageType], alpha2: Map[DomainType, ImageType]): Map[DomainType, ImageType] = {
+      val existingMappings = scala.collection.mutable.HashMap(alpha1.toArray.map(_.swap): _*)
+      alpha1.foreach(
+        (entry1) => {
+          val (key1, tail1) = entry1
+          var keyFromRemove = key1
+          alpha2.foreach((entry2) => {
+            val (key2, tail2) = entry2
+            val keyIntersection = key1 ^ key2
+            if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm
+              keyFromRemove = keyFromRemove \ key2
+              val tailDifference = tail1 \ tail2
+              if (tailDifference != tail1.bottomElement) { // if the tail is not empty, then we continue with the algorithm
+                existingMappings.lift(tailDifference) match {
+                  case Some(existingKey) =>
+                    existingMappings(tailDifference) = keyIntersection v existingKey
+                  case None =>
+                    existingMappings(tailDifference) = keyIntersection // and we keep track of it
+                }
+              }
+            }
+          })
+          if (keyFromRemove != key1.bottomElement)
+            existingMappings(tail1) = keyFromRemove v existingMappings(tail1)
+        })
+      HashMap(existingMappings.toArray.map(_.swap): _*)
     }
 
     /**
