@@ -4,8 +4,8 @@ import ch.unige.cui.smv.sigmadd.impl.basic._
 import java.util.HashMap
 import org.scalatest.FlatSpec
 
-class TestIPFUnion extends FlatSpec  {
-  
+class TestIPFUnion extends FlatSpec {
+
   object InductiveIPFTestFactory extends IPFAbstractFactory {
 
     type CanonicalType = SimpleIPFImplementation
@@ -31,8 +31,6 @@ class TestIPFUnion extends FlatSpec  {
       type ImageTypeElt = String
 
       override lazy val hashCode = alpha ##
-      
-      
 
       def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)] = for (
         (key, value) <- alpha.toSet;
@@ -55,7 +53,6 @@ class TestIPFUnion extends FlatSpec  {
     }
 
   } // end of InductiveIPFTestFactory
-  
 
   "The union of IPFs" should "be equal to the union of the binary relations they represent" in {
     val ipfs1 = List(InductiveIPFTestFactory.create("1", "1"),
@@ -90,6 +87,35 @@ class TestIPFUnion extends FlatSpec  {
 
     val seqOfUnions = (for (permutation <- ipfs.permutations) yield permutation.reduce(_ v _)).toList // all possible unions of the elements in ipfs
     assert((true /: seqOfUnions.tail.map(_ eq seqOfUnions.head))(_ && _)) // all elements of the sequence of unions are equal to the first one
+  }
+
+  "The difference of IPFs" should "be the complementary to the union" in {
+    val ipfs1 = List(InductiveIPFTestFactory.create("1", "1"),
+      InductiveIPFTestFactory.create("2", "3"),
+      InductiveIPFTestFactory.create("3", "3"),
+      InductiveIPFTestFactory.create("5", "4"),
+      InductiveIPFTestFactory.create("6", "4"))
+
+    val ipf123 = ipfs1(1) v ipfs1(2) v ipfs1(3)
+    val ipf213 = ipfs1(2) v ipfs1(1) v ipfs1(3)
+
+    val f = ipfs1.reduce(_ v _)
+
+    val ipfs2 = List(InductiveIPFTestFactory.create("1", "2"),
+      InductiveIPFTestFactory.create("3", "4"),
+      InductiveIPFTestFactory.create("4", "4"),
+      InductiveIPFTestFactory.create("5", "4"))
+
+    val g = ipfs2.reduce(_ v _)
+
+    val fvg = f v g
+
+    val fvgminusf = (fvg \ f)
+
+    assert((fvg \ f).asBinaryRelation == fvg.asBinaryRelation -- f.asBinaryRelation)
+    assert((fvg \ g).asBinaryRelation == fvg.asBinaryRelation -- g.asBinaryRelation)
+    assert(fvgminusf eq g \ f)
+    assert(fvg \ g eq f \ g)
   }
 
   "The intersection of IPFs" should "be equal to the intersection of the binary relations they represent" in {

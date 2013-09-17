@@ -86,12 +86,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
               if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm
                 val tailIntersection = tail1 ^ tail2
                 if (tailIntersection != tail1.bottomElement)
-                  existingMappings.lift(tailIntersection) match {
-                    case Some(existingKey) =>
-                      existingMappings(tailIntersection) = existingKey v keyIntersection
-                    case None =>
-                      existingMappings(tailIntersection) = keyIntersection // and we keep track of it
-                  }
+                  existingMappings(tailIntersection) = keyIntersection v existingMappings.getOrElse(tailIntersection, key1.bottomElement)
               }
             })
         })
@@ -99,7 +94,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
     }
 
     def alphaDifference(alpha1: Map[DomainType, ImageType], alpha2: Map[DomainType, ImageType]): Map[DomainType, ImageType] = {
-      val existingMappings = scala.collection.mutable.HashMap(alpha1.toArray.map(_.swap): _*)
+      val result = new scala.collection.mutable.HashMap[ImageType, DomainType]
       alpha1.foreach(
         (entry1) => {
           val (key1, tail1) = entry1
@@ -111,19 +106,15 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
               keyFromRemove = keyFromRemove \ key2
               val tailDifference = tail1 \ tail2
               if (tailDifference != tail1.bottomElement) { // if the tail is not empty, then we continue with the algorithm
-                existingMappings.lift(tailDifference) match {
-                  case Some(existingKey) =>
-                    existingMappings(tailDifference) = keyIntersection v existingKey
-                  case None =>
-                    existingMappings(tailDifference) = keyIntersection // and we keep track of it
-                }
+                result(tailDifference) = keyIntersection v (result.getOrElse(tailDifference, key1.bottomElement))
               }
             }
           })
-          if (keyFromRemove != key1.bottomElement)
-            existingMappings(tail1) = keyFromRemove v existingMappings(tail1)
+          if (keyFromRemove != key1.bottomElement) {
+            result(tail1) = keyFromRemove v (result.getOrElse(tail1, key1.bottomElement))
+          }
         })
-      HashMap(existingMappings.toArray.map(_.swap): _*)
+      HashMap(result.toArray.map(_.swap): _*)
     }
 
     /**
