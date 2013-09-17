@@ -9,7 +9,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
 
   private[basic] abstract class IPF extends LatticeElement {
 
-    type LatticeElementType = IPF
+    type LatticeElementType
 
     override def hashCode: Int = throw new NotImplementedError("All subclasses of" + this.getClass().getName() + " should implement hashcode")
 
@@ -32,7 +32,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
 
     val alpha: Map[DomainType, ImageType]
 
-    override def toString = alpha.map((entry) => { entry._1 + " -> " + entry._2 }).mkString(",\n")
+    override def toString = "Start IPF:" + alpha.map((entry) => { entry._1 + " -> " + entry._2 }).mkString(",\n") + "End IPF\n"
 
     /**
      * Does the union of two alphas. We assume that Domain and Image type are canonical elements.
@@ -75,23 +75,23 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
     }
 
     def alphaIntersection(alpha1: Map[DomainType, ImageType], alpha2: Map[DomainType, ImageType]): Map[DomainType, ImageType] = {
-      val W = squareUnion(alpha1, alpha2)
       val existingMappings = new scala.collection.mutable.HashMap[ImageType, DomainType]
-      W.foreach(
+      alpha1.foreach(
         (entry1) => {
-          val (tail1, key1) = entry1
-          W.view.filter(_ != entry1) // first we filter out the entry itself
+          val (key1, tail1) = entry1
+          alpha2.view.filter(_ != entry1) // first we filter out the entry itself
             .foreach((entry2) => {
-              val (tail2, key2) = entry2
+              val (key2, tail2) = entry2
               val keyIntersection = key1 ^ key2
               if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm
                 val tailIntersection = tail1 ^ tail2
-                existingMappings.lift(tailIntersection) match {
-                  case Some(existingKey) =>
-                    existingMappings(tailIntersection) = existingKey v keyIntersection
-                  case None =>
-                    existingMappings(tailIntersection) = keyIntersection // and we keep track of it
-                }
+                if (tailIntersection != tail1.bottomElement)
+                  existingMappings.lift(tailIntersection) match {
+                    case Some(existingKey) =>
+                      existingMappings(tailIntersection) = existingKey v keyIntersection
+                    case None =>
+                      existingMappings(tailIntersection) = keyIntersection // and we keep track of it
+                  }
               }
             })
         })

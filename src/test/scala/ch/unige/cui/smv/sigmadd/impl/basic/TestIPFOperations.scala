@@ -4,8 +4,8 @@ import ch.unige.cui.smv.sigmadd.impl.basic._
 import java.util.HashMap
 import org.scalatest.FlatSpec
 
-class TestIPFUnion extends FlatSpec {
-
+class TestIPFUnion extends FlatSpec  {
+  
   object InductiveIPFTestFactory extends IPFAbstractFactory {
 
     type CanonicalType = SimpleIPFImplementation
@@ -17,12 +17,13 @@ class TestIPFUnion extends FlatSpec {
       case _ => throw new IllegalArgumentException("Unable to create IPF")
     }
 
-    def create(elt: String, image: String): IPF = create(
+    def create(elt: String, image: String): SimpleIPFImplementation = create(
       Map(StringSetWrapperFactory.create(Set(elt)) -> StringSetWrapperFactory.create(Set(image))))
 
     class SimpleIPFImplementation private[InductiveIPFTestFactory] (
       val alpha: Map[StringSetWrapperFactory.SetWrapper, StringSetWrapperFactory.SetWrapper] = Map[StringSetWrapperFactory.SetWrapper, StringSetWrapperFactory.SetWrapper]()) extends IPF {
 
+      type LatticeElementType = SimpleIPFImplementation
       type DomainType = StringSetWrapperFactory.SetWrapper
       type ImageType = StringSetWrapperFactory.SetWrapper
 
@@ -30,6 +31,8 @@ class TestIPFUnion extends FlatSpec {
       type ImageTypeElt = String
 
       override lazy val hashCode = alpha ##
+      
+      
 
       def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)] = for (
         (key, value) <- alpha.toSet;
@@ -42,21 +45,17 @@ class TestIPFUnion extends FlatSpec {
         case _ => false
       }
 
-      def v(that: IPF): IPF = that match {
-        case t: SimpleIPFImplementation => create(alphaUnion(this.alpha, t.alpha))
-      }
+      def v(that: SimpleIPFImplementation): SimpleIPFImplementation = create(alphaUnion(this.alpha, that.alpha))
 
-      def ^(that: IPF): IPF = that match {
-        case t: SimpleIPFImplementation => create(alphaIntersection(this.alpha, t.alpha))
-      }
+      def ^(that: SimpleIPFImplementation): SimpleIPFImplementation = create(alphaIntersection(this.alpha, that.alpha))
 
-      def \(that: IPF): IPF = {
-        null // TODO
-      }
+      def \(that: SimpleIPFImplementation): SimpleIPFImplementation = create(alphaDifference(this.alpha, that.alpha))
+
       def bottomElement = create(Map.empty)
     }
 
   } // end of InductiveIPFTestFactory
+  
 
   "The union of IPFs" should "be equal to the union of the binary relations they represent" in {
     val ipfs1 = List(InductiveIPFTestFactory.create("1", "1"),
@@ -93,7 +92,7 @@ class TestIPFUnion extends FlatSpec {
     assert((true /: seqOfUnions.tail.map(_ eq seqOfUnions.head))(_ && _)) // all elements of the sequence of unions are equal to the first one
   }
 
-  "The difference of IPFs" should "be commutative and associative respecting reference equality" in {
+  "The intersection of IPFs" should "be equal to the intersection of the binary relations they represent" in {
     val ipfs1 = List(InductiveIPFTestFactory.create("1", "1"),
       InductiveIPFTestFactory.create("2", "3"),
       InductiveIPFTestFactory.create("3", "3"),
@@ -112,10 +111,10 @@ class TestIPFUnion extends FlatSpec {
 
     val g = ipfs2.reduce(_ v _)
 
-    val fvg = f v g
-    
-    println(fvg.squareUnion(fvg.alpha, f.alpha.asInstanceOf[Map[fvg.DomainType,fvg.ImageType]]))
+    val finterg = f ^ g
+    val fintergbin = f.asBinaryRelation & g.asBinaryRelation
 
+    assert(finterg.asBinaryRelation == (f.asBinaryRelation & g.asBinaryRelation)) // the intersection is equal to the corresponding binary relation
   }
 
 }
