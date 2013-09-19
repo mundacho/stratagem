@@ -20,7 +20,7 @@ trait CanonicalFactory {
   /**
    * The canonical map.
    */
-  val unicityTable = new WeakHashMap[CanonicalType, CanonicalType]
+  var unicityTable = new WeakHashMap[CanonicalType, CanonicalType]
   
   
   /**
@@ -28,6 +28,9 @@ trait CanonicalFactory {
    * @param from the object that will be used to generate a new instance of your canonical object.
    */
   def create(from:FromType) = unicityTable.getOrElseUpdate(makeFrom(from), makeFrom(from))
+  
+  
+  def cleanCache {unicityTable = new WeakHashMap[CanonicalType, CanonicalType]}
   
   /**
    * Its implementation should be able to create a new instance of the canonical class.

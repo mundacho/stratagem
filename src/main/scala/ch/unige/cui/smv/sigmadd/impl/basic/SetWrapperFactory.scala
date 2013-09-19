@@ -1,6 +1,7 @@
 package ch.unige.cui.smv.sigmadd.impl.basic
 
 import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
+import ch.unige.cui.smv.stratagem.sigmadd.SynchronizedCache
 
 /**
  * Represents a factory for our set wrappers. We use a factory because we are using interning with the sets to use less memory.
@@ -44,14 +45,14 @@ abstract class SetWrapperFactory extends CanonicalFactory {
 
 }
 
-object StringSetWrapperFactory extends SetWrapperFactory {
+object StringSetWrapperFactory extends SetWrapperFactory with SynchronizedCache {
   type T = String
 
   type CanonicalType = StringSetWrapper
 
   class StringSetWrapper private[StringSetWrapperFactory] (set: Set[String]) extends SetWrapper(set) {
 
-    override lazy val hashCode = set.hashCode 
+    override def hashCode = set.hashCode 
     
     override def equals(obj: Any) = obj match {
       case o: StringSetWrapper => (o eq this) || o.set == this.set

@@ -3,11 +3,11 @@ package ch.unige.cui.smv.sigmadd.impl.basic
 import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
 import scala.collection.mutable.HashMap
 
-trait LatticeWithCache extends LatticeElement {
+trait OperationCache extends LatticeElement {
 
-  type LatticeElementType <: LatticeWithCache
+  type LatticeElementType <: OperationCache
 
-  val operationCache = new HashMap[(String, LatticeWithCache, LatticeWithCache), LatticeElementType]
+  val operationCache = new HashMap[(String, OperationCache, OperationCache), LatticeElementType]
 
   abstract override def v(that: LatticeElementType): LatticeElementType = {
     // order the parameters
