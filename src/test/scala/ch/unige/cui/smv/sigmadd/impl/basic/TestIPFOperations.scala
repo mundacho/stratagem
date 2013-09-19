@@ -7,10 +7,14 @@ import ch.unige.cui.smv.stratagem.sigmadd.SynchronizedCache
 import scala.collection.immutable.HashMap
 import org.scalatest.OneInstancePerTest
 
-class TestIPFUnion extends FlatSpec  {
+class TestIPFUnion extends FlatSpec with BeforeAndAfter {
+  
+  before {
+    InductiveIPFTestFactory.cleanUnicityTable
+  }
 
   // we use a synchronized cache because otherwise, launching the test on eclipse launches the tests concurrently.
-  object InductiveIPFTestFactory extends IPFAbstractFactory with SynchronizedCache {
+  object InductiveIPFTestFactory extends IPFAbstractFactory {
 
     type CanonicalType = SimpleIPFImplementation
 

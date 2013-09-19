@@ -27,7 +27,10 @@ trait CanonicalFactory {
    * Create a new element from any object.
    * @param from the object that will be used to generate a new instance of your canonical object.
    */
-  def create(from: FromType) = unicityTable.getOrElseUpdate(makeFrom(from), makeFrom(from))
+  def create(from: FromType) = {
+    val newElt = makeFrom(from)
+    unicityTable.getOrElseUpdate(newElt, newElt)
+  }
 
   /**
    *  Cleans the unicity table.

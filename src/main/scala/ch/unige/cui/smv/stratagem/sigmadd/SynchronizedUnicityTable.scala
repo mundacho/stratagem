@@ -13,12 +13,13 @@ trait SynchronizedCache extends CanonicalFactory {
   /**
    * The unicity table. We use a var because we have to reset it sometimes.
    */
-  var syncedUnicityTable = new HashMap[CanonicalType, CanonicalType] with SynchronizedMap[CanonicalType, CanonicalType]
+  var syncedUnicityTable = new WeakHashMap[CanonicalType, CanonicalType] with SynchronizedMap[CanonicalType, CanonicalType]
 
   abstract override def create(from: FromType) = {
-    syncedUnicityTable.getOrElseUpdate(makeFrom(from), makeFrom(from))
+    val newElt = makeFrom(from)
+    syncedUnicityTable.getOrElseUpdate(newElt, newElt)
   }
 
-  abstract override def cleanUnicityTable { syncedUnicityTable = new HashMap[CanonicalType, CanonicalType] with SynchronizedMap[CanonicalType, CanonicalType] }
+  abstract override def cleanUnicityTable { syncedUnicityTable = new WeakHashMap[CanonicalType, CanonicalType] with SynchronizedMap[CanonicalType, CanonicalType] }
 
 }
