@@ -3,39 +3,61 @@ package ch.unige.cui.smv.sigmadd.impl.basic
 import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
 import scala.collection.immutable.HashMap
 
+/**
+ * This is a factory for IPF objects.
+ */
 abstract class IPFAbstractFactory extends CanonicalFactory {
 
-  type AbstractCanonicalType = IPF
-
+  /**
+   * IPF represents an injective partitioned function. Its main objective is to 
+   * define a mapping that represents a function (called alpha). It also defines
+   *  how to combine the alphas of two or more functions to create a new IPF.
+   */
   private[basic] abstract class IPF extends LatticeElement {
-
-    type LatticeElementType
 
     override def hashCode: Int = throw new NotImplementedError("All subclasses of" + this.getClass().getName() + " should implement hashcode")
 
     override def equals(obj: Any): Boolean = throw new NotImplementedError("All subclasses of " + this.getClass().getName() + " should implement equals")
 
     /**
-     * The type of the domain elements.
+     * The type of the domain elements of this IPF. When seeing this IPF as
+     * a binary relation, it is the type of the first entry.
      */
     type DomainTypeElt
 
     /**
-     * The type of the image elements.
+     * The type of the image elements of this IPFs. When seeing this IPF as a
+     * binary relation, it is the type of the second entry.
      */
     type ImageTypeElt
 
+    /**
+     * @return a set containing this IPF as a binary relation.
+     */
     def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)]
 
+    /**
+     * The domain type is the type of the keys of the alpha. An element of this 
+     * type is a lattice element.
+     */
     type DomainType <: LatticeElement { type LatticeElementType = DomainType }
+    
+    /**
+     * The image type is the type of the values of the alpha. An element of this 
+     * type is a lattice element.
+     */
     type ImageType <: LatticeElement { type LatticeElementType = ImageType }
 
+    /**
+     * It is the mapping encapsulated by this IPF.
+     */
     val alpha: Map[DomainType, ImageType]
 
     override def toString = "Start IPF:" + alpha.map((entry) => { entry._1 + " -> " + entry._2 }).mkString(",\n") + "End IPF\n"
 
     /**
-     * Does the union of two alphas. We assume that Domain and Image type are canonical elements.
+     * Does the union of two alphas. The result is a canonical alpha 
+     * encapsulated in a HashMap.
      * @param alpha1 the first operand
      * @param alpha2 the second operand
      */
@@ -74,6 +96,9 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
       HashMap(result.toArray: _*)
     }
 
+    /**
+     * Intersects to alphas.
+     */
     def alphaIntersection(alpha1: Map[DomainType, ImageType], alpha2: Map[DomainType, ImageType]): Map[DomainType, ImageType] = {
       val existingMappings = new scala.collection.mutable.HashMap[ImageType, DomainType]
       alpha1.foreach(
@@ -93,6 +118,9 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
       HashMap(existingMappings.toArray.map(_.swap): _*)
     }
 
+    /**
+     * Makes the difference between two alphas.
+     */
     def alphaDifference(alpha1: Map[DomainType, ImageType], alpha2: Map[DomainType, ImageType]): Map[DomainType, ImageType] = {
       val result = new scala.collection.mutable.HashMap[ImageType, DomainType]
       alpha1.foreach(

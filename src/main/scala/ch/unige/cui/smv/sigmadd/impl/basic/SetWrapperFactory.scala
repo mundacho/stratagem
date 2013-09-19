@@ -4,7 +4,8 @@ import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
 import ch.unige.cui.smv.stratagem.sigmadd.SynchronizedCache
 
 /**
- * Represents a factory for our set wrappers. We use a factory because we are using interning with the sets to use less memory.
+ * Represents a factory for our set wrappers. We use a factory because we are
+ * using interning with the sets to use less memory. We use a canonical factory.
  */
 abstract class SetWrapperFactory extends CanonicalFactory {
 
@@ -18,7 +19,7 @@ abstract class SetWrapperFactory extends CanonicalFactory {
   type FromType = Set[T]
 
   /**
-   * Represents a set in a SigmaDD. It just wraps a scala set. It
+   * Represents a set in a SigmaDD. It just wraps a scala set.
    *
    * @author mundacho
    *
@@ -45,11 +46,17 @@ abstract class SetWrapperFactory extends CanonicalFactory {
 
 }
 
+/**
+ * This is a factory for sets of strings.
+ */
 object StringSetWrapperFactory extends SetWrapperFactory with SynchronizedCache {
   type T = String
 
   type CanonicalType = StringSetWrapper
 
+  /**
+   * Wraps a set of strings.
+   */
   class StringSetWrapper private[StringSetWrapperFactory] (set: Set[String]) extends SetWrapper(set) {
 
     override def hashCode = set.hashCode 
