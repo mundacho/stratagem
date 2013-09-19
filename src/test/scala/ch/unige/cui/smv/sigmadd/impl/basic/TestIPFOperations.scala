@@ -18,10 +18,10 @@ class TestIPFUnion extends FlatSpec with BeforeAndAfter {
 
     type CanonicalType = SimpleIPFImplementation
 
-    type FromType = Map[StringSetWrapperFactory.SetWrapper, StringSetWrapperFactory.SetWrapper]
+    type FromType = Map[StringSetWrapperFactory.StringSetWrapper, StringSetWrapperFactory.StringSetWrapper]
 
     protected def makeFrom(alpha: AnyRef): SimpleIPFImplementation = alpha match {
-      case a: HashMap[StringSetWrapperFactory.SetWrapper, StringSetWrapperFactory.SetWrapper] @unchecked => new SimpleIPFImplementation(a)
+      case a: HashMap[StringSetWrapperFactory.StringSetWrapper, StringSetWrapperFactory.StringSetWrapper] @unchecked => new SimpleIPFImplementation(a)
       case _ => throw new IllegalArgumentException("Unable to create IPF")
     }
 
@@ -29,11 +29,11 @@ class TestIPFUnion extends FlatSpec with BeforeAndAfter {
       HashMap(StringSetWrapperFactory.create(Set(elt)) -> StringSetWrapperFactory.create(Set(image))))
 
     class SimpleIPFImplementation private[InductiveIPFTestFactory] (
-      val alpha: Map[StringSetWrapperFactory.SetWrapper, StringSetWrapperFactory.SetWrapper]) extends IPF {
+      val alpha: Map[StringSetWrapperFactory.StringSetWrapper, StringSetWrapperFactory.StringSetWrapper]) extends IPF {
 
       type LatticeElementType = SimpleIPFImplementation
-      type DomainType = StringSetWrapperFactory.SetWrapper
-      type ImageType = StringSetWrapperFactory.SetWrapper
+      type DomainType = StringSetWrapperFactory.StringSetWrapper
+      type ImageType = StringSetWrapperFactory.StringSetWrapper
 
       type DomainTypeElt = String
       type ImageTypeElt = String

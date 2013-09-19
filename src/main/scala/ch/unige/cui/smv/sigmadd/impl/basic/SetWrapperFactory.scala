@@ -25,8 +25,8 @@ abstract class SetWrapperFactory extends CanonicalFactory {
    *
    */
   abstract class SetWrapper(val set: Set[T]) extends LatticeElement {
-
-    type LatticeElementType = SetWrapper
+    
+    type LatticeElementType = CanonicalType
 
     override def hashCode: Int = throw new NotImplementedError("All subclasses of" + this.getClass().getName() + " should implement hashcode")
 
@@ -34,13 +34,11 @@ abstract class SetWrapperFactory extends CanonicalFactory {
 
     override def toString = set.mkString("{", ", ", "}")
 
-    def v(that: SetWrapper): SetWrapper = create(this.set ++ that.set)
+    def v(that: LatticeElementType): LatticeElementType = create(this.set ++ that.set)
 
-    def ^(that: SetWrapper): SetWrapper = create(this.set intersect that.set)
+    def ^(that: LatticeElementType): LatticeElementType = create(this.set intersect that.set)
 
-    def \(that: SetWrapper): SetWrapper = create(this.set -- that.set)
-
-    def bottomElement = create(Set.empty)
+    def \(that: LatticeElementType): LatticeElementType = create(this.set -- that.set)
 
   }
 
@@ -59,12 +57,22 @@ object StringSetWrapperFactory extends SetWrapperFactory with SynchronizedCache 
    */
   class StringSetWrapper private[StringSetWrapperFactory] (set: Set[String]) extends SetWrapper(set) {
 
-    override def hashCode = set.hashCode 
-    
+   override type LatticeElementType = StringSetWrapper
+
+    override def hashCode = set.hashCode
+
     override def equals(obj: Any) = obj match {
       case o: StringSetWrapper => (o eq this) || o.set == this.set
       case _ => false
     }
+
+    override def v(that: StringSetWrapper): StringSetWrapper = super.v(that)
+
+    override def ^(that: StringSetWrapper): StringSetWrapper = create(this.set intersect that.set)
+
+    override def \(that: StringSetWrapper): StringSetWrapper = create(this.set -- that.set)
+
+    def bottomElement = create(Set.empty)
   }
 
   def makeFrom(set: AnyRef) = new StringSetWrapper(set.asInstanceOf[Set[String]])
