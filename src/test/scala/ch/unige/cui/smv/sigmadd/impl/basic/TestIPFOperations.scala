@@ -1,79 +1,28 @@
 package ch.unige.cui.smv.sigmadd.impl.basic
 
-import ch.unige.cui.smv.sigmadd.impl.basic._
-import org.scalatest.FlatSpec
 import org.scalatest.BeforeAndAfter
-import ch.unige.cui.smv.stratagem.sigmadd.SynchronizedCache
-import scala.collection.immutable.HashMap
-import org.scalatest.OneInstancePerTest
+import org.scalatest.FlatSpec
 
-class TestIPFUnion extends FlatSpec with BeforeAndAfter {
+class TestIPFOperations extends FlatSpec with BeforeAndAfter {
+  
+  val factory = new InductiveIPFFactory
   
   before {
-    InductiveIPFTestFactory.cleanUnicityTable
+    factory.cleanUnicityTable
   }
-
-  // we use a synchronized cache because otherwise, launching the test on eclipse launches the tests concurrently.
-  object InductiveIPFTestFactory extends IPFAbstractFactory {
-
-    type CanonicalType = SimpleIPFImplementation
-
-    type FromType = Map[StringSetWrapperFactory.StringSetWrapper, StringSetWrapperFactory.StringSetWrapper]
-
-    protected def makeFrom(alpha: AnyRef): SimpleIPFImplementation = alpha match {
-      case a: HashMap[StringSetWrapperFactory.StringSetWrapper, StringSetWrapperFactory.StringSetWrapper] @unchecked => new SimpleIPFImplementation(a)
-      case _ => throw new IllegalArgumentException("Unable to create IPF")
-    }
-
-    def create(elt: String, image: String): SimpleIPFImplementation = create(
-      HashMap(StringSetWrapperFactory.create(Set(elt)) -> StringSetWrapperFactory.create(Set(image))))
-
-    class SimpleIPFImplementation private[InductiveIPFTestFactory] (
-      val alpha: Map[StringSetWrapperFactory.StringSetWrapper, StringSetWrapperFactory.StringSetWrapper]) extends IPF {
-
-      type LatticeElementType = SimpleIPFImplementation
-      type DomainType = StringSetWrapperFactory.StringSetWrapper
-      type ImageType = StringSetWrapperFactory.StringSetWrapper
-
-      type DomainTypeElt = String
-      type ImageTypeElt = String
-
-      override def hashCode = alpha ##
-
-      def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)] = for (
-        (key, value) <- alpha.toSet;
-        elt1 <- key.set;
-        elt2 <- value.set
-      ) yield (elt1, elt2)
-
-      override def equals(obj: Any) = obj match {
-        case o: SimpleIPFImplementation => (o eq this) || this.alpha == o.alpha
-        case _ => false
-      }
-
-      def v(that: SimpleIPFImplementation): SimpleIPFImplementation = create(alphaUnion(this.alpha, that.alpha))
-
-      def ^(that: SimpleIPFImplementation): SimpleIPFImplementation = create(alphaIntersection(this.alpha, that.alpha))
-
-      def \(that: SimpleIPFImplementation): SimpleIPFImplementation = create(alphaDifference(this.alpha, that.alpha))
-
-      def bottomElement = create(Map.empty)
-    }
-
-  } // end of InductiveIPFTestFactory
   
   "The union of IPFs" should "should always return the same reference" in {
-    val ipfs1 = List(InductiveIPFTestFactory.create("1", "1"),
-      InductiveIPFTestFactory.create("2", "3"),
-      InductiveIPFTestFactory.create("3", "3"),
-      InductiveIPFTestFactory.create("5", "4"),
-      InductiveIPFTestFactory.create("6", "4"))
+    val ipfs1 = List(factory.create("1", "1"),
+      factory.create("2", "3"),
+      factory.create("3", "3"),
+      factory.create("5", "4"),
+      factory.create("6", "4"))
 
-    val ipfs2 = List(InductiveIPFTestFactory.create("1", "1"),
-      InductiveIPFTestFactory.create("3", "3"),
-      InductiveIPFTestFactory.create("5", "4"),
-      InductiveIPFTestFactory.create("6", "4"),
-      InductiveIPFTestFactory.create("2", "3"))
+    val ipfs2 = List(factory.create("1", "1"),
+      factory.create("3", "3"),
+      factory.create("5", "4"),
+      factory.create("6", "4"),
+      factory.create("2", "3"))
 
     val f = ipfs1.reduce(_ v _)
 
@@ -83,21 +32,21 @@ class TestIPFUnion extends FlatSpec with BeforeAndAfter {
   }
 
   it should "be equal to the union of the binary relations they represent" in {
-    val ipfs1 = List(InductiveIPFTestFactory.create("1", "1"),
-      InductiveIPFTestFactory.create("2", "3"),
-      InductiveIPFTestFactory.create("3", "3"),
-      InductiveIPFTestFactory.create("5", "4"),
-      InductiveIPFTestFactory.create("6", "4"))
+    val ipfs1 = List(factory.create("1", "1"),
+      factory.create("2", "3"),
+      factory.create("3", "3"),
+      factory.create("5", "4"),
+      factory.create("6", "4"))
 
     val ipf123 = ipfs1(1) v ipfs1(2) v ipfs1(3)
     val ipf213 = ipfs1(2) v ipfs1(1) v ipfs1(3)
 
     val f = ipfs1.reduce(_ v _)
 
-    val ipfs2 = List(InductiveIPFTestFactory.create("1", "2"),
-      InductiveIPFTestFactory.create("3", "4"),
-      InductiveIPFTestFactory.create("4", "4"),
-      InductiveIPFTestFactory.create("5", "4"))
+    val ipfs2 = List(factory.create("1", "2"),
+      factory.create("3", "4"),
+      factory.create("4", "4"),
+      factory.create("5", "4"))
 
     val g = ipfs2.reduce(_ v _)
 
@@ -107,32 +56,32 @@ class TestIPFUnion extends FlatSpec with BeforeAndAfter {
   }
 
   it should "be commutative and associative respecting reference equality" in {
-    val ipfs = List(InductiveIPFTestFactory.create("1", "1"),
-      InductiveIPFTestFactory.create("2", "3"),
-      InductiveIPFTestFactory.create("3", "3"),
-      InductiveIPFTestFactory.create("5", "4"),
-      InductiveIPFTestFactory.create("6", "4"))
+    val ipfs = List(factory.create("1", "1"),
+      factory.create("2", "3"),
+      factory.create("3", "3"),
+      factory.create("5", "4"),
+      factory.create("6", "4"))
 
     val seqOfUnions = (for (permutation <- ipfs.permutations) yield permutation.reduce(_ v _)).toList // all possible unions of the elements in ipfs
     assert((true /: seqOfUnions.tail.map(_ eq seqOfUnions.head))(_ && _)) // all elements of the sequence of unions are equal to the first one
   }
 
   "The difference of IPFs" should "be the complementary to the union" in {
-    val ipfs1 = List(InductiveIPFTestFactory.create("1", "1"),
-      InductiveIPFTestFactory.create("2", "3"),
-      InductiveIPFTestFactory.create("3", "3"),
-      InductiveIPFTestFactory.create("5", "4"),
-      InductiveIPFTestFactory.create("6", "4"))
+    val ipfs1 = List(factory.create("1", "1"),
+      factory.create("2", "3"),
+      factory.create("3", "3"),
+      factory.create("5", "4"),
+      factory.create("6", "4"))
 
     val ipf123 = ipfs1(1) v ipfs1(2) v ipfs1(3)
     val ipf213 = ipfs1(2) v ipfs1(1) v ipfs1(3)
 
     val f = ipfs1.reduce(_ v _)
 
-    val ipfs2 = List(InductiveIPFTestFactory.create("1", "2"),
-      InductiveIPFTestFactory.create("3", "4"),
-      InductiveIPFTestFactory.create("4", "4"),
-      InductiveIPFTestFactory.create("5", "4"))
+    val ipfs2 = List(factory.create("1", "2"),
+      factory.create("3", "4"),
+      factory.create("4", "4"),
+      factory.create("5", "4"))
 
     val g = ipfs2.reduce(_ v _)
 
@@ -147,21 +96,21 @@ class TestIPFUnion extends FlatSpec with BeforeAndAfter {
   }
 
   "The intersection of IPFs" should "be equal to the intersection of the binary relations they represent" in {
-    val ipfs1 = List(InductiveIPFTestFactory.create("1", "1"),
-      InductiveIPFTestFactory.create("2", "3"),
-      InductiveIPFTestFactory.create("3", "3"),
-      InductiveIPFTestFactory.create("5", "4"),
-      InductiveIPFTestFactory.create("6", "4"))
+    val ipfs1 = List(factory.create("1", "1"),
+      factory.create("2", "3"),
+      factory.create("3", "3"),
+      factory.create("5", "4"),
+      factory.create("6", "4"))
 
     val ipf123 = ipfs1(1) v ipfs1(2) v ipfs1(3)
     val ipf213 = ipfs1(2) v ipfs1(1) v ipfs1(3)
 
     val f = ipfs1.reduce(_ v _)
 
-    val ipfs2 = List(InductiveIPFTestFactory.create("1", "2"),
-      InductiveIPFTestFactory.create("3", "4"),
-      InductiveIPFTestFactory.create("4", "4"),
-      InductiveIPFTestFactory.create("5", "4"))
+    val ipfs2 = List(factory.create("1", "2"),
+      factory.create("3", "4"),
+      factory.create("4", "4"),
+      factory.create("5", "4"))
 
     val g = ipfs2.reduce(_ v _)
 
