@@ -16,6 +16,10 @@ class SimpleIPFFactory extends IPFAbstractFactory {
   def create(elt: String, image: String): SimpleIPFImplementation = create(
     HashMap(StringSetWrapperFactory.create(Set(elt)) -> StringSetWrapperFactory.create(Set(image))))
 
+  /**
+   * Tgus class is a simple implementation of the IPF. It maps sets of strings
+   * to sets of strings.
+   */
   class SimpleIPFImplementation private[basic] (
     val alpha: Map[StringSetWrapperFactory.StringSetWrapper, StringSetWrapperFactory.StringSetWrapper]) extends IPF {
 
