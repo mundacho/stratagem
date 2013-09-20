@@ -8,14 +8,16 @@ import scala.collection.mutable.HashMap
  * element.
  */
 trait OperationCache extends LatticeElement {
-
-  type LatticeElementType <: OperationCache
-
   /**
    * A map where we keep our cache.
    */
-  val operationCache = new HashMap[(String, OperationCache, OperationCache), LatticeElementType]
+  val operationCache = new HashMap[(OperationType, Any, Any), LatticeElementType]
 
+  abstract class OperationType
+  
+  object Union extends OperationType
+  object Inter extends OperationType
+  object Difference extends OperationType
   
   /**
    * We override the standard operation to perform a join with cache.
@@ -24,7 +26,7 @@ trait OperationCache extends LatticeElement {
    */
   abstract override def v(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    val key = if (this.hashCode > that.hashCode) ("union", this, that) else ("union", that, this)
+    val key:(OperationType, Any, Any) = if (this.hashCode > that.hashCode) (Union, this, that) else (Union, that, this)
     operationCache.getOrElseUpdate(key, super.v(that))
   }
 
@@ -35,7 +37,7 @@ trait OperationCache extends LatticeElement {
    */
   abstract override def ^(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    val key = if (this.hashCode > that.hashCode) ("inter", this, that) else ("inter", that, this)
+    val key:(OperationType, Any, Any) = if (this.hashCode > that.hashCode) (Inter, this, that) else (Inter, that, this)
     operationCache.getOrElseUpdate(key, super.^(that))
   }
 
@@ -45,8 +47,8 @@ trait OperationCache extends LatticeElement {
    * @return the difference of this minus that.
    */
   abstract override def \(that: LatticeElementType): LatticeElementType = {
-    val key = ("diff", this, that)
-    operationCache.getOrElseUpdate(key, super.v(that))
+    val key:(OperationType, Any, Any) = (Difference, this, that)
+    operationCache.getOrElseUpdate(key, super.\(that))
   }
 
 }

@@ -13,7 +13,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
    * define a mapping that represents a function (called alpha). It also defines
    *  how to combine the alphas of two or more functions to create a new IPF.
    */
-  private[basic] abstract class IPF extends LatticeElement {
+  protected[basic] abstract class IPF extends LatticeElement {
 
     override def hashCode: Int = throw new NotImplementedError("All subclasses of" + this.getClass().getName() + " should implement hashcode")
 

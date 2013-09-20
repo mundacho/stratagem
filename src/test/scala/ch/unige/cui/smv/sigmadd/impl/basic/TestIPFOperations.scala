@@ -5,7 +5,7 @@ import org.scalatest.FlatSpec
 
 class TestIPFOperations extends FlatSpec with BeforeAndAfter {
   
-  val factory = new InductiveIPFFactory
+  val factory = new SimpleIPFFactory
   
   before {
     factory.cleanUnicityTable

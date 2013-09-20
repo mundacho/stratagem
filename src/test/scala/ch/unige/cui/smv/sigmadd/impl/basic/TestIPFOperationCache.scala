@@ -5,5 +5,6 @@ import org.scalatest.BeforeAndAfter
 import org.scalatest.FlatSpec
 
 class TestIPFOperationCache extends TestIPFOperations {
-
+  override val factory = new SimpleIPFFactoryWithOperationCache
+  
 }

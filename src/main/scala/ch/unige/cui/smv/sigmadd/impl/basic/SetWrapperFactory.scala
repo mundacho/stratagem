@@ -59,7 +59,7 @@ object StringSetWrapperFactory extends SetWrapperFactory with SynchronizedCache 
 
    override type LatticeElementType = StringSetWrapper
 
-    override def hashCode = set.hashCode
+    override val hashCode = set.hashCode
 
     override def equals(obj: Any) = obj match {
       case o: StringSetWrapper => (o eq this) || o.set == this.set
