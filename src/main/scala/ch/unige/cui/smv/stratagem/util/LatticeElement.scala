@@ -1,5 +1,5 @@
 
-package ch.unige.cui.smv.stratagem.sigmadd
+package ch.unige.cui.smv.stratagem.util
 
 /**
  * Represents a lattice element. Lattice elements support union, intersection 

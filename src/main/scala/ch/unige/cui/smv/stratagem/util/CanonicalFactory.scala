@@ -1,4 +1,4 @@
-package ch.unige.cui.smv.sigmadd.impl.basic
+package ch.unige.cui.smv.stratagem.util
 
 import scala.collection.mutable.WeakHashMap
 

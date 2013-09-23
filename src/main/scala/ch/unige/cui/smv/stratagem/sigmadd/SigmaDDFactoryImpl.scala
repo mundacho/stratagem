@@ -1,8 +1,10 @@
-package ch.unige.cui.smv.sigmadd.impl.basic
+package ch.unige.cui.smv.stratagem.sigmadd
 
-import scala.collection.immutable.HashMap
 import ch.unige.cui.smv.stratagem.adt.ASort
-import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
+import ch.unige.cui.smv.stratagem.util.CanonicalFactory
+import ch.unige.cui.smv.stratagem.util.LatticeElement
+import ch.unige.cui.smv.stratagem.util.OperationCache
+
 
 class SigmaDDFactoryImpl extends CanonicalFactory {
   type CanonicalType = SigmaDDImplementation
@@ -17,7 +19,7 @@ class SigmaDDFactoryImpl extends CanonicalFactory {
     case _ => throw new IllegalArgumentException("Unable to create SigmaDD")
   }
 
-  private[basic] class SigmaDDImplementation(
+  private[sigmadd] class SigmaDDImplementation(
     val sort: ASort,
     val iipf: IPFType) extends LatticeElement {
     type LatticeElementType = SigmaDDImplementation

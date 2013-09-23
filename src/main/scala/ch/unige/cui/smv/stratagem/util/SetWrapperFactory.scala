@@ -1,7 +1,4 @@
-package ch.unige.cui.smv.sigmadd.impl.basic
-
-import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
-import ch.unige.cui.smv.stratagem.sigmadd.SynchronizedCache
+package ch.unige.cui.smv.stratagem.util
 
 /**
  * Represents a factory for our set wrappers. We use a factory because we are

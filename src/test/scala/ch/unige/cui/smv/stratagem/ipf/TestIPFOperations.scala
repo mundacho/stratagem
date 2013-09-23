@@ -1,4 +1,4 @@
-package ch.unige.cui.smv.sigmadd.impl.basic
+package ch.unige.cui.smv.stratagem.ipf
 
 import org.scalatest.BeforeAndAfter
 import org.scalatest.FlatSpec

@@ -1,7 +1,9 @@
-package ch.unige.cui.smv.sigmadd.impl.basic
+package ch.unige.cui.smv.stratagem.ipf
 
-import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
+import ch.unige.cui.smv.stratagem.util.LatticeElement
 import scala.collection.immutable.HashMap
+import ch.unige.cui.smv.stratagem.util.CanonicalFactory
+import scala.Array.canBuildFrom
 
 /**
  * This is a factory for IPF objects.
@@ -13,7 +15,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
    * define a mapping that represents a function (called alpha). It also defines
    *  how to combine the alphas of two or more functions to create a new IPF.
    */
-  protected[basic] abstract class IPF extends LatticeElement {
+  protected[ipf] abstract class IPF extends LatticeElement {
 
     override def hashCode: Int = throw new NotImplementedError("All subclasses of" + this.getClass().getName() + " should implement hashcode")
 

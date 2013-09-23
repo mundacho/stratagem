@@ -1,6 +1,9 @@
-package ch.unige.cui.smv.sigmadd.impl.basic
+package ch.unige.cui.smv.stratagem.sigmadd
 
 import scala.collection.immutable.HashMap
+
+import ch.unige.cui.smv.stratagem.ipf.IPFAbstractFactory
+import ch.unige.cui.smv.stratagem.util.OperationCache
 
 class SigmaDDIIPFFactoryImpl extends IPFAbstractFactory{
 
@@ -23,7 +26,7 @@ class SigmaDDIIPFFactoryImpl extends IPFAbstractFactory{
    * meant to encode n-ary relation of terms of a SigmaDD, i.e. the set of 
    * arguments.
    */
-  private [basic] class IIPFImplementation private[basic] (
+  private [sigmadd] class IIPFImplementation private[sigmadd] (
     val alpha: Map[SigmaDDType, IIPFImplementation]) extends IPF {
     type LatticeElementType = IIPFImplementation
     type DomainType = SigmaDDType

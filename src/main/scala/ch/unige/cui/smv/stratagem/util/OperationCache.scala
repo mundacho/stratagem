@@ -1,6 +1,5 @@
-package ch.unige.cui.smv.sigmadd.impl.basic
+package ch.unige.cui.smv.stratagem.util
 
-import ch.unige.cui.smv.stratagem.sigmadd.LatticeElement
 import scala.collection.mutable.HashMap
 
 /**

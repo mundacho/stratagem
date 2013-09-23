@@ -1,6 +1,7 @@
-package ch.unige.cui.smv.sigmadd.impl.basic
+package ch.unige.cui.smv.stratagem.ipf
 
 import org.scalatest.FlatSpec
+import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
 
 class TestSetWrapperFactory extends FlatSpec {
   "A string set wrapper factory" should "return the same reference to a set when creating it twice" in {

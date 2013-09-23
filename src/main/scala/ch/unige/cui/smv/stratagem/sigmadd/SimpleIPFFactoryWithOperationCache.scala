@@ -1,6 +1,11 @@
-package ch.unige.cui.smv.sigmadd.impl.basic
+package ch.unige.cui.smv.stratagem.sigmadd
 
 import scala.collection.immutable.HashMap
+
+import ch.unige.cui.smv.stratagem.ipf.SimpleIPFFactory
+import ch.unige.cui.smv.stratagem.util.OperationCache
+import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
+
 
 class SimpleIPFFactoryWithOperationCache extends SimpleIPFFactory {
 

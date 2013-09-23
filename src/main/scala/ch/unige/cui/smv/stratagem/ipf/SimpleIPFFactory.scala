@@ -1,6 +1,8 @@
-package ch.unige.cui.smv.sigmadd.impl.basic
+package ch.unige.cui.smv.stratagem.ipf
 
 import scala.collection.immutable.HashMap
+
+import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
 
 class SimpleIPFFactory extends IPFAbstractFactory {
 
@@ -20,7 +22,7 @@ class SimpleIPFFactory extends IPFAbstractFactory {
    * Tgus class is a simple implementation of the IPF. It maps sets of strings
    * to sets of strings.
    */
-  class SimpleIPFImplementation private[basic] (
+  class SimpleIPFImplementation protected[ipf] (
     val alpha: Map[StringSetWrapperFactory.StringSetWrapper, StringSetWrapperFactory.StringSetWrapper]) extends IPF {
 
     type LatticeElementType = SimpleIPFImplementation

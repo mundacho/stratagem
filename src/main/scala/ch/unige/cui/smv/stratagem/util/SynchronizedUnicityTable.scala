@@ -1,9 +1,7 @@
-package ch.unige.cui.smv.stratagem.sigmadd
+package ch.unige.cui.smv.stratagem.util
 
-import ch.unige.cui.smv.sigmadd.impl.basic.CanonicalFactory
-import scala.collection.mutable.WeakHashMap
 import scala.collection.mutable.SynchronizedMap
-import scala.collection.mutable.HashMap
+import scala.collection.mutable.WeakHashMap
 
 /**
  * This class should be used as a mixin. By using the stackable modification
