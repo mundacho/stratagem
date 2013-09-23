@@ -1,8 +1,8 @@
 package ch.unige.cui.smv.stratagem.sigmadd
 
 import scala.collection.immutable.HashMap
-import ch.unige.cui.smv.stratagem.util.OperationCache
 import ch.unige.cui.smv.stratagem.ipf.IPFAbstractFactory
+import ch.unige.cui.smv.stratagem.util.OperationCache
 import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
 
 
@@ -11,13 +11,20 @@ import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
  * The IPFs produced by this factory can have other IPFs as value.
  */
 class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
+  
+  /**
+   * The inductive IPF factory.
+   */
+  val inductiveIPFFactory = new SigmaDDInductiveIPFFactoryImpl
+  
+  type InductiveIPFType = inductiveIPFFactory.InductiveIPFImpl
+  
+  type CanonicalType = IPFImpl
 
-  type CanonicalType = IPFImplementation
+  type FromType = Map[StringSetWrapperFactory.StringSetWrapper, InductiveIPFType]
 
-  type FromType = Map[StringSetWrapperFactory.StringSetWrapper, IPFImplementation]
-
-  protected def makeFrom(alpha: AnyRef): IPFImplementation = alpha match {
-    case a: HashMap[StringSetWrapperFactory.StringSetWrapper, IPFImplementation] @unchecked => new IPFImplementation(a) with OperationCache
+  protected def makeFrom(alpha: AnyRef): IPFImpl = alpha match {
+    case a: HashMap[StringSetWrapperFactory.StringSetWrapper, InductiveIPFType] @unchecked => new IPFImpl(a) with OperationCache
     case _ => throw new IllegalArgumentException("Unable to create IPF")
   }
 
@@ -25,12 +32,13 @@ class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
    * This class implements an inductive injective partitioned function. It is 
    * meant to encode n-ary relation of terms of a SigmaDD, i.e. the set of 
    * arguments.
+   * @param alpha the mapping of this IPF.
    */
-  private [sigmadd] class IPFImplementation private[sigmadd] (
-    val alpha: Map[StringSetWrapperFactory.StringSetWrapper, IPFImplementation]) extends IPF {
-    type LatticeElementType = IPFImplementation
+  private [sigmadd] class IPFImpl private[sigmadd] (
+    val alpha: Map[StringSetWrapperFactory.StringSetWrapper, InductiveIPFType]) extends IPF {
+    type LatticeElementType = IPFImpl
     type DomainType = StringSetWrapperFactory.StringSetWrapper
-    type ImageType = IPFImplementation
+    type ImageType = InductiveIPFType
 
     type DomainTypeElt = String
     type ImageTypeElt = String
@@ -40,15 +48,15 @@ class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
     def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)] = throw new NotImplementedError
 
     override def equals(obj: Any) = obj match {
-      case o: IPFImplementation => (o eq this) || this.alpha == o.alpha
+      case o: IPFImpl => (o eq this) || this.alpha == o.alpha
       case _ => false
     }
 
-    def v(that: IPFImplementation): IPFImplementation = create(alphaUnion(this.alpha, that.alpha))
+    def v(that: IPFImpl): IPFImpl = create(alphaUnion(this.alpha, that.alpha))
 
-    def ^(that: IPFImplementation): IPFImplementation = create(alphaIntersection(this.alpha, that.alpha))
+    def ^(that: IPFImpl): IPFImpl = create(alphaIntersection(this.alpha, that.alpha))
 
-    def \(that: IPFImplementation): IPFImplementation = create(alphaDifference(this.alpha, that.alpha))
+    def \(that: IPFImpl): IPFImpl = create(alphaDifference(this.alpha, that.alpha))
 
     def bottomElement = create(Map.empty)
   }

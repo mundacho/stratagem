@@ -5,34 +5,41 @@ import ch.unige.cui.smv.stratagem.util.CanonicalFactory
 import ch.unige.cui.smv.stratagem.util.LatticeElement
 import ch.unige.cui.smv.stratagem.util.OperationCache
 
-
+/**
+ * This factory creates SigmaDDs.
+ */
 class SigmaDDFactoryImpl extends CanonicalFactory {
-  type CanonicalType = SigmaDDImplementation
+  type CanonicalType = SigmaDDImpl
 
   type FromType = (ASort, IPFType)
 
-  val iipfFactory = new SigmaDDIPFFactoryImpl
-  type IPFType = iipfFactory.IPFImplementation
+  val ipfFactory = new SigmaDDIPFFactoryImpl
+  type IPFType = ipfFactory.IPFImpl
 
-  protected def makeFrom(tuple: AnyRef): SigmaDDImplementation = tuple match {
-    case a: (ASort, IPFType) @unchecked => new SigmaDDImplementation(a._1, a._2) with OperationCache
+  protected def makeFrom(tuple: AnyRef): SigmaDDImpl = tuple match {
+    case a: (ASort, IPFType) @unchecked => new SigmaDDImpl(a._1, a._2) with OperationCache
     case _ => throw new IllegalArgumentException("Unable to create SigmaDD")
   }
 
-  private[sigmadd] class SigmaDDImplementation(
+  /**
+   * The SigmaDDs created by this factory.
+   * @param sort the sort of this SigmaDD
+   * @param iipf the iipf that encodes the mapping of this SigmaDD.
+   */
+  private[sigmadd] class SigmaDDImpl(
     val sort: ASort,
     val iipf: IPFType) extends LatticeElement {
-    type LatticeElementType = SigmaDDImplementation
+    type LatticeElementType = SigmaDDImpl
 
-    def v(that: SigmaDDImplementation): SigmaDDImplementation = {
+    def v(that: SigmaDDImpl): SigmaDDImpl = {
       val newSort = ASort.findCommonParent(this.sort, that.sort)
       create(newSort, this.iipf v that.iipf)
     }
-    def ^(that: SigmaDDImplementation): SigmaDDImplementation = {
+    def ^(that: SigmaDDImpl): SigmaDDImpl = {
       val newSort = ASort.findCommonParent(this.sort, that.sort)
       create(newSort, this.iipf ^ that.iipf)
     }
-    def \(that: SigmaDDImplementation): SigmaDDImplementation = {
+    def \(that: SigmaDDImpl): SigmaDDImpl = {
       val newSort = ASort.findCommonParent(this.sort, that.sort)
       create(newSort, this.iipf \ that.iipf)
     }
