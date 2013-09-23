@@ -11,14 +11,13 @@ import ch.unige.cui.smv.stratagem.util.OperationCache
 class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
 
   type CanonicalType = InductiveIPFImpl
-  
+
   /**
    * The factory producing SigmaDDs.
    */
   val sigmaDDFactory = new SigmaDDFactoryImpl
-  
+
   type SigmaDDType = sigmaDDFactory.SigmaDDImpl
-  
 
   type FromType = Map[SigmaDDType, InductiveIPFImpl]
 
@@ -28,11 +27,11 @@ class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
   }
 
   /**
-   * This class implements an inductive injective partitioned function. It is 
-   * meant to encode n-ary relation of terms of a SigmaDD, i.e. the set of 
+   * This class implements an inductive injective partitioned function. It is
+   * meant to encode n-ary relation of terms of a SigmaDD, i.e. the set of
    * arguments.
    */
-  private [sigmadd] class InductiveIPFImpl private[sigmadd] (
+  private[sigmadd] class InductiveIPFImpl private[sigmadd] (
     val alpha: Map[SigmaDDType, InductiveIPFImpl]) extends IPF {
     type LatticeElementType = InductiveIPFImpl
     type DomainType = SigmaDDType
@@ -50,12 +49,41 @@ class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
       case _ => false
     }
 
-    def v(that: InductiveIPFImpl): InductiveIPFImpl = create(alphaUnion(this.alpha, that.alpha))
+    def v(that: InductiveIPFImpl): InductiveIPFImpl = that match {
+      case TopIPF => TopIPF
+      case _ => create(alphaUnion(this.alpha, that.alpha))
+    }
 
-    def ^(that: InductiveIPFImpl): InductiveIPFImpl = create(alphaIntersection(this.alpha, that.alpha))
+    def ^(that: InductiveIPFImpl): InductiveIPFImpl = that match {
+      case TopIPF => this
+      case _ => create(alphaIntersection(this.alpha, that.alpha))
+    }
 
-    def \(that: InductiveIPFImpl): InductiveIPFImpl = create(alphaDifference(this.alpha, that.alpha))
+    def \(that: InductiveIPFImpl): InductiveIPFImpl = that match {
+      case TopIPF => TopIPF
+      case _ => create(alphaDifference(this.alpha, that.alpha))
+    }
 
     def bottomElement = create(Map.empty)
+  }
+
+  object TopIPF extends InductiveIPFImpl(Map.empty) {
+    
+    override def toString = "[1]"
+
+    override def v(that: InductiveIPFImpl): InductiveIPFImpl = TopIPF
+
+    override def ^(that: InductiveIPFImpl): InductiveIPFImpl = that
+
+    override def \(that: InductiveIPFImpl): InductiveIPFImpl = that match {
+      case TopIPF => TopIPF
+      case _ => bottomElement
+    }
+    override val hashCode = (alpha ##) + 1
+
+    override def equals(obj: Any) = obj match {
+      case TopIPF => true
+      case _ => false
+    }
   }
 }
