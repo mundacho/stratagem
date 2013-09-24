@@ -19,9 +19,9 @@ abstract class ASort
  */
 case class SubSort(name: String, superSort: ASort) extends ASort {
   require(superSort != null)
-  override val toString:String = "(" + name + " < " + (superSort match {
-    case a:SubSort => a.toString
-    case a:Sort => a.toString
+  override val toString: String = "(" + name + " < " + (superSort match {
+    case a: SubSort => a.toString
+    case a: Sort => a.toString
   })
 }
 
@@ -54,12 +54,14 @@ object ASort {
     var result = list1.head
     if (list1.head != list2.head) {
       None
+    } else {
+      while (list1.head == list2.head && (list1.tail != List.empty && list2.tail != List.empty)) {
+        result = list1.head
+        list1 = list1.tail
+        list2 = list2.tail
+      }
+      Some(result)
     }
-    while (list1.head == list2.head && (list1.tail != List.empty && list2.tail != List.empty)) {
-      result = list1.head
-      list1 = list1.tail
-      list2 = list2.tail
-    }
-    Some(result)
+
   }
 }

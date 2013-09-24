@@ -22,11 +22,9 @@ class SortTest extends FlatSpec {
     val someOtherSuperParentSort = Sort("ss1")
     val someOtherSubSort1 = SubSort("ss1", someOtherSuperParentSort)
 
-    assert(superParentSort equals ASort.findCommonParent(someSubSort211, superParentSort))
-    assert(someSubSort1 equals ASort.findCommonParent(someSubSort211, someSubSort12))
-    intercept[IllegalStateException] {
-      ASort.findCommonParent(someSubSort211, someOtherSuperParentSort)
-    }
-
+    
+    assert(superParentSort equals ASort.findCommonParent(someSubSort211, superParentSort).get)
+    assert(someSubSort1 equals ASort.findCommonParent(someSubSort211, someSubSort12).get)
+    assert(ASort.findCommonParent(someSubSort211, someOtherSuperParentSort) == None)
   }
 }
