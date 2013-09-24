@@ -4,18 +4,19 @@ import scala.collection.immutable.HashMap
 import ch.unige.cui.smv.stratagem.ipf.IPFAbstractFactory
 import ch.unige.cui.smv.stratagem.util.OperationCache
 import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
+import ch.unige.cui.smv.stratagem.util.Element
 
 
 /**
  * This class implements an IPF factory to be embedded in SigmaDDs.
  * The IPFs produced by this factory can have other IPFs as value.
  */
-class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
+abstract class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
   
   /**
    * The inductive IPF factory.
    */
-  val inductiveIPFFactory = new SigmaDDInductiveIPFFactoryImpl
+  val inductiveIPFFactory:SigmaDDInductiveIPFFactoryImpl
   
   type InductiveIPFType = inductiveIPFFactory.InductiveIPFImpl
   
@@ -27,6 +28,9 @@ class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
     case a: HashMap[StringSetWrapperFactory.StringSetWrapper, InductiveIPFType] @unchecked => new IPFImpl(a) with OperationCache
     case _ => throw new IllegalArgumentException("Unable to create IPF")
   }
+  
+  
+  def create(operator:String, iipf:InductiveIPFType):IPFImpl = create(HashMap(StringSetWrapperFactory.create(Set(operator)) -> iipf))
 
   /**
    * This class implements an inductive injective partitioned function. It is 
@@ -46,6 +50,11 @@ class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
     override val hashCode = alpha ##
 
     def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)] = throw new NotImplementedError
+    
+    def asElements = {
+      alpha.map((e) => {Element.elem(e._1.toString) beside Element.elem("-->") beside e._2.asElements })
+    }.reduce(_ above Element.elem(" ") above  _)
+    
 
     override def equals(obj: Any) = obj match {
       case o: IPFImpl => (o eq this) || this.alpha == o.alpha

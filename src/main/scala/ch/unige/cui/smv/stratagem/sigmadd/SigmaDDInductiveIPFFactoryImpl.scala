@@ -1,21 +1,21 @@
 package ch.unige.cui.smv.stratagem.sigmadd
 
 import scala.collection.immutable.HashMap
-
 import ch.unige.cui.smv.stratagem.ipf.IPFAbstractFactory
 import ch.unige.cui.smv.stratagem.util.OperationCache
+import ch.unige.cui.smv.stratagem.util.Element
 
 /**
  * This factory represents the tail of a SigmaDD.
  */
-class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
+abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
 
   type CanonicalType = InductiveIPFImpl
 
   /**
    * The factory producing SigmaDDs.
    */
-  val sigmaDDFactory = new SigmaDDFactoryImpl
+  val sigmaDDFactory:SigmaDDFactoryImpl
 
   type SigmaDDType = sigmaDDFactory.SigmaDDImpl
 
@@ -44,6 +44,11 @@ class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
 
     def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)] = throw new NotImplementedError
 
+    def asElements:Element = alpha.map((e) => {
+     (e._1.asElements above ( Element.elem("IIPF") beside (Element.elem('-', e._1.asElements.width, 1) beside Element.elem("-->")))  beside e._2.asElements )
+    	}).reduce(_ above _)
+ 
+    
     override def equals(obj: Any) = obj match {
       case o: InductiveIPFImpl => (o eq this) || this.alpha == o.alpha
       case _ => false
@@ -81,8 +86,10 @@ class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
     }
     override val hashCode = (alpha ##) + 1
 
+     override def asElements:Element = Element.elem("[1]") 
+    
     override def equals(obj: Any) = obj match {
-      case TopIPF => true
+      case o:AnyRef => o eq this
       case _ => false
     }
   }

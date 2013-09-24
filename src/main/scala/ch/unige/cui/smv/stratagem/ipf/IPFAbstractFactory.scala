@@ -55,7 +55,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
      */
     val alpha: Map[DomainType, ImageType]
 
-    override def toString = "Start IPF:" + alpha.map((entry) => { entry._1 + " -> " + entry._2 }).mkString(",\n") + "End IPF\n"
+    override def toString = alpha.map((entry) => { entry._1 + " -> " + entry._2 }).mkString(",\n") + "\n"
 
     /**
      * Does the union of two alphas. The result is a canonical alpha 
