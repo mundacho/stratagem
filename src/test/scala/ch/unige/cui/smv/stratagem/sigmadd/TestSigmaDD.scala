@@ -23,30 +23,39 @@ class TestSigmaDD extends FlatSpec {
     new ADT("myAdt", sign).declareVariable("b", "bool").declareVariable("x", "nat")
   }
 
-  def zero = adt.term("zero")
-  def suc(term: ATerm) = adt.term("suc", term)
-  def trueOp = adt.term("true")
-  def falseOp = adt.term("false")
+  val sigmaddFactoryVal = new SigmaDDFactoryImpl
+  val boolSort = adt.signature.sorts("bool")
+  val trueSigmaDD = sigmaddFactoryVal.create((boolSort, sigmaddFactoryVal.ipfFactory.create("true", sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.TopIPF)))
+  val falseSigmaDD = sigmaddFactoryVal.create((boolSort, sigmaddFactoryVal.ipfFactory.create("false", sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.TopIPF)))
+  val topIPF = sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.TopIPF
+  val trueTuple = sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.create(HashMap(trueSigmaDD -> topIPF))
+  val trueTrueTuple = sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.create(HashMap(trueSigmaDD -> trueTuple))
+  val andTrueTrueSigmaDD = sigmaddFactoryVal.create((boolSort, sigmaddFactoryVal.ipfFactory.create("and", trueTrueTuple)))
 
   "A SigmaDD" should "be capable of representing a constant set of constants" in {
-    val sigmaddFactoryVal = new SigmaDDFactoryImpl
-    val boolSort = adt.signature.sorts("bool")
-    val trueSigmaDD = sigmaddFactoryVal.create((boolSort, sigmaddFactoryVal.ipfFactory.create("true", sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.TopIPF)))
-    val falseSigmaDD = sigmaddFactoryVal.create((boolSort, sigmaddFactoryVal.ipfFactory.create("false", sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.TopIPF)))
     val unionOfConstants = trueSigmaDD v falseSigmaDD
     val expectedResult = sigmaddFactoryVal.create((boolSort, sigmaddFactoryVal.ipfFactory.create((HashMap(StringSetWrapperFactory.create(Set("true", "false")) -> sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.TopIPF)))))
     assert(unionOfConstants eq expectedResult)
   }
 
-  "A SigmaDD" should "be capabe of represent the union of a constant and a composite term" in {
-    val sigmaddFactoryVal = new SigmaDDFactoryImpl
-    val boolSort = adt.signature.sorts("bool")
-    val trueSigmaDD = sigmaddFactoryVal.create((boolSort, sigmaddFactoryVal.ipfFactory.create("true", sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.TopIPF)))
-    val topIPF = sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.TopIPF
-    val trueTuple = sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.create(HashMap(trueSigmaDD -> topIPF))
-    val trueTrueTuple = sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.create(HashMap(trueSigmaDD -> trueTuple))
-    val andTrueTrueSigmaDD = sigmaddFactoryVal.create((boolSort, sigmaddFactoryVal.ipfFactory.create("and", trueTrueTuple)))
-    
-    println(andTrueTrueSigmaDD v trueSigmaDD)
+  it should "be capabe of representing the union of a constant and a composite term" in {
+    val expectedResult = sigmaddFactoryVal.create((boolSort, sigmaddFactoryVal.ipfFactory.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
+    assert(expectedResult eq (andTrueTrueSigmaDD v trueSigmaDD))
   }
+
+  it should "be capabe of representing the difference of two sets of terms" in {
+    val expectedResult = sigmaddFactoryVal.create((boolSort, sigmaddFactoryVal.ipfFactory.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
+    assert(expectedResult eq ((andTrueTrueSigmaDD v trueSigmaDD) \ falseSigmaDD)) // We subtract an element that is not in the set
+    assert(andTrueTrueSigmaDD eq ((andTrueTrueSigmaDD v trueSigmaDD) \ trueSigmaDD)) // we subtract an element that was already there
+  }
+
+  it should "be capabe of representing the intersection of two sets of terms" in {
+    val expectedResult = sigmaddFactoryVal.create((boolSort, sigmaddFactoryVal.ipfFactory.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
+    assert(expectedResult == ((andTrueTrueSigmaDD v trueSigmaDD v falseSigmaDD) ^ (andTrueTrueSigmaDD v trueSigmaDD))) // We subtract an element that is not in the set
+  }
+
+  it should "not have this bug: Bug in IPF intersection" in {
+    (andTrueTrueSigmaDD v trueSigmaDD v falseSigmaDD) ^ andTrueTrueSigmaDD // with the bug, doing this operation would throw an exception
+  }
+
 }

@@ -69,10 +69,10 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
       case _ => create(alphaDifference(this.alpha, that.alpha))
     }
 
-    def bottomElement = create(Map.empty)
+    def bottomElement = create(HashMap.empty)
   }
 
-  object TopIPF extends InductiveIPFImpl(Map.empty) {
+  object TopIPF extends InductiveIPFImpl(HashMap.empty) {
     
     override def toString = "[1]"
 
@@ -81,7 +81,7 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
     override def ^(that: InductiveIPFImpl): InductiveIPFImpl = that
 
     override def \(that: InductiveIPFImpl): InductiveIPFImpl = that match {
-      case TopIPF => TopIPF
+      case TopIPF => bottomElement
       case _ => bottomElement
     }
     override val hashCode = (alpha ##) + 1

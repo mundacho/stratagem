@@ -106,8 +106,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
       alpha1.foreach(
         (entry1) => {
           val (key1, tail1) = entry1
-          alpha2.view.filter(_ != entry1) // first we filter out the entry itself
-            .foreach((entry2) => {
+          alpha2.foreach((entry2) => {
               val (key2, tail2) = entry2
               val keyIntersection = key1 ^ key2
               if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm

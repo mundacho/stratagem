@@ -54,7 +54,6 @@ abstract class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
     def asElements = {
       alpha.map((e) => {Element.elem(e._1.toString) beside Element.elem("-->") beside e._2.asElements })
     }.reduce(_ above Element.elem(" ") above  _)
-    
 
     override def equals(obj: Any) = obj match {
       case o: IPFImpl => (o eq this) || this.alpha == o.alpha
@@ -67,6 +66,6 @@ abstract class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
 
     def \(that: IPFImpl): IPFImpl = create(alphaDifference(this.alpha, that.alpha))
 
-    def bottomElement = create(Map.empty)
+    def bottomElement = create(HashMap.empty)
   }
 }
