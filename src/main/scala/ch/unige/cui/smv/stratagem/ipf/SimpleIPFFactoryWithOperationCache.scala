@@ -1,12 +1,13 @@
-package ch.unige.cui.smv.stratagem.sigmadd
+package ch.unige.cui.smv.stratagem.ipf
 
 import scala.collection.immutable.HashMap
 
-import ch.unige.cui.smv.stratagem.ipf.SimpleIPFFactory
 import ch.unige.cui.smv.stratagem.util.OperationCache
 import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
 
-
+/**
+ * The same IPF factory but implementing an operation cache.
+ */
 class SimpleIPFFactoryWithOperationCache extends SimpleIPFFactory {
 
   override protected def makeFrom(alpha: AnyRef): SimpleIPFImplementation = alpha match {
@@ -14,4 +15,4 @@ class SimpleIPFFactoryWithOperationCache extends SimpleIPFFactory {
     case _ => throw new IllegalArgumentException("Unable to create IPF")
   }
 
-} // end of InductiveIPFFactory
+}

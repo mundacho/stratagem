@@ -23,6 +23,11 @@ class SigmaDDFactoryImpl extends CanonicalFactory {
 
   type IPFType = ipfFactory.IPFImpl
   
+  /**
+   * Creates a SigmaDD from a term.
+   * @param term the input term.
+   * @return the SigmaDD representing the term.
+   */
   def create(term: ATerm):SigmaDDImpl = {
     require(!term.isVariable, "Cannot create a SigmaDD containing a variable.")
     term match {

@@ -27,6 +27,12 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
     case _ => throw new IllegalArgumentException("Unable to create IPF")
   }
   
+  /**
+   * Creates an inductive IPF from a list of terms.
+   * 
+   * @param terms the list of terms
+   * @return the inductive IPF representing that set of terms n-ary relations.
+   */
   def create(terms:List[ATerm]):InductiveIPFImpl = terms match {
     case Nil => TopIPF
     case x::tail => create(HashMap(sigmaDDFactory.create(x) -> create(tail)))
@@ -79,6 +85,10 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
     def bottomElement = create(HashMap.empty:FromType)
   }
 
+  /**
+   * This object represents the top element of the lattice of SigmaDDs. 
+   * It is used as a terminal.
+   */
   object TopIPF extends InductiveIPFImpl(HashMap.empty) {
     
     override def toString = "[1]"
