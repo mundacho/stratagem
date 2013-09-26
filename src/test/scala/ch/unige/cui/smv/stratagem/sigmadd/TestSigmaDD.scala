@@ -32,6 +32,13 @@ class TestSigmaDD extends FlatSpec {
   val trueTrueTuple = sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.create(HashMap(trueSigmaDD -> trueTuple))
   val andTrueTrueSigmaDD = sigmaddFactoryVal.create((boolSort, sigmaddFactoryVal.ipfFactory.create("and", trueTrueTuple)))
 
+  // defs for defining terms
+  def zero = adt.term("zero")
+  def suc(term: ATerm) = adt.term("suc", term)
+  def trueOp = adt.term("true")
+  def falseOp = adt.term("false")
+  def andOp(term1: ATerm, term2: ATerm) = adt.term("and", term1, term2)
+
   "A SigmaDD" should "be capable of representing a constant set of constants" in {
     val unionOfConstants = trueSigmaDD v falseSigmaDD
     val expectedResult = sigmaddFactoryVal.create((boolSort, sigmaddFactoryVal.ipfFactory.create((HashMap(StringSetWrapperFactory.create(Set("true", "false")) -> sigmaddFactoryVal.ipfFactory.inductiveIPFFactory.TopIPF)))))
@@ -56,6 +63,15 @@ class TestSigmaDD extends FlatSpec {
 
   it should "not have this bug: Bug in IPF intersection" in {
     (andTrueTrueSigmaDD v trueSigmaDD v falseSigmaDD) ^ andTrueTrueSigmaDD // with the bug, doing this operation would throw an exception
+  }
+
+  it should "create the correct SigmaDD from the correct term" in {
+    assert(sigmaddFactoryVal.create(andOp(trueOp, trueOp)) eq andTrueTrueSigmaDD)
+    assert(sigmaddFactoryVal.create(trueOp) eq trueSigmaDD)
+  }
+
+  it should "not create a SigmaDD containing a variable" in {
+    intercept[IllegalArgumentException](sigmaddFactoryVal.create(andOp(adt.term("x"), trueOp)))
   }
 
 }

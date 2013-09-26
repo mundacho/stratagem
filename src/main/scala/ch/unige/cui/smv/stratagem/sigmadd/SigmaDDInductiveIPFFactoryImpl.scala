@@ -4,6 +4,7 @@ import scala.collection.immutable.HashMap
 import ch.unige.cui.smv.stratagem.ipf.IPFAbstractFactory
 import ch.unige.cui.smv.stratagem.util.OperationCache
 import ch.unige.cui.smv.stratagem.util.Element
+import ch.unige.cui.smv.stratagem.adt.ATerm
 
 /**
  * This factory represents the tail of a SigmaDD.
@@ -25,6 +26,12 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
     case a: HashMap[SigmaDDType, InductiveIPFImpl] @unchecked => new InductiveIPFImpl(a) with OperationCache
     case _ => throw new IllegalArgumentException("Unable to create IPF")
   }
+  
+  def create(terms:List[ATerm]):InductiveIPFImpl = terms match {
+    case Nil => TopIPF
+    case x::tail => create(HashMap(sigmaDDFactory.create(x) -> create(tail)))
+  }
+  
 
   /**
    * This class implements an inductive injective partitioned function. It is
@@ -69,7 +76,7 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
       case _ => create(alphaDifference(this.alpha, that.alpha))
     }
 
-    def bottomElement = create(HashMap.empty)
+    def bottomElement = create(HashMap.empty:FromType)
   }
 
   object TopIPF extends InductiveIPFImpl(HashMap.empty) {

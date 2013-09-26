@@ -5,6 +5,7 @@ import ch.unige.cui.smv.stratagem.util.CanonicalFactory
 import ch.unige.cui.smv.stratagem.util.LatticeElement
 import ch.unige.cui.smv.stratagem.util.OperationCache
 import ch.unige.cui.smv.stratagem.util.Element
+import ch.unige.cui.smv.stratagem.adt.ATerm
 
 /**
  * This factory creates SigmaDDs.
@@ -21,6 +22,13 @@ class SigmaDDFactoryImpl extends CanonicalFactory {
   type FromType = (ASort, IPFType)
 
   type IPFType = ipfFactory.IPFImpl
+  
+  def create(term: ATerm):SigmaDDImpl = {
+    require(!term.isVariable, "Cannot create a SigmaDD containing a variable.")
+    term match {
+      case ATerm(opSymbol, terms) => create(term.sort, ipfFactory.create(opSymbol, ipfFactory.inductiveIPFFactory.create(terms)))
+    }
+  }
 
   protected def makeFrom(tuple: AnyRef): SigmaDDImpl = tuple match {
     case a: (ASort, IPFType) @unchecked => new SigmaDDImpl(a._1, a._2) with OperationCache
