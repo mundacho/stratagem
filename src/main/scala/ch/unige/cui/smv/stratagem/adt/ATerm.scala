@@ -10,6 +10,12 @@ abstract class ATerm(val adt: ADT) {
   def sort: ASort
   
   /**
+   * @returns the operation symbol for a normal term and the variable name for 
+   * a variable.
+   */
+  def symbol:String
+  
+  /**
    * @return true if the term is a variable
    */
   val isVariable = false 
@@ -51,8 +57,10 @@ private case class Term(val operationSymbol: Operation, val subterms: List[ATerm
     subterms.map(_.adt eq theAdt).reduce(_ && _)
   } else true, "It is not allowed to mix adts") // require that each adt in the subterms is the same that the parent term adt
 
+  override val symbol = operationSymbol.name
+  
   val sort = operationSymbol.returnType;
-  override def toString = operationSymbol.name + (if (subterms.isEmpty) "" else subterms.mkString("(", ", ", ")"))
+  override val toString = operationSymbol.name + (if (subterms.isEmpty) "" else subterms.mkString("(", ", ", ")"))
 }
 
 /**
@@ -65,4 +73,5 @@ private case class Variable(val declaration: VariableDeclaration, theAdt: ADT) e
   override val isVariable = true
   val sort = declaration.sort
   override def toString = declaration.name
+  override val symbol = declaration.name
 }
