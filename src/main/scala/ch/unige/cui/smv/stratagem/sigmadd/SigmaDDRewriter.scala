@@ -14,7 +14,8 @@ class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy, val sigmaDDFacto
       assert(!workingMap.isDefinedAt(term.symbol)) // working map does not have that variable yet
       // successful variable match, the working map is added to the list only 
       // when we finish parsing the term, i.e. we get to Nil in the list of subterms.
-      Some(workingMap + (term.symbol -> sigmaDD), listOpMaps) 
+      val newWorkingMap = workingMap + (term.symbol -> sigmaDD)
+      Some(newWorkingMap, newWorkingMap :: listOpMaps)
     } else {
       // we separate the term
       val (operationSymbol, listOfSubTerms) = ATerm.unapply(term).get
@@ -37,7 +38,7 @@ class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy, val sigmaDDFacto
         case sigmaDDFactory.ipfFactory.inductiveIPFFactory.TopIPF => throw new IllegalStateException("Either a term or a SigmaDD is not well formed.") // the SigmaDD is not well formed
         case e: sigmaDDFactory.ipfFactory.inductiveIPFFactory.InductiveIPFImpl => {
           // A pattern can span several elements of the partition formed by the key elements, so we need to collect different maps for each path
-          
+
           // this line collects all elements of the alpha of e where the match
           // succeeded (i.e. returned something) on the SigmaDD of the map's key
           val listOfMatchedIPFAndReturnedListOfMap = e.alpha.view.toList.collect((entry) => matchSigmaDD(headTerm)(entry._1) match { case Some(returnedListOfMap) => (entry, returnedListOfMap) })
@@ -49,7 +50,7 @@ class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy, val sigmaDDFacto
             // and collect all the elements where the matching function matches the tail
             // each time we use one of the substitution maps that we had obtained before.
             val listOfNewWorkingMaps = returnedListOfMaps._2
-            listOfNewWorkingMaps.view.collect((x) => matchIIPF(tail)(tailOfIPF)(x, listOfMaps) match {case Some(result) => result}).flatMap(_._2)
+            listOfNewWorkingMaps.view.collect((x) => matchIIPF(tail)(tailOfIPF)(x, listOfMaps) match { case Some(result) => result }).flatMap(_._2)
           })
           listOfMapsToReturn match {
             case Nil => None
@@ -61,17 +62,22 @@ class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy, val sigmaDDFacto
   }
 
   def apply(sigmaDD: sigmaDDFactory.SigmaDDImpl): sigmaDDFactory.SigmaDDImpl = {
-	val firstListOfSubstitutions = simpleStrategy.equations.collectFirst((x:Equation) => matchSigmaDD(x.leftSide)(sigmaDD)(Map.empty, Nil) match {case Some(result) => result._2 })
-    //    val operandAsSet = simpleStrategy.equations.head.leftSide match {
-    //      case ATerm(op, _) => StringSetWrapperFactory.create(Set(op))
-    //    }
-    //    val entry = sigmaDD.iipf.alpha.find((entry) => (entry._1 ^ operandAsSet) != operandAsSet.bottomElement) // entry is the element where we can do some further matching.
-    //    def matchIIPF
-
-    //    (sigmaDD \ substitution(leftSideEquation)) v substitution(righSideEquation)
-    null
+    val firstListOfSubstitutions = simpleStrategy.equations.collectFirst((x: Equation) => matchSigmaDD(x.leftSide)(sigmaDD)(Map.empty, Nil) match { case Some(result) => result._2 })
+    firstListOfSubstitutions match {
+      case None => sigmaDD // no possible substitutions, we return the same SigmaDD
+      case Some(listOfSubstitutions) => {
+        var sigmaDDToRemove = sigmaDD.bottomElement
+        var sigmaDDToAdd = sigmaDD.bottomElement
+        for (
+          equation <- simpleStrategy.equations;
+          substitution <- listOfSubstitutions
+        ) {
+          sigmaDDToRemove = sigmaDDToRemove v sigmaDDFactory.instantiate(equation.leftSide, substitution)
+          sigmaDDToAdd = sigmaDDToAdd v sigmaDDFactory.instantiate(equation.rightSide, substitution)
+        }
+        (sigmaDD \ sigmaDDToRemove) v sigmaDDToAdd
+      }
+    }
   }
-
-  //  class Matcher extends PartialFunction[sigmaDDFactory.SigmaDDImpl, Map[String, sigmaDDFactory.SigmaDDImpl]]
 }
 

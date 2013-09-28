@@ -34,6 +34,22 @@ class SigmaDDFactoryImpl extends CanonicalFactory {
       case ATerm(opSymbol, terms) => create(term.sort, ipfFactory.create(opSymbol, ipfFactory.inductiveIPFFactory.create(terms)))
     }
   }
+  
+    /**
+   * Creates a SigmaDD from a term.
+   * @param term the input term.
+   * @variables a map mapping variable string names to SigmaDDs.
+   * @return the SigmaDD representing the term.
+   */
+  def instantiate(term: ATerm, variables:Map[String, SigmaDDImpl]):SigmaDDImpl = {
+    if (term.isVariable) {
+      variables(term.symbol)
+    } else 
+    term match {
+      case ATerm(opSymbol, terms) => create(term.sort, ipfFactory.create(opSymbol, ipfFactory.inductiveIPFFactory.instanciate(terms, variables)))
+    }
+  }
+  
 
   protected def makeFrom(tuple: AnyRef): SigmaDDImpl = tuple match {
     case a: (ASort, IPFType) @unchecked => new SigmaDDImpl(a._1, a._2) with OperationCache

@@ -7,6 +7,8 @@ import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.adt.Signature
 import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
+import ch.unige.cui.smv.stratagem.ts.TransitionSystem
+import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 
 class TestSigmaDD extends FlatSpec {
 
@@ -16,11 +18,12 @@ class TestSigmaDD extends FlatSpec {
       .withSort("nat")
       .withGenerator("zero", "nat")
       .withGenerator("suc", "nat", "nat")
+      .withOperation("plus", "nat", "nat", "nat")
       .withGenerator("true", "bool")
       .withGenerator("false", "bool")
       .withOperation("and", "bool", "bool", "bool")
 
-    new ADT("myAdt", sign).declareVariable("b", "bool").declareVariable("x", "nat")
+    new ADT("myAdt", sign).declareVariable("b", "bool").declareVariable("x", "nat").declareVariable("y", "nat")
   }
 
   val sigmaddFactoryVal = new SigmaDDFactoryImpl
@@ -38,6 +41,10 @@ class TestSigmaDD extends FlatSpec {
   def trueOp = adt.term("true")
   def falseOp = adt.term("false")
   def andOp(term1: ATerm, term2: ATerm) = adt.term("and", term1, term2)
+  def plus(term1: ATerm, term2: ATerm) = adt.term("plus", term1, term2)
+  def X = adt.term("x")
+  def Y = adt.term("y")
+ 
 
   "A SigmaDD" should "be capable of representing a constant set of constants" in {
     val unionOfConstants = trueSigmaDD v falseSigmaDD
@@ -72,6 +79,14 @@ class TestSigmaDD extends FlatSpec {
 
   it should "not create a SigmaDD containing a variable" in {
     intercept[IllegalArgumentException](sigmaddFactoryVal.create(andOp(adt.term("x"), trueOp)))
+  }
+
+  it should "to rewrite integers" in {
+    val simpleStrat = SimpleStrategy(List(plus(X, suc(Y)) -> suc(plus(X, Y))))
+    val rewriter = new SimpleSigmaDDRewriter(simpleStrat, sigmaddFactoryVal)
+    val sigmadd1 = rewriter.sigmaDDFactory.create(plus(suc(suc(zero)), suc(zero)))
+    val sigmadd2 = rewriter.sigmaDDFactory.create(plus(suc(zero), suc(suc(zero))))
+    println(rewriter(sigmadd1 v sigmadd2))
   }
 
 }

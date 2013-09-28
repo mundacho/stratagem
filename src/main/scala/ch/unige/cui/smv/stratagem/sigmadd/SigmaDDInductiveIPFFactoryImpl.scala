@@ -38,6 +38,18 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
     case x::tail => create(HashMap(sigmaDDFactory.create(x) -> create(tail)))
   }
   
+    /**
+   * Instanciate a list of terms with a set of variables.
+   * 
+   * @param terms the list of terms
+   * @param variables the map containing the values for the instanciation of the variables.
+   * @return the inductive IPF representing that set of terms n-ary relations.
+   */
+  def instanciate(terms:List[ATerm], variables:Map[String, SigmaDDType]):InductiveIPFImpl = terms match {
+    case Nil => TopIPF
+    case x::tail => create(HashMap(sigmaDDFactory.instantiate(x, variables) -> instanciate(tail, variables)))
+  }
+  
 
   /**
    * This class implements an inductive injective partitioned function. It is
