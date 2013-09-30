@@ -13,13 +13,13 @@ abstract class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy) {
 
   type SubstitutionMap = Map[String, SigmaDDImplType]
 
-  private def matchSigmaDD(term: ATerm)(sigmaDD: SigmaDDImplType)(implicit workingMap: SubstitutionMap, listOpMaps: List[SubstitutionMap]): Option[(SubstitutionMap, List[SubstitutionMap])] = {
+  private def matchSigmaDD(term: ATerm)(sigmaDD: SigmaDDImplType)(implicit workingMap: SubstitutionMap, listOpMaps: List[SubstitutionMap]): Option[List[SubstitutionMap]] = {
     if (term.isVariable) {
       assert(!workingMap.isDefinedAt(term.symbol)) // working map does not have that variable yet
       // successful variable match, the working map is added to the list only 
       // when we finish parsing the term, i.e. we get to Nil in the list of subterms.
       val newWorkingMap = workingMap + (term.symbol -> sigmaDD)
-      Some(newWorkingMap, newWorkingMap :: listOpMaps)
+      Some(newWorkingMap :: listOpMaps)
     } else {
       // we separate the term
       val (operationSymbol, listOfSubTerms) = ATerm.unapply(term).get
@@ -35,9 +35,9 @@ abstract class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy) {
     }
   }
 
-  private def matchIIPF(terms: List[ATerm])(iipf: sigmaDDFactory.ipfFactory.InductiveIPFType)(implicit map: SubstitutionMap, listOfMaps: List[SubstitutionMap]): Option[(SubstitutionMap, List[SubstitutionMap])] = {
+  private def matchIIPF(terms: List[ATerm])(iipf: sigmaDDFactory.ipfFactory.InductiveIPFType)(implicit map: SubstitutionMap, listOfMaps: List[SubstitutionMap]): Option[List[SubstitutionMap]] = {
     terms match {
-      case Nil => Some(map, map :: listOfMaps) // we finished to match, we return the map we created in the list of maps
+      case Nil => Some(map :: listOfMaps) // we finished to match, we return the map we created in the list of maps
       case headTerm :: tail => iipf match { // we still have something to match
         case sigmaDDFactory.ipfFactory.inductiveIPFFactory.TopIPF => throw new IllegalStateException("Either a term or a SigmaDD is not well formed.") // the SigmaDD is not well formed
         case e: sigmaDDFactory.ipfFactory.inductiveIPFFactory.InductiveIPFImpl => {
@@ -53,12 +53,11 @@ abstract class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy) {
             // we take the list of maps returned for each branch of the SigmaDD
             // and collect all the elements where the matching function matches the tail
             // each time we use one of the substitution maps that we had obtained before.
-            val listOfNewWorkingMaps = returnedListOfMaps._2
-            listOfNewWorkingMaps.view.collect((x) => matchIIPF(tail)(tailOfIPF)(x, listOfMaps) match { case Some(result) => result }).flatMap(_._2)
+            returnedListOfMaps.view.collect((x) => matchIIPF(tail)(tailOfIPF)(x, listOfMaps) match { case Some(result) => result }).flatten
           })
           listOfMapsToReturn match {
             case Nil => None
-            case _ => Some(map, listOfMapsToReturn) // finally, if the list is not empty, we return it
+            case _ => Some(listOfMapsToReturn) // finally, if the list is not empty, we return it
           }
         }
       }
@@ -66,7 +65,7 @@ abstract class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy) {
   }
 
   def apply(sigmaDD: SigmaDDImplType): SigmaDDImplType = {
-    val firstListOfSubstitutions = simpleStrategy.equations.collectFirst((x: Equation) => matchSigmaDD(x.leftSide)(sigmaDD)(Map.empty, Nil) match { case Some(result) => result._2 })
+    val firstListOfSubstitutions = simpleStrategy.equations.collectFirst((x: Equation) => matchSigmaDD(x.leftSide)(sigmaDD)(Map.empty, Nil) match { case Some(result) => result })
     firstListOfSubstitutions match {
       case None => sigmaDD // no possible substitutions, we return the same SigmaDD
       case Some(listOfSubstitutions) => {
