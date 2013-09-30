@@ -83,7 +83,7 @@ class TestSigmaDD extends FlatSpec {
   it should "to rewrite integers" in {
     val simpleStrat1 = SimpleStrategy(List(plus(X, suc(Y)) -> suc(plus(X, Y))))
     val rewriter = new SimpleSigmaDDRewriter(simpleStrat1) {
-      val sigmaDDFactory:sigmaddFactoryVal.type = sigmaddFactoryVal
+      val sigmaDDFactory: sigmaddFactoryVal.type = sigmaddFactoryVal
     }
     val sigmadd1 = sigmaddFactoryVal.create(plus(suc(suc(zero)), suc(zero)))
     val sigmadd2 = sigmaddFactoryVal.create(plus(suc(zero), suc(suc(zero))))
@@ -94,12 +94,36 @@ class TestSigmaDD extends FlatSpec {
 
     val simpleStrat2 = SimpleStrategy(List(plus(X, zero) -> X))
     val rewriter2 = new SimpleSigmaDDRewriter(simpleStrat2) {
-      val sigmaDDFactory:sigmaddFactoryVal.type = sigmaddFactoryVal
+      val sigmaDDFactory: sigmaddFactoryVal.type = sigmaddFactoryVal
     }
 
     val sigmadd3 = sigmaddFactoryVal.create(plus(suc(suc(zero)), zero))
     val sigmaddres3 = sigmaddFactoryVal.create(suc(suc(zero)))
     assert(rewriter2(sigmadd3) eq sigmaddres3)
+  }
+
+  it should "rewrite even if there are no variables" in {
+    val simpleStrat1 = SimpleStrategy(List(suc(suc(suc(zero))) -> zero))
+    val rewriter = new SimpleSigmaDDRewriter(simpleStrat1) {
+      val sigmaDDFactory: sigmaddFactoryVal.type = sigmaddFactoryVal
+    }
+    val sigmadd1 = sigmaddFactoryVal.create(suc(suc(suc(zero))))
+    val sigmaddres1 = sigmaddFactoryVal.create(zero)
+
+    assert(rewriter(sigmadd1) eq sigmaddres1)
+  }
+
+  it should "be able to express large numbers (up to a 100)" in { 
+    def define(n: Int): ATerm = n match {
+      case 0 => zero
+      case _ => suc(define(n - 1))
+    }
+    val sigmadd1 = sigmaddFactoryVal.create(plus(define(100), define(100)))
+    val simpleStrat1 = SimpleStrategy(List(plus(X, suc(Y)) -> suc(plus(X, Y))))
+    val rewriter = new SimpleSigmaDDRewriter(simpleStrat1) {
+      val sigmaDDFactory: sigmaddFactoryVal.type = sigmaddFactoryVal
+    }
+    assert(rewriter(sigmadd1) eq sigmaddFactoryVal.create(suc(plus(define(100), define(99)))))
   }
 
 }
