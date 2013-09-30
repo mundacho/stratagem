@@ -44,7 +44,6 @@ class TestSigmaDD extends FlatSpec {
   def plus(term1: ATerm, term2: ATerm) = adt.term("plus", term1, term2)
   def X = adt.term("x")
   def Y = adt.term("y")
- 
 
   "A SigmaDD" should "be capable of representing a constant set of constants" in {
     val unionOfConstants = trueSigmaDD v falseSigmaDD
@@ -82,11 +81,25 @@ class TestSigmaDD extends FlatSpec {
   }
 
   it should "to rewrite integers" in {
-    val simpleStrat = SimpleStrategy(List(plus(X, suc(Y)) -> suc(plus(X, Y))))
-    val rewriter = new SimpleSigmaDDRewriter(simpleStrat, sigmaddFactoryVal)
-    val sigmadd1 = rewriter.sigmaDDFactory.create(plus(suc(suc(zero)), suc(zero)))
-    val sigmadd2 = rewriter.sigmaDDFactory.create(plus(suc(zero), suc(suc(zero))))
-    println(rewriter(sigmadd1 v sigmadd2))
+    val simpleStrat1 = SimpleStrategy(List(plus(X, suc(Y)) -> suc(plus(X, Y))))
+    val rewriter = new SimpleSigmaDDRewriter(simpleStrat1) {
+      val sigmaDDFactory:sigmaddFactoryVal.type = sigmaddFactoryVal
+    }
+    val sigmadd1 = sigmaddFactoryVal.create(plus(suc(suc(zero)), suc(zero)))
+    val sigmadd2 = sigmaddFactoryVal.create(plus(suc(zero), suc(suc(zero))))
+
+    val sigmaddres1 = sigmaddFactoryVal.create(suc(plus(suc(suc(zero)), zero)))
+    val sigmaddres2 = sigmaddFactoryVal.create(suc(plus(suc(zero), suc(zero))))
+    assert(rewriter(sigmadd1 v sigmadd2) eq (sigmaddres1 v sigmaddres2))
+
+    val simpleStrat2 = SimpleStrategy(List(plus(X, zero) -> X))
+    val rewriter2 = new SimpleSigmaDDRewriter(simpleStrat2) {
+      val sigmaDDFactory:sigmaddFactoryVal.type = sigmaddFactoryVal
+    }
+
+    val sigmadd3 = sigmaddFactoryVal.create(plus(suc(suc(zero)), zero))
+    val sigmaddres3 = sigmaddFactoryVal.create(suc(suc(zero)))
+    assert(rewriter2(sigmadd3) eq sigmaddres3)
   }
 
 }

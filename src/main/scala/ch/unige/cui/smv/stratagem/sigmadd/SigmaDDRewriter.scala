@@ -5,11 +5,15 @@ import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
 import ch.unige.cui.smv.stratagem.adt.Equation
 
-class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy, val sigmaDDFactory: SigmaDDFactoryImpl) {
+abstract class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy) {
+  
+  val sigmaDDFactory: SigmaDDFactoryImpl
+  
+  type SigmaDDImplType = sigmaDDFactory.SigmaDDImpl
 
-  type SubstitutionMap = Map[String, sigmaDDFactory.SigmaDDImpl]
+  type SubstitutionMap = Map[String, SigmaDDImplType]
 
-  private def matchSigmaDD(term: ATerm)(sigmaDD: sigmaDDFactory.SigmaDDImpl)(implicit workingMap: SubstitutionMap, listOpMaps: List[SubstitutionMap]): Option[(SubstitutionMap, List[SubstitutionMap])] = {
+  private def matchSigmaDD(term: ATerm)(sigmaDD: SigmaDDImplType)(implicit workingMap: SubstitutionMap, listOpMaps: List[SubstitutionMap]): Option[(SubstitutionMap, List[SubstitutionMap])] = {
     if (term.isVariable) {
       assert(!workingMap.isDefinedAt(term.symbol)) // working map does not have that variable yet
       // successful variable match, the working map is added to the list only 
@@ -61,7 +65,7 @@ class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy, val sigmaDDFacto
     }
   }
 
-  def apply(sigmaDD: sigmaDDFactory.SigmaDDImpl): sigmaDDFactory.SigmaDDImpl = {
+  def apply(sigmaDD: SigmaDDImplType): SigmaDDImplType = {
     val firstListOfSubstitutions = simpleStrategy.equations.collectFirst((x: Equation) => matchSigmaDD(x.leftSide)(sigmaDD)(Map.empty, Nil) match { case Some(result) => result._2 })
     firstListOfSubstitutions match {
       case None => sigmaDD // no possible substitutions, we return the same SigmaDD
