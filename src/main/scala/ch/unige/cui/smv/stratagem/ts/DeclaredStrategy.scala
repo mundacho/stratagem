@@ -19,20 +19,6 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
     checkSyntax(body, formalParameters: _*)(ts)
   }
 
-  private def unit(checkingResult: Boolean) = {
-    (checkingResult, "")
-  }
-
-  private def lift(checkerFunction: (Strategy) => Boolean) = (x: Strategy) => unit(checkerFunction(x))
-
-  private def bind(f: Boolean => (Boolean, String)): ((Boolean, String) => (Boolean, String)) = {
-    (result: Boolean, message: String) =>
-      {
-        val (checkingResult, checkingMessage) = f(result)
-        (checkingResult && result, message + checkingMessage)
-      }
-  }
-
   /**
    * Does the dirty work for syntaxCheck.
    * @param strategy the strategy to syntax check. In the first call should be the body.

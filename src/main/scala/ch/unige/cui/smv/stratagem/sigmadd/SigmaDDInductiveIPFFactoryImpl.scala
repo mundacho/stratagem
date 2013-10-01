@@ -13,12 +13,7 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
 
   type CanonicalType = InductiveIPFImpl
 
-  /**
-   * The factory producing SigmaDDs.
-   */
-  val sigmaDDFactory:SigmaDDFactoryImpl
-
-  type SigmaDDType = sigmaDDFactory.SigmaDDImpl
+  type SigmaDDType = SigmaDDFactoryImpl.SigmaDDImpl
 
   type FromType = Map[SigmaDDType, InductiveIPFImpl]
 
@@ -35,7 +30,7 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
    */
   def create(terms:List[ATerm]):InductiveIPFImpl = terms match {
     case Nil => TopIPF
-    case x::tail => create(HashMap(sigmaDDFactory.create(x) -> create(tail)))
+    case x::tail => create(HashMap(SigmaDDFactoryImpl.create(x) -> create(tail)))
   }
   
     /**
@@ -47,7 +42,7 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
    */
   def instanciate(terms:List[ATerm], variables:Map[String, SigmaDDType]):InductiveIPFImpl = terms match {
     case Nil => TopIPF
-    case x::tail => create(HashMap(sigmaDDFactory.instantiate(x, variables) -> instanciate(tail, variables)))
+    case x::tail => create(HashMap(SigmaDDFactoryImpl.instantiate(x, variables) -> instanciate(tail, variables)))
   }
   
 

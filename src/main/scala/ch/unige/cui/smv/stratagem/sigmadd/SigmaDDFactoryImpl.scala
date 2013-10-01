@@ -10,7 +10,7 @@ import ch.unige.cui.smv.stratagem.adt.ATerm
 /**
  * This factory creates SigmaDDs.
  */
-class SigmaDDFactoryImpl extends CanonicalFactory {
+object SigmaDDFactoryImpl extends CanonicalFactory {
 
   lazy val ipfFactory = new SigmaDDIPFFactoryImpl {
     val inductiveIPFFactory = new SigmaDDInductiveIPFFactoryImpl {
