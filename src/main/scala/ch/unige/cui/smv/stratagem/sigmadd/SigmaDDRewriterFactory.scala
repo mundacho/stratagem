@@ -9,6 +9,7 @@ import ch.unige.cui.smv.stratagem.ts.Strategy
 import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Union
 import scala.collection.mutable.HashMap
+import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 
 /**
  * Represents a factory of rewriters.
@@ -28,8 +29,8 @@ object SigmaDDRewriterFactory {
     case Fail => FailRewriter
     case Identity => IdentityRewriter
     case Union(s1, s2) => new UnionRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache
-    case strategyInstance @ DeclaredStrategyInstance(name, actualParams @ _*) => new DeclaredStrategyRewriter(strategyInstance, ts)
-
+    case strategyInstance @ DeclaredStrategyInstance(name, actualParams @ _*) => new DeclaredStrategyRewriter(strategyInstance, ts) with SigmaDDRewritingCache
+    case FixPointStrategy(s) => new FixpointRewriter(strategyToRewriter(s))
   }
 
 }

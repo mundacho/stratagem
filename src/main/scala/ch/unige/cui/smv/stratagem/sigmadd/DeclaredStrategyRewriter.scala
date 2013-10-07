@@ -26,6 +26,8 @@ class DeclaredStrategyRewriter(declaredStrategy: DeclaredStrategyInstance, ts: T
 
   /**
    * We instanciate the variables of a strategy with variables.
+   * @oaram strategy the strategy that we are intanciating.
+   * @return strategy with a concrete strategy in each parameter.
    */
   private def instanciate(strategy: Strategy): Strategy = strategy match {
     case Choice(s1, s2) => Choice(instanciate(s1), instanciate(s2))
