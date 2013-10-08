@@ -52,11 +52,10 @@ private[sigmadd] class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy)
     }
   }
 
-  private def matchIIPF(terms: List[ATerm])(iipf: SigmaDDFactoryImpl.ipfFactory.InductiveIPFType)(implicit map: SubstitutionMap, listOfMaps: List[SubstitutionMap]): Option[List[SubstitutionMap]] = {
+  private def matchIIPF(terms: List[ATerm])(iipf: SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.InductiveIPFImpl)(implicit map: SubstitutionMap, listOfMaps: List[SubstitutionMap]): Option[List[SubstitutionMap]] = {
     terms match {
       case Nil => Some(map :: listOfMaps) // we finished to match, we return the map we created in the list of maps
       case headTerm :: tail => iipf match { // we still have something to match
-        case SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF => throw new IllegalStateException("Either a term or a SigmaDD is not well formed.") // the SigmaDD is not well formed
         case e: SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.InductiveIPFImpl => {
           // A pattern can span several elements of the partition formed by the key elements, so we need to collect different maps for each path
 
@@ -77,6 +76,7 @@ private[sigmadd] class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy)
             case _ => Some(listOfMapsToReturn) // finally, if the list is not empty, we return it
           }
         }
+        case _ => throw new IllegalStateException("Either a term or a SigmaDD is not well formed.") // the SigmaDD is not well formed
       }
     }
   }

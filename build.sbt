@@ -2,7 +2,7 @@ name := "stratagem"
 
 version := "0.1"
 
-scalaVersion := "2.10.1"
+scalaVersion := "2.10.2"
 
 parallelExecution in Test := false
 
@@ -14,3 +14,4 @@ testOptions in Test += Tests.Argument("-oD")
 
 testListeners <<= target.map(t => Seq(new eu.henkelmann.sbt.JUnitXmlTestsListener(t.getAbsolutePath)))
 
+org.scalastyle.sbt.ScalastylePlugin.Settings
