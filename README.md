@@ -1,3 +1,11 @@
+Requirements
+============
+
+To compile stratagem you need:
+
+- sbt 0.13
+
+
 Download binaries
 =================
 
