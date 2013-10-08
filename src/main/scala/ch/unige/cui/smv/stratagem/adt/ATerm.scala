@@ -28,7 +28,7 @@ abstract class ATerm(val adt: ADT) {
   def sort: ASort
 
   /**
-   * @returns the operation symbol for a normal term and the variable name for
+   * @return the operation symbol for a normal term and the variable name for
    * a variable.
    */
   def symbol: String

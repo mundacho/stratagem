@@ -34,7 +34,7 @@ trait LatticeElement {
   type LatticeElementType
 
   /**
-   * @retun the bottom element of the lattice.
+   * @return the bottom element of the lattice.
    */
   def bottomElement: LatticeElementType
 

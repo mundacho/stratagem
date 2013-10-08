@@ -18,12 +18,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.sigmadd
 
+import scala.language.postfixOps
+
 import ch.unige.cui.smv.stratagem.adt.ASort
+import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.util.CanonicalFactory
+import ch.unige.cui.smv.stratagem.util.Element
 import ch.unige.cui.smv.stratagem.util.LatticeElement
 import ch.unige.cui.smv.stratagem.util.OperationCache
-import ch.unige.cui.smv.stratagem.util.Element
-import ch.unige.cui.smv.stratagem.adt.ATerm
 
 /**
  * This factory creates SigmaDDs.
@@ -56,7 +58,7 @@ object SigmaDDFactoryImpl extends CanonicalFactory {
   /**
    * Creates a SigmaDD from a term.
    * @param term the input term.
-   * @variables a map mapping variable string names to SigmaDDs.
+   * @param variables a map mapping variable string names to SigmaDDs.
    * @return the SigmaDD representing the term.
    */
   def instantiate(term: ATerm, variables: Map[String, SigmaDDImpl]): SigmaDDImpl = {

@@ -27,6 +27,8 @@ import ch.unige.cui.smv.stratagem.adt.Equation
  * This class implements a SigmaDDRewriter for simple strategies.
  */
 private[sigmadd] class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy) extends SigmaDDRewriter {
+  
+  type InductiveType = SigmaDDFactoryImpl.ipfFactory.InductiveIPFType
 
   type SubstitutionMap = Map[String, SigmaDDImplType]
 
@@ -52,11 +54,11 @@ private[sigmadd] class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy)
     }
   }
 
-  private def matchIIPF(terms: List[ATerm])(iipf: SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.InductiveIPFImpl)(implicit map: SubstitutionMap, listOfMaps: List[SubstitutionMap]): Option[List[SubstitutionMap]] = {
+  private def matchIIPF(terms: List[ATerm])(iipf: InductiveType)(implicit map: SubstitutionMap, listOfMaps: List[SubstitutionMap]): Option[List[SubstitutionMap]] = {
     terms match {
       case Nil => Some(map :: listOfMaps) // we finished to match, we return the map we created in the list of maps
       case headTerm :: tail => iipf match { // we still have something to match
-        case e: SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.InductiveIPFImpl => {
+        case e : InductiveType => {
           // A pattern can span several elements of the partition formed by the key elements, so we need to collect different maps for each path
 
           // this line collects all elements of the alpha of e where the match

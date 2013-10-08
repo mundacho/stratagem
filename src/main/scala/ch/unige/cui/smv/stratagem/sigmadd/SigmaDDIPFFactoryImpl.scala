@@ -23,6 +23,7 @@ import ch.unige.cui.smv.stratagem.ipf.IPFAbstractFactory
 import ch.unige.cui.smv.stratagem.util.OperationCache
 import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
 import ch.unige.cui.smv.stratagem.util.Element
+import scala.language.postfixOps
 
 /**
  * This class implements an IPF factory to be embedded in SigmaDDs.

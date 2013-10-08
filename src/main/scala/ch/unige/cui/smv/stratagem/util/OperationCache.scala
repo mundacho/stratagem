@@ -50,7 +50,7 @@ trait OperationCache extends LatticeElement {
   /**
    * We override the standard operation to perform a meet with cache.
    * @param that the lattice element to intersect with.
-   * @retrun the intersection of this and that.
+   * @return the intersection of this and that.
    */
   abstract override def ^(that: LatticeElementType): LatticeElementType = {
     // order the parameters
@@ -60,7 +60,7 @@ trait OperationCache extends LatticeElement {
 
   /**
    * We override the standard operation to perform a difference with cache.
-   * @that is the lattice element to subtract.
+   * @param that is the lattice element to subtract.
    * @return the difference of this minus that.
    */
   abstract override def \(that: LatticeElementType): LatticeElementType = {

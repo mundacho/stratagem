@@ -20,6 +20,8 @@ package ch.unige.cui.smv.stratagem.ipf
 
 import scala.collection.immutable.HashMap
 
+import scala.language.postfixOps
+
 import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
 
 class SimpleIPFFactory extends IPFAbstractFactory {

@@ -24,6 +24,8 @@ import ch.unige.cui.smv.stratagem.util.OperationCache
 import ch.unige.cui.smv.stratagem.util.Element
 import ch.unige.cui.smv.stratagem.adt.ATerm
 
+import scala.language.postfixOps
+
 /**
  * This factory represents the tail of a SigmaDD.
  */
