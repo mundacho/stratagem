@@ -1,3 +1,21 @@
+/*
+Stratagem is a model checker for transition systems described using rewriting
+rules and strategies.
+Copyright (C) 2013 - SMV@Geneva University.
+Program written by Edmundo Lopez Bobeda <edmundo [at] lopezbobeda.net>.
+This program is free software; you can redistribute it and/or modify
+it under the  terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
 package ch.unige.cui.smv.stratagem.ipf
 
 import ch.unige.cui.smv.stratagem.util.LatticeElement
@@ -11,7 +29,7 @@ import scala.Array.canBuildFrom
 abstract class IPFAbstractFactory extends CanonicalFactory {
 
   /**
-   * IPF represents an injective partitioned function. Its main objective is to 
+   * IPF represents an injective partitioned function. Its main objective is to
    * define a mapping that represents a function (called alpha). It also defines
    *  how to combine the alphas of two or more functions to create a new IPF.
    */
@@ -39,13 +57,13 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
     def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)]
 
     /**
-     * The domain type is the type of the keys of the alpha. An element of this 
+     * The domain type is the type of the keys of the alpha. An element of this
      * type is a lattice element.
      */
     type DomainType <: LatticeElement { type LatticeElementType = DomainType }
-    
+
     /**
-     * The image type is the type of the values of the alpha. An element of this 
+     * The image type is the type of the values of the alpha. An element of this
      * type is a lattice element.
      */
     type ImageType <: LatticeElement { type LatticeElementType = ImageType }
@@ -58,7 +76,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
     override def toString = alpha.map((entry) => { entry._1 + " -> " + entry._2 }).mkString(",\n") + "\n"
 
     /**
-     * Does the union of two alphas. The result is a canonical alpha 
+     * Does the union of two alphas. The result is a canonical alpha
      * encapsulated in a HashMap.
      * @param alpha1 the first operand
      * @param alpha2 the second operand
@@ -107,14 +125,16 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
         (entry1) => {
           val (key1, tail1) = entry1
           alpha2.foreach((entry2) => {
-              val (key2, tail2) = entry2
-              val keyIntersection = key1 ^ key2
-              if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm
-                val tailIntersection = tail1 ^ tail2
-                if (tailIntersection != tail1.bottomElement)
-                  existingMappings(tailIntersection) = keyIntersection v existingMappings.getOrElse(tailIntersection, key1.bottomElement)
+            val (key2, tail2) = entry2
+            val keyIntersection = key1 ^ key2
+            if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm
+              val tailIntersection = tail1 ^ tail2
+              if (tailIntersection != tail1.bottomElement) {
+                existingMappings(tailIntersection) = keyIntersection v existingMappings.getOrElse(tailIntersection, key1.bottomElement)
               }
-            })
+
+            }
+          })
         })
       HashMap(existingMappings.toArray.map(_.swap): _*)
     }

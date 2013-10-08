@@ -1,3 +1,21 @@
+/*
+Stratagem is a model checker for transition systems described using rewriting
+rules and strategies.
+Copyright (C) 2013 - SMV@Geneva University.
+Program written by Edmundo Lopez Bobeda <edmundo [at] lopezbobeda.net>.
+This program is free software; you can redistribute it and/or modify
+it under the  terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
 package ch.unige.cui.smv.stratagem.sigmadd
 
 import ch.unige.cui.smv.stratagem.adt.ATerm
@@ -8,15 +26,14 @@ import ch.unige.cui.smv.stratagem.adt.Equation
 /**
  * This class implements a SigmaDDRewriter for simple strategies.
  */
-private [sigmadd] class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy) extends SigmaDDRewriter {
-
+private[sigmadd] class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy) extends SigmaDDRewriter {
 
   type SubstitutionMap = Map[String, SigmaDDImplType]
 
   private def matchSigmaDD(term: ATerm)(sigmaDD: SigmaDDImplType)(implicit workingMap: SubstitutionMap, listOpMaps: List[SubstitutionMap]): Option[List[SubstitutionMap]] = {
     if (term.isVariable) {
       assert(!workingMap.isDefinedAt(term.symbol)) // working map does not have that variable yet
-      // successful variable match, the working map is added to the list only 
+      // successful variable match, the working map is added to the list only
       // when we finish parsing the term, i.e. we get to Nil in the list of subterms.
       val newWorkingMap = workingMap + (term.symbol -> sigmaDD)
       Some(newWorkingMap :: listOpMaps)
@@ -25,7 +42,7 @@ private [sigmadd] class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy
       val (operationSymbol, listOfSubTerms) = ATerm.unapply(term).get
       // we find the first key in alpha s.t. the operator of the term matches
       // one of the operators in the SigmaDD, this translates to a non-empty
-      // intersection. This works because the set of keys of alpha is a 
+      // intersection. This works because the set of keys of alpha is a
       // partition
       sigmaDD.iipf.alpha.find((entry) => (entry._1 ^ StringSetWrapperFactory.create(Set(operationSymbol))) != entry._1.bottomElement) match {
         // for that key we try to match its tail
