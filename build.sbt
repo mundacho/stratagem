@@ -10,6 +10,8 @@ libraryDependencies += "org.scalatest" % "scalatest_2.10" % "2.0.M8" % "test"
 
 testOptions in Test += Tests.Argument("-oD")
 
+testOptions in Test += Tests.Argument("-u", "target/test-reports")
+
 // libraryDependencies += "org.scalatest" % "scalatest_2.10" % "1.9.2" % "test"
 
 org.scalastyle.sbt.ScalastylePlugin.Settings
