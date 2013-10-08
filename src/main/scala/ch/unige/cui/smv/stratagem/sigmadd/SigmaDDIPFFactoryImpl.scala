@@ -49,6 +49,8 @@ abstract class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
 
   def create(operator: String, iipf: InductiveIPFType): IPFImpl = create(HashMap(StringSetWrapperFactory.create(Set(operator)) -> iipf))
 
+  def create(operatorSet: StringSetWrapperFactory.StringSetWrapper, iipf: InductiveIPFType): IPFImpl = create(HashMap(operatorSet -> iipf))
+
   /**
    * This class implements an inductive injective partitioned function. It is
    * meant to encode n-ary relation of terms of a SigmaDD, i.e. the set of

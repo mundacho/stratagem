@@ -20,3 +20,5 @@ target
 .cache
 .classpath
 .project
+/.scalastyle
+.settings
