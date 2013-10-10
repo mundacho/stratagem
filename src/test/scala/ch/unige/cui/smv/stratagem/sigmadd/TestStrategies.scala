@@ -116,6 +116,10 @@ class TestStrategies extends FlatSpec {
     val repeatRewriter1 = new DeclaredStrategyRewriter(Fixpoint(Try(Choice(decBool, decOneBool))), ts)
     assert(repeatRewriter1(sigmaDDToRewrite3).get eq (SigmaDDFactoryImpl.create(falseOp) v SigmaDDFactoryImpl.create(trueOp)))
 
+    val sigmaDDToRewrite4 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(not(trueOp), falseOp)) v
+    SigmaDDFactoryImpl.create(andOp(trueOp, not(falseOp))) v SigmaDDFactoryImpl.create(not(falseOp))
+
+
   }
 
 }
