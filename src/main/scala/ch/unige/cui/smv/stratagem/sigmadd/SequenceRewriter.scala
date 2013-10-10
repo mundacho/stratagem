@@ -15,16 +15,20 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
-package ch.unige.cui.smv.stratagem.ts
+package ch.unige.cui.smv.stratagem.sigmadd
 
 /**
- * Represents an instance of a declared strategy.
- * @param name the name of the strategy. It refers to the label of the declared
- * strategy in the transition system.
- * @param actualParams the actual parameters used by this instance.
+ * Represents a rewriter for the sequence strategy.
+ *
+ * @param rewriter1 the rewriter that gets executed first.
+ * @param rewriter2 the rewriter that gets executed second.
  *
  * @author mundacho
  *
  */
-case class DeclaredStrategyInstance(name: String, actualParams: Strategy*) extends NonVariableStrategy
+class SequenceRewriter(val rewriter1: SigmaDDRewriter, val rewriter2: SigmaDDRewriter) extends SigmaDDRewriter {
+  def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = rewriter1(sigmaDD) match {
+    case None => None
+    case Some(s) => rewriter2(s)
+  }
+}

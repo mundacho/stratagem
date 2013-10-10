@@ -45,7 +45,8 @@ class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strat
   }
 
   /**
-   * Returns a transition system with a declared strategy that uses this equation.
+   * Returns a transition system with a declared strategy that uses this
+   * equation.
    * @param label the label for the equation.
    * @param equation the equation
    * @param isTransition true if the declared strategy is going to be used as a transition.
@@ -55,7 +56,8 @@ class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strat
   }
 
   /**
-   * Returns a transition system with a declared strategy that uses this equation.
+   * Returns a transition system with a declared strategy that uses this
+   * equation.
    * @param label the label for the equation.
    * @param equations the equations for the simple strategy.
    * @param isTransition true if the declared strategy is going to be used as a transition.
@@ -64,7 +66,7 @@ class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strat
     addDeclaredStrategy(DeclaredStrategy(label, SimpleStrategy(equations)))(isTransition)
   }
 
-  def addDeclaredStrategy(declaredStrategy: DeclaredStrategy)(isTransition: Boolean) = {
+  private def addDeclaredStrategy(declaredStrategy: DeclaredStrategy)(isTransition: Boolean) = {
     require(!strategyDeclarations.contains(declaredStrategy.label), "A strategy with that name is already defined in this transition system")
     val ts = new TransitionSystem(adt, initialState, strategyDeclarations + (declaredStrategy.label -> StrategyDeclaration(declaredStrategy, isTransition)))
     val (result, message) = declaredStrategy.syntaxCheck(ts)

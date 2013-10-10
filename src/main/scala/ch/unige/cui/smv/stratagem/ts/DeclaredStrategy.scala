@@ -19,7 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.ts
 
 /**
- * Represents a declared strategy.
+ * Represents a declared strategy. It knows how to check if it
+ * is syntactically correct collaborating with the TransitionSystem class.
  *
  * @param label the name of this strategy.
  * @param body a non variable strategy the body of this declared strategy.
