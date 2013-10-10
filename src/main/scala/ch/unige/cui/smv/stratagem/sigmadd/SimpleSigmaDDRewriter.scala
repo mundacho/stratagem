@@ -25,6 +25,7 @@ import ch.unige.cui.smv.stratagem.adt.Equation
 
 /**
  * This class implements a SigmaDDRewriter for simple strategies.
+ * @param simpleStrategy a strategy that will be transformed to a rewriter.
  */
 private[sigmadd] class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy) extends SigmaDDRewriter {
 
@@ -84,16 +85,13 @@ private[sigmadd] class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy)
   }
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
-    val firstListOfSubstitutions = simpleStrategy.equations.collectFirst((x: Equation) => matchSigmaDD(x.leftSide)(sigmaDD)(Map.empty, Nil) match { case Some(result) => result })
+    val firstListOfSubstitutions = simpleStrategy.equations.collectFirst((x: Equation) => matchSigmaDD(x.leftSide)(sigmaDD)(Map.empty, Nil) match { case Some(result) => (result, x) })
     firstListOfSubstitutions match {
-      case None => None // no possible substitutions, we return the same SigmaDD
-      case Some(listOfSubstitutions) => {
+      case None => None // no possible substitutions, we return None to indicate failure
+      case Some((listOfSubstitutions, equation)) => {
         var sigmaDDToRemove = sigmaDD.bottomElement
         var sigmaDDToAdd = sigmaDD.bottomElement
-        for (
-          equation <- simpleStrategy.equations;
-          substitution <- listOfSubstitutions
-        ) {
+        for (substitution <- listOfSubstitutions) {
           sigmaDDToRemove = sigmaDDToRemove v SigmaDDFactoryImpl.instantiate(equation.leftSide, substitution)
           sigmaDDToAdd = sigmaDDToAdd v SigmaDDFactoryImpl.instantiate(equation.rightSide, substitution)
         }

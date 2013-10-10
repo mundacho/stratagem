@@ -43,7 +43,10 @@ class OneRewriter(val rewriter: SigmaDDRewriter) extends SigmaDDRewriter {
       val (sigmaDD, nextIIPF) = entry
       rewriter(sigmaDD) match {
         case Some(s) => (SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(s -> nextIIPF)), true)
-        case None => applyOneRewriterOnIIPF(nextIIPF)
+        case None => {
+          val res = applyOneRewriterOnIIPF(nextIIPF)
+          (SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(sigmaDD -> res._1)), res._2)
+        }
       }
     }).reduce((pair1, pair2) => (pair1._1 v pair2._1, pair1._2 || pair2._2))
   }
