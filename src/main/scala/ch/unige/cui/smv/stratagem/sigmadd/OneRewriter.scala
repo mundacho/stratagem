@@ -29,7 +29,7 @@ class OneRewriter(val rewriter: SigmaDDRewriter) extends SigmaDDRewriter {
       {
         val (key, inductiveIPF) = entry
         val rewritingResult = applyOneRewriterOnIIPF(inductiveIPF)
-        (SigmaDDFactoryImpl.create((sigmaDD.sort, SigmaDDFactoryImpl.ipfFactory.create(key, rewritingResult._1))), true)
+        (SigmaDDFactoryImpl.create((sigmaDD.sort, SigmaDDFactoryImpl.ipfFactory.create(key, rewritingResult._1))), rewritingResult._2)
       }).reduce((pair1, pair2) => (pair1._1 v pair2._1, pair1._2 || pair2._2))
     resultPair match {
       case (_, false) => None

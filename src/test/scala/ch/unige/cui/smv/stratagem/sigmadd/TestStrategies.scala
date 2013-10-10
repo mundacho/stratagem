@@ -62,8 +62,21 @@ class TestStrategies extends FlatSpec {
 
   "OneStrategyRewriter" should "be able to rewrite simple booleans" in {
     val oneRewriter = new OneRewriter(booleanRewriter)
-    val sigmaDDToRewrite = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, not(falseOp)))
-    val rewrittenSigmaDD = oneRewriter(sigmaDDToRewrite).get
-    assert(rewrittenSigmaDD eq (SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, trueOp))))
+
+    val sigmaDDToRewrite1 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, not(falseOp)))
+    val rewrittenSigmaDD1 = oneRewriter(sigmaDDToRewrite1).get
+    assert(rewrittenSigmaDD1 eq (SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, trueOp))))
+
+    val sigmaDDToRewrite2 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, not(trueOp))) v SigmaDDFactoryImpl.create(andOp(trueOp, not(falseOp)))
+    val rewrittenSigmaDD2 = oneRewriter(sigmaDDToRewrite2).get
+    assert(rewrittenSigmaDD2 eq (SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, not(falseOp)))))
+
+    val sigmaDDToRewrite3 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(not(trueOp), falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, not(trueOp)))
+    val rewrittenSigmaDD3 = oneRewriter(sigmaDDToRewrite3).get
+    assert(rewrittenSigmaDD3 eq (SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(falseOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp))))
+
+    val sigmaDDToRewrite4 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(falseOp, trueOp))
+    val rewrittenSigmaDD4 = oneRewriter(sigmaDDToRewrite4)
+    assert(rewrittenSigmaDD4 == None)
   }
 }
