@@ -34,7 +34,7 @@ object SigmaDDFactoryImpl extends CanonicalFactory {
 
   lazy val ipfFactory = new SigmaDDIPFFactoryImpl {
     val inductiveIPFFactory = new SigmaDDInductiveIPFFactoryImpl {
-      val sigmaDDFactory: SigmaDDFactoryImpl.this.type = SigmaDDFactoryImpl.this
+      val sigmaDDFactory = SigmaDDFactoryImpl
     }
   }
   type CanonicalType = SigmaDDImpl
