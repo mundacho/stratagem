@@ -39,6 +39,7 @@ class OneRewriter(val rewriter: SigmaDDRewriter) extends SigmaDDRewriter {
   }
 
   def applyOneRewriterOnIIPF(iipf: InductiveIPF): (InductiveIPF, Boolean) = iipf match {
+   case SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF => (SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF, false) // could not rewrite here
     case e: InductiveIPF => e.alpha.map((entry) => {
       val (sigmaDD, nextIIPF) = entry
       rewriter(sigmaDD) match {
@@ -49,7 +50,6 @@ class OneRewriter(val rewriter: SigmaDDRewriter) extends SigmaDDRewriter {
         }
       }
     }).reduce((pair1, pair2) => (pair1._1 v pair2._1, pair1._2 || pair2._2))
-    case _ => (top, false) // could not rewrite here
   }
 
 }
