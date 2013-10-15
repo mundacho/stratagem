@@ -33,6 +33,7 @@ import ch.unige.cui.smv.stratagem.ts.Identity
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.ts.Try
 
 class DeclaredStrategyRewriter(declaredStrategy: DeclaredStrategyInstance, ts: TransitionSystem) extends SigmaDDRewriter {
 
@@ -49,6 +50,7 @@ class DeclaredStrategyRewriter(declaredStrategy: DeclaredStrategyInstance, ts: T
    */
   private def instanciate(strategy: Strategy): Strategy = strategy match {
     case Choice(s1, s2) => Choice(instanciate(s1), instanciate(s2))
+    case Try(s) => instanciate(Choice(s, Identity))
     case Fail => Fail
     case Identity => Identity
     case One(s) => One(instanciate(s))

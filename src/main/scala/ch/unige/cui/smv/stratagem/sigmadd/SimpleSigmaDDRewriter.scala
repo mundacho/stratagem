@@ -95,7 +95,7 @@ private[sigmadd] class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy)
           sigmaDDToRemove = sigmaDDToRemove v SigmaDDFactoryImpl.instantiate(equation.leftSide, substitution)
           sigmaDDToAdd = sigmaDDToAdd v SigmaDDFactoryImpl.instantiate(equation.rightSide, substitution)
         }
-        Some((sigmaDD \ sigmaDDToRemove) v sigmaDDToAdd)
+        Some(sigmaDDToAdd)
       }
     }
   }

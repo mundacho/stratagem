@@ -89,6 +89,8 @@ object SigmaDDFactoryImpl extends CanonicalFactory {
 
     override val hashCode = (sort, iipf) ##
 
+    lazy val size = iipf.size
+
     override def equals(that: Any) = that match {
       case o: SigmaDDImpl => (o eq this) || (ASort.findCommonParent(this.sort, o.sort) != None && this.iipf == o.iipf)
       case _ => false

@@ -18,7 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.sigmadd
 
-import ch.unige.cui.smv.stratagem.ts.Choice
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.Fail
 import ch.unige.cui.smv.stratagem.ts.Identity
@@ -30,13 +29,15 @@ import scala.collection.mutable.HashMap
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.One
 import ch.unige.cui.smv.stratagem.ts.Sequence
-
+import ch.unige.cui.smv.stratagem.ts.Try
+import ch.unige.cui.smv.stratagem.ts.Choice
+import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 /**
  * Represents a factory of rewriters.
  */
 object SigmaDDRewriterFactory {
 
-  private val rewriterCache = HashMap[(Class[_ <: SimpleSigmaDDRewriter], Array[SigmaDDRewriter]), SigmaDDRewriter]()
+  private val rewriterCache = HashMap[String, SigmaDDRewriter]()
 
   /**
    * Transforms a strategy to a SigmaDD rewriter.
@@ -44,15 +45,23 @@ object SigmaDDRewriterFactory {
    * @param ts the transition system in which the strategies are (it is necessary to obtain the declarations of the strategies)
    */
   def strategyToRewriter(s: Strategy)(implicit ts: TransitionSystem): SigmaDDRewriter = s match {
-    case st: SimpleStrategy => new SimpleSigmaDDRewriter(st) with SigmaDDRewritingCache
-    case Choice(s1, s2) => new ChoiceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache
+    case st: SimpleStrategy => rewriterCache.getOrElseUpdate(st.toString, new SimpleSigmaDDRewriter(st) with SigmaDDRewritingCache)
+    case st @ Choice(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new ChoiceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
     case Fail => FailRewriter
     case Identity => IdentityRewriter
-    case Union(s1, s2) => new UnionRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache
+    case st @ Union(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new UnionRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
     case strategyInstance @ DeclaredStrategyInstance(name, actualParams @ _*) => new DeclaredStrategyRewriter(strategyInstance, ts) with SigmaDDRewritingCache
-    case One(s1) => new OneRewriter(strategyToRewriter(s1)) with SigmaDDRewritingCache
-    case FixPointStrategy(s) => new FixpointRewriter(strategyToRewriter(s))
-    case Sequence(s1, s2) => new SequenceRewriter(strategyToRewriter(s1), strategyToRewriter(s2))
+    case st @ One(s1) => rewriterCache.getOrElseUpdate(st.toString, new OneRewriter(strategyToRewriter(s1)) with SigmaDDRewritingCache)
+    case st @ FixPointStrategy(s) => rewriterCache.getOrElseUpdate(st.toString, new FixpointRewriter(strategyToRewriter(s)) with SigmaDDRewritingCache)
+    case st @ Sequence(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new SequenceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
+    case st @ Try(s1) => rewriterCache.getOrElseUpdate(st.toString, strategyToRewriter(Choice(s1, Identity)))
   }
+
+  /**
+   *
+   */
+  def transitionSystemToStateSpaceRewriter(ts: TransitionSystem): SigmaDDRewriter =
+    strategyToRewriter(FixPointStrategy(
+      Union(Identity, ts.strategyDeclarations.filter(_._2.isTransition).map(_._2.declaredStrategy.body).reduce((s1: Strategy, s2: Strategy) => Union(Try(s1), Try(s2))))))(ts)
 
 }

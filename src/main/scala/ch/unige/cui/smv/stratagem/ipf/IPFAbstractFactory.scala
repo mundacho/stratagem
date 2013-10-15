@@ -40,6 +40,11 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
     override def equals(obj: Any): Boolean = throw new NotImplementedError("All subclasses of " + this.getClass().getName() + " should implement equals")
 
     /**
+     * The number of elements encoded in this IPF.
+     */
+    val size:Int
+
+    /**
      * The type of the domain elements of this IPF. When seeing this IPF as
      * a binary relation, it is the type of the first entry.
      */

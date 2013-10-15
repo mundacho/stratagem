@@ -52,6 +52,8 @@ class SimpleIPFFactory extends IPFAbstractFactory {
     type DomainTypeElt = String
     type ImageTypeElt = String
 
+    val size = throw new NotImplementedError
+
     override val hashCode = alpha ##
 
     def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)] = for (

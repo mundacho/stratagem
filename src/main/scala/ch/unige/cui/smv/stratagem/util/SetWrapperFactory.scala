@@ -41,6 +41,8 @@ abstract class SetWrapperFactory extends CanonicalFactory {
    */
   abstract class SetWrapper(val set: Set[T]) extends LatticeElement {
 
+    val size: Int
+
     type LatticeElementType = CanonicalType
 
     override def hashCode: Int = throw new NotImplementedError("All subclasses of" + this.getClass().getName() + " should implement hashcode")
@@ -76,6 +78,8 @@ object StringSetWrapperFactory extends SetWrapperFactory with SynchronizedCache 
 
     override val hashCode = set.hashCode
 
+    val size = set.size
+
     override def equals(obj: Any) = obj match {
       case o: StringSetWrapper => (o eq this) || o.set == this.set
       case _ => false
@@ -90,7 +94,7 @@ object StringSetWrapperFactory extends SetWrapperFactory with SynchronizedCache 
     def bottomElement = create(Set.empty)
   }
 
-  def makeFrom(set: AnyRef) = new StringSetWrapper(set.asInstanceOf[Set[String]])
+  def makeFrom(set: AnyRef) = new StringSetWrapper(set.asInstanceOf[Set[String]]) with OperationCache
 
 }
 
