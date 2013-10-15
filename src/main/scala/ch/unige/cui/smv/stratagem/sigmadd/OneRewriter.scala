@@ -21,8 +21,8 @@ package ch.unige.cui.smv.stratagem.sigmadd
 import scala.collection.immutable.HashMap
 
 private[sigmadd] case class OneRewriter(rewriter: SigmaDDRewriter) extends SigmaDDRewriter {
-  
-    override lazy val toString = "OneRewriter(" + rewriter.toString + ")"
+
+  override lazy val toString = "OneRewriter(" + rewriter.toString + ")"
 
   override lazy val hashCode = (this.getClass(), rewriter).hashCode
 

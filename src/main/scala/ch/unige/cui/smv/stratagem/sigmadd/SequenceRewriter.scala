@@ -32,7 +32,6 @@ private[sigmadd] case class SequenceRewriter(rewriter1: SigmaDDRewriter, rewrite
 
   override lazy val toString = "SequenceRewriter(" + rewriter1.toString + ", " + rewriter2.toString + ")"
 
-  
   override def equals(obj: Any): Boolean = obj match {
     case that @ SequenceRewriter(r1, r2) => (this eq that) || ((rewriter1 == r1) && (rewriter2 == r2))
     case _ => false

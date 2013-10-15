@@ -26,7 +26,7 @@ package ch.unige.cui.smv.stratagem.sigmadd
 private[sigmadd] case class ChoiceRewriter(rewriter1: SigmaDDRewriter, rewriter2: SigmaDDRewriter) extends SigmaDDRewriter {
 
   override lazy val hashCode = (this.getClass(), rewriter1, rewriter2).hashCode
-  
+
   override lazy val toString = "ChoiceRewriter(" + rewriter1.toString + ", " + rewriter2.toString + ")"
 
   override def equals(obj: Any): Boolean = obj match {
