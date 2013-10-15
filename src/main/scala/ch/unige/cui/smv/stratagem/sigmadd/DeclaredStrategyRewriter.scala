@@ -35,7 +35,16 @@ import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.Try
 
-class DeclaredStrategyRewriter(declaredStrategy: DeclaredStrategyInstance, ts: TransitionSystem) extends SigmaDDRewriter {
+private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredStrategyInstance, ts: TransitionSystem) extends SigmaDDRewriter {
+
+  override lazy val toString = "DeclaredStrategyRewriter(" + declaredStrategy.toString + ")"
+
+  override lazy val hashCode = (this.getClass(), declaredStrategy, ts).hashCode
+
+  override def equals(obj: Any): Boolean = obj match {
+    case that @ DeclaredStrategyRewriter(decStrat, transSys) => (this eq that) || ((declaredStrategy == decStrat) && (ts == transSys))
+    case _ => false
+  }
 
   lazy val formalToActualParameterMap = Map((ts.strategyDeclarations(declaredStrategy.name).declaredStrategy.formalParameters zip declaredStrategy.actualParams).toArray: _*)
 

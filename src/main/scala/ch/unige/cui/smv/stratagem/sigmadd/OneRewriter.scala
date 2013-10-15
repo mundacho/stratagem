@@ -20,10 +20,19 @@ package ch.unige.cui.smv.stratagem.sigmadd
 
 import scala.collection.immutable.HashMap
 
-class OneRewriter(val rewriter: SigmaDDRewriter) extends SigmaDDRewriter {
+private[sigmadd] case class OneRewriter(rewriter: SigmaDDRewriter) extends SigmaDDRewriter {
+  
+    override lazy val toString = "OneRewriter(" + rewriter.toString + ")"
+
+  override lazy val hashCode = (this.getClass(), rewriter).hashCode
+
+  override def equals(obj: Any): Boolean = obj match {
+    case that @ OneRewriter(r) => (this eq that) || (rewriter == r)
+    case _ => false
+  }
 
   type InductiveIPF = SigmaDDFactoryImpl.ipfFactory.InductiveIPFType
-  val top:SigmaDDFactoryImpl.ipfFactory.InductiveIPFType = SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF
+  val top: SigmaDDFactoryImpl.ipfFactory.InductiveIPFType = SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
     val resultPair = sigmaDD.iipf.alpha.map((entry) =>
@@ -39,7 +48,7 @@ class OneRewriter(val rewriter: SigmaDDRewriter) extends SigmaDDRewriter {
   }
 
   def applyOneRewriterOnIIPF(iipf: InductiveIPF): (InductiveIPF, Boolean) = iipf match {
-   case SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF => (SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF, false) // could not rewrite here
+    case SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF => (SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF, false) // could not rewrite here
     case e: InductiveIPF => e.alpha.map((entry) => {
       val (sigmaDD, nextIIPF) = entry
       rewriter(sigmaDD) match {

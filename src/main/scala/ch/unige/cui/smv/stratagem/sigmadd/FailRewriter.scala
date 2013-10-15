@@ -21,6 +21,13 @@ package ch.unige.cui.smv.stratagem.sigmadd
 /**
  * Implements the fail strategy. Always fails.
  */
-object FailRewriter extends SigmaDDRewriter {
+private[sigmadd] case object FailRewriter extends SigmaDDRewriter {
+  override lazy val hashCode = this.getClass().hashCode
+
+  override def equals(obj: Any): Boolean = obj match {
+    case that @ AnyRef => (this eq that)
+    case _ => false
+  }
+
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = None
 }

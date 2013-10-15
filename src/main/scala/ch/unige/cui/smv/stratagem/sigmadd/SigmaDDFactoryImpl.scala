@@ -87,7 +87,7 @@ object SigmaDDFactoryImpl extends CanonicalFactory {
     val iipf: IPFType) extends LatticeElement {
     type LatticeElementType = SigmaDDImpl
 
-    override val hashCode = (sort, iipf) ##
+    override lazy val hashCode = (sort, iipf) ##
 
     lazy val size = iipf.size
 

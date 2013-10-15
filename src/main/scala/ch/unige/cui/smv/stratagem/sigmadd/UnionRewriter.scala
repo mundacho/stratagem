@@ -23,7 +23,16 @@ package ch.unige.cui.smv.stratagem.sigmadd
  * @param rewriter1 represents one strategy (in rewriter form) of the original union strategy.
  * @param rewriter2 represents one strategy (in rewriter form) of the original union strategy.
  */
-class UnionRewriter(rewriter1: SigmaDDRewriter, rewriter2: SigmaDDRewriter) extends SigmaDDRewriter {
+case class UnionRewriter(rewriter1: SigmaDDRewriter, rewriter2: SigmaDDRewriter) extends SigmaDDRewriter {
+
+  override lazy val hashCode = (this.getClass(), rewriter1, rewriter2).hashCode
+
+  override lazy val toString = "UnionRewriter(" + rewriter1.toString + ", " + rewriter2.toString + ")"
+
+  override def equals(obj: Any): Boolean = obj match {
+    case that @ UnionRewriter(r1, r2) => (this eq that) || ((rewriter1 == r1) && (rewriter2 == r2))
+    case _ => false
+  }
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = rewriter1(sigmaDD) match {
     case None => None

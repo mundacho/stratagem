@@ -24,16 +24,28 @@ import scala.collection.mutable.HashMap
  * This class should be used as a mixin.
  */
 trait SigmaDDRewritingCache extends SigmaDDRewriter {
-  /**
-   * A map where we keep our cache.
-   */
-  val operationCache = new HashMap[(Class[_ <: SigmaDDRewriter], SigmaDDImplType), Option[SigmaDDImplType]]
 
   /**
    * This function adds cache functionality to the SigmaDD rewriter.
    */
   abstract override def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
-    operationCache.getOrElseUpdate((this.getClass(), sigmaDD), super.apply(sigmaDD))
+    if (SigmaDDRewritingCache.operationCache.isDefinedAt((this.toString, sigmaDD))) {
+      SigmaDDRewritingCache.counter = SigmaDDRewritingCache.counter + 1
+    }
+    SigmaDDRewritingCache.totalCounter = SigmaDDRewritingCache.totalCounter + 1
+    SigmaDDRewritingCache.operationCache.getOrElseUpdate((this.toString, sigmaDD), super.apply(sigmaDD))
   }
+
+}
+
+object SigmaDDRewritingCache {
+
+  var counter = 0
+  var totalCounter = 0
+
+  /**
+   * A map where we keep our cache.
+   */
+  val operationCache = new HashMap[(String, SigmaDDFactoryImpl.SigmaDDImpl), Option[SigmaDDFactoryImpl.SigmaDDImpl]]
 
 }

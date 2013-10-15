@@ -91,7 +91,7 @@ class StateSpaceGenerationTest extends FlatSpec {
     auxGenerate(n)
   }
 
-  val ts = (new TransitionSystem(adt, generateInitialState(6)))
+  val ts = (new TransitionSystem(adt, generateInitialState(7)))
     .declareStrategy("doForAllPhil", V) { Union(V, Choice(One(DoForAllPhils(V)), Identity)) }(false)
     .declareStrategy("doForLastPhil", V) { Choice(One(DoForLastPhil(V)), V) }(false)
     .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
@@ -109,12 +109,15 @@ class StateSpaceGenerationTest extends FlatSpec {
     .declareStrategy("takeLeftForkWaitingPhilo1", philo(waiting, F, P) -> philo(waitingForRightFork, F, P))(false)
     .declareStrategy("takeRightFork", philo(S, forkFree, P) -> philo(S, forkUsed, P))(false)
     .declareStrategy("takeLeftForkFromWaitingPhilo1") { Sequence(DeclaredStrategyInstance("takeLeftForkWaitingPhilo1"), DoForLastPhil(DeclaredStrategyInstance("takeRightFork"))) }(true)
-  // there are some rules missing, but the state space is the same size. 
+  // there are some rules missing, but the state space is the same size.
   // We intentionally omit the rules to make the first philosopher go to eat after taking the right fork and also the rule to make him go back to eat.
 
   "DeclaredStrategies" should "allow to generate the state space for the philosophers problem" in {
     val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
     println(rewriter(SigmaDDFactoryImpl.create(ts.initialState)).get.size)
+    println("Total cache hits: " + SigmaDDRewritingCache.counter)
+    println("Total rewrites: " + SigmaDDRewritingCache.totalCounter)
+    println("Cache hits to rewrites ratio: " + 100 * SigmaDDRewritingCache.counter / SigmaDDRewritingCache.totalCounter + "%")
     //assert(rewriter(SigmaDDFactoryImpl.create(ts.initialState)).get.size == 76)
   }
 }

@@ -22,6 +22,11 @@ package ch.unige.cui.smv.stratagem.sigmadd
  * The parent class of all SigmaDD rewriters.
  */
 abstract class SigmaDDRewriter {
+
+  override def hashCode: Int = throw new NotImplementedError("All subclasses of" + this.getClass().getName() + " should implement hashcode")
+
+  override def equals(obj: Any): Boolean = throw new NotImplementedError("All subclasses of " + this.getClass().getName() + " should implement equals")
+
   /**
    * An alias for the type of the rewriting type.
    */

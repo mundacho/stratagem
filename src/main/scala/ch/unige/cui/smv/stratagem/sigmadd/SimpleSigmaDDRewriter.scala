@@ -27,7 +27,16 @@ import ch.unige.cui.smv.stratagem.adt.Equation
  * This class implements a SigmaDDRewriter for simple strategies.
  * @param simpleStrategy a strategy that will be transformed to a rewriter.
  */
-private[sigmadd] class SimpleSigmaDDRewriter(val simpleStrategy: SimpleStrategy) extends SigmaDDRewriter {
+private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy) extends SigmaDDRewriter {
+
+  override lazy val toString = "SimpleSigmaDDRewriter(" + simpleStrategy.toString + ")"
+
+  override lazy val hashCode = (this.getClass(), simpleStrategy).hashCode
+
+  override def equals(obj: Any): Boolean = obj match {
+    case that @ SimpleSigmaDDRewriter(strat) => (this eq that) || (simpleStrategy == strat)
+    case _ => false
+  }
 
   type InductiveType = SigmaDDFactoryImpl.ipfFactory.InductiveIPFType
 

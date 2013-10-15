@@ -37,7 +37,7 @@ import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
  */
 object SigmaDDRewriterFactory {
 
-  private val rewriterCache = HashMap[String, SigmaDDRewriter]()
+  private val rewriterCache = scala.collection.mutable.Map[String, SigmaDDRewriter]()
 
   /**
    * Transforms a strategy to a SigmaDD rewriter.

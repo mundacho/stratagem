@@ -26,7 +26,18 @@ package ch.unige.cui.smv.stratagem.sigmadd
  * @author mundacho
  *
  */
-class SequenceRewriter(val rewriter1: SigmaDDRewriter, val rewriter2: SigmaDDRewriter) extends SigmaDDRewriter {
+private[sigmadd] case class SequenceRewriter(rewriter1: SigmaDDRewriter, rewriter2: SigmaDDRewriter) extends SigmaDDRewriter {
+
+  override lazy val hashCode = (this.getClass(), rewriter1, rewriter2).hashCode
+
+  override lazy val toString = "SequenceRewriter(" + rewriter1.toString + ", " + rewriter2.toString + ")"
+
+  
+  override def equals(obj: Any): Boolean = obj match {
+    case that @ SequenceRewriter(r1, r2) => (this eq that) || ((rewriter1 == r1) && (rewriter2 == r2))
+    case _ => false
+  }
+
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = rewriter1(sigmaDD) match {
     case None => None
     case Some(s) => rewriter2(s)

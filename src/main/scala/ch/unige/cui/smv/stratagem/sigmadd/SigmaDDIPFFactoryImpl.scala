@@ -66,7 +66,7 @@ abstract class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
     type DomainTypeElt = String
     type ImageTypeElt = String
 
-    override val hashCode = alpha ##
+    override lazy val hashCode = alpha ##
 
     lazy val size: Int = alpha.map((e) => e._1.size * e._2.size).reduce(_ + _)
 

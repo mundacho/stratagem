@@ -23,7 +23,16 @@ package ch.unige.cui.smv.stratagem.sigmadd
  * @param rewriter1 is the rewriter created by the first strategy of the original choice strategy.
  * @param rewriter2 is the rewriter created by the second strategy of the original choice strategy.
  */
-class ChoiceRewriter(rewriter1: SigmaDDRewriter, rewriter2: SigmaDDRewriter) extends SigmaDDRewriter {
+private[sigmadd] case class ChoiceRewriter(rewriter1: SigmaDDRewriter, rewriter2: SigmaDDRewriter) extends SigmaDDRewriter {
+
+  override lazy val hashCode = (this.getClass(), rewriter1, rewriter2).hashCode
+  
+  override lazy val toString = "ChoiceRewriter(" + rewriter1.toString + ", " + rewriter2.toString + ")"
+
+  override def equals(obj: Any): Boolean = obj match {
+    case that @ ChoiceRewriter(r1, r2) => (this eq that) || ((rewriter1 == r1) && (rewriter2 == r2))
+    case _ => false
+  }
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = rewriter1(sigmaDD) match {
     case None => rewriter2(sigmaDD)

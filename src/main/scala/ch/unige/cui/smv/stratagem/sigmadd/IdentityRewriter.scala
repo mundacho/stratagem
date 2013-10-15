@@ -21,6 +21,13 @@ package ch.unige.cui.smv.stratagem.sigmadd
 /**
  * Implements the identity strategy. Always return the identity.
  */
-object IdentityRewriter extends SigmaDDRewriter {
+private[sigmadd] object IdentityRewriter extends SigmaDDRewriter {
+  override lazy val hashCode = this.getClass().hashCode
+
+  override def equals(obj: Any): Boolean = obj match {
+    case that @ AnyRef => (this eq that)
+    case _ => false
+  }
+
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = Some(sigmaDD)
 }
