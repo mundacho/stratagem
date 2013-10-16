@@ -89,10 +89,10 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
     def alphaUnion(alpha1: Map[DomainType, ImageType], alpha2: Map[DomainType, ImageType]): Map[DomainType, ImageType] = {
       val W = squareUnion(alpha1, alpha2)
       val result = new scala.collection.mutable.HashMap[DomainType, ImageType]
+      val existingMappings = new scala.collection.mutable.HashMap[ImageType, DomainType] // keeps a log of elements with a mapping
       W.foreach(
         (entry1) => {
           val (tail1, key1) = entry1
-          val existingMappings = new scala.collection.mutable.HashMap[ImageType, DomainType] // keeps a log of elements with a mapping
           var keyFromRemoving = key1
           W.view.filter(_ != entry1) // first we filter out the entry itself
             .foreach((entry2) => {
@@ -124,7 +124,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
                 result(keyFromRemoving) = tail1
                 existingMappings(tail1) = keyFromRemoving
             }
-            result(keyFromRemoving v existingMappings.getOrElse(tail1, key1.bottomElement)) = tail1
+            //            result(keyFromRemoving v existingMappings.getOrElse(tail1, key1.bottomElement)) = tail1
           }
         })
       HashMap(result.toArray: _*)
