@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.sigmadd
 
-private[sigmadd] case class FixpointRewriter(val rewriter: SigmaDDRewriter) extends SigmaDDRewriter {
+private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter) extends SigmaDDRewriter {
 
   override lazy val hashCode = (this.getClass(), rewriter).hashCode
 
@@ -34,7 +34,7 @@ private[sigmadd] case class FixpointRewriter(val rewriter: SigmaDDRewriter) exte
     if (result == None) { None } // no fixpoint
     else {
       var newResult = rewriter(result.get)
-      while ((newResult != None) && (result ne newResult)) {
+      while ((newResult != None) && (result.get ne newResult.get)) {
         result = newResult
         newResult = rewriter(result.get)
       }

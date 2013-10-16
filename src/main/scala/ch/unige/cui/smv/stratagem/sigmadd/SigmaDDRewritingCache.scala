@@ -24,28 +24,35 @@ import scala.collection.mutable.HashMap
  * This class should be used as a mixin.
  */
 trait SigmaDDRewritingCache extends SigmaDDRewriter {
+  /**
+   * A map where we keep our cache.
+   */
+  val operationCache = new HashMap[SigmaDDFactoryImpl.SigmaDDImpl, Option[SigmaDDFactoryImpl.SigmaDDImpl]]
 
   /**
    * This function adds cache functionality to the SigmaDD rewriter.
    */
   abstract override def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
-    if (SigmaDDRewritingCache.operationCache.isDefinedAt((this.toString, sigmaDD))) {
-      SigmaDDRewritingCache.counter = SigmaDDRewritingCache.counter + 1
+    if (operationCache.isDefinedAt(sigmaDD)) {
+      SigmaDDRewritingCacheStats.hitCounter = SigmaDDRewritingCacheStats.hitCounter + 1
     }
-    SigmaDDRewritingCache.totalCounter = SigmaDDRewritingCache.totalCounter + 1
-    SigmaDDRewritingCache.operationCache.getOrElseUpdate((this.toString, sigmaDD), super.apply(sigmaDD))
+    SigmaDDRewritingCacheStats.callsCounter = SigmaDDRewritingCacheStats.callsCounter + 1
+    operationCache.getOrElseUpdate(sigmaDD, super.apply(sigmaDD))
   }
 
 }
 
-object SigmaDDRewritingCache {
+/**
+ * This object keeps track of cache hits.
+ */
+object SigmaDDRewritingCacheStats {
 
-  var counter = 0
-  var totalCounter = 0
+  var callsCounter = 0
+  var hitCounter = 0
 
   /**
-   * A map where we keep our cache.
+   * Resets the counters.
    */
-  val operationCache = new HashMap[(String, SigmaDDFactoryImpl.SigmaDDImpl), Option[SigmaDDFactoryImpl.SigmaDDImpl]]
+  def resetCounters { callsCounter = 0; hitCounter = 0 }
 
 }

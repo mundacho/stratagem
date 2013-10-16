@@ -42,7 +42,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
     /**
      * The number of elements encoded in this IPF.
      */
-    val size: Int
+    val size: Long
 
     /**
      * The type of the domain elements of this IPF. When seeing this IPF as

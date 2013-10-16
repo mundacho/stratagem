@@ -78,7 +78,7 @@ object StringSetWrapperFactory extends SetWrapperFactory with SynchronizedCache 
 
     override val hashCode = set.hashCode
 
-    val size = set.size
+    lazy val size = set.size
 
     override def equals(obj: Any) = obj match {
       case o: StringSetWrapper => (o eq this) || o.set == this.set

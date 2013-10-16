@@ -81,7 +81,7 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
 
     override lazy val hashCode = alpha ##
 
-    lazy val size: Int = alpha.map((e) => e._1.size * e._2.size).reduce(_ + _)
+    lazy val size: Long = alpha.map((e) => e._1.size * e._2.size).reduce(_ + _)
 
     def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)] = throw new NotImplementedError
 
@@ -120,7 +120,7 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
 
     override def toString = "[1]"
 
-    override lazy val size = 1
+    override lazy val size = 1L
 
     override def v(that: InductiveIPFImpl): InductiveIPFImpl = TopIPF
 

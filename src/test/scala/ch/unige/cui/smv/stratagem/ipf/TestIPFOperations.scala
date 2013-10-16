@@ -49,6 +49,14 @@ class TestIPFOperations extends FlatSpec with BeforeAndAfter {
     assert(f eq g)
   }
 
+  "The union of IPFs" should "allow to join the same thing" in {
+    val ipfs1 = factory.create("1", "1")
+
+    val ipfs2 = factory.create("1", "1")
+
+    assert((ipfs1 v ipfs2) eq ipfs1)
+  }
+
   it should "be equal to the union of the binary relations they represent" in {
     val ipfs1 = List(factory.create("1", "1"),
       factory.create("2", "3"),

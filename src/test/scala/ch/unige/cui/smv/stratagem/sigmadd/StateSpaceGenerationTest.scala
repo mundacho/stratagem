@@ -31,7 +31,7 @@ import ch.unige.cui.smv.stratagem.ts.Strategy
 import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-
+// scalastyle:off regex
 /**
  * Tests the generation of the state space.
  * @author mundacho
@@ -43,6 +43,7 @@ class StateSpaceGenerationTest extends FlatSpec {
     .withSort("ph")
     .withSort("state")
     .withSort("fork")
+    .withSort("cluster")
     .withGenerator("eating", "state")
     .withGenerator("thinking", "state")
     .withGenerator("waiting", "state")
@@ -52,6 +53,7 @@ class StateSpaceGenerationTest extends FlatSpec {
     .withGenerator("forkFree", "fork")
     .withGenerator("emptytable", "ph")
     .withGenerator("philo", "ph", "state", "fork", "ph")
+    .withGenerator("c", "cluster", "ph", "cluster")
 
   val adt = new ADT("philoModel", signature)
     .declareVariable("x", "fork")
@@ -91,7 +93,9 @@ class StateSpaceGenerationTest extends FlatSpec {
     auxGenerate(n)
   }
 
-  val ts = (new TransitionSystem(adt, generateInitialState(7)))
+  val numberOfPhilosophers = 3
+
+  val ts = (new TransitionSystem(adt, generateInitialState(numberOfPhilosophers)))
     .declareStrategy("doForAllPhil", V) { Union(V, Choice(One(DoForAllPhils(V)), Identity)) }(false)
     .declareStrategy("doForLastPhil", V) { Choice(One(DoForLastPhil(V)), V) }(false)
     .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
@@ -112,12 +116,48 @@ class StateSpaceGenerationTest extends FlatSpec {
   // there are some rules missing, but the state space is the same size.
   // We intentionally omit the rules to make the first philosopher go to eat after taking the right fork and also the rule to make him go back to eat.
 
-  "DeclaredStrategies" should "allow to generate the state space for the philosophers problem" in {
-    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    println(rewriter(SigmaDDFactoryImpl.create(ts.initialState)).get.size)
-    println("Total cache hits: " + SigmaDDRewritingCache.counter)
-    println("Total rewrites: " + SigmaDDRewritingCache.totalCounter)
-    println("Cache hits to rewrites ratio: " + 100 * SigmaDDRewritingCache.counter / SigmaDDRewritingCache.totalCounter + "%")
-    //assert(rewriter(SigmaDDFactoryImpl.create(ts.initialState)).get.size == 76)
+  def time[R](block: => R): R = {
+    val t0 = System.nanoTime()
+    val result = block // call-by-name
+    val t1 = System.nanoTime()
+    println("Elapsed time: " + (t1 - t0) * 1.0e-9 + "[seconds]")
+    result
   }
+
+  def stats[R](block: => R): R = {
+    val result = block // call-by-name
+
+    println("Total cache hits: " + SigmaDDRewritingCacheStats.hitCounter)
+    println("Total rewrites: " + SigmaDDRewritingCacheStats.callsCounter)
+    println("Cache hits to rewrites ratio: " + 100 * SigmaDDRewritingCacheStats.hitCounter / SigmaDDRewritingCacheStats.callsCounter + "%")
+    result
+  }
+
+  "DeclaredStrategies" should "allow to generate the state space for the philosophers problem with 3 philosophers" in {
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    stats(time(println("Total number of states: " + rewriter(SigmaDDFactoryImpl.create(ts.initialState)).get.size)))
+    assert(rewriter(SigmaDDFactoryImpl.create(ts.initialState)).get.size == 76)
+  }
+
+  val ts1 = (new TransitionSystem(adt, generateInitialState(numberOfPhilosophers)))
+    .declareStrategy("doForAllPhil", V) { Union(V, Choice(One(DoForAllPhils(V)), Identity)) }(false)
+    .declareStrategy("doForLastPhil", V) { Choice(One(DoForLastPhil(V)), V) }(false)
+    .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
+    .declareStrategy("goToWait") { DoForAllPhils(DeclaredStrategyInstance("goToWaitPhilo")) }(false)
+    .declareStrategy("takeRightForkFromWaitingPhilo", philo(waiting, forkFree, P) -> philo(waitingForLeftFork, forkUsed, P))(false)
+    .declareStrategy("takeRightForkFromWaiting") { DoForAllPhils(DeclaredStrategyInstance("takeRightForkFromWaitingPhilo")) }(false)
+    .declareStrategy("takeRightForkFromWaitingForRightForkPhilo", philo(waitingForRightFork, forkFree, P) -> philo(eating, forkUsed, P))(false)
+    .declareStrategy("takeRightForkFromWaitingForRightFork") { DoForAllPhils(DeclaredStrategyInstance("takeRightForkFromWaitingForRightForkPhilo")) }(false)
+    .declareStrategy("takeLeftForkFromWaitingPhilo", philo(S, forkFree, philo(waiting, F, P)) -> philo(S, forkUsed, philo(waitingForRightFork, F, P)))(false) // this rule is not applied!
+    .declareStrategy("takeLeftForkFromWaiting") { DoForAllPhils(DeclaredStrategyInstance("takeLeftForkFromWaitingPhilo")) }(true)
+    .declareStrategy("takeLeftForkFromWaitingForLeftForkPhilo", philo(S, forkFree, philo(waitingForLeftFork, forkUsed, P)) -> philo(S, forkUsed, philo(eating, forkUsed, P)))(false)
+    .declareStrategy("takeLeftForkFromWaitingForLeftFork") { DoForAllPhils(DeclaredStrategyInstance("takeLeftForkFromWaitingForLeftForkPhilo")) }(false)
+    .declareStrategy("goToThinkPhilo", philo(S, forkUsed, philo(eating, forkUsed, P)) -> philo(S, forkFree, philo(thinking, forkFree, P)))(false)
+    .declareStrategy("goToThink") { DoForAllPhils(DeclaredStrategyInstance("goToThinkPhilo")) }(false)
+    .declareStrategy("takeLeftForkWaitingPhilo1", philo(waiting, F, P) -> philo(waitingForRightFork, F, P))(false)
+    .declareStrategy("takeRightFork", philo(S, forkFree, P) -> philo(S, forkUsed, P))(false)
+    .declareStrategy("takeLeftForkFromWaitingPhilo1") { Sequence(DeclaredStrategyInstance("takeLeftForkWaitingPhilo1"), DoForLastPhil(DeclaredStrategyInstance("takeRightFork"))) }(true)
+  // there are some rules missing, but the state space is the same size.
+  // We intentionally omit the rules to make the first philosopher go to eat after taking the right fork and also the rule to make him go back to eat.
+
 }
