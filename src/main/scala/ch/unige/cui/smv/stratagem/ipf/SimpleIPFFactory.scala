@@ -52,7 +52,7 @@ class SimpleIPFFactory extends IPFAbstractFactory {
     type DomainTypeElt = String
     type ImageTypeElt = String
 
-    val size = throw new NotImplementedError
+    lazy val size = throw new NotImplementedError
 
     override val hashCode = alpha ##
 

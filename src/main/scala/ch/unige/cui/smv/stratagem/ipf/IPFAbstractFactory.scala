@@ -42,7 +42,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
     /**
      * The number of elements encoded in this IPF.
      */
-    val size:Int
+    val size: Int
 
     /**
      * The type of the domain elements of this IPF. When seeing this IPF as
@@ -115,7 +115,16 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
               }
             })
           if (keyFromRemoving != key1.bottomElement) {
-            result(keyFromRemoving) = tail1
+            existingMappings.lift(tail1) match {
+              case Some(existingKey) =>
+                result -= existingKey
+                result(existingKey v keyFromRemoving) = tail1
+                existingMappings(tail1) = existingKey v keyFromRemoving // and keep track of it
+              case None =>
+                result(keyFromRemoving) = tail1
+                existingMappings(tail1) = keyFromRemoving
+            }
+            result(keyFromRemoving v existingMappings.getOrElse(tail1, key1.bottomElement)) = tail1
           }
         })
       HashMap(result.toArray: _*)
