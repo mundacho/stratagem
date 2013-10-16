@@ -62,7 +62,7 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
     case Try(s) => instanciate(Choice(s, Identity))
     case Fail => Fail
     case Identity => Identity
-    case One(s) => One(instanciate(s))
+    case One(s,n) => One(instanciate(s),n)
     case FixPointStrategy(s) => FixPointStrategy(instanciate(s))
     case Sequence(s1, s2) => Sequence(instanciate(s1), instanciate(s2))
     case Union(s1, s2) => Union(instanciate(s1), instanciate(s2))

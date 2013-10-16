@@ -21,7 +21,15 @@ package ch.unige.cui.smv.stratagem.ts
 /**
  * Represents the One strategy.
  * @param S the strategy it takes as parameter.
+ * @param n represents which subterm will be rewritten by this one.
  * @author mundacho
  *
  */
-case class One(S: Strategy) extends NonVariableStrategy
+case class One(S: Strategy, n: Int) extends NonVariableStrategy
+
+/**
+ * Companion object. It adds a default constructor.
+ */
+object One {
+  def apply(S: Strategy) = new One(S, 0)
+}

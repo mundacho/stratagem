@@ -54,7 +54,7 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
       }
       case Fail => (true, "")
       case Identity => (true, "")
-      case One(s) => checkSyntax(s, params: _*)
+      case One(s, _) => checkSyntax(s, params: _*)
       case FixPointStrategy(s) => checkSyntax(s, params: _*)
       case Sequence(s1, s2) => {
         val (result1, message1) = checkSyntax(s1, params: _*)

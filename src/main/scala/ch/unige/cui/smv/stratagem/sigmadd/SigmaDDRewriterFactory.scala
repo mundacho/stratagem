@@ -37,7 +37,9 @@ import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
  */
 object SigmaDDRewriterFactory {
 
-  private val rewriterCache = scala.collection.mutable.Map[String, SigmaDDRewriter]()
+  private var rewriterCache = scala.collection.mutable.Map[String, SigmaDDRewriter]()
+
+  def resetOperationCaches { rewriterCache = scala.collection.mutable.Map[String, SigmaDDRewriter]() }
 
   /**
    * Transforms a strategy to a SigmaDD rewriter.
@@ -51,7 +53,7 @@ object SigmaDDRewriterFactory {
     case Identity => IdentityRewriter
     case st @ Union(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new UnionRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
     case strategyInstance @ DeclaredStrategyInstance(name, actualParams @ _*) => new DeclaredStrategyRewriter(strategyInstance, ts) with SigmaDDRewritingCache
-    case st @ One(s1) => rewriterCache.getOrElseUpdate(st.toString, new OneRewriter(strategyToRewriter(s1)) with SigmaDDRewritingCache)
+    case st @ One(s1, n) => rewriterCache.getOrElseUpdate(st.toString, new OneRewriter(strategyToRewriter(s1), n) with SigmaDDRewritingCache)
     case st @ FixPointStrategy(s) => rewriterCache.getOrElseUpdate(st.toString, new FixpointRewriter(strategyToRewriter(s)) with SigmaDDRewritingCache)
     case st @ Sequence(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new SequenceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
     case st @ Try(s1) => rewriterCache.getOrElseUpdate(st.toString, strategyToRewriter(Choice(s1, Identity)))
@@ -62,6 +64,6 @@ object SigmaDDRewriterFactory {
    */
   def transitionSystemToStateSpaceRewriter(ts: TransitionSystem): SigmaDDRewriter =
     strategyToRewriter(FixPointStrategy(
-      Union(Identity, ts.strategyDeclarations.filter(_._2.isTransition).map(_._2.declaredStrategy.body).reduce((s1: Strategy, s2: Strategy) => Union(Try(s1), Try(s2))))))(ts)
+      Union(Identity, ts.strategyDeclarations.filter(_._2.isTransition).map(_._2.declaredStrategy.body).reduce((s1: Strategy, s2: Strategy) => Union(Union(Try(s1), Try(s2)), Identity)))))(ts)
 
 }

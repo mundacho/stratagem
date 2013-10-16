@@ -53,6 +53,6 @@ object SigmaDDRewritingCacheStats {
   /**
    * Resets the counters.
    */
-  def resetCounters { callsCounter = 0; hitCounter = 0 }
+  def resetCaches { callsCounter = 0; hitCounter = 0; SigmaDDRewriterFactory.resetOperationCaches }
 
 }

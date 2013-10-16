@@ -77,19 +77,19 @@ class TestStrategies extends FlatSpec {
   val booleanRewriter = new SimpleSigmaDDRewriter(booleanStrategy)
 
   "OneStrategyRewriter" should "be able to rewrite simple booleans" in {
-    val oneRewriter = new OneRewriter(booleanRewriter)
+    val oneRewriter = new OneRewriter(booleanRewriter, 0)
 
     val sigmaDDToRewrite1 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, not(falseOp)))
     val rewrittenSigmaDD1 = oneRewriter(sigmaDDToRewrite1).get
-    assert(rewrittenSigmaDD1 eq (SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, trueOp))))
+    assert(rewrittenSigmaDD1 eq SigmaDDFactoryImpl.create(andOp(trueOp, trueOp)))
 
     val sigmaDDToRewrite2 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, not(trueOp))) v SigmaDDFactoryImpl.create(andOp(trueOp, not(falseOp)))
     val rewrittenSigmaDD2 = oneRewriter(sigmaDDToRewrite2).get
-    assert(rewrittenSigmaDD2 eq (SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp))))
+    assert(rewrittenSigmaDD2 eq (SigmaDDFactoryImpl.create(andOp(trueOp, falseOp))))
 
     val sigmaDDToRewrite3 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(not(trueOp), falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, not(trueOp)))
     val rewrittenSigmaDD3 = oneRewriter(sigmaDDToRewrite3).get
-    assert(rewrittenSigmaDD3 eq (SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(falseOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp))))
+    assert(rewrittenSigmaDD3 eq (SigmaDDFactoryImpl.create(andOp(falseOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp))))
 
     val sigmaDDToRewrite4 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(falseOp, trueOp))
     val rewrittenSigmaDD4 = oneRewriter(sigmaDDToRewrite4)
