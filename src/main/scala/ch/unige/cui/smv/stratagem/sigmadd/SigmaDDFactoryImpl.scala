@@ -32,6 +32,7 @@ import ch.unige.cui.smv.stratagem.util.OperationCache
  */
 object SigmaDDFactoryImpl extends CanonicalFactory {
 
+  // TODO remove this
   lazy val ipfFactory = SigmaDDIPFFactoryImpl
 
   type CanonicalType = SigmaDDImpl

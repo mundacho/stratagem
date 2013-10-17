@@ -68,7 +68,7 @@ object SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
 
     override lazy val hashCode = alpha ##
 
-    lazy val size: BigInt = alpha.par.map((e) => e._1.size * e._2.size).reduce(_ + _)
+    lazy val size: BigInt = alpha.map((e) => e._1.size * e._2.size).reduce(_ + _)
 
     def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)] = throw new NotImplementedError
 

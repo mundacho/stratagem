@@ -24,22 +24,41 @@ import scala.collection.mutable.HashMap
  * This class should be used as a mixin.
  */
 trait SigmaDDRewritingCache extends SigmaDDRewriter {
+
   /**
    * A map where we keep our cache.
    */
-  val operationCache = new HashMap[SigmaDDFactoryImpl.SigmaDDImpl, Option[SigmaDDFactoryImpl.SigmaDDImpl]]
+  val operationCache = new HashMap[SigmaDDWrapper, Option[SigmaDDFactoryImpl.SigmaDDImpl]]
 
   /**
    * This function adds cache functionality to the SigmaDD rewriter.
    */
   abstract override def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
-    if (operationCache.isDefinedAt(sigmaDD)) {
-      SigmaDDRewritingCacheStats.hitCounter = SigmaDDRewritingCacheStats.hitCounter + 1
-    }
     SigmaDDRewritingCacheStats.callsCounter = SigmaDDRewritingCacheStats.callsCounter + 1
-    operationCache.getOrElseUpdate(sigmaDD, super.apply(sigmaDD))
+    val wrapper = SigmaDDWrapper(sigmaDD)
+    if (operationCache.isDefinedAt(wrapper)) {
+      SigmaDDRewritingCacheStats.hitCounter = SigmaDDRewritingCacheStats.hitCounter + 1
+      operationCache.get(wrapper).get
+    } else {
+      val res = super.apply(sigmaDD)
+      operationCache.update(wrapper, res)
+      res
+    }
   }
 
+}
+
+/**
+ * Wrapper for fast comparison.
+ * @author mundacho
+ *
+ */
+case class SigmaDDWrapper(val sigmaDD: SigmaDDFactoryImpl.SigmaDDImpl) {
+  override lazy val hashCode = sigmaDD.hashCode
+  override def equals(o: Any): Boolean = o match {
+    case SigmaDDWrapper(w) => w eq this.sigmaDD
+    case _ => false
+  }
 }
 
 /**

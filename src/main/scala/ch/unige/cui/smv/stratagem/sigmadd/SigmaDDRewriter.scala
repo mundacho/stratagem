@@ -35,4 +35,3 @@ abstract class SigmaDDRewriter {
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType]
 
 }
-

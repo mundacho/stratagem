@@ -27,12 +27,14 @@ import scala.collection.mutable.HashMap
  */
 trait InductiveIPFImplOperationCache extends SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl {
 
+  case class InductiveIPFImplWrapper(val ipf: SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl) {
 
-  type OperationType = OperationCache.OperationType
-  val Union = OperationCache.Union
-  val Inter = OperationCache.Inter
-  val Difference = OperationCache.Difference
-
+    override lazy val hashCode = ipf.hashCode
+    override def equals(o: Any): Boolean = o match {
+      case InductiveIPFImplWrapper(w) => w eq this.ipf
+      case _ => false
+    }
+  }
   /**
    * We override the standard operation to perform a join with cache.
    * @param that the lattice element to join with.
@@ -40,8 +42,8 @@ trait InductiveIPFImplOperationCache extends SigmaDDInductiveIPFFactoryImpl.Indu
    */
   abstract override def v(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    val key: (OperationType, Any, Any) = if (this.hashCode > that.hashCode) (Union, this, that) else (Union, that, this)
-    InductiveIPFImplOperationCache.globalOperationCache.getOrElseUpdate(key, super.v(that))
+    val key: Set[Any] = Set(InductiveIPFImplWrapper(this), InductiveIPFImplWrapper(that))
+    InductiveIPFImplOperationCache.globalUnionOperationCache.getOrElseUpdate(key, super.v(that))
   }
 
   /**
@@ -51,8 +53,8 @@ trait InductiveIPFImplOperationCache extends SigmaDDInductiveIPFFactoryImpl.Indu
    */
   abstract override def ^(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    val key: (OperationType, Any, Any) = if (this.hashCode > that.hashCode) (Inter, this, that) else (Inter, that, this)
-    InductiveIPFImplOperationCache.globalOperationCache.getOrElseUpdate(key, super.^(that))
+    val key: Set[Any] = Set(InductiveIPFImplWrapper(this), InductiveIPFImplWrapper(that))
+    InductiveIPFImplOperationCache.globalInterOperationCache.getOrElseUpdate(key, super.^(that))
   }
 
   /**
@@ -61,11 +63,13 @@ trait InductiveIPFImplOperationCache extends SigmaDDInductiveIPFFactoryImpl.Indu
    * @return the difference of this minus that.
    */
   abstract override def \(that: LatticeElementType): LatticeElementType = {
-    val key: (OperationType, Any, Any) = (Difference, this, that)
-    InductiveIPFImplOperationCache.globalOperationCache.getOrElseUpdate(key, super.\(that))
+    val key: (Any, Any) = (InductiveIPFImplWrapper(this), InductiveIPFImplWrapper(that))
+    InductiveIPFImplOperationCache.globalDifferenceOperationCache.getOrElseUpdate(key, super.\(that))
   }
 }
 
 object InductiveIPFImplOperationCache {
-  val globalOperationCache = new HashMap[(OperationCache.OperationType, Any, Any), SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl]
+  val globalUnionOperationCache = new HashMap[Set[Any], SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl]
+  val globalInterOperationCache = new HashMap[Set[Any], SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl]
+  val globalDifferenceOperationCache = new HashMap[(Any, Any), SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl]
 }

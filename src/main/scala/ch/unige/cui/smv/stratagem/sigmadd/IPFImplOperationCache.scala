@@ -17,8 +17,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.sigmadd
 
-import ch.unige.cui.smv.stratagem.util.OperationCache
 import scala.collection.mutable.HashMap
+
+import ch.unige.cui.smv.stratagem.util.OperationCache
 
 /**
  * Unifies the InductiveIPFImpl cache.
@@ -27,12 +28,14 @@ import scala.collection.mutable.HashMap
  */
 trait IPFImplOperationCache extends SigmaDDIPFFactoryImpl.IPFImpl {
 
+  case class IPFImplWrapper(val ipf: SigmaDDIPFFactoryImpl.IPFImpl) {
 
-  type OperationType = OperationCache.OperationType
-  val Union = OperationCache.Union
-  val Inter = OperationCache.Inter
-  val Difference = OperationCache.Difference
-
+    override lazy val hashCode = ipf.hashCode
+    override def equals(o: Any): Boolean = o match {
+      case IPFImplWrapper(w) => w eq this.ipf
+      case _ => false
+    }
+  }
   /**
    * We override the standard operation to perform a join with cache.
    * @param that the lattice element to join with.
@@ -40,8 +43,8 @@ trait IPFImplOperationCache extends SigmaDDIPFFactoryImpl.IPFImpl {
    */
   abstract override def v(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    val key: (OperationType, Any, Any) = if (this.hashCode > that.hashCode) (Union, this, that) else (Union, that, this)
-    IPFImplOperationCache.globalOperationCache.getOrElseUpdate(key, super.v(that))
+    val key:Set[Any] = Set(IPFImplWrapper(this), IPFImplWrapper(that))
+    IPFImplOperationCache.globalUnionOperationCache.getOrElseUpdate(key, super.v(that))
   }
 
   /**
@@ -51,8 +54,8 @@ trait IPFImplOperationCache extends SigmaDDIPFFactoryImpl.IPFImpl {
    */
   abstract override def ^(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    val key: (OperationType, Any, Any) = if (this.hashCode > that.hashCode) (Inter, this, that) else (Inter, that, this)
-    IPFImplOperationCache.globalOperationCache.getOrElseUpdate(key, super.^(that))
+    val key: Set[Any] = Set[Any](IPFImplWrapper(this), IPFImplWrapper(that))
+    IPFImplOperationCache.globalInterOperationCache.getOrElseUpdate(key, super.^(that))
   }
 
   /**
@@ -61,11 +64,13 @@ trait IPFImplOperationCache extends SigmaDDIPFFactoryImpl.IPFImpl {
    * @return the difference of this minus that.
    */
   abstract override def \(that: LatticeElementType): LatticeElementType = {
-    val key: (OperationType, Any, Any) = (Difference, this, that)
-    IPFImplOperationCache.globalOperationCache.getOrElseUpdate(key, super.\(that))
+    val key: (Any, Any) = (IPFImplWrapper(this), IPFImplWrapper(that))
+    IPFImplOperationCache.globalDifferenceOperationCache.getOrElseUpdate(key, super.\(that))
   }
 }
 
 object IPFImplOperationCache {
-  val globalOperationCache = new HashMap[(OperationCache.OperationType, Any, Any), SigmaDDIPFFactoryImpl.IPFImpl]
+  val globalUnionOperationCache = new HashMap[Set[Any], SigmaDDIPFFactoryImpl.IPFImpl]
+  val globalInterOperationCache = new HashMap[Set[Any], SigmaDDIPFFactoryImpl.IPFImpl]
+  val globalDifferenceOperationCache = new HashMap[(Any, Any), SigmaDDIPFFactoryImpl.IPFImpl]
 }

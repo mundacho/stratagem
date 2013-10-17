@@ -26,7 +26,6 @@ import scala.collection.mutable.HashMap
  */
 trait SigmaDDOperationCache extends SigmaDDFactoryImpl.SigmaDDImpl {
 
-
   type OperationType = OperationCache.OperationType
   val Union = OperationCache.Union
   val Inter = OperationCache.Inter
@@ -39,8 +38,8 @@ trait SigmaDDOperationCache extends SigmaDDFactoryImpl.SigmaDDImpl {
    */
   abstract override def v(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    val key: (OperationType, Any, Any) = if (this.hashCode > that.hashCode) (Union, this, that) else (Union, that, this)
-    SigmaDDOperationCache.globalOperationCache.getOrElseUpdate(key, super.v(that))
+    val key:Set[Any] = Set(SigmaDDWrapper(this), SigmaDDWrapper(that))
+    SigmaDDOperationCache.globalUnionOperationCache.getOrElseUpdate(key, super.v(that))
   }
 
   /**
@@ -50,8 +49,8 @@ trait SigmaDDOperationCache extends SigmaDDFactoryImpl.SigmaDDImpl {
    */
   abstract override def ^(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    val key: (OperationType, Any, Any) = if (this.hashCode > that.hashCode) (Inter, this, that) else (Inter, that, this)
-    SigmaDDOperationCache.globalOperationCache.getOrElseUpdate(key, super.^(that))
+    val key: Set[Any] = Set(SigmaDDWrapper(this), SigmaDDWrapper(that))
+    SigmaDDOperationCache.globalInterOperationCache.getOrElseUpdate(key, super.^(that))
   }
 
   /**
@@ -60,11 +59,13 @@ trait SigmaDDOperationCache extends SigmaDDFactoryImpl.SigmaDDImpl {
    * @return the difference of this minus that.
    */
   abstract override def \(that: LatticeElementType): LatticeElementType = {
-    val key: (OperationType, Any, Any) = (Difference, this, that)
-    SigmaDDOperationCache.globalOperationCache.getOrElseUpdate(key, super.\(that))
+    val key: (Any, Any) = (SigmaDDWrapper(this), SigmaDDWrapper(that))
+    SigmaDDOperationCache.globalDifferenceOperationCache.getOrElseUpdate(key, super.\(that))
   }
 }
 
 object SigmaDDOperationCache {
-  val globalOperationCache = new HashMap[(OperationCache.OperationType, Any, Any), SigmaDDFactoryImpl.SigmaDDImpl]
+  val globalUnionOperationCache = new HashMap[Set[Any], SigmaDDFactoryImpl.SigmaDDImpl]
+  val globalInterOperationCache = new HashMap[Set[Any], SigmaDDFactoryImpl.SigmaDDImpl]
+  val globalDifferenceOperationCache = new HashMap[(Any, Any), SigmaDDFactoryImpl.SigmaDDImpl]
 }
