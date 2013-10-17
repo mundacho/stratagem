@@ -29,12 +29,12 @@ import scala.language.postfixOps
  * This class implements an IPF factory to be embedded in SigmaDDs.
  * The IPFs produced by this factory can have other IPFs as value.
  */
-abstract class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
+object SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
 
   /**
    * The inductive IPF factory.
    */
-  val inductiveIPFFactory: SigmaDDInductiveIPFFactoryImpl
+  val inductiveIPFFactory = SigmaDDInductiveIPFFactoryImpl
 
   type InductiveIPFType = inductiveIPFFactory.InductiveIPFImpl
 
@@ -43,7 +43,7 @@ abstract class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
   type FromType = Map[StringSetWrapperFactory.StringSetWrapper, InductiveIPFType]
 
   protected def makeFrom(alpha: AnyRef): IPFImpl = alpha match {
-    case a: HashMap[StringSetWrapperFactory.StringSetWrapper, InductiveIPFType] @unchecked => new IPFImpl(a) with OperationCache
+    case a: HashMap[StringSetWrapperFactory.StringSetWrapper, InductiveIPFType] @unchecked => new IPFImpl(a) with IPFImplOperationCache
     case _ => throw new IllegalArgumentException("Unable to create IPF")
   }
 
@@ -68,7 +68,7 @@ abstract class SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
 
     override lazy val hashCode = alpha ##
 
-    lazy val size: Long = alpha.map((e) => e._1.size * e._2.size).reduce(_ + _)
+    lazy val size: BigInt = alpha.par.map((e) => e._1.size * e._2.size).reduce(_ + _)
 
     def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)] = throw new NotImplementedError
 

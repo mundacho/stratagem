@@ -15,20 +15,23 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+package ch.unige.cui.smv.stratagem.sigmadd
 
-package ch.unige.cui.smv.stratagem.util
-
+import ch.unige.cui.smv.stratagem.util.OperationCache
 import scala.collection.mutable.HashMap
 
 /**
- * This class should be used as a mixin. I adds cache functionality to a lattice
- * element.
+ * Unifies the InductiveIPFImpl cache.
+ * @author mundacho
+ *
  */
-trait OperationCache extends LatticeElement {
-  /**
-   * A map where we keep our cache.
-   */
-  val operationCache = new HashMap[(OperationCache.OperationType, Any, Any), LatticeElementType]
+trait InductiveIPFImplOperationCache extends SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl {
+
+
+  type OperationType = OperationCache.OperationType
+  val Union = OperationCache.Union
+  val Inter = OperationCache.Inter
+  val Difference = OperationCache.Difference
 
   /**
    * We override the standard operation to perform a join with cache.
@@ -37,8 +40,8 @@ trait OperationCache extends LatticeElement {
    */
   abstract override def v(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    val key: (OperationCache.OperationType, Any, Any) = if (this.hashCode > that.hashCode) (OperationCache.Union, this, that) else (OperationCache.Union, that, this)
-    operationCache.getOrElseUpdate(key, super.v(that))
+    val key: (OperationType, Any, Any) = if (this.hashCode > that.hashCode) (Union, this, that) else (Union, that, this)
+    InductiveIPFImplOperationCache.globalOperationCache.getOrElseUpdate(key, super.v(that))
   }
 
   /**
@@ -48,8 +51,8 @@ trait OperationCache extends LatticeElement {
    */
   abstract override def ^(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    val key: (OperationCache.OperationType, Any, Any) = if (this.hashCode > that.hashCode) (OperationCache.Inter, this, that) else (OperationCache.Inter, that, this)
-    operationCache.getOrElseUpdate(key, super.^(that))
+    val key: (OperationType, Any, Any) = if (this.hashCode > that.hashCode) (Inter, this, that) else (Inter, that, this)
+    InductiveIPFImplOperationCache.globalOperationCache.getOrElseUpdate(key, super.^(that))
   }
 
   /**
@@ -58,16 +61,11 @@ trait OperationCache extends LatticeElement {
    * @return the difference of this minus that.
    */
   abstract override def \(that: LatticeElementType): LatticeElementType = {
-    val key: (OperationCache.OperationType, Any, Any) = (OperationCache.Difference, this, that)
-    operationCache.getOrElseUpdate(key, super.\(that))
+    val key: (OperationType, Any, Any) = (Difference, this, that)
+    InductiveIPFImplOperationCache.globalOperationCache.getOrElseUpdate(key, super.\(that))
   }
-
 }
 
-object OperationCache {
-  abstract class OperationType
-
-  object Union extends OperationType
-  object Inter extends OperationType
-  object Difference extends OperationType
+object InductiveIPFImplOperationCache {
+  val globalOperationCache = new HashMap[(OperationCache.OperationType, Any, Any), SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl]
 }

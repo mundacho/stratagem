@@ -29,7 +29,7 @@ import scala.language.postfixOps
 /**
  * This factory represents the tail of a SigmaDD.
  */
-abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
+object SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
 
   type CanonicalType = InductiveIPFImpl
 
@@ -38,7 +38,7 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
   type FromType = Map[SigmaDDType, InductiveIPFImpl]
 
   protected def makeFrom(alpha: AnyRef): InductiveIPFImpl = alpha match {
-    case a: HashMap[SigmaDDType, InductiveIPFImpl] @unchecked => new InductiveIPFImpl(a) with OperationCache
+    case a: HashMap[SigmaDDType, InductiveIPFImpl] @unchecked => new InductiveIPFImpl(a) with InductiveIPFImplOperationCache
     case _ => throw new IllegalArgumentException("Unable to create IPF")
   }
 
@@ -81,7 +81,7 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
 
     override lazy val hashCode = alpha ##
 
-    lazy val size: Long = alpha.map((e) => e._1.size * e._2.size).reduce(_ + _)
+    lazy val size: BigInt = alpha.par.map((e) => e._1.size * e._2.size).reduce(_ + _)
 
     def asBinaryRelation: Set[(DomainTypeElt, ImageTypeElt)] = throw new NotImplementedError
 
@@ -120,7 +120,7 @@ abstract class SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
 
     override def toString = "[1]"
 
-    override lazy val size = 1L
+    override lazy val size = BigInt(1)
 
     override def v(that: InductiveIPFImpl): InductiveIPFImpl = TopIPF
 

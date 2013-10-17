@@ -32,11 +32,8 @@ import ch.unige.cui.smv.stratagem.util.OperationCache
  */
 object SigmaDDFactoryImpl extends CanonicalFactory {
 
-  lazy val ipfFactory = new SigmaDDIPFFactoryImpl {
-    val inductiveIPFFactory = new SigmaDDInductiveIPFFactoryImpl {
-      val sigmaDDFactory = SigmaDDFactoryImpl
-    }
-  }
+  lazy val ipfFactory = SigmaDDIPFFactoryImpl
+
   type CanonicalType = SigmaDDImpl
 
   type FromType = (ASort, IPFType)
@@ -73,7 +70,7 @@ object SigmaDDFactoryImpl extends CanonicalFactory {
   }
 
   protected def makeFrom(tuple: AnyRef): SigmaDDImpl = tuple match {
-    case a: (ASort, IPFType) @unchecked => new SigmaDDImpl(a._1, a._2) with OperationCache
+    case a: (ASort, IPFType) @unchecked => new SigmaDDImpl(a._1, a._2) with SigmaDDOperationCache
     case _ => throw new IllegalArgumentException("Unable to create SigmaDD")
   }
 
