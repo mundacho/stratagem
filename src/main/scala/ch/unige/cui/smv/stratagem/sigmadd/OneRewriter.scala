@@ -46,43 +46,31 @@ private[sigmadd] case class OneRewriter(rewriter: SigmaDDRewriter, subTermPositi
     if (result.isEmpty) None else result.reduce((e1, e2) => Some(e1.get v e2.get))
   }
 
-  lazy val oneOperationCache = new scala.collection.mutable.HashMap[EntryNumberWrapper, Option[SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl]]
-
-  case class EntryNumberWrapper(val sigmaDD: SigmaDDWrapper, val iipf: InductiveIPFImplWrapper, val n: Int) {
-    override lazy val hashCode = Set(sigmaDD, iipf, n).hashCode
-    override def equals(o: Any): Boolean = o match {
-      case EntryNumberWrapper(s, i, n) => (s eq sigmaDD) && (i eq iipf) && (n == n)
-      case _ => false
-    }
-  }
-
   def applyOneRewriterOnIIPF(iipf: InductiveIPF, n: Int): Option[InductiveIPF] = iipf match {
     case SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF => None // could not rewrite here
     case e: InductiveIPF => {
       val res = e.alpha.map((entry) => {
         val (sigmaDD, nextIIPF) = entry
-        val wrapper = EntryNumberWrapper(SigmaDDWrapper(sigmaDD), InductiveIPFImplWrapper(nextIIPF), n)
-        oneOperationCache.getOrElseUpdate(wrapper,
-          if (n == 0) {
-            rewriter(sigmaDD) match {
-              case Some(s) => Some(SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(s -> nextIIPF)))
-              case None => applyOneRewriterOnIIPF(nextIIPF, 0) match {
-                case None => None
-                case Some(i) => Some(SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(sigmaDD -> i)))
-              }
-            }
-          } else if (n == 1) {
-            rewriter(sigmaDD) match {
-              case Some(s) => Some(SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(s -> nextIIPF)))
+        if (n == 0) {
+          rewriter(sigmaDD) match {
+            case Some(s) => Some(SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(s -> nextIIPF)))
+            case None => applyOneRewriterOnIIPF(nextIIPF, 0) match {
               case None => None
+              case Some(i) => Some(SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(sigmaDD -> i)))
             }
-          } else {
-            assert(n > 1)
-            applyOneRewriterOnIIPF(nextIIPF, n - 1) match {
-              case Some(s) => Some(SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(sigmaDD -> s)))
-              case None => None
-            }
-          })
+          }
+        } else if (n == 1) {
+          rewriter(sigmaDD) match {
+            case Some(s) => Some(SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(s -> nextIIPF)))
+            case None => None
+          }
+        } else {
+          assert(n > 1)
+          applyOneRewriterOnIIPF(nextIIPF, n - 1) match {
+            case Some(s) => Some(SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(sigmaDD -> s)))
+            case None => None
+          }
+        }
       }).view.filter(_ != None)
       if (res.isEmpty) None else res.reduce((e1, e2) => Some(e1.get v e2.get))
     }

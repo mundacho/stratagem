@@ -96,17 +96,25 @@ object SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
 
     def v(that: InductiveIPFImpl): InductiveIPFImpl = that match {
       case TopIPF => TopIPF
-      case _ => create(alphaUnion(this.alpha, that.alpha))
+      case _ => {
+        if (that eq this) this else create(alphaUnion(this.alpha, that.alpha))
+      }
     }
 
     def ^(that: InductiveIPFImpl): InductiveIPFImpl = that match {
       case TopIPF => this
-      case _ => create(alphaIntersection(this.alpha, that.alpha))
+      case _ => {
+        val inter = alphaIntersection(this.alpha, that.alpha)
+        if (inter.isEmpty) bottomElement else create(inter)
+      }
     }
 
     def \(that: InductiveIPFImpl): InductiveIPFImpl = that match {
       case TopIPF => TopIPF
-      case _ => create(alphaDifference(this.alpha, that.alpha))
+      case _ => {
+        val diff = alphaDifference(this.alpha, that.alpha)
+        if (diff.isEmpty) bottomElement else create(diff)
+      }
     }
 
     lazy val bottomElement = create(HashMap.empty: FromType)
