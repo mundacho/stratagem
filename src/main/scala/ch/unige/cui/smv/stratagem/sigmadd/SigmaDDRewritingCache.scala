@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.sigmadd
 
-import scala.collection.mutable.HashMap
+
 
 /**
  * This class should be used as a mixin.
@@ -28,7 +28,7 @@ trait SigmaDDRewritingCache extends SigmaDDRewriter {
   /**
    * A map where we keep our cache.
    */
-  val operationCache = new HashMap[SigmaDDWrapper, Option[SigmaDDFactoryImpl.SigmaDDImpl]]
+  val operationCache = new scala.collection.mutable.HashMap[SigmaDDWrapper, Option[SigmaDDFactoryImpl.SigmaDDImpl]]
 
   /**
    * This function adds cache functionality to the SigmaDD rewriter.

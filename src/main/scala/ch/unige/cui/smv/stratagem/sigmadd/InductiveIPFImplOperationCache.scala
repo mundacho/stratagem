@@ -31,14 +31,6 @@ trait InductiveIPFImplOperationCache extends SigmaDDInductiveIPFFactoryImpl.Indu
   lazy val interOperationCache = new HashMap[InductiveIPFImplWrapper, SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl]
   lazy val differenceOperationCache = new HashMap[InductiveIPFImplWrapper, SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl]
 
-  case class InductiveIPFImplWrapper(val ipf: SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl) {
-    override lazy val hashCode = ipf.hashCode
-    override def equals(o: Any): Boolean = o match {
-      case InductiveIPFImplWrapper(w) => w eq this.ipf
-      case _ => false
-    }
-  }
-
   /**
    * We override the standard operation to perform a join with cache.
    * @param that the lattice element to join with.
@@ -65,5 +57,13 @@ trait InductiveIPFImplOperationCache extends SigmaDDInductiveIPFFactoryImpl.Indu
    */
   abstract override def \(that: LatticeElementType): LatticeElementType = {
     differenceOperationCache.getOrElseUpdate(InductiveIPFImplWrapper(that), super.\(that))
+  }
+}
+
+case class InductiveIPFImplWrapper(val ipf: SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl) {
+  override lazy val hashCode = ipf.hashCode
+  override def equals(o: Any): Boolean = o match {
+    case InductiveIPFImplWrapper(w) => w eq this.ipf
+    case _ => false
   }
 }
