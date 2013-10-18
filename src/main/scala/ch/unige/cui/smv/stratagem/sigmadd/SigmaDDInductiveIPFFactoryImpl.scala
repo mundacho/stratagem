@@ -109,7 +109,7 @@ object SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
       case _ => create(alphaDifference(this.alpha, that.alpha))
     }
 
-    def bottomElement = create(HashMap.empty: FromType)
+    lazy val bottomElement = create(HashMap.empty: FromType)
   }
 
   /**

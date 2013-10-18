@@ -101,7 +101,10 @@ object SigmaDDFactoryImpl extends CanonicalFactory {
     def v(that: SigmaDDImpl): SigmaDDImpl = {
       val newSort = ASort.findCommonParent(this.sort, that.sort)
       newSort match {
-        case Some(commonParent) => create(commonParent, this.iipf v that.iipf)
+        case Some(commonParent) => {
+          val iipfUnion = this.iipf v that.iipf
+          if ((commonParent == this.sort) && (iipfUnion eq this.iipf)) this else create(commonParent, iipfUnion)
+        }
         case None => throw new IllegalStateException
       }
 
@@ -109,19 +112,25 @@ object SigmaDDFactoryImpl extends CanonicalFactory {
     def ^(that: SigmaDDImpl): SigmaDDImpl = {
       val newSort = ASort.findCommonParent(this.sort, that.sort)
       newSort match {
-        case Some(commonParent) => create(commonParent, this.iipf ^ that.iipf)
+        case Some(commonParent) => {
+          val iipfInter = this.iipf ^ that.iipf
+          if ((commonParent == this.sort) && (iipfInter eq this.iipf)) this else create(commonParent, iipfInter)
+        }
         case None => throw new IllegalStateException
       }
     }
     def \(that: SigmaDDImpl): SigmaDDImpl = {
       val newSort = ASort.findCommonParent(this.sort, that.sort)
       newSort match {
-        case Some(commonParent) => create(commonParent, this.iipf \ that.iipf)
+        case Some(commonParent) => {
+          val iipfDiff = this.iipf \ that.iipf
+          if ((commonParent == this.sort) && (iipfDiff eq this.iipf)) this else create(commonParent, iipfDiff)
+        }
         case None => throw new IllegalStateException
       }
     }
 
-    def bottomElement = create(sort, this.iipf.bottomElement)
+    lazy val bottomElement = create(sort, this.iipf.bottomElement)
 
   }
 }

@@ -87,6 +87,6 @@ object SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
 
     def \(that: IPFImpl): IPFImpl = create(alphaDifference(this.alpha, that.alpha))
 
-    def bottomElement = create(HashMap.empty)
+    lazy val bottomElement = create(HashMap.empty)
   }
 }
