@@ -28,23 +28,25 @@ import ch.unige.cui.smv.stratagem.util.OperationCache
  */
 trait IPFImplOperationCache extends SigmaDDIPFFactoryImpl.IPFImpl {
 
-  case class IPFImplWrapper(val ipf: SigmaDDIPFFactoryImpl.IPFImpl) {
+  lazy val unionOperationCache = new HashMap[IPFImplWrapper, SigmaDDIPFFactoryImpl.IPFImpl]
+  lazy val interOperationCache = new HashMap[IPFImplWrapper, SigmaDDIPFFactoryImpl.IPFImpl]
+  lazy val differenceOperationCache = new HashMap[IPFImplWrapper, SigmaDDIPFFactoryImpl.IPFImpl]
 
+  case class IPFImplWrapper(val ipf: SigmaDDIPFFactoryImpl.IPFImpl) {
     override lazy val hashCode = ipf.hashCode
     override def equals(o: Any): Boolean = o match {
       case IPFImplWrapper(w) => w eq this.ipf
       case _ => false
     }
   }
+
   /**
    * We override the standard operation to perform a join with cache.
    * @param that the lattice element to join with.
    * @return the union of the this and that.
    */
   abstract override def v(that: LatticeElementType): LatticeElementType = {
-    // order the parameters
-    val key:Set[Any] = Set(IPFImplWrapper(this), IPFImplWrapper(that))
-    IPFImplOperationCache.globalUnionOperationCache.getOrElseUpdate(key, super.v(that))
+    if (this.hashCode < that.hashCode) (that v this) else unionOperationCache.getOrElseUpdate(IPFImplWrapper(that), super.v(that))
   }
 
   /**
@@ -54,8 +56,7 @@ trait IPFImplOperationCache extends SigmaDDIPFFactoryImpl.IPFImpl {
    */
   abstract override def ^(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    val key: Set[Any] = Set[Any](IPFImplWrapper(this), IPFImplWrapper(that))
-    IPFImplOperationCache.globalInterOperationCache.getOrElseUpdate(key, super.^(that))
+    if (this.hashCode < that.hashCode) (that ^ this) else interOperationCache.getOrElseUpdate(IPFImplWrapper(that), super.^(that))
   }
 
   /**
@@ -64,13 +65,6 @@ trait IPFImplOperationCache extends SigmaDDIPFFactoryImpl.IPFImpl {
    * @return the difference of this minus that.
    */
   abstract override def \(that: LatticeElementType): LatticeElementType = {
-    val key: (Any, Any) = (IPFImplWrapper(this), IPFImplWrapper(that))
-    IPFImplOperationCache.globalDifferenceOperationCache.getOrElseUpdate(key, super.\(that))
+    differenceOperationCache.getOrElseUpdate(IPFImplWrapper(that), super.\(that))
   }
-}
-
-object IPFImplOperationCache {
-  val globalUnionOperationCache = new HashMap[Set[Any], SigmaDDIPFFactoryImpl.IPFImpl]
-  val globalInterOperationCache = new HashMap[Set[Any], SigmaDDIPFFactoryImpl.IPFImpl]
-  val globalDifferenceOperationCache = new HashMap[(Any, Any), SigmaDDIPFFactoryImpl.IPFImpl]
 }

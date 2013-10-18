@@ -17,7 +17,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.sigmadd
 
-import ch.unige.cui.smv.stratagem.util.OperationCache
 import scala.collection.mutable.HashMap
 /**
  * Unifies the SigmaDD cache.
@@ -26,10 +25,9 @@ import scala.collection.mutable.HashMap
  */
 trait SigmaDDOperationCache extends SigmaDDFactoryImpl.SigmaDDImpl {
 
-  type OperationType = OperationCache.OperationType
-  val Union = OperationCache.Union
-  val Inter = OperationCache.Inter
-  val Difference = OperationCache.Difference
+  lazy val unionOperationCache = new HashMap[SigmaDDWrapper, SigmaDDFactoryImpl.SigmaDDImpl]
+  lazy val interOperationCache = new HashMap[SigmaDDWrapper, SigmaDDFactoryImpl.SigmaDDImpl]
+  lazy val differenceOperationCache = new HashMap[SigmaDDWrapper, SigmaDDFactoryImpl.SigmaDDImpl]
 
   /**
    * We override the standard operation to perform a join with cache.
@@ -38,8 +36,7 @@ trait SigmaDDOperationCache extends SigmaDDFactoryImpl.SigmaDDImpl {
    */
   abstract override def v(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    val key:Set[Any] = Set(SigmaDDWrapper(this), SigmaDDWrapper(that))
-    SigmaDDOperationCache.globalUnionOperationCache.getOrElseUpdate(key, super.v(that))
+    if (this.hashCode < that.hashCode) (that v this) else unionOperationCache.getOrElseUpdate(SigmaDDWrapper(that), super.v(that))
   }
 
   /**
@@ -49,8 +46,7 @@ trait SigmaDDOperationCache extends SigmaDDFactoryImpl.SigmaDDImpl {
    */
   abstract override def ^(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    val key: Set[Any] = Set(SigmaDDWrapper(this), SigmaDDWrapper(that))
-    SigmaDDOperationCache.globalInterOperationCache.getOrElseUpdate(key, super.^(that))
+    if (this.hashCode < that.hashCode) (that ^ this) else interOperationCache.getOrElseUpdate(SigmaDDWrapper(that), super.^(that))
   }
 
   /**
@@ -59,13 +55,6 @@ trait SigmaDDOperationCache extends SigmaDDFactoryImpl.SigmaDDImpl {
    * @return the difference of this minus that.
    */
   abstract override def \(that: LatticeElementType): LatticeElementType = {
-    val key: (Any, Any) = (SigmaDDWrapper(this), SigmaDDWrapper(that))
-    SigmaDDOperationCache.globalDifferenceOperationCache.getOrElseUpdate(key, super.\(that))
+    differenceOperationCache.getOrElseUpdate(SigmaDDWrapper(that), super.\(that))
   }
-}
-
-object SigmaDDOperationCache {
-  val globalUnionOperationCache = new HashMap[Set[Any], SigmaDDFactoryImpl.SigmaDDImpl]
-  val globalInterOperationCache = new HashMap[Set[Any], SigmaDDFactoryImpl.SigmaDDImpl]
-  val globalDifferenceOperationCache = new HashMap[(Any, Any), SigmaDDFactoryImpl.SigmaDDImpl]
 }
