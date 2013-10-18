@@ -52,7 +52,7 @@ object SigmaDDRewriterFactory {
     case Fail => FailRewriter
     case Identity => IdentityRewriter
     case st @ Union(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new UnionRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
-    case strategyInstance @ DeclaredStrategyInstance(name, actualParams @ _*) => new DeclaredStrategyRewriter(strategyInstance, ts) with SigmaDDRewritingCache
+    case strategyInstance @ DeclaredStrategyInstance(name, actualParams @ _*) => rewriterCache.getOrElseUpdate(strategyInstance.toString, new DeclaredStrategyRewriter(strategyInstance, ts) with SigmaDDRewritingCache)
     case st @ One(s1, n) => rewriterCache.getOrElseUpdate(st.toString, new OneRewriter(strategyToRewriter(s1), n) with SigmaDDRewritingCache)
     case st @ FixPointStrategy(s) => rewriterCache.getOrElseUpdate(st.toString, new FixpointRewriter(strategyToRewriter(s)) with SigmaDDRewritingCache)
     case st @ Sequence(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new SequenceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
