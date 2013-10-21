@@ -16,9 +16,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package ch.unige.cui.smv.stratagem.sigmadd
+package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
 import scala.collection.immutable.HashMap
+
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDIPFFactoryImpl
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDInductiveIPFFactoryImpl
 
 private[sigmadd] case class OneRewriter(rewriter: SigmaDDRewriter, subTermPosition: Int) extends SigmaDDRewriter {
 

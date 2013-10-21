@@ -19,14 +19,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.sigmadd
 
 import scala.collection.immutable.HashMap
-
 import org.scalatest.FlatSpec
-
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.adt.Signature
 import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SimpleSigmaDDRewriter
 // scalastyle:off magic.number
 class TestSigmaDD extends FlatSpec {
 

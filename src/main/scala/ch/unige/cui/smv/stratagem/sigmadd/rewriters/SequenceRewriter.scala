@@ -15,30 +15,30 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
-package ch.unige.cui.smv.stratagem.sigmadd
+package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
 /**
- * Implements the union strategy.
- * @param rewriter1 represents one strategy (in rewriter form) of the original union strategy.
- * @param rewriter2 represents one strategy (in rewriter form) of the original union strategy.
+ * Represents a rewriter for the sequence strategy.
+ *
+ * @param rewriter1 the rewriter that gets executed first.
+ * @param rewriter2 the rewriter that gets executed second.
+ *
+ * @author mundacho
+ *
  */
-case class UnionRewriter(rewriter1: SigmaDDRewriter, rewriter2: SigmaDDRewriter) extends SigmaDDRewriter {
+private[sigmadd] case class SequenceRewriter(rewriter1: SigmaDDRewriter, rewriter2: SigmaDDRewriter) extends SigmaDDRewriter {
 
   override lazy val hashCode = (this.getClass(), rewriter1, rewriter2).hashCode
 
-  override lazy val toString = "UnionRewriter(" + rewriter1.toString + ", " + rewriter2.toString + ")"
+  override lazy val toString = "SequenceRewriter(" + rewriter1.toString + ", " + rewriter2.toString + ")"
 
   override def equals(obj: Any): Boolean = obj match {
-    case that @ UnionRewriter(r1, r2) => (this eq that) || ((rewriter1 == r1) && (rewriter2 == r2))
+    case that @ SequenceRewriter(r1, r2) => (this eq that) || ((rewriter1 == r1) && (rewriter2 == r2))
     case _ => false
   }
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = rewriter1(sigmaDD) match {
     case None => None
-    case Some(result1) => rewriter2(sigmaDD) match {
-      case None => None
-      case Some(result2) => Some(result1 v result2)
-    }
+    case Some(s) => rewriter2(s)
   }
 }

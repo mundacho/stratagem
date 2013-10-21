@@ -16,22 +16,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package ch.unige.cui.smv.stratagem.sigmadd
+package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
 /**
- * The parent class of all SigmaDD rewriters.
+ * Implements the identity strategy. Always return the identity.
  */
-abstract class SigmaDDRewriter {
+private[sigmadd] object IdentityRewriter extends SigmaDDRewriter {
+  override lazy val hashCode = this.getClass().hashCode
 
-  override def hashCode: Int = throw new NotImplementedError("All subclasses of" + this.getClass().getName() + " should implement hashcode")
+  override def equals(obj: Any): Boolean = obj match {
+    case that @ AnyRef => (this eq that)
+    case _ => false
+  }
 
-  override def equals(obj: Any): Boolean = throw new NotImplementedError("All subclasses of " + this.getClass().getName() + " should implement equals")
-
-  /**
-   * An alias for the type of the rewriting type.
-   */
-  type SigmaDDImplType = SigmaDDFactoryImpl.SigmaDDImpl
-
-  def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType]
-
+  def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = Some(sigmaDD)
 }

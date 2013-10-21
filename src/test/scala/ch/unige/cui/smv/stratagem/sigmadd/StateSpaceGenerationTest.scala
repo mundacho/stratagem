@@ -34,6 +34,8 @@ import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.ts.Try
 import org.scalatest.BeforeAndAfter
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 // scalastyle:off regex
 /**
  * Tests the generation of the state space.

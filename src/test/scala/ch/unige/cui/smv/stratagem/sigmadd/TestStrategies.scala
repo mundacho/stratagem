@@ -32,6 +32,9 @@ import ch.unige.cui.smv.stratagem.ts.Identity
 import ch.unige.cui.smv.stratagem.ts.One
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.Sequence
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.OneRewriter
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SimpleSigmaDDRewriter
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.DeclaredStrategyRewriter
 
 /**
  * This class tests the strategies.

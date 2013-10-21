@@ -16,18 +16,34 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package ch.unige.cui.smv.stratagem.sigmadd
+package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
 /**
- * Implements the identity strategy. Always return the identity.
+ * Implements the fixpoint rewriter. It applies its rewriter until a fixpoint is reached.
+ * @param rewriter the rewriter to be applied.
  */
-private[sigmadd] object IdentityRewriter extends SigmaDDRewriter {
-  override lazy val hashCode = this.getClass().hashCode
+private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter) extends SigmaDDRewriter {
+
+  override lazy val hashCode = (this.getClass(), rewriter).hashCode
+
+  override lazy val toString = "FixpointRewriter(" + rewriter.toString + ")"
 
   override def equals(obj: Any): Boolean = obj match {
-    case that @ AnyRef => (this eq that)
+    case that @ FixpointRewriter(r) => (this eq that) || (rewriter == r)
     case _ => false
   }
 
-  def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = Some(sigmaDD)
+  def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
+    var result = rewriter(sigmaDD)
+    if (result == None) { None } // no fixpoint
+    else {
+      var newResult = rewriter(result.get)
+      while ((newResult != None) && (result.get ne newResult.get)) {
+        result = newResult
+        newResult = rewriter(result.get)
+      }
+      // if we arrive here either: result == newResult or newResult == None
+      newResult
+    }
+  }
 }

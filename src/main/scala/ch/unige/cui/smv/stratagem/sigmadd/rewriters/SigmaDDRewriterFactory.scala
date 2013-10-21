@@ -16,22 +16,20 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package ch.unige.cui.smv.stratagem.sigmadd
+package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
+import ch.unige.cui.smv.stratagem.ts.Choice
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.Fail
+import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.Identity
+import ch.unige.cui.smv.stratagem.ts.One
+import ch.unige.cui.smv.stratagem.ts.Sequence
 import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.ts.Strategy
 import ch.unige.cui.smv.stratagem.ts.TransitionSystem
-import ch.unige.cui.smv.stratagem.ts.Union
-import scala.collection.mutable.HashMap
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
-import ch.unige.cui.smv.stratagem.ts.One
-import ch.unige.cui.smv.stratagem.ts.Sequence
 import ch.unige.cui.smv.stratagem.ts.Try
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
+import ch.unige.cui.smv.stratagem.ts.Union
 /**
  * Represents a factory of rewriters.
  */
@@ -52,7 +50,8 @@ object SigmaDDRewriterFactory {
     case Fail => FailRewriter
     case Identity => IdentityRewriter
     case st @ Union(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new UnionRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
-    case strategyInstance @ DeclaredStrategyInstance(name, actualParams @ _*) => rewriterCache.getOrElseUpdate(strategyInstance.toString, new DeclaredStrategyRewriter(strategyInstance, ts) with SigmaDDRewritingCache)
+    case strategyInstance @ DeclaredStrategyInstance(name, actualParams @ _*) =>
+      rewriterCache.getOrElseUpdate(strategyInstance.toString, new DeclaredStrategyRewriter(strategyInstance, ts) with SigmaDDRewritingCache)
     case st @ One(s1, n) => rewriterCache.getOrElseUpdate(st.toString, new OneRewriter(strategyToRewriter(s1), n) with SigmaDDRewritingCache)
     case st @ FixPointStrategy(s) => rewriterCache.getOrElseUpdate(st.toString, new FixpointRewriter(strategyToRewriter(s)) with SigmaDDRewritingCache)
     case st @ Sequence(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new SequenceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)

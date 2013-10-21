@@ -16,24 +16,22 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package ch.unige.cui.smv.stratagem.sigmadd
+package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
-import ch.unige.cui.smv.stratagem.ts.TransitionSystem
-import ch.unige.cui.smv.stratagem.ts.Strategy
-import ch.unige.cui.smv.stratagem.ts.VariableStrategy
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
+import ch.unige.cui.smv.stratagem.ts.Choice
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.Fail
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategy
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
-import ch.unige.cui.smv.stratagem.ts.One
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.Sequence
 import ch.unige.cui.smv.stratagem.ts.Identity
-import ch.unige.cui.smv.stratagem.ts.Union
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.ts.One
+import ch.unige.cui.smv.stratagem.ts.Sequence
+import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
+import ch.unige.cui.smv.stratagem.ts.Strategy
+import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
+import ch.unige.cui.smv.stratagem.ts.Union
+import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 
 
 /**
