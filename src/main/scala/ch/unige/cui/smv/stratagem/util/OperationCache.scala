@@ -19,7 +19,8 @@ package ch.unige.cui.smv.stratagem.util
 
 import scala.collection.mutable.HashMap
 /**
- * The operation cache for union, intersection and difference.
+ * This class is designed to be used as a mixin. It implements an operation cache
+ * for union, intersection and difference.
  * @author mundacho
  *
  */
