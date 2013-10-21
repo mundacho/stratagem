@@ -245,7 +245,7 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter {
   }
 
   val numberOfPhilosophersTest4 = 20
-  val numberOfClustersTest4 = 1
+  val numberOfClustersTest4 = 4
 
   val ts3 = (new TransitionSystem(adt, generateInitialCluteredState(numberOfPhilosophersTest4, numberOfClustersTest4)))
     .declareStrategy("doForAllPhil", V) { Union(Try(V), Choice(One(DoForAllPhils(V), 3), Try(V))) }(false)
@@ -326,7 +326,7 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter {
         Union(DeclaredStrategyInstance("takeRightForkFromWaitingForRightFork"), Union(DeclaredStrategyInstance("goToThink"), DeclaredStrategyInstance("takeLeftForkFromWaitingForLeftFork"))))))), 1))
     }(true)
 
-  it should "allow to generate the state space for the clustered philosophers problem with 20 philosophers and saturation" in {
+  it should "allow to generate the state space for the clustered philosophers problem with 100 philosophers and saturation" in {
     val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts4)
     stats(time(println("Total number of states: " + rewriter(SigmaDDFactoryImpl.create(ts4.initialState)).get.size)))
     assert(rewriter(SigmaDDFactoryImpl.create(ts4.initialState)).get.size == BigInt("496926405783746676393791436882468230898067489522034699520200002"))

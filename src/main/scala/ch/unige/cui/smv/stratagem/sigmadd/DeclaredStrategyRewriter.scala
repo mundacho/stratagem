@@ -35,6 +35,13 @@ import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.Try
 
+
+/**
+ * Implements a rewriter for a declared strategy.
+ * @param declaredStrategy the strategy to transform.
+ * @param ts the transition system where this declared strategy is used. 
+ * It is needed to find other declared strategies in its body.
+ */
 private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredStrategyInstance, ts: TransitionSystem) extends SigmaDDRewriter {
 
   override lazy val toString = "DeclaredStrategyRewriter(" + declaredStrategy.toString + ")"
@@ -46,8 +53,15 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
     case _ => false
   }
 
+  /**
+   * A map containing the values of the parameters.
+   */
   lazy val formalToActualParameterMap = Map((ts.strategyDeclarations(declaredStrategy.name).declaredStrategy.formalParameters zip declaredStrategy.actualParams).toArray: _*)
 
+  
+  /**
+   * The actual rewriter that this strategy uses.
+   */
   lazy val rewriter = SigmaDDRewriterFactory.strategyToRewriter(instanciate(ts.strategyDeclarations(declaredStrategy.name).declaredStrategy.body))(ts)
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = rewriter(sigmaDD)

@@ -15,30 +15,31 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package ch.unige.cui.smv.stratagem.util
 
 import scala.collection.mutable.HashMap
-
 /**
- * This class should be used as a mixin. I adds cache functionality to a lattice
- * element.
+ * The operation cache for union, intersection and difference.
+ * @author mundacho
+ *
  */
 trait OperationCache extends LatticeElement {
-  /**
-   * A map where we keep our cache.
-   */
-  val operationCache = new HashMap[(OperationCache.OperationType, Any, Any), LatticeElementType]
+
+  type LatticeElementType <: LatticeElement { type LatticeElementType = OperationCache.this.LatticeElementType }
+
+  lazy val unionOperationCache = new HashMap[LightWeightWrapper[LatticeElementType], LatticeElementType]
+  lazy val interOperationCache = new HashMap[LightWeightWrapper[LatticeElementType], LatticeElementType]
+  lazy val differenceOperationCache = new HashMap[LightWeightWrapper[LatticeElementType], LatticeElementType]
 
   /**
    * We override the standard operation to perform a join with cache.
    * @param that the lattice element to join with.
    * @return the union of the this and that.
    */
-  abstract override def v(that: LatticeElementType): LatticeElementType = {
-    // order the parameters
-    val key: (OperationCache.OperationType, Any, Any) = if (this.hashCode > that.hashCode) (OperationCache.Union, this, that) else (OperationCache.Union, that, this)
-    operationCache.getOrElseUpdate(key, super.v(that))
+  abstract override def v(that: LatticeElementType): LatticeElementType = if (this.hashCode < that.hashCode) {
+    that v this.asInstanceOf[OperationCache.this.LatticeElementType]
+  } else {
+    unionOperationCache.getOrElseUpdate(LightWeightWrapper[LatticeElementType](that), super.v(that))
   }
 
   /**
@@ -46,10 +47,10 @@ trait OperationCache extends LatticeElement {
    * @param that the lattice element to intersect with.
    * @return the intersection of this and that.
    */
-  abstract override def ^(that: LatticeElementType): LatticeElementType = {
-    // order the parameters
-    val key: (OperationCache.OperationType, Any, Any) = if (this.hashCode > that.hashCode) (OperationCache.Inter, this, that) else (OperationCache.Inter, that, this)
-    operationCache.getOrElseUpdate(key, super.^(that))
+  abstract override def ^(that: LatticeElementType): LatticeElementType = if (this.hashCode < that.hashCode) {
+    that ^ this.asInstanceOf[OperationCache.this.LatticeElementType]
+  } else {
+    interOperationCache.getOrElseUpdate(LightWeightWrapper[LatticeElementType](that), super.^(that))
   }
 
   /**
@@ -57,17 +58,5 @@ trait OperationCache extends LatticeElement {
    * @param that is the lattice element to subtract.
    * @return the difference of this minus that.
    */
-  abstract override def \(that: LatticeElementType): LatticeElementType = {
-    val key: (OperationCache.OperationType, Any, Any) = (OperationCache.Difference, this, that)
-    operationCache.getOrElseUpdate(key, super.\(that))
-  }
-
-}
-
-object OperationCache {
-  abstract class OperationType
-
-  object Union extends OperationType
-  object Inter extends OperationType
-  object Difference extends OperationType
+  abstract override def \(that: LatticeElementType): LatticeElementType = differenceOperationCache.getOrElseUpdate(LightWeightWrapper[LatticeElementType](that), super.\(that))
 }

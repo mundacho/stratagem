@@ -24,6 +24,7 @@ import ch.unige.cui.smv.stratagem.util.OperationCache
 import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
 import ch.unige.cui.smv.stratagem.util.Element
 import scala.language.postfixOps
+import ch.unige.cui.smv.stratagem.util.OperationCache
 
 /**
  * This class implements an IPF factory to be embedded in SigmaDDs.
@@ -31,19 +32,14 @@ import scala.language.postfixOps
  */
 object SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
 
-  /**
-   * The inductive IPF factory.
-   */
-  val inductiveIPFFactory = SigmaDDInductiveIPFFactoryImpl
-
-  type InductiveIPFType = inductiveIPFFactory.InductiveIPFImpl
+  type InductiveIPFType = SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl
 
   type CanonicalType = IPFImpl
 
   type FromType = Map[StringSetWrapperFactory.StringSetWrapper, InductiveIPFType]
 
   protected def makeFrom(alpha: AnyRef): IPFImpl = alpha match {
-    case a: HashMap[StringSetWrapperFactory.StringSetWrapper, InductiveIPFType] @unchecked => new IPFImpl(a) with IPFImplOperationCache
+    case a: HashMap[StringSetWrapperFactory.StringSetWrapper, InductiveIPFType] @unchecked => new IPFImpl(a) with OperationCache
     case _ => throw new IllegalArgumentException("Unable to create IPF")
   }
 

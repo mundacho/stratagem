@@ -23,8 +23,8 @@ import ch.unige.cui.smv.stratagem.ipf.IPFAbstractFactory
 import ch.unige.cui.smv.stratagem.util.OperationCache
 import ch.unige.cui.smv.stratagem.util.Element
 import ch.unige.cui.smv.stratagem.adt.ATerm
-
 import scala.language.postfixOps
+import ch.unige.cui.smv.stratagem.util.OperationCache
 
 /**
  * This factory represents the tail of a SigmaDD.
@@ -38,7 +38,7 @@ object SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
   type FromType = Map[SigmaDDType, InductiveIPFImpl]
 
   protected def makeFrom(alpha: AnyRef): InductiveIPFImpl = alpha match {
-    case a: HashMap[SigmaDDType, InductiveIPFImpl] @unchecked => new InductiveIPFImpl(a) with InductiveIPFImplOperationCache
+    case a: HashMap[SigmaDDType, InductiveIPFImpl] @unchecked => new InductiveIPFImpl(a) with OperationCache
     case _ => throw new IllegalArgumentException("Unable to create IPF")
   }
 

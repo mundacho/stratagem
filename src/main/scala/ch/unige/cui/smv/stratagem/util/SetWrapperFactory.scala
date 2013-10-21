@@ -64,7 +64,7 @@ abstract class SetWrapperFactory extends CanonicalFactory {
 /**
  * This is a factory for sets of strings.
  */
-object StringSetWrapperFactory extends SetWrapperFactory with SynchronizedCache {
+object StringSetWrapperFactory extends SetWrapperFactory {
   type T = String
 
   type CanonicalType = StringSetWrapper

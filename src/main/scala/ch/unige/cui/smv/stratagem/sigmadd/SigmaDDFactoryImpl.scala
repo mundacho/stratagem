@@ -31,15 +31,11 @@ import ch.unige.cui.smv.stratagem.util.OperationCache
  * This factory creates SigmaDDs.
  */
 object SigmaDDFactoryImpl extends CanonicalFactory {
-
-  // TODO remove this
-  lazy val ipfFactory = SigmaDDIPFFactoryImpl
-
   type CanonicalType = SigmaDDImpl
 
   type FromType = (ASort, IPFType)
 
-  type IPFType = ipfFactory.IPFImpl
+  type IPFType = SigmaDDIPFFactoryImpl.IPFImpl
 
   /**
    * Creates a SigmaDD from a term.
@@ -49,7 +45,7 @@ object SigmaDDFactoryImpl extends CanonicalFactory {
   def create(term: ATerm): SigmaDDImpl = {
     require(!term.isVariable, "Cannot create a SigmaDD containing a variable.")
     term match {
-      case ATerm(opSymbol, terms) => create(term.sort, ipfFactory.create(opSymbol, ipfFactory.inductiveIPFFactory.create(terms)))
+      case ATerm(opSymbol, terms) => create(term.sort, SigmaDDIPFFactoryImpl.create(opSymbol, SigmaDDInductiveIPFFactoryImpl.create(terms)))
     }
   }
 
@@ -64,14 +60,14 @@ object SigmaDDFactoryImpl extends CanonicalFactory {
       variables(term.symbol)
     } else {
       term match {
-        case ATerm(opSymbol, terms) => create(term.sort, ipfFactory.create(opSymbol, ipfFactory.inductiveIPFFactory.instanciate(terms, variables)))
+        case ATerm(opSymbol, terms) => create(term.sort, SigmaDDIPFFactoryImpl.create(opSymbol, SigmaDDInductiveIPFFactoryImpl.instanciate(terms, variables)))
       }
     }
 
   }
 
   protected def makeFrom(tuple: AnyRef): SigmaDDImpl = tuple match {
-    case a: (ASort, IPFType) @unchecked => new SigmaDDImpl(a._1, a._2) with SigmaDDOperationCache
+    case a: (ASort, IPFType) @unchecked => new SigmaDDImpl(a._1, a._2) with OperationCache
     case _ => throw new IllegalArgumentException("Unable to create SigmaDD")
   }
 

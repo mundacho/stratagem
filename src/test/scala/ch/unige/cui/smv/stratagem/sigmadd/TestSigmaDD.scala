@@ -45,12 +45,12 @@ class TestSigmaDD extends FlatSpec {
   }
 
   val boolSort = adt.signature.sorts("bool")
-  val trueSigmaDD = SigmaDDFactoryImpl.create((boolSort, SigmaDDFactoryImpl.ipfFactory.create("true", SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF)))
-  val falseSigmaDD = SigmaDDFactoryImpl.create((boolSort, SigmaDDFactoryImpl.ipfFactory.create("false", SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF)))
-  val topIPF = SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF
-  val trueTuple = SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(trueSigmaDD -> topIPF))
-  val trueTrueTuple = SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(trueSigmaDD -> trueTuple))
-  val andTrueTrueSigmaDD = SigmaDDFactoryImpl.create((boolSort, SigmaDDFactoryImpl.ipfFactory.create("and", trueTrueTuple)))
+  val trueSigmaDD = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create("true", SigmaDDInductiveIPFFactoryImpl.TopIPF)))
+  val falseSigmaDD = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create("false", SigmaDDInductiveIPFFactoryImpl.TopIPF)))
+  val topIPF = SigmaDDInductiveIPFFactoryImpl.TopIPF
+  val trueTuple = SigmaDDInductiveIPFFactoryImpl.create(HashMap(trueSigmaDD -> topIPF))
+  val trueTrueTuple = SigmaDDInductiveIPFFactoryImpl.create(HashMap(trueSigmaDD -> trueTuple))
+  val andTrueTrueSigmaDD = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create("and", trueTrueTuple)))
 
   // defs for defining terms
   def zero = adt.term("zero")
@@ -65,21 +65,21 @@ class TestSigmaDD extends FlatSpec {
   "A SigmaDD" should "be capable of representing a constant set of constants" in {
     val unionOfConstants = trueSigmaDD v falseSigmaDD
     // scalastyle:off
-    val expectedResult = SigmaDDFactoryImpl.create((boolSort, SigmaDDFactoryImpl.ipfFactory.create((HashMap(StringSetWrapperFactory.create(Set("true", "false")) -> SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF)))))
+    val expectedResult = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create((HashMap(StringSetWrapperFactory.create(Set("true", "false")) -> SigmaDDInductiveIPFFactoryImpl.TopIPF)))))
     // scalastyle:on
     assert(unionOfConstants eq expectedResult)
   }
 
   it should "be capabe of representing the union of a constant and a composite term" in {
     // scalastyle:off
-    val expectedResult = SigmaDDFactoryImpl.create((boolSort, SigmaDDFactoryImpl.ipfFactory.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
+    val expectedResult = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
     // scalastyle:on
     assert(expectedResult eq (andTrueTrueSigmaDD v trueSigmaDD))
   }
 
   it should "be capabe of representing the difference of two sets of terms" in {
     // scalastyle:off
-    val expectedResult = SigmaDDFactoryImpl.create((boolSort, SigmaDDFactoryImpl.ipfFactory.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
+    val expectedResult = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
     // scalastyle:on
     assert(expectedResult eq ((andTrueTrueSigmaDD v trueSigmaDD) \ falseSigmaDD)) // We subtract an element that is not in the set
     assert(andTrueTrueSigmaDD eq ((andTrueTrueSigmaDD v trueSigmaDD) \ trueSigmaDD)) // we subtract an element that was already there
@@ -87,7 +87,7 @@ class TestSigmaDD extends FlatSpec {
 
   it should "be capabe of representing the intersection of two sets of terms" in {
     // scalastyle:off
-    val expectedResult = SigmaDDFactoryImpl.create((boolSort, SigmaDDFactoryImpl.ipfFactory.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
+    val expectedResult = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
     // scalastyle:on
     assert(expectedResult == ((andTrueTrueSigmaDD v trueSigmaDD v falseSigmaDD) ^ (andTrueTrueSigmaDD v trueSigmaDD))) // We subtract an element that is not in the set
   }

@@ -31,7 +31,7 @@ trait LatticeElement {
    * This is the lattice element type. All lattice  operations are done between
    * elements of this type and they return an element of this type.
    */
-  type LatticeElementType
+  type LatticeElementType <: AnyRef
 
   /**
    * @return the bottom element of the lattice.

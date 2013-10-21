@@ -31,8 +31,8 @@ private[sigmadd] case class OneRewriter(rewriter: SigmaDDRewriter, subTermPositi
     case _ => false
   }
 
-  type InductiveIPF = SigmaDDFactoryImpl.ipfFactory.InductiveIPFType
-  val top: SigmaDDFactoryImpl.ipfFactory.InductiveIPFType = SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF
+  type InductiveIPF = SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl
+  val top: SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl = SigmaDDInductiveIPFFactoryImpl.TopIPF
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
     val result = sigmaDD.iipf.alpha.map((entry) =>
@@ -40,34 +40,34 @@ private[sigmadd] case class OneRewriter(rewriter: SigmaDDRewriter, subTermPositi
         val (key, inductiveIPF) = entry
         applyOneRewriterOnIIPF(inductiveIPF, subTermPosition) match {
           case None => None
-          case Some(r) => Some(SigmaDDFactoryImpl.create((sigmaDD.sort, SigmaDDFactoryImpl.ipfFactory.create(key, r))))
+          case Some(r) => Some(SigmaDDFactoryImpl.create((sigmaDD.sort, SigmaDDIPFFactoryImpl.create(key, r))))
         }
       }).filter(_ != None)
     if (result.isEmpty) None else result.reduce((e1, e2) => Some(e1.get v e2.get))
   }
 
   def applyOneRewriterOnIIPF(iipf: InductiveIPF, n: Int): Option[InductiveIPF] = iipf match {
-    case SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.TopIPF => None // could not rewrite here
+    case SigmaDDInductiveIPFFactoryImpl.TopIPF => None // could not rewrite here
     case e: InductiveIPF => {
       val res = e.alpha.map((entry) => {
         val (sigmaDD, nextIIPF) = entry
         if (n == 0) {
           rewriter(sigmaDD) match {
-            case Some(s) => Some(SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(s -> nextIIPF)))
+            case Some(s) => Some(SigmaDDInductiveIPFFactoryImpl.create(HashMap(s -> nextIIPF)))
             case None => applyOneRewriterOnIIPF(nextIIPF, 0) match {
               case None => None
-              case Some(i) => Some(SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(sigmaDD -> i)))
+              case Some(i) => Some(SigmaDDInductiveIPFFactoryImpl.create(HashMap(sigmaDD -> i)))
             }
           }
         } else if (n == 1) {
           rewriter(sigmaDD) match {
-            case Some(s) => Some(SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(s -> nextIIPF)))
+            case Some(s) => Some(SigmaDDInductiveIPFFactoryImpl.create(HashMap(s -> nextIIPF)))
             case None => None
           }
         } else {
           assert(n > 1)
           applyOneRewriterOnIIPF(nextIIPF, n - 1) match {
-            case Some(s) => Some(SigmaDDFactoryImpl.ipfFactory.inductiveIPFFactory.create(HashMap(sigmaDD -> s)))
+            case Some(s) => Some(SigmaDDInductiveIPFFactoryImpl.create(HashMap(sigmaDD -> s)))
             case None => None
           }
         }

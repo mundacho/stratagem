@@ -18,6 +18,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.sigmadd
 
+/**
+ * Implements the fixpoint rewriter. It applies its rewriter until a fixpoint is reached.
+ * @param rewriter the rewriter to be applied.
+ */
 private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter) extends SigmaDDRewriter {
 
   override lazy val hashCode = (this.getClass(), rewriter).hashCode

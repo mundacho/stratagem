@@ -38,7 +38,7 @@ private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy
     case _ => false
   }
 
-  type InductiveType = SigmaDDFactoryImpl.ipfFactory.InductiveIPFType
+  type InductiveType = SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl
 
   type SubstitutionMap = Map[String, SigmaDDImplType]
 
