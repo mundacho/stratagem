@@ -18,6 +18,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.sigmadd
 
+import ch.unige.cui.smv.stratagem.util.LightWeightWrapper
+
 
 
 /**
@@ -28,14 +30,14 @@ trait SigmaDDRewritingCache extends SigmaDDRewriter {
   /**
    * A map where we keep our cache.
    */
-  val operationCache = new scala.collection.mutable.HashMap[SigmaDDWrapper, Option[SigmaDDFactoryImpl.SigmaDDImpl]]
+  val operationCache = new scala.collection.mutable.HashMap[LightWeightWrapper[SigmaDDFactoryImpl.SigmaDDImpl], Option[SigmaDDFactoryImpl.SigmaDDImpl]]
 
   /**
    * This function adds cache functionality to the SigmaDD rewriter.
    */
   abstract override def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
     SigmaDDRewritingCacheStats.callsCounter = SigmaDDRewritingCacheStats.callsCounter + 1
-    val wrapper = SigmaDDWrapper(sigmaDD)
+    val wrapper = LightWeightWrapper[SigmaDDFactoryImpl.SigmaDDImpl](sigmaDD)
     if (operationCache.isDefinedAt(wrapper)) {
       SigmaDDRewritingCacheStats.hitCounter = SigmaDDRewritingCacheStats.hitCounter + 1
       operationCache.get(wrapper).get
@@ -46,19 +48,6 @@ trait SigmaDDRewritingCache extends SigmaDDRewriter {
     }
   }
 
-}
-
-/**
- * Wrapper for fast comparison.
- * @author mundacho
- *
- */
-case class SigmaDDWrapper(val sigmaDD: SigmaDDFactoryImpl.SigmaDDImpl) {
-  override lazy val hashCode = sigmaDD.hashCode
-  override def equals(o: Any): Boolean = o match {
-    case SigmaDDWrapper(w) => w eq this.sigmaDD
-    case _ => false
-  }
 }
 
 /**

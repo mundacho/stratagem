@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.sigmadd
 
 import scala.collection.mutable.HashMap
+import ch.unige.cui.smv.stratagem.util.LightWeightWrapper
 /**
  * Unifies the SigmaDD cache.
  * @author mundacho
@@ -25,9 +26,9 @@ import scala.collection.mutable.HashMap
  */
 trait SigmaDDOperationCache extends SigmaDDFactoryImpl.SigmaDDImpl {
 
-  lazy val unionOperationCache = new HashMap[SigmaDDWrapper, SigmaDDFactoryImpl.SigmaDDImpl]
-  lazy val interOperationCache = new HashMap[SigmaDDWrapper, SigmaDDFactoryImpl.SigmaDDImpl]
-  lazy val differenceOperationCache = new HashMap[SigmaDDWrapper, SigmaDDFactoryImpl.SigmaDDImpl]
+  lazy val unionOperationCache = new HashMap[LightWeightWrapper[SigmaDDFactoryImpl.SigmaDDImpl], SigmaDDFactoryImpl.SigmaDDImpl]
+  lazy val interOperationCache = new HashMap[LightWeightWrapper[SigmaDDFactoryImpl.SigmaDDImpl], SigmaDDFactoryImpl.SigmaDDImpl]
+  lazy val differenceOperationCache = new HashMap[LightWeightWrapper[SigmaDDFactoryImpl.SigmaDDImpl], SigmaDDFactoryImpl.SigmaDDImpl]
 
   /**
    * We override the standard operation to perform a join with cache.
@@ -36,7 +37,7 @@ trait SigmaDDOperationCache extends SigmaDDFactoryImpl.SigmaDDImpl {
    */
   abstract override def v(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    if (this.hashCode < that.hashCode) (that v this) else unionOperationCache.getOrElseUpdate(SigmaDDWrapper(that), super.v(that))
+    if (this.hashCode < that.hashCode) (that v this) else unionOperationCache.getOrElseUpdate(LightWeightWrapper[SigmaDDFactoryImpl.SigmaDDImpl](that), super.v(that))
   }
 
   /**
@@ -46,7 +47,7 @@ trait SigmaDDOperationCache extends SigmaDDFactoryImpl.SigmaDDImpl {
    */
   abstract override def ^(that: LatticeElementType): LatticeElementType = {
     // order the parameters
-    if (this.hashCode < that.hashCode) (that ^ this) else interOperationCache.getOrElseUpdate(SigmaDDWrapper(that), super.^(that))
+    if (this.hashCode < that.hashCode) (that ^ this) else interOperationCache.getOrElseUpdate(LightWeightWrapper[SigmaDDFactoryImpl.SigmaDDImpl](that), super.^(that))
   }
 
   /**
@@ -55,6 +56,6 @@ trait SigmaDDOperationCache extends SigmaDDFactoryImpl.SigmaDDImpl {
    * @return the difference of this minus that.
    */
   abstract override def \(that: LatticeElementType): LatticeElementType = {
-    differenceOperationCache.getOrElseUpdate(SigmaDDWrapper(that), super.\(that))
+    differenceOperationCache.getOrElseUpdate(LightWeightWrapper[SigmaDDFactoryImpl.SigmaDDImpl](that), super.\(that))
   }
 }
