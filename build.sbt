@@ -15,3 +15,9 @@ testOptions in Test += Tests.Argument("-u", "target/test-reports")
 // libraryDependencies += "org.scalatest" % "scalatest_2.10" % "1.9.2" % "test"
 
 org.scalastyle.sbt.ScalastylePlugin.Settings
+
+// dependencies for command line parser
+
+libraryDependencies += "com.github.scopt" %% "scopt" % "3.1.0"
+
+resolvers += "sonatype-public" at "https://oss.sonatype.org/content/groups/public"
