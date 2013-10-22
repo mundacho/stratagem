@@ -21,3 +21,9 @@ org.scalastyle.sbt.ScalastylePlugin.Settings
 libraryDependencies += "com.github.scopt" %% "scopt" % "3.1.0"
 
 resolvers += "sonatype-public" at "https://oss.sonatype.org/content/groups/public"
+
+libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "1.0.1"
+
+libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.2"
+
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13"
