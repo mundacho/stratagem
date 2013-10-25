@@ -19,23 +19,31 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.sigmadd
 
 import scala.language.postfixOps
-
 import ch.unige.cui.smv.stratagem.adt.ASort
 import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.util.CanonicalFactory
 import ch.unige.cui.smv.stratagem.util.Element
 import ch.unige.cui.smv.stratagem.util.LatticeElement
 import ch.unige.cui.smv.stratagem.util.OperationCache
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 
 /**
  * This factory creates SigmaDDs.
  */
 object SigmaDDFactoryImpl extends CanonicalFactory {
+
   type CanonicalType = SigmaDDImpl
 
   type FromType = (ASort, IPFType)
 
   type IPFType = SigmaDDIPFFactoryImpl.IPFImpl
+
+  def cleanAllCaches {
+    SigmaDDRewriterFactory.resetOperationCaches
+    SigmaDDFactoryImpl.cleanUnicityTable
+    SigmaDDInductiveIPFFactoryImpl.cleanUnicityTable
+    SigmaDDIPFFactoryImpl.cleanUnicityTable
+  }
 
   /**
    * Creates a SigmaDD from a term.

@@ -49,19 +49,18 @@ object PNML2TransitionSystem extends Logging {
 
   case class Transition(val id: String, val inputArc: Set[(String, Int)], val outputArc: Set[(Int, String)])
 
-  var signature = (new Signature)
-    .withSort("place")
-    .withSort("nat")
-    .withGenerator("zero", "nat")
-    .withGenerator("suc", "nat", "nat")
-    .withGenerator("endplace", "place")
-
   def define(n: Int, initialTerm: ATerm, a: ADT): ATerm = n match {
     case 0 => initialTerm
     case _ => a.term("suc", (define(n - 1, initialTerm, a)))
   }
 
   def apply(input: File) = {
+    var signature = (new Signature)
+      .withSort("place")
+      .withSort("nat")
+      .withGenerator("zero", "nat")
+      .withGenerator("suc", "nat", "nat")
+      .withGenerator("endplace", "place")
 
     val xml = loadFile(input)
     // first we create an adt

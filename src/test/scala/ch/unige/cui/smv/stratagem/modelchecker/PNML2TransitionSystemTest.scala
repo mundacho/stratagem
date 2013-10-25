@@ -19,6 +19,10 @@ package ch.unige.cui.smv.stratagem.modelchecker
 
 import org.scalatest.FlatSpec
 import java.io.File
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDInductiveIPFFactoryImpl
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDIPFFactoryImpl
 
 /**
  * @author mundacho
@@ -26,7 +30,31 @@ import java.io.File
  */
 class PNML2TransitionSystemTest extends FlatSpec {
   "PNML2TransitionSystemTest" should "read the name of a PT correctly" in {
-	  PNML2TransitionSystem(new File("resources/test/philo.pnml"))
-	  assert(PNML2TransitionSystem.name == "philo")
+    PNML2TransitionSystem(new File("resources/test/philo.pnml"))
+    assert(PNML2TransitionSystem.name == "philo")
   }
+
+  it should "obtain a valid network even if the inscription in the places are empty" in {
+    PNML2TransitionSystem(new File("resources/test/Philosophers-5.pnml"))
+  }
+
+  it should "be able to generate a valid transition system generating the right number of states." in {
+    val ts = PNML2TransitionSystem(new File("resources/test/Philosophers-5.pnml"))
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    assert(rewriter(initialState).get.size == 243)
+
+  }
+
+  it should "be able to generate a valid transition system generating the right number of states for even larger sets" in {
+    SigmaDDFactoryImpl.cleanAllCaches
+    val ts1 = PNML2TransitionSystem(new File("resources/test/philo.pnml"))
+    println("Created transition system")
+    val initialState1 = SigmaDDFactoryImpl.create(ts1.initialState)
+    println("Created initial state")
+    val rewriter1 = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts1)
+    println("Created rewriter")
+    assert(rewriter1(initialState1).get.size == 729)
+  }
+
 }
