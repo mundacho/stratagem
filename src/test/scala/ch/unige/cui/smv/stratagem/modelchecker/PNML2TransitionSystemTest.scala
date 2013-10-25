@@ -15,20 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+package ch.unige.cui.smv.stratagem.modelchecker
 
-package ch.unige.cui.smv.stratagem.adt
+import org.scalatest.FlatSpec
+import java.io.File
 
 /**
- * Represents an operation of the adt.
- *
- * @param name the operation's name.
- * @param returnType the operation's return type.
- * @param arity the operation's arity.
- *
  * @author mundacho
  *
  */
-case class Operation(val name: String, val returnType: ASort, val arity: List[ASort]) {
-  override def toString = name + ":" + arity.mkString(", ") + " -> " + returnType.toString 
-  require(name != "")
+class PNML2TransitionSystemTest extends FlatSpec {
+  "PNML2TransitionSystemTest" should "read the name of a PT correctly" in {
+	  PNML2TransitionSystem(new File("resources/test/philo.pnml"))
+	  assert(PNML2TransitionSystem.name == "philo")
+  }
 }

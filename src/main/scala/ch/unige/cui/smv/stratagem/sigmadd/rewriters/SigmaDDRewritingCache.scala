@@ -20,8 +20,7 @@ package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.util.LightWeightWrapper
-
-
+import com.typesafe.scalalogging.slf4j.Logging
 
 /**
  * This class should be used as a mixin.
@@ -54,10 +53,19 @@ trait SigmaDDRewritingCache extends SigmaDDRewriter {
 /**
  * This object keeps track of cache hits.
  */
-object SigmaDDRewritingCacheStats {
+object SigmaDDRewritingCacheStats extends Logging {
 
   var callsCounter = 0
   var hitCounter = 0
+
+  def stats[R](block: => R): R = {
+    val result = block // call-by-name
+
+    logger.info("Total cache hits: " + SigmaDDRewritingCacheStats.hitCounter)
+    logger.info("Total rewrites: " + SigmaDDRewritingCacheStats.callsCounter)
+    logger.info("Cache hits to rewrites ratio: " + 100 * SigmaDDRewritingCacheStats.hitCounter / SigmaDDRewritingCacheStats.callsCounter + "%")
+    result
+  }
 
   /**
    * Resets the counters.

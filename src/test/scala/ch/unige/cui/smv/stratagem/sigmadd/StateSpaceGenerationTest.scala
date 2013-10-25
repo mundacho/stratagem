@@ -36,6 +36,8 @@ import org.scalatest.BeforeAndAfter
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
+import ch.unige.cui.smv.stratagem.util.AuxFunctions.time
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats.stats
 // scalastyle:off regex
 /**
  * Tests the generation of the state space.
@@ -43,6 +45,7 @@ import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
  *
  */
 class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter {
+
 
   before {
     SigmaDDRewritingCacheStats.resetCaches
@@ -129,23 +132,6 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter {
     .declareStrategy("takeLeftForkFromWaitingPhilo1") { Sequence(DeclaredStrategyInstance("takeLeftForkWaitingPhilo1"), DoForLastPhil(DeclaredStrategyInstance("takeRightFork"))) }(true)
   // there are some rules missing, but the state space is the same size.
   // We intentionally omit the rules to make the first philosopher go to eat after taking the right fork and also the rule to make him go back to eat.
-
-  def time[R](block: => R): R = {
-    val t0 = System.nanoTime()
-    val result = block // call-by-name
-    val t1 = System.nanoTime()
-    println("Elapsed time: " + (t1 - t0) * 1.0e-9 + "[seconds]")
-    result
-  }
-
-  def stats[R](block: => R): R = {
-    val result = block // call-by-name
-
-    println("Total cache hits: " + SigmaDDRewritingCacheStats.hitCounter)
-    println("Total rewrites: " + SigmaDDRewritingCacheStats.callsCounter)
-    println("Cache hits to rewrites ratio: " + 100 * SigmaDDRewritingCacheStats.hitCounter / SigmaDDRewritingCacheStats.callsCounter + "%")
-    result
-  }
 
   "DeclaredStrategies" should "allow to generate the state space for the philosophers problem with 3 philosophers" in {
     val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)

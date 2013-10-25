@@ -21,6 +21,10 @@ import java.io.File
 import org.slf4j.Logger
 import com.typesafe.scalalogging.slf4j.Logging
 import ch.qos.logback.classic.Level
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
+import ch.unige.cui.smv.stratagem.util.AuxFunctions.time
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats.stats
 
 /**
  * The main class of stratagem. It is used to launch the model checker.
@@ -41,7 +45,7 @@ object Main extends Logging {
       opt[Unit]('q', "quiet") action { (_, c) =>
         c.copy(quiet = true)
       } text (quietMode)
-      opt[Unit]("debug")  action { (_, c) =>
+      opt[Unit]("debug") action { (_, c) =>
         c.copy(debug = true)
       } text (debugMode)
       arg[File]("<file>") required () action { (x, c) =>
@@ -55,6 +59,16 @@ object Main extends Logging {
       if (config.quiet) root.setLevel(Level.ERROR)
       if (config.debug) root.setLevel(Level.DEBUG)
       if (config.debug && config.quiet) logger.warn("Set quiet and debug flag at the same time")
+      val ts = PNML2TransitionSystem(config.model)
+      logger.info("Successfully processed input file")
+      val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+      logger.debug(s"Successfully created initial state")
+      val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+      logger.debug(s"Successfully created state space rewriter")
+      logger.info("Starting calculation of state space")
+      val stateSpace = time(rewriter(initialState).get)
+      val stateSpaceSize = stateSpace.size
+      logger.info(s"State space size: $stateSpaceSize")
     } getOrElse {
       logger.error("Unable to parse the parameters")
     }
