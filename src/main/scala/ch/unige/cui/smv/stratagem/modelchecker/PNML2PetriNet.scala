@@ -18,28 +18,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.modelchecker
 
 import java.io.File
-import com.typesafe.scalalogging.slf4j.Logging
 import java.io.FileNotFoundException
-import ch.unige.cui.smv.stratagem.adt.Signature
-import ch.unige.cui.smv.stratagem.adt.ADT
-import ch.unige.cui.smv.stratagem.adt.ATerm
-import ch.unige.cui.smv.stratagem.ts.TransitionSystem
-import scala.collection.mutable.HashMap
-import com.sun.corba.se.spi.orbutil.fsm.Input
-import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
-import ch.unige.cui.smv.stratagem.ts.Sequence
-import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.One
-import ch.unige.cui.smv.stratagem.ts.Strategy
-import ch.unige.cui.smv.stratagem.ts.Fail
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
-import ch.unige.cui.smv.stratagem.petrinets.Place
-import ch.unige.cui.smv.stratagem.petrinets.Transition
+
+import com.typesafe.scalalogging.slf4j.Logging
+
+import ch.unige.cui.smv.stratagem.petrinets._
 import ch.unige.cui.smv.stratagem.petrinets.Arc
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
+import ch.unige.cui.smv.stratagem.petrinets.Place
+import ch.unige.cui.smv.stratagem.petrinets.Transition
 
 /**
  * This object takes a file and transforms it to a stratagem transition system.
