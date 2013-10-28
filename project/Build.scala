@@ -34,7 +34,7 @@ object Build extends sbt.Build {
       packMain := Map("stratagem" -> "ch.unige.cui.smv.stratagem.modelchecker.Main"),
       // Add custom settings here
       // [Optional] JVM options of scripts (program name -> Seq(JVM option, ...))
-      packJvmOpts := Map("stratagem" -> Seq("-Xms1G", "-Xmx4G", "-Xss64M")), 
+      packJvmOpts := Map("stratagem" -> Seq("-Xms1G", "-Xmx4G", "-Xss64M")) 
       // [Optional] Extra class paths to look when launching a program
 //      packExtraClasspath := Map("hello" -> Seq("${PROG_HOME}/etc"))
     )
