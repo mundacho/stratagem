@@ -22,8 +22,8 @@ package ch.unige.cui.smv.stratagem.petrinets
  * @param name the name of the petri net.
  * @param places the set of places
  * @param transitions the set of transitions
- * 
+ *
  * @author mundacho
  *
  */
-case class PetriNet(val name:String, val places:Set[Place], val transitions:Set[Transition])
+case class PetriNet(val name: String, val places: Set[Place], val transitions: Set[Transition])

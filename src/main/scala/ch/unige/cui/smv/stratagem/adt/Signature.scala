@@ -28,7 +28,7 @@ package ch.unige.cui.smv.stratagem.adt
 class Signature private (val sorts: Map[String, ASort], val generators: Map[String, Operation], val operations: Map[String, Operation]) {
 
   override def toString = "Sorts\n   " + sorts.keys.mkString(", ") + "\n" + "Generators\n" + generators.values.mkString("   ", "\n   ", "")
-  
+
   /**
    * Creates a signature without sorts.
    *

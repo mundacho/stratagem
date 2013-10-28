@@ -22,10 +22,10 @@ package ch.unige.cui.smv.stratagem.petrinets
  * @param id the unique identificator for this arc.
  * @param place the target or source place of this arc.
  * @param annotation the number that labels the arc.
- * 
+ *
  * @author mundacho
  *
  */
-case class Arc(val id:String, val place:Place, val annotation: Int) {
-	require(annotation > 0, "Impossible to create an arc with a negative label")
+case class Arc(val id: String, val place: Place, val annotation: Int) {
+  require(annotation > 0, "Impossible to create an arc with a negative label")
 }

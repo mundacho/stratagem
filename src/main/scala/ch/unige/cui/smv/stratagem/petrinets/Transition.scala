@@ -19,7 +19,7 @@ package ch.unige.cui.smv.stratagem.petrinets
 
 /**
  * Represents a petri net transition.
- * 
+ *
  * @param name the name of the transition.
  * @param id the unique identifier of this transition.
  * @param inputArcs a set of pairs containing one place and the label of the arc.
@@ -27,4 +27,4 @@ package ch.unige.cui.smv.stratagem.petrinets
  * @author mundacho
  *
  */
-case class Transition (val id: String, val name:String, val inputArcs:Set[Arc], val outputArcs:Set[Arc])
+case class Transition(val id: String, val name: String, val inputArcs: Set[Arc], val outputArcs: Set[Arc])

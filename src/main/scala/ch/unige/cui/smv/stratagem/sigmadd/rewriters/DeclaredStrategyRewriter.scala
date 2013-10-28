@@ -32,11 +32,10 @@ import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 
-
 /**
  * Implements a rewriter for a declared strategy.
  * @param declaredStrategy the strategy to transform.
- * @param ts the transition system where this declared strategy is used. 
+ * @param ts the transition system where this declared strategy is used.
  * It is needed to find other declared strategies in its body.
  */
 private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredStrategyInstance, ts: TransitionSystem) extends SigmaDDRewriter {
@@ -55,7 +54,6 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
    */
   lazy val formalToActualParameterMap = Map((ts.strategyDeclarations(declaredStrategy.name).declaredStrategy.formalParameters zip declaredStrategy.actualParams).toArray: _*)
 
-  
   /**
    * The actual rewriter that this strategy uses.
    */
@@ -73,7 +71,7 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
     case Try(s) => instanciate(Choice(s, Identity))
     case Fail => Fail
     case Identity => Identity
-    case One(s,n) => One(instanciate(s),n)
+    case One(s, n) => One(instanciate(s), n)
     case FixPointStrategy(s) => FixPointStrategy(instanciate(s))
     case Sequence(s1, s2) => Sequence(instanciate(s1), instanciate(s2))
     case Union(s1, s2) => Union(instanciate(s1), instanciate(s2))

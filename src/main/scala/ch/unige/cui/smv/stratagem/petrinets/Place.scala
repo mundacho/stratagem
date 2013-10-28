@@ -19,14 +19,14 @@ package ch.unige.cui.smv.stratagem.petrinets
 
 /**
  * Represents a place in a petri net.
- * 
+ *
  * @param id the unique identificator of this Petri net
  * @param name the name of this place
- * @param initialMarking the initial marking of this place. 
- * 
+ * @param initialMarking the initial marking of this place.
+ *
  * @author mundacho
  *
  */
-case class Place(val id:String, val name:String, val initialMarking:Int) {
+case class Place(val id: String, val name: String, val initialMarking: Int) {
   require(initialMarking >= 0, s"Invalid initial marking for place $id with name $name")
 }
