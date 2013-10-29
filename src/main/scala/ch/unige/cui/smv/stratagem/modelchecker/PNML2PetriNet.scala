@@ -39,6 +39,11 @@ object PNML2PetriNet extends Logging {
 
   def apply(input: File) = {
     val xml = loadFile(input)
+    val ptType = (xml \ "net" \ "@type").text
+    if (ptType != "http://www.pnml.org/version-2009/grammar/ptnet") {
+      logger.error("Petri net type not supported. Only Place / Transitions nets are supported.")
+      System.exit(-1)
+    }
     // first we create an adt
     val nameList = xml \ "net" \ "name" \ "text"
     name = extractName(nameList)

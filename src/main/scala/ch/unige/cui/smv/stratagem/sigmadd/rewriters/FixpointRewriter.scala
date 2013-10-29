@@ -18,11 +18,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
+import com.typesafe.scalalogging.slf4j.Logging
+
 /**
  * Implements the fixpoint rewriter. It applies its rewriter until a fixpoint is reached.
  * @param rewriter the rewriter to be applied.
  */
-private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter) extends SigmaDDRewriter {
+private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter) extends SigmaDDRewriter with Logging {
 
   override lazy val hashCode = (this.getClass(), rewriter).hashCode
 
@@ -41,6 +43,7 @@ private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter) extends 
       while ((newResult != None) && (result.get ne newResult.get)) {
         result = newResult
         newResult = rewriter(result.get)
+        logger.debug(s"Fixpoint rewriter has generated a decision diagram of size: ${newResult.get.size}")
       }
       // if we arrive here either: result == newResult or newResult == None
       newResult

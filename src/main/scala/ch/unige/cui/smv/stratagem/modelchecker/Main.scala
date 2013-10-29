@@ -38,6 +38,7 @@ object Main extends Logging {
   val quietMode = "activate quiet mode. Only errors are printed."
   val fileComment = "the model in pnml format."
   val debugMode = "activate debug mode. Lots of output"
+  val saturationComment = "activate saturation. Might improve speed in some examples"
 
   def main(args: Array[String]) {
     val parser = new scopt.OptionParser[Config](programName) {
@@ -45,6 +46,9 @@ object Main extends Logging {
       opt[Unit]('q', "quiet") action { (_, c) =>
         c.copy(quiet = true)
       } text (quietMode)
+      opt[Unit]('s', "saturate") action { (_, c) =>
+        c.copy(saturation = true)
+      } text (saturationComment)
       opt[Unit]("debug") action { (_, c) =>
         c.copy(debug = true)
       } text (debugMode)
@@ -60,7 +64,8 @@ object Main extends Logging {
       if (config.debug) root.setLevel(Level.DEBUG)
       if (config.debug && config.quiet) logger.warn("Set quiet and debug flag at the same time")
       val petrinet = PNML2PetriNet(config.model)
-      val ts = PetriNet2TransitionSystem(petrinet)
+      val transformer = if (config.saturation) new AbstractPetriNet2TransitionSystem() with Saturation else PetriNet2TransitionSystem 
+      val ts = transformer(petrinet)
       logger.info("Successfully processed input file")
       val initialState = SigmaDDFactoryImpl.create(ts.initialState)
       logger.debug(s"Successfully created initial state")

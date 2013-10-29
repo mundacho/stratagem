@@ -6,6 +6,12 @@ scalaVersion := "2.10.2"
 
 parallelExecution in Test := false
 
+javaOptions in run += "-Xms1G"
+
+javaOptions in run += "-Xmx1G"
+
+javaOptions in run += "-Xss16M" 
+
 libraryDependencies += "org.scalatest" % "scalatest_2.10" % "2.0.M8" % "test"
 
 testOptions in Test += Tests.Argument("-oD")
