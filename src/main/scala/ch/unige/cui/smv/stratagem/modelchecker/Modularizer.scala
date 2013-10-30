@@ -21,6 +21,7 @@ import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.petrinets.Place
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
 import com.typesafe.scalalogging.slf4j.Logging
+import ch.unige.cui.smv.stratagem.petrinets.PTModule
 
 /**
  * This object encapsulates a method to transform a petri net in to a modular petri net automatically.
@@ -32,10 +33,7 @@ object Modularizer extends Logging {
     var modules: Set[PTModule] = Set.empty
     var newModules: Set[PTModule] = createInitialModules(net)
     logger.debug(s"Number of initial modules: ${newModules.size}")
-    var i = 0
     while (modules != newModules) {
-      println(s"Iteration $i")
-      i = i + 1
       modules = newModules
       newModules = Set.empty
       modules.foreach { m =>
@@ -56,15 +54,22 @@ object Modularizer extends Logging {
           newModules += new PTModule(workingNet, m.inputPlaces -- (newOutputPlaces ++ newInnerPlaces), newOutputPlaces -- (m.inputPlaces ++ newInnerPlaces), newInnerPlaces)
         } else {
           // we only add it if its places are not elsewhere
-          if (newModules.isEmpty) {
-            newModules += m
-          } else {
-            val allPlaces = newModules.map(_.net.places).reduce(_ ++ _)
-            if (!(m.net.places subsetOf allPlaces)) { // we only add it if it is not already there
-              newModules += m
-            }
-          }
+          newModules += m
         }
+      }
+    }
+    // now remove duplicates and fusion
+    val (clustered, unclustered) = newModules.partition(s => ((s.outputPlaces.isEmpty) && (s.inputPlaces.isEmpty)))
+    unclustered.foreach { n =>
+      val clustersWithChoices = clustered.filter(m => n.net.places subsetOf m.net.places)
+      if (!clustersWithChoices.isEmpty) {
+        var workingNet = new PetriNet("", Set.empty, Set.empty)
+        clustersWithChoices.foreach { m =>
+          newModules -= m
+          workingNet = new PetriNet("", workingNet.places ++ m.net.places, workingNet.transitions ++ m.net.transitions)
+        }
+        newModules += new PTModule(workingNet, Set.empty, Set.empty, workingNet.places)
+        newModules -= n
       }
     }
     newModules

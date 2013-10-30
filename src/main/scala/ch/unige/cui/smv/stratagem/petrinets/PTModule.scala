@@ -27,5 +27,5 @@ case class PTModule(val net: PetriNet, val inputPlaces: Set[Place], val outputPl
   require(inputPlaces.intersect(outputPlaces) == Set.empty)
   require(inputPlaces.intersect(innerPlaces) == Set.empty)
   require(outputPlaces.intersect(innerPlaces) == Set.empty)
-  require(net.places.size == (inputPlaces.size + outputPlaces.size + innerPlaces.size))
+  require(net.places.size == (inputPlaces.size + outputPlaces.size + innerPlaces.size)) 
 } 
