@@ -28,6 +28,24 @@ import java.io.File
 class ModularizerTest extends FlatSpec {
   "Modularizer" should "find the right number of philosophers" in {
     val net = PNML2PetriNet(new File("resources/test/philo.pnml"))
-    println(Modularizer(net).mkString("\n"))
+    val modules = Modularizer(net)
+    println(modules.size)
+    assert(modules.size == 6)
   }
+
+  it should "find the right number of kanban modules" in {
+    val net = PNML2PetriNet(new File("resources/test/Kanban-5.pnml"))
+    val modules = Modularizer(net)
+    println(s"Number of modules ${modules.size}")
+    println(modules.map(_.net.places.map(_.name).mkString(", ")).mkString("\n"))
+    assert(modules.size == 5)
+  }
+
+  it should "find the right number of modules in..." in {
+    val net = PNML2PetriNet(new File("resources/test/simple_lbs-5"))
+    val modules = Modularizer(net)
+    println(s"Number of modules ${modules.size}")
+    assert(modules.size == 9)
+  }
+
 }
