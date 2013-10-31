@@ -17,12 +17,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.modelchecker
 
-import ch.unige.cui.smv.stratagem.petrinets.PTModule
-import ch.unige.cui.smv.stratagem.petrinets.Place
-import ch.unige.cui.smv.stratagem.petrinets.PetriNet
+import scala.annotation.migration
+
 import com.typesafe.scalalogging.slf4j.Logging
+
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
-import ch.unige.cui.smv.stratagem.petrinets.PTModule
+import ch.unige.cui.smv.stratagem.petrinets.PetriNet
+import ch.unige.cui.smv.stratagem.petrinets.Place
 
 /**
  * This object encapsulates a method to transform a petri net in to a modular petri net automatically.
@@ -103,6 +104,7 @@ object Modularizer extends Logging {
       }
     }
     logger.debug(s"Number places before returning ${newModules.map(_.net.places).reduce(_ ++ _).toSet.size}")
+    logger.debug(s"Number of modules before returning ${newModules.size}")
     newModules
   }
 

@@ -56,17 +56,17 @@ object PNML2PetriNet extends Logging {
     val arcs = xml \ "net" \ "page" \ "arc"
     val arcsBySource = arcs.groupBy(arc => (arc \ "@source").text)
     val arcsByTarget = arcs.groupBy(arc => (arc \ "@target").text)
-    logger.debug(s"Number of places is ${places.size}")
+    logger.debug(s"Number of places is ${places.values.toSet.size}")
     val transitions = (xml \ "net" \ "page" \ "transition").map(t =>
       new Transition(
         (t \ "@id").text, // extract id 
         (t \ "name" \ "text").text, // extract name
         // now extract the input arcs
-        arcsByTarget((t \ "@id").text).map(arc =>
+        arcsByTarget.getOrElse((t \ "@id").text, Set.empty).map(arc =>
           new Arc((arc \ "@id").text, // extract id of the arc
             places.getOrElse((arc \ "@source").text, places((arc \ "@target").text)), // extract the place for the arc
             if ((arc \ "inscription" \ "text").text.isEmpty) 1 else (arc \ "inscription" \ "text").text.toInt)).toSet,
-        arcsBySource((t \ "@id").text).map(arc =>
+        arcsBySource.getOrElse((t \ "@id").text, Set.empty).map(arc =>
           new Arc((arc \ "@id").text, // extract id of the arc
             places.getOrElse((arc \ "@source").text, places((arc \ "@target").text)), // extract the place for the arc
             if ((arc \ "inscription" \ "text").text.isEmpty) 1 else (arc \ "inscription" \ "text").text.toInt)).toSet))
