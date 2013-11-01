@@ -24,14 +24,16 @@ import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDIPFFactoryImpl
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDInductiveIPFFactoryImpl
 
-private[sigmadd] case class OneRewriter(rewriter: SigmaDDRewriter, subTermPosition: Int) extends SigmaDDRewriter {
+private[sigmadd] class OneRewriter(rewr: => SigmaDDRewriter, val subTermPosition: Int) extends SigmaDDRewriter {
+
+  lazy val rewriter = rewr
 
   override lazy val toString = "OneRewriter(" + rewriter.toString + ", " + subTermPosition + ")"
 
   override lazy val hashCode = (this.getClass(), rewriter, subTermPosition).hashCode
 
   override def equals(obj: Any): Boolean = obj match {
-    case that @ OneRewriter(r, _) => (this eq that) || ((rewriter == r) && (this.subTermPosition == that.subTermPosition))
+    case that: OneRewriter => (this eq that) || ((rewriter == that.rewriter) && (this.subTermPosition == that.subTermPosition))
     case _ => false
   }
 

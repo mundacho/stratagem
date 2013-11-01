@@ -19,19 +19,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.ts
 
 /**
- * Represents the One strategy.
- * @param S the strategy it takes as parameter.
- * @param n represents which subterm will be rewritten by this one.
+ * Represents the Saturation strategy.
+ * @param S1 strategy to be used as parameter.
+ * @param n the recursion element.
  * @author mundacho
  *
  */
-case class One(S: Strategy, n: Int) extends NonVariableStrategy {
-  require(n >= 0)
-}
-
-/**
- * Companion object. It adds a default constructor.
- */
-object One {
-  def apply(S: Strategy) = new One(S, 0)
+case class Saturation(S1: Strategy, n:Int) extends NonVariableStrategy {
+  require(n > 0)
 }

@@ -43,7 +43,6 @@ class PNML2TransitionSystemTest extends FlatSpec {
     val initialState = SigmaDDFactoryImpl.create(ts.initialState)
     val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
     assert(rewriter(initialState).get.size == 243)
-
   }
 
   it should "be able to generate a valid transition system generating the right number of states for even larger sets" in {

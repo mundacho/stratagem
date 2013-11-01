@@ -25,6 +25,7 @@ import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 import ch.unige.cui.smv.stratagem.util.AuxFunctions.time
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats.stats
+import ch.unige.cui.smv.stratagem.ts.Identity
 
 /**
  * The main class of stratagem. It is used to launch the model checker.
@@ -64,12 +65,12 @@ object Main extends Logging {
       if (config.debug) root.setLevel(Level.DEBUG)
       if (config.debug && config.quiet) logger.warn("Set quiet and debug flag at the same time")
       val petrinet = PNML2PetriNet(config.model)
-      val transformer = if (config.saturation) new AbstractPetriNet2TransitionSystem() with Saturation else PetriNet2TransitionSystem 
+      val transformer = PetriNet2TransitionSystem 
       val ts = transformer(petrinet)
       logger.info("Successfully processed input file")
       val initialState = SigmaDDFactoryImpl.create(ts.initialState)
       logger.debug(s"Successfully created initial state")
-      val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+      val rewriter = if(config.saturation) SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2) else SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
       logger.debug(s"Successfully created state space rewriter")
       logger.info("Starting calculation of state space")
       val stateSpace = time(rewriter(initialState).get)

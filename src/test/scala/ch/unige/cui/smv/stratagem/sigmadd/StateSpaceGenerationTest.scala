@@ -38,6 +38,8 @@ import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 import ch.unige.cui.smv.stratagem.util.AuxFunctions.time
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats.stats
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 // scalastyle:off regex
 /**
  * Tests the generation of the state space.
@@ -45,7 +47,6 @@ import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats.s
  *
  */
 class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter {
-
 
   before {
     SigmaDDRewritingCacheStats.resetCaches
@@ -159,15 +160,42 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter {
     .declareStrategy("takeLeftForkWaitingPhilo1", philo(waiting, F, P) -> philo(waitingForRightFork, F, P))(false)
     .declareStrategy("takeRightFork", philo(S, forkFree, P) -> philo(S, forkUsed, P))(false)
     .declareStrategy("takeLeftForkFromWaitingPhilo1") { Sequence(DeclaredStrategyInstance("takeLeftForkWaitingPhilo1"), DoForLastPhil(DeclaredStrategyInstance("takeRightFork"))) }(true)
-  // there are some rules missing, but the state space is the same size.
-  // We intentionally omit the rules to make the first philosopher go to eat after taking the right fork and also the rule to make him go back to eat.
 
   it should "allow to generate the state space for the philosophers problem with 9 philosophers" in {
     val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts1)
     stats(time(println("Total number of states: " + rewriter(SigmaDDFactoryImpl.create(ts1.initialState)).get.size)))
     assert(rewriter(SigmaDDFactoryImpl.create(ts1.initialState)).get.size == 439204)
   }
+  val satTestPhilosophers = 9
 
+
+  val tssat = (new TransitionSystem(adt, generateInitialState(satTestPhilosophers)))
+    .declareStrategy("doForAllPhil", V) { Union(Try(V), Choice(One(DoForAllPhils(V), 3), Try(V))) }(false)
+    .declareStrategy("doForLastPhil", V) { Choice(One(DoForLastPhil(V)), V) }(false)
+    .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
+    .declareStrategy("goToWait") { DoForAllPhils(DeclaredStrategyInstance("goToWaitPhilo")) }(true)
+    .declareStrategy("takeRightForkFromWaitingPhilo", philo(waiting, forkFree, P) -> philo(waitingForLeftFork, forkUsed, P))(false)
+    .declareStrategy("takeRightForkFromWaiting") { DoForAllPhils(DeclaredStrategyInstance("takeRightForkFromWaitingPhilo")) }(true)
+    .declareStrategy("takeRightForkFromWaitingForRightForkPhilo", philo(waitingForRightFork, forkFree, P) -> philo(eating, forkUsed, P))(false)
+    .declareStrategy("takeRightForkFromWaitingForRightFork") { DoForAllPhils(DeclaredStrategyInstance("takeRightForkFromWaitingForRightForkPhilo")) }(true)
+    .declareStrategy("takeLeftForkFromWaitingPhilo", philo(S, forkFree, philo(waiting, F, P)) -> philo(S, forkUsed, philo(waitingForRightFork, F, P)))(false)
+    .declareStrategy("takeLeftForkFromWaiting") { DoForAllPhils(DeclaredStrategyInstance("takeLeftForkFromWaitingPhilo")) }(true)
+    .declareStrategy("takeLeftForkFromWaitingForLeftForkPhilo", philo(S, forkFree, philo(waitingForLeftFork, forkUsed, P)) -> philo(S, forkUsed, philo(eating, forkUsed, P)))(false)
+    .declareStrategy("takeLeftForkFromWaitingForLeftFork") { DoForAllPhils(DeclaredStrategyInstance("takeLeftForkFromWaitingForLeftForkPhilo")) }(true)
+    .declareStrategy("goToThinkPhilo", philo(S, forkUsed, philo(eating, forkUsed, P)) -> philo(S, forkFree, philo(thinking, forkFree, P)))(false)
+    .declareStrategy("goToThink") { DoForAllPhils(DeclaredStrategyInstance("goToThinkPhilo")) }(true)
+    .declareStrategy("takeLeftForkWaitingPhilo1", philo(waiting, F, P) -> philo(waitingForRightFork, F, P))(false)
+    .declareStrategy("takeRightFork", philo(S, forkFree, P) -> philo(S, forkUsed, P))(false)
+    .declareStrategy("takeLeftForkFromWaitingPhilo1") { Sequence(DeclaredStrategyInstance("takeLeftForkWaitingPhilo1"), DoForLastPhil(DeclaredStrategyInstance("takeRightFork"))) }(false)
+
+
+  it should "allow to generate the state space for the philosophers problem with 9 philosophers with saturation" in {
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(tssat, 
+        Try(DeclaredStrategyInstance("takeLeftForkFromWaitingPhilo1")),  3)
+    stats(time(println("Total number of states: " + rewriter(SigmaDDFactoryImpl.create(tssat.initialState)).get.size)))
+    assert(rewriter(SigmaDDFactoryImpl.create(tssat.initialState)).get.size == 439204)
+  }
+    
   val numberOfPhilosophersTest3 = 9
   val numberOfClustersTest3 = 3
 
@@ -309,9 +337,10 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter {
     .declareStrategy("takeLeftForkVeryFirstPhilo") {
       Sequence(One(DeclaredStrategyInstance("takeLeftForkWaitingPhilo1"), 1), DoForLastCluster(One(DoForLastPhil(DeclaredStrategyInstance("takeRightFork")), 1)))
     }(true)
-    .declareStrategy("saturateCluster") {DoForAllClusters(One(FixPointStrategy(
-      Union(DeclaredStrategyInstance("goToWait"), Union(DeclaredStrategyInstance("takeRightForkFromWaiting"), Union(DeclaredStrategyInstance("takeLeftForkFromWaiting"),
-        Union(DeclaredStrategyInstance("takeRightForkFromWaitingForRightFork"), Union(DeclaredStrategyInstance("goToThink"), DeclaredStrategyInstance("takeLeftForkFromWaitingForLeftFork"))))))), 1))
+    .declareStrategy("saturateCluster") {
+      DoForAllClusters(One(FixPointStrategy(
+        Union(DeclaredStrategyInstance("goToWait"), Union(DeclaredStrategyInstance("takeRightForkFromWaiting"), Union(DeclaredStrategyInstance("takeLeftForkFromWaiting"),
+          Union(DeclaredStrategyInstance("takeRightForkFromWaitingForRightFork"), Union(DeclaredStrategyInstance("goToThink"), DeclaredStrategyInstance("takeLeftForkFromWaitingForLeftFork"))))))), 1))
     }(true)
 
   it should "allow to generate the state space for the clustered philosophers problem with 100 philosophers and saturation" in {
@@ -319,5 +348,4 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter {
     stats(time(println("Total number of states: " + rewriter(SigmaDDFactoryImpl.create(ts4.initialState)).get.size)))
     assert(rewriter(SigmaDDFactoryImpl.create(ts4.initialState)).get.size == BigInt("496926405783746676393791436882468230898067489522034699520200002"))
   }
-
 }

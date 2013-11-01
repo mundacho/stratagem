@@ -43,7 +43,7 @@ private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter) extends 
       while ((newResult != None) && (result.get ne newResult.get)) {
         result = newResult
         newResult = rewriter(result.get)
-        logger.debug(s"Fixpoint rewriter has generated a decision diagram of size: ${newResult.get.size}")
+        logger.trace(s"Fixpoint rewriter has generated a decision diagram of size: ${newResult.get.size}")
       }
       // if we arrive here either: result == newResult or newResult == None
       newResult
