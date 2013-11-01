@@ -31,6 +31,12 @@ import ch.unige.cui.smv.stratagem.petrinets.Place
  *
  */
 object Modularizer extends Logging {
+  
+  /**
+   * Transforms a petri net into a list of smaller petri nets with some places in common.
+   * @param net the input petri net
+   * @return a set of smaller petri nets such that the union of all places in the set is equal to all the places in the original petri net.
+   */
   def apply(net: PetriNet) = {
     var modules: Set[PTModule] = Set.empty
     var newModules: Set[PTModule] = createInitialModules(net)

@@ -37,6 +37,11 @@ object PNML2PetriNet extends Logging {
 
   var name: String = ""
 
+  /**
+   * Transforms a pnml file into a representation of a Petri Net.
+   * @param a file pnml P/T format.
+   * @return a petri net.
+   */
   def apply(input: File) = {
     val xml = loadFile(input)
     val ptType = (xml \ "net" \ "@type").text

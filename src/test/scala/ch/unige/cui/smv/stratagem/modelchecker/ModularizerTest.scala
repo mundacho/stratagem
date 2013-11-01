@@ -29,7 +29,6 @@ class ModularizerTest extends FlatSpec {
   "Modularizer" should "find the right number of philosophers" in {
     val net = PNML2PetriNet(new File("resources/test/philo.pnml"))
     val modules = Modularizer(net)
-    println(modules.size)
     assert(modules.size == 6)
   }
 
@@ -37,14 +36,12 @@ class ModularizerTest extends FlatSpec {
     val net = PNML2PetriNet(new File("resources/test/Kanban-5.pnml"))
     val modules = Modularizer(net)
     println(s"Number of modules ${modules.size}")
-    println(modules.map(_.net.places.map(_.name).mkString(", ")).mkString("\n"))
     assert(modules.size == 5)
   }
 
   it should "find the right number of modules in simple load balancer" in {
     val net = PNML2PetriNet(new File("resources/test/simple_lbs-5.pnml"))
     val modules = Modularizer(net)
-    println(s"Number of modules ${modules.size}")
     assert(modules.size == 19)
   }
 

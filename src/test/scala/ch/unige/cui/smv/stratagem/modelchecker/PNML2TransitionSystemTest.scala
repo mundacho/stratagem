@@ -30,8 +30,7 @@ import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDIPFFactoryImpl
  */
 class PNML2TransitionSystemTest extends FlatSpec {
   "PNML2TransitionSystemTest" should "read the name of a PT correctly" in {
-    PNML2PetriNet(new File("resources/test/philo.pnml"))
-    assert(PNML2PetriNet.name == "philo")
+    assert(PNML2PetriNet(new File("resources/test/philo.pnml")).name == "philo")
   }
 
   it should "obtain a valid network even if the inscription in the places are empty" in {
