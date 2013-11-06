@@ -1,42 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Stratagem : Stratagem - DD- and rewriting strategies- based model checker" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Stratagem by mundacho</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Stratagem</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Stratagem</h1>
+        <p class="header">Stratagem - DD- and rewriting strategies- based model checker</p>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/mundacho/stratagem">View on GitHub</a>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/mundacho/stratagem/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/mundacho/stratagem/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/mundacho/stratagem">View On GitHub</a></li>
+        </ul>
 
-          <h1 id="project_title">Stratagem</h1>
-          <h2 id="project_tagline">Stratagem - DD- and rewriting strategies- based model checker</h2>
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/mundacho">mundacho</a></p>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/mundacho/stratagem/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/mundacho/stratagem/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+      </header>
+      <section>
         <h1>
-<a name="download-binaries" class="anchor" href="#download-binaries"><span class="octicon octicon-link"></span></a>Download binaries</h1>
+<a name="binary-distribution" class="anchor" href="#binary-distribution"><span class="octicon octicon-link"></span></a>Binary distribution</h1>
 
 <p>You can download the binaries from <a href="https://sourceforge.net/projects/stratagem-mc/">here</a>.</p>
 
 <h1>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h1>
+
+<p>Right now stratagem can load PNML files (only place transition nets) and calculate the state space size of the given net.</p>
+
+<ul>
+<li>Read PNML (Place Transition)</li>
+<li>Use saturation to speed state space calculation</li>
+</ul><h1>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h1>
+
+<p>To run stratagem you need:</p>
+
+<ul>
+<li>Java 1.6 or later</li>
+</ul><p>To compile stratagem you need:</p>
+
+<ul>
+<li>sbt 0.13</li>
+<li>Java 1.6 or later</li>
+</ul><h1>
 <a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h1>
 
 <p>ScalaDoc is available <a href="http://alpina.unige.ch/jenkins/job/stratagem/javadoc/?#package">here</a>.</p>
@@ -46,17 +65,11 @@
 
 <p>Stratagem - DD- and rewriting strategies- based model checker</p>
       </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Stratagem maintained by <a href="https://github.com/mundacho">mundacho</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
-
-    
-
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
   </body>
 </html>
