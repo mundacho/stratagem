@@ -50,6 +50,7 @@ object Modularizer extends Logging {
     val (clustered, unclustered) = newModules.partition(s => ((s.outputPlaces.isEmpty) && (s.inputPlaces.isEmpty)))
     logger.debug(s"Clustered elements are ${clustered.size}")
     logger.debug(s"Unclustered elements are ${unclustered.size}")
+    // this removes duplicated clusters where threre is a choice
     unclustered.foreach { n =>
       val clustersWithChoices = clustered.filter(m => n.net.places subsetOf m.net.places)
       if (!clustersWithChoices.isEmpty) {
@@ -66,7 +67,7 @@ object Modularizer extends Logging {
     logger.debug(s"Number places after first pass ${newModules.map(_.net.places).reduce(_ ++ _).toSet.size}")
     logger.debug(s"Number of transitions after first pass ${newModules.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
     modules = newModules
-    // second pass, remove duplicates
+    // second pass, remove duplicates, i.e. modules that are already completely contained in other modules
     modules.foreach { m =>
       val modulesToRemove = modules.filter(n => (n.net.places subsetOf m.net.places) && (n != m))
       modulesToRemove.foreach { n =>
@@ -79,7 +80,7 @@ object Modularizer extends Logging {
     logger.debug(s"Number places after second pass ${newModules.map(_.net.places).reduce(_ ++ _).toSet.size}")
     logger.debug(s"Number of transitions after second pass ${newModules.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
     modules = newModules
-    // after second pass we need to keep the minimum number of modules, we remove completely overlapping modules
+    // after second pass, we remove modules that overlap other modules
     modules.foreach { m =>
       var placesInM = m.net.places
       modules.view.filter(_ != m).foreach { n =>
