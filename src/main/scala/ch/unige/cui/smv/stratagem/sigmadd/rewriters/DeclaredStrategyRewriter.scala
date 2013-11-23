@@ -31,6 +31,7 @@ import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
+import com.typesafe.scalalogging.slf4j.Logging
 
 /**
  * Implements a rewriter for a declared strategy.
@@ -38,7 +39,7 @@ import ch.unige.cui.smv.stratagem.ts.VariableStrategy
  * @param ts the transition system where this declared strategy is used.
  * It is needed to find other declared strategies in its body.
  */
-private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredStrategyInstance, ts: TransitionSystem) extends SigmaDDRewriter {
+private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredStrategyInstance, ts: TransitionSystem) extends SigmaDDRewriter with Logging {
 
   override lazy val toString = "DeclaredStrategyRewriter(" + declaredStrategy.toString + ")"
 
@@ -59,7 +60,12 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
    */
   lazy val rewriter = SigmaDDRewriterFactory.strategyToRewriter(instanciate(ts.strategyDeclarations(declaredStrategy.name).declaredStrategy.body))(ts)
 
-  def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = rewriter(sigmaDD)
+  def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = rewriter(sigmaDD) match {
+    case Some(r) => logger.trace(s"Strategy ${declaredStrategy.name} succeeded")
+      Some(r)
+    case None => logger.trace(s"Strategy ${declaredStrategy.name} failed")
+      None
+    }
 
   /**
    * We instanciate the variables of a strategy with variables.
