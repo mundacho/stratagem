@@ -66,8 +66,15 @@ object SigmaDDRewriterFactory {
    * Transforms a transition system to a rewriter for SigmaDDs.
    */
   def transitionSystemToStateSpaceRewriter(ts: TransitionSystem): SigmaDDRewriter =
-    strategyToRewriter(FixPointStrategy(
-      Union(Identity, ts.strategyDeclarations.filter(_._2.isTransition).map(_._2.declaredStrategy.body).reduce((s1: Strategy, s2: Strategy) => Union(Union(Try(s1), Try(s2)), Identity)))))(ts)
+    strategyToRewriter(
+      FixPointStrategy(
+        Union(Identity,
+          ts.strategyDeclarations
+            .filter(_._2.isTransition) // takes only the strategies that are transitions
+            .map(_._2.declaredStrategy.body)
+            .reduce(
+                (s1: Strategy, s2: Strategy) => Union(Union(Try(s1), Try(s2)), Identity)
+                ))))(ts)
 
   /**
    * Transforms a transition system to a rewriter for SigmaDDs with saturation.
