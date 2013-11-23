@@ -29,4 +29,7 @@ import ch.unige.cui.smv.stratagem.adt.Equation
  */
 case class SimpleStrategy(val equations: List[Equation]) extends NonVariableStrategy {
   require(equations.length > 0, "A simple strategy must contain at least one equation.")
+  
+  override def toString = equations.mkString("{\n", "\n   ", "}")
+    
 }
