@@ -64,9 +64,9 @@ object PetriNet2TransitionSystem {
     .withGenerator("suc", "nat", "nat")
     .withGenerator("endplace", "place")
 
-  def createSignature(places: List[Place]): Signature = places match {
-    case Nil => basicSignature
-    case place :: tail => createSignature(tail).withGenerator(place.id, "place", "nat", "place")
+  def createSignature(places: List[Place], sign: Signature): Signature = places match {
+    case Nil => sign
+    case place :: tail => createSignature(tail, sign.withGenerator(place.id, "place", "nat", "place"))
   }
 
   def createTransitionSystem(transitions: List[Transition], adt: ADT, initialState: ATerm): TransitionSystem = transitions match {
@@ -110,7 +110,7 @@ object PetriNet2TransitionSystem {
    * @return a transition system that represents the petri net.
    */
   def apply(net: PetriNet) = {
-    val signature = createSignature(net.places.toList)
+    val signature = createSignature(net.places.toList, basicSignature)
     val adt = new ADT(net.name, signature)
       .declareVariable("p", "place")
       .declareVariable("x", "nat")
