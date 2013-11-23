@@ -24,8 +24,8 @@ package ch.unige.cui.smv.stratagem.petrinets
  *
  */
 case class PTModule(val net: PetriNet, val inputPlaces: Set[Place], val outputPlaces: Set[Place], val innerPlaces: Set[Place]) {
-  require(inputPlaces.intersect(outputPlaces) == Set.empty)
-  require(inputPlaces.intersect(innerPlaces) == Set.empty)
-  require(outputPlaces.intersect(innerPlaces) == Set.empty)
+  require(inputPlaces.intersect(outputPlaces) == Set.empty, "Input and output share places")
+  require(inputPlaces.intersect(innerPlaces) == Set.empty, "Inner and input places share places")
+  require(outputPlaces.intersect(innerPlaces) == Set.empty, "Inner and output places share places")
   require(net.places.size == (inputPlaces.size + outputPlaces.size + innerPlaces.size)) 
 } 
