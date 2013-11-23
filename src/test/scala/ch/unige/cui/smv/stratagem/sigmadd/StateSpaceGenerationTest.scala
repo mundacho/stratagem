@@ -306,7 +306,7 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter {
 //    assert(rewriter(SigmaDDFactoryImpl.create(ts3.initialState)).get.size == 3461452808002L)
   }
 
-  val numberOfPhilosophersTest5 = 20
+  val numberOfPhilosophersTest5 = 100
   val numberOfClustersTest5 = 10
 
   val ts4 = (new TransitionSystem(adt, generateInitialCluteredState(numberOfPhilosophersTest5, numberOfClustersTest5)))

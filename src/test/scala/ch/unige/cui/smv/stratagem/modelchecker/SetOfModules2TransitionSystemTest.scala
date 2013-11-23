@@ -30,7 +30,7 @@ import ch.unige.cui.smv.stratagem.ts.Identity
  *
  */
 class SetOfModules2TransitionSystemTest extends FlatSpec {
-  "A SetOfModules2TransitionSystem" should "be able to calculare Kanban" in {
+  "A SetOfModules2TransitionSystem" should "be able to calculate Kanban" in {
     val net = PNML2PetriNet(new File("resources/test/Kanban-5.pnml"))
     val modules = Modularizer(net)
     val ts = SetOfModules2TransitionSystem(modules, net)
@@ -38,5 +38,4 @@ class SetOfModules2TransitionSystemTest extends FlatSpec {
     val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts) //(ts, Identity, 2)
     assert(rewriter(initialState).get.size == 2546432)
   }
-
 }
