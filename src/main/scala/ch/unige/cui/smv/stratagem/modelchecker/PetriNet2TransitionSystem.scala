@@ -19,21 +19,26 @@ package ch.unige.cui.smv.stratagem.modelchecker
 
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.adt.ATerm
+import ch.unige.cui.smv.stratagem.adt.PredefADT.NAT_SORT_NAME
+import ch.unige.cui.smv.stratagem.adt.PredefADT.ZERO
+import ch.unige.cui.smv.stratagem.adt.PredefADT.define
 import ch.unige.cui.smv.stratagem.adt.Signature
+import ch.unige.cui.smv.stratagem.petrinets.Arc
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
+import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT
+import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT.ENDPLACE
+import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT.PLACE_SORT_NAME
 import ch.unige.cui.smv.stratagem.petrinets.Place
 import ch.unige.cui.smv.stratagem.petrinets.Transition
-import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
-import ch.unige.cui.smv.stratagem.ts.TransitionSystem
-import ch.unige.cui.smv.stratagem.petrinets.Arc
-import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.Strategy
 import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.One
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.Sequence
 import ch.unige.cui.smv.stratagem.ts.Identity
+import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
+import ch.unige.cui.smv.stratagem.ts.One
+import ch.unige.cui.smv.stratagem.ts.Sequence
+import ch.unige.cui.smv.stratagem.ts.Strategy
+import ch.unige.cui.smv.stratagem.ts.TransitionSystem
+import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 
 /**
  * Object that transforms a Petri net into a transition system.
@@ -42,10 +47,6 @@ import ch.unige.cui.smv.stratagem.ts.Identity
  */
 object PetriNet2TransitionSystem {
 
-  def define(n: Int, initialTerm: ATerm, a: ADT): ATerm = n match {
-    case 0 => initialTerm
-    case _ => a.term("suc", (define(n - 1, initialTerm, a)))
-  }
 
   /**
    * A variable strategy to be used later.
@@ -57,16 +58,11 @@ object PetriNet2TransitionSystem {
    */
   def ApplyOnce(s: Strategy) = DeclaredStrategyInstance("applyOnce", s)
 
-  val basicSignature = (new Signature)
-    .withSort("place")
-    .withSort("nat")
-    .withGenerator("zero", "nat")
-    .withGenerator("suc", "nat", "nat")
-    .withGenerator("endplace", "place")
+  val basicSignature = PetriNetADT.basicPetriNetSignature
 
   def createSignature(places: List[Place], sign: Signature): Signature = places match {
     case Nil => sign
-    case place :: tail => createSignature(tail, sign.withGenerator(place.id, "place", "nat", "place"))
+    case place :: tail => createSignature(tail, sign.withGenerator(place.id, PLACE_SORT_NAME, NAT_SORT_NAME, PLACE_SORT_NAME))
   }
 
   def createTransitionSystem(transitions: List[Transition], adt: ADT, initialState: ATerm): TransitionSystem = transitions match {
@@ -77,13 +73,13 @@ object PetriNet2TransitionSystem {
   }
 
   def createInitialState(places: List[Place], adt: ADT): ATerm = places match {
-    case Nil => adt.term("endplace")
-    case place :: tail => adt.term(place.id, define(place.initialMarking, adt.term("zero"), adt), createInitialState(tail, adt))
+    case Nil => adt.term(ENDPLACE)
+    case place :: tail => adt.term(place.id, define(place.initialMarking, adt.term(ZERO), adt), createInitialState(tail, adt))
   }
 
   def createStrategyFor(transition: Transition, adt: ADT, ts: TransitionSystem): TransitionSystem = {
-    val tsWithInputArcs = createInputArcEquations(transition.inputArcs.toList, adt, ts)
-    val tsWithAllArcs = createOutputArcEquations(transition.outputArcs.toList, adt, tsWithInputArcs)
+    val tsWithInputArcs = createInputArcEquations(transition.inputArcs.toList, ts)
+    val tsWithAllArcs = createOutputArcEquations(transition.outputArcs.toList, tsWithInputArcs)
     val inputStrategies: Set[NonVariableStrategy] = transition.inputArcs.map(a => ApplyOnce(DeclaredStrategyInstance(a.id)))
     val inputStrategy = if (inputStrategies.isEmpty) Identity else inputStrategies.reduce((s1, s2) => Sequence(s1, s2))
     val outputStrategies: Set[NonVariableStrategy] = transition.outputArcs.map(a => ApplyOnce(DeclaredStrategyInstance(a.id)))
@@ -91,29 +87,30 @@ object PetriNet2TransitionSystem {
     tsWithAllArcs.declareStrategy(transition.id)(Sequence(inputStrategy, outputStrategy))(true)
   }
 
-  def createOutputArcEquations(arcs: List[Arc], adt: ADT, ts: TransitionSystem): TransitionSystem = arcs match {
+  def createOutputArcEquations(arcs: List[Arc], ts: TransitionSystem): TransitionSystem = arcs match {
     case Nil => ts
-    case arc :: tail => createOutputArcEquations(tail, adt, ts).declareStrategy(arc.id,
-      adt.term(arc.place.id, adt.term("x"), adt.term("p")) -> adt.term(arc.place.id, define(arc.annotation, adt.term("x"), adt), adt.term("p")))(false)
+    case arc :: tail => createOutputArcEquations(tail, ts).declareStrategy(arc.id,
+      ts.adt.term(arc.place.id, ts.adt.term("x"), ts.adt.term("p")) -> ts.adt.term(arc.place.id, define(arc.annotation, ts.adt.term("x"), ts.adt), ts.adt.term("p")))(false)
   }
 
-  def createInputArcEquations(arcs: List[Arc], adt: ADT, ts: TransitionSystem): TransitionSystem = arcs match {
+  def createInputArcEquations(arcs: List[Arc], ts: TransitionSystem): TransitionSystem = arcs match {
     case Nil => ts
     case arc :: tail =>
-      createInputArcEquations(tail, adt, ts).declareStrategy(arc.id,
-        adt.term(arc.place.id, define(arc.annotation, adt.term("x"), adt), adt.term("p")) -> adt.term(arc.place.id, adt.term("x"), adt.term("p")))(false)
+      createInputArcEquations(tail, ts).declareStrategy(arc.id,
+        ts.adt.term(arc.place.id, define(arc.annotation, ts.adt.term("x"), ts.adt), ts.adt.term("p")) -> ts.adt.term(arc.place.id, ts.adt.term("x"), ts.adt.term("p")))(false)
   }
 
   /**
    * Takes a petri net and creates a transition system.
    *
+   * @param net the input petri net
    * @return a transition system that represents the petri net.
    */
   def apply(net: PetriNet) = {
     val signature = createSignature(net.places.toList, basicSignature)
     val adt = new ADT(net.name, signature)
-      .declareVariable("p", "place")
-      .declareVariable("x", "nat")
+      .declareVariable("p", PLACE_SORT_NAME)
+      .declareVariable("x", NAT_SORT_NAME)
     // now we create the transition system
     createTransitionSystem(net.transitions.toList, adt, createInitialState(net.places.toList, adt))
   }

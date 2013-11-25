@@ -15,28 +15,32 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package ch.unige.cui.smv.stratagem.modelchecker
-
-import org.scalatest.FlatSpec
-import java.io.File
-import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
-import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
-import ch.unige.cui.smv.stratagem.ts.Identity
+package ch.unige.cui.smv.stratagem.adt
 
 /**
- * Tests the SetOfModules2TransitionSystem object
- *
+ * This object define basic adts and some useful functions.
  * @author mundacho
  *
  */
-class SetOfModules2TransitionSystemTest extends FlatSpec {
-  "A SetOfModules2TransitionSystem" should "be able to calculate Kanban" in {
-    val net = PNML2PetriNet(new File("resources/test/Philosophers-5.pnml"))
-    val modules = Modularizer(net)
-    val ts = SetOfModules2TransitionSystem(modules, net)
-    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
-    println(ts.strategyDeclarations.size)
-    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
-    assert(rewriter(initialState).get.size == 2546432)
+object PredefADT {
+  val NAT_SORT_NAME = "nat"
+  val ZERO = "zero"
+  val SUC = "suc"
+
+  lazy val basicNatSignature = (new Signature)
+    .withSort(NAT_SORT_NAME)
+    .withGenerator(ZERO, NAT_SORT_NAME)
+    .withGenerator(SUC, NAT_SORT_NAME, NAT_SORT_NAME)
+
+  /**
+   * Defines n succesors of a given term.
+   * @param n is the number of sucs before the initialterm
+   * @param initialTerm is the initial term in this sequence
+   * @param a is the adt where the terms are.
+   * @return a term from the given adt with the form suc(suc(... <n times> suc(initialTerm)))
+   */
+  def define(n: Int, initialTerm: ATerm, a: ADT): ATerm = n match {
+    case 0 => initialTerm
+    case _ => a.term(SUC, (define(n - 1, initialTerm, a)))
   }
 }

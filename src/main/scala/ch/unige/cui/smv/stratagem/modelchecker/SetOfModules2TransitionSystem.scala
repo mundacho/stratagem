@@ -43,6 +43,10 @@ import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT
+import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT.PLACE_SORT_NAME
+import ch.unige.cui.smv.stratagem.adt.PredefADT.NAT_SORT_NAME
 
 /**
  * Takes a set of modules and transforms it to a transition system.
@@ -51,14 +55,21 @@ import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
  */
 object SetOfModules2TransitionSystem {
 
-  val basicSignature = (new Signature)
-    .withSort("place")
-    .withSort("nat")
-    .withSort("cluster")
-    .withGenerator("zero", "nat")
-    .withGenerator("suc", "nat", "nat")
-    .withGenerator("endplace", "place")
-    .withGenerator("endcluster", "cluster")
+  /**
+   * Name of endcluster constant of sort cluster.
+   */
+  val ENDCLUSTER = "endcluster"
+  /**
+   * Name of the sort cluster.
+   */
+  val CLUSTER_SORT_NAME = "cluster"
+
+  /**
+   * The signature we use for clustered petri nets.
+   */
+  val basicSignature = PetriNetADT.basicPetriNetSignature
+    .withSort(CLUSTER_SORT_NAME)
+    .withGenerator(ENDCLUSTER, CLUSTER_SORT_NAME)
 
   /**
    * A variable strategy to be used later.
@@ -71,11 +82,19 @@ object SetOfModules2TransitionSystem {
   def ApplyOnce(s: Strategy) = DeclaredStrategyInstance("applyOnce", s)
   def ApplyToCluster(s: Strategy, n: Int) = DeclaredStrategyInstance(s"applyForCluster$n", s)
 
+  /**
+   * Creates a signature containing all the necessary terms for the clusters.
+   * @param sign the signature where all the clusters will be created.
+   * @param modules the list of modules, is needed to know the places' terms that will also be created in the signature
+   * @param inititalClusterNumber first cluster that will be created will be called c + the this parameter
+   * @return the signature containing all the necessary modules
+   *
+   */
   def createSignatureWithModules(sign: Signature, modules: List[PTModule], initialClusterNumber: Int): Signature = modules match {
     case Nil => sign
     case mod :: tail =>
       val signWithPlaces = PetriNet2TransitionSystem.createSignature(mod.net.places.toList, sign)
-      createSignatureWithModules(signWithPlaces.withGenerator(s"c$initialClusterNumber", "cluster", "place", "cluster"), tail, initialClusterNumber + 1)
+      createSignatureWithModules(signWithPlaces.withGenerator(s"c$initialClusterNumber", CLUSTER_SORT_NAME, PLACE_SORT_NAME, CLUSTER_SORT_NAME), tail, initialClusterNumber + 1)
   }
 
   def createTransitionSystem(transitions: List[Transition],
@@ -90,12 +109,12 @@ object SetOfModules2TransitionSystem {
           resTransSystem = resTransSystem
             .declareStrategy(s"doFor${i}thCluster") {
               ApplyToCluster(FixPointStrategy(Union(Identity,
-                localClusterStrat(i).view.map(DeclaredStrategyInstance(_): NonVariableStrategy).reduce((s1, s2) => Union(Try(s1), Try(s2))))), i)
+                localClusterStrat(i).view.map(s => Try(DeclaredStrategyInstance(s)): NonVariableStrategy).reduce((s1, s2) => Union(s1, s2)))), i)
             }(true)
         }
         resTransSystem
       case transition :: tail =>
-        val (res, cluster) = createStrategyFor(transition, adt, initialTransitionSystem, placeToModule)
+        val (res, cluster) = createStrategyFor(transition, initialTransitionSystem, placeToModule)
         cluster match {
           case None => createTransitionSystem(tail, adt, res, placeToModule, localClusterStrat)
           case Some(n) => createTransitionSystem(tail, adt, res, placeToModule, localClusterStrat + (n -> (localClusterStrat.getOrElse(n, Set.empty) + transition.id)))
@@ -103,32 +122,35 @@ object SetOfModules2TransitionSystem {
 
     }
 
-  def createStrategyFor(transition: Transition, adt: ADT, ts: TransitionSystem, placeToModule: Map[Place, Int]): (TransitionSystem, Option[Int]) = {
+  private def buildInPutStrategy = (l: List[NonVariableStrategy]) => if (l.isEmpty) Identity else l.reduce((s1, s2) => Sequence(s1, s2))
+
+  /**
+   * Creates a strategy for a given transition.
+   * @param transition the transition for which we are creating the strategies
+   * @param ts the transition system where we create the transitions
+   * @param placeToModule is a map that maps the places to the modules they are in
+   * @result is a tuple consisting of the new transition system (with the new transitions) and an option type that contains either a module number
+   */
+  def createStrategyFor(transition: Transition, ts: TransitionSystem, placeToModule: Map[Place, Int]): (TransitionSystem, Option[Int]) = {
     // we always need the equations for the arcs
-    val tsWithInputArcs = PetriNet2TransitionSystem.createInputArcEquations(transition.inputArcs.toList, adt, ts)
-    val tsWithAllArcs = PetriNet2TransitionSystem.createOutputArcEquations(transition.outputArcs.toList, adt, tsWithInputArcs)
+    val tsWithInputArcs = PetriNet2TransitionSystem.createInputArcEquations(transition.inputArcs.toList, ts)
+    val tsWithAllArcs = PetriNet2TransitionSystem.createOutputArcEquations(transition.outputArcs.toList, tsWithInputArcs)
     // first check that if the transition has places only in one cluster:
     val placesGroupedByModules = (transition.inputArcs.map(_.place) ++ transition.outputArcs.map(_.place)).groupBy(placeToModule(_))
-    if (placesGroupedByModules.keys.size == 1) { // if this transition works in only one cluster, oh yeah!
-      val inputStrategies: Set[NonVariableStrategy] = transition.inputArcs.map(a => ApplyOnce(DeclaredStrategyInstance(a.id)))
-      val inputStrategy = if (inputStrategies.isEmpty) Identity else inputStrategies.reduce((s1, s2) => Sequence(s1, s2))
-      val outputStrategies: Set[NonVariableStrategy] = transition.outputArcs.map(a => ApplyOnce(DeclaredStrategyInstance(a.id)))
-      val outputStrategy = if (outputStrategies.isEmpty) Identity else outputStrategies.reduce((s1, s2) => Sequence(s1, s2))
-      (tsWithAllArcs.declareStrategy(transition.id)(Sequence(inputStrategy, outputStrategy))(false), Some(placesGroupedByModules.keys.head))
-    } else { // this transition works accross multiple modules
-      val inputStrategies: Set[NonVariableStrategy] = transition.inputArcs.map(a => ApplyToCluster(ApplyOnce(DeclaredStrategyInstance(a.id)), placeToModule(a.place)))
-      val inputStrategy = if (inputStrategies.isEmpty) Identity else inputStrategies.reduce((s1, s2) => Sequence(s1, s2))
-      val outputStrategies: Set[NonVariableStrategy] = transition.outputArcs.map(a => ApplyToCluster(ApplyOnce(DeclaredStrategyInstance(a.id)), placeToModule(a.place)))
-      val outputStrategy = if (outputStrategies.isEmpty) Identity else outputStrategies.reduce((s1, s2) => Sequence(s1, s2))
-      (tsWithAllArcs.declareStrategy(transition.id)(Sequence(inputStrategy, outputStrategy))(true), None)
+    val (strategyForArc, isTransition, localModuleNumber) = placesGroupedByModules.keys.size match {
+      case 1 => ((a: Arc) => ApplyOnce(DeclaredStrategyInstance(a.id)), false, Some(placesGroupedByModules.keys.head))
+      case _ => ((a: Arc) => ApplyToCluster(ApplyOnce(DeclaredStrategyInstance(a.id)), placeToModule(a.place)), true, None)
     }
+    def sortedListOfArcs(arcs: Set[Arc]) = arcs.toList.sortBy(a => (a.place.name, a.place.id)).map(a => strategyForArc(a)): List[NonVariableStrategy]
+    val (inputStrategies, outputStrategies) = (sortedListOfArcs(transition.inputArcs), sortedListOfArcs(transition.outputArcs))
+    (tsWithAllArcs.declareStrategy(transition.id)(Sequence(buildInPutStrategy(inputStrategies), buildInPutStrategy(outputStrategies)))(isTransition), localModuleNumber)
   }
 
   def createInitialState(modules: List[PTModule], adt: ADT, endTerm: ATerm, initialModuleNumer: Int): ATerm = modules match {
     case Nil => endTerm
     case mod :: tail =>
       adt.term(s"c$initialModuleNumer",
-        PetriNet2TransitionSystem.createInitialState(mod.net.places.toList.sortBy(p => (p.name, p.initialMarking)), adt),
+        PetriNet2TransitionSystem.createInitialState(mod.net.places.toList.sortBy(p => (p.name, p.id)), adt),
         createInitialState(tail, adt, endTerm, initialModuleNumer + 1))
   }
 
@@ -154,15 +176,16 @@ object SetOfModules2TransitionSystem {
   def apply(modules: Set[PTModule], net: PetriNet) = {
     val initialModuleNumber = 0 // must be zero because of the indexes
     // first we get an ordered list of modules (by size)
-    val sortedListOfModules = modules.toList.sortBy(_.net.places.size)
+    val sortedListOfModules = modules.toList.sortBy(a => a.net.places.map(_.id).toList.sortWith(_ < _).mkString(", "))
     // creates a map that maps each place to its cluster p1 -> c1, p2 -> c1, pn -> cm, etc
     val placeToModule = Map(sortedListOfModules.zipWithIndex.map(e => e._1.net.places.map(e1 => (e1, e._2))).flatten: _*)
+    println(sortedListOfModules.map(_.net.places.map(_.id).mkString(", ")).mkString("\n"))
     val signWithModules = createSignatureWithModules(basicSignature, sortedListOfModules, initialModuleNumber)
     val adt = new ADT(net.name, signWithModules)
-      .declareVariable("p", "place")
-      .declareVariable("x", "nat")
-      .declareVariable("c", "cluster")
-    val initialTransitionSystem = new TransitionSystem(adt, createInitialState(sortedListOfModules, adt, adt.term("endcluster"), initialModuleNumber))
+      .declareVariable("p", PLACE_SORT_NAME)
+      .declareVariable("x", NAT_SORT_NAME)
+      .declareVariable("c", CLUSTER_SORT_NAME)
+    val initialTransitionSystem = new TransitionSystem(adt, createInitialState(sortedListOfModules, adt, adt.term(ENDCLUSTER), initialModuleNumber))
       .declareStrategy("applyOnce", S)(Choice(S, One(ApplyOnce(S), 2)))(false)
     createTransitionSystem(net.transitions.toList, adt, addApplytoCluster(initialTransitionSystem, modules.size - 1), placeToModule, Map())
   }

@@ -71,10 +71,10 @@ object SigmaDDRewriterFactory {
         Union(Identity,
           ts.strategyDeclarations
             .filter(_._2.isTransition) // takes only the strategies that are transitions
-            .map(_._2.declaredStrategy.body)
+            .map(s  => Try(s._2.declaredStrategy.body))
             .reduce(
-                (s1: Strategy, s2: Strategy) => Union(Union(Try(s1), Try(s2)), Identity)
-                ))))(ts)
+                (s1: Strategy, s2: Strategy) => Union(s1, s2))
+                )))(ts)
 
   /**
    * Transforms a transition system to a rewriter for SigmaDDs with saturation.

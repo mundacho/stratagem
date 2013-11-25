@@ -15,28 +15,20 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package ch.unige.cui.smv.stratagem.modelchecker
+package ch.unige.cui.smv.stratagem.petrinets
 
-import org.scalatest.FlatSpec
-import java.io.File
-import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
-import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
-import ch.unige.cui.smv.stratagem.ts.Identity
+import ch.unige.cui.smv.stratagem.adt.PredefADT
 
 /**
- * Tests the SetOfModules2TransitionSystem object
- *
+ * This object defines basic adts for petri nets.
  * @author mundacho
  *
  */
-class SetOfModules2TransitionSystemTest extends FlatSpec {
-  "A SetOfModules2TransitionSystem" should "be able to calculate Kanban" in {
-    val net = PNML2PetriNet(new File("resources/test/Philosophers-5.pnml"))
-    val modules = Modularizer(net)
-    val ts = SetOfModules2TransitionSystem(modules, net)
-    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
-    println(ts.strategyDeclarations.size)
-    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
-    assert(rewriter(initialState).get.size == 2546432)
-  }
+object PetriNetADT {
+  val PLACE_SORT_NAME = "place"
+  val ENDPLACE = "endplace"
+
+  lazy val basicPetriNetSignature = PredefADT.basicNatSignature
+    .withSort(PLACE_SORT_NAME)
+    .withGenerator(ENDPLACE, PLACE_SORT_NAME)
 }
