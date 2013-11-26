@@ -173,13 +173,12 @@ object SetOfModules2TransitionSystem {
    * @param net the original petri net that was transformed into modules.
    * @return a transition system for stratagem that calculates the state space of in input net.
    */
-  def apply(modules: Set[PTModule], net: PetriNet) = {
+  def apply(modules: List[PTModule], net: PetriNet) = {
     val initialModuleNumber = 0 // must be zero because of the indexes
     // first we get an ordered list of modules (by size)
-    val sortedListOfModules = modules.toList.sortBy(a => a.net.places.map(_.id).toList.sortWith(_ < _).mkString(", "))
+    val sortedListOfModules = modules
     // creates a map that maps each place to its cluster p1 -> c1, p2 -> c1, pn -> cm, etc
     val placeToModule = Map(sortedListOfModules.zipWithIndex.map(e => e._1.net.places.map(e1 => (e1, e._2))).flatten: _*)
-    println(sortedListOfModules.map(_.net.places.map(_.id).mkString(", ")).mkString("\n"))
     val signWithModules = createSignatureWithModules(basicSignature, sortedListOfModules, initialModuleNumber)
     val adt = new ADT(net.name, signWithModules)
       .declareVariable("p", PLACE_SORT_NAME)

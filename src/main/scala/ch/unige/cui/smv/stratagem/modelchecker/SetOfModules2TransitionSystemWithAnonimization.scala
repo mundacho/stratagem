@@ -218,13 +218,13 @@ object SetOfModules2TransitionSystemWithAnonimization extends Logging {
    * @param net the original petri net that was transformed into modules.
    * @return a transition system for stratagem that calculates the state space of in input net.
    */
-  def apply(modules: Set[PTModule], net: PetriNet): TransitionSystem = {
+  def apply(modules: List[PTModule], net: PetriNet): TransitionSystem = {
     val initialModuleNumber = 0 // must be zero because of the indexes
     // first we get an ordered list of modules (by size)
-    val sortedListOfModules = modules.toList.sortBy(a => a.net.places.toList.sortBy(p => (p.name, p.id)).map(_.id).toList.sortWith(_ < _).mkString(", "))
+    val sortedListOfModules = modules
     // creates a map that maps each place to its cluster p1 -> c1, p2 -> c1, pn -> cm, etc
     val placeToModuleAndPosition = Map(sortedListOfModules.zipWithIndex.map(e => e._1.net.places.toList.sortBy(p => (p.name, p.id)).zipWithIndex.map(e1 => (e1._1, (e._2, e1._2)))).flatten: _*)
-    println(sortedListOfModules.map(_.net.places.toList.sortBy(p => (p.name, p.id)).map(_.name).mkString(", ")).mkString("\n"))
+//    println(sortedListOfModules.map(_.net.places.toList.sortBy(p => (p.name, p.id)).map(_.name).mkString(", ")).mkString("\n"))
     val signWithModules = createSignatureWithModules(basicSignature, sortedListOfModules, initialModuleNumber, -1)
     val adt = new ADT(net.name, signWithModules)
       .declareVariable("p", PLACE_SORT_NAME)

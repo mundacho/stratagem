@@ -22,6 +22,7 @@ import java.io.File
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.ts.Identity
+import com.typesafe.scalalogging.slf4j.Logging
 
 /**
  * Tests the SetOfModules2TransitionSystem object
@@ -29,14 +30,15 @@ import ch.unige.cui.smv.stratagem.ts.Identity
  * @author mundacho
  *
  */
-class SetOfModules2TransitionSystemTest extends FlatSpec {
-  "A SetOfModules2TransitionSystem" should "be able to calculate Kanban" in {
-    val net = PNML2PetriNet(new File("resources/test/Kanban-5.pnml"))
+class SetOfModules2TransitionSystemWithAnonimizationTest extends FlatSpec with Logging {
+  "A SetOfModules2TransitionSystem" should "be able to calculate the simple load balancer problem" in {
+    val net = PNML2PetriNet(new File("resources/test/simple_lbs-5.pnml"))
     val modules = Modularizer(net)
-    val ts = SetOfModules2TransitionSystem(modules, net)
+    val ts = SetOfModules2TransitionSystemWithAnonimization(modules, net)
     val initialState = SigmaDDFactoryImpl.create(ts.initialState)
-    println(ts.strategyDeclarations.size)
-    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
-    assert(rewriter(initialState).get.size == 2546432)
+    logger.debug("Starting translation to SigmaDD")
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts) //(ts, Identity, 2)
+    logger.debug("Finished translation to SigmaDD")
+    println(rewriter(initialState).get.size)
   }
 }
