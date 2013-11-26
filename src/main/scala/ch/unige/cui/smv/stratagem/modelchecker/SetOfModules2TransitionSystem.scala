@@ -47,6 +47,7 @@ import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT
 import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT.PLACE_SORT_NAME
 import ch.unige.cui.smv.stratagem.adt.PredefADT.NAT_SORT_NAME
+import ch.unige.cui.smv.stratagem.ts.IfThenElse
 
 /**
  * Takes a set of modules and transforms it to a transition system.
@@ -157,8 +158,9 @@ object SetOfModules2TransitionSystem {
   private def addStrategies(ts: TransitionSystem, n: Int) = ts
     .declareStrategy(s"checkForCluster$n", ts.adt.term(s"c$n", ts.adt.term("p"), ts.adt.term("c")) -> ts.adt.term(s"c$n", ts.adt.term("p"), ts.adt.term("c")))(false)
     .declareStrategy(s"applyForCluster$n", S) {
-      Choice(
-        Sequence(DeclaredStrategyInstance(s"checkForCluster$n"), One(S, 1)), // if we are in the right cluster, apply the strategy
+      IfThenElse(
+        DeclaredStrategyInstance(s"checkForCluster$n"),  
+        One(S, 1), // if we are in the right cluster, apply the strategy
         One(DeclaredStrategyInstance(s"applyForCluster$n", S), 2))
     }(false)
 

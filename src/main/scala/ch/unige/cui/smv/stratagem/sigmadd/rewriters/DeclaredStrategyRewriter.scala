@@ -32,6 +32,7 @@ import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 import com.typesafe.scalalogging.slf4j.Logging
+import ch.unige.cui.smv.stratagem.ts.IfThenElse
 
 /**
  * Implements a rewriter for a declared strategy.
@@ -81,6 +82,7 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
     case FixPointStrategy(s) => FixPointStrategy(instanciate(s))
     case Sequence(s1, s2) => Sequence(instanciate(s1), instanciate(s2))
     case Union(s1, s2) => Union(instanciate(s1), instanciate(s2))
+    case IfThenElse(s1, s2, s3) => IfThenElse(instanciate(s1), instanciate(s2), instanciate(s3))
     case v: VariableStrategy => formalToActualParameterMap(v)
     case s @ SimpleStrategy(List(_, _*)) => s
     case strategyInstance @ DeclaredStrategyInstance(name, actualParams @ _*) => DeclaredStrategyInstance(name, actualParams.map(instanciate(_)).toArray: _*)

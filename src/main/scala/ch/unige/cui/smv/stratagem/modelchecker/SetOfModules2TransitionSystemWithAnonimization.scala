@@ -48,6 +48,7 @@ import ch.unige.cui.smv.stratagem.petrinets.Arc
 import ch.unige.cui.smv.stratagem.ts.Sequence
 import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import com.typesafe.scalalogging.slf4j.Logging
+import ch.unige.cui.smv.stratagem.ts.IfThenElse
 
 /**
  * @author mundacho
@@ -61,9 +62,15 @@ object SetOfModules2TransitionSystemWithAnonimization extends Logging {
   val S = VariableStrategy("S")
 
   /**
+   * A variable strategy to be used later.
+   */
+  val Q = VariableStrategy("Q")
+
+  /**
    * A convenience method.
    */
-  def ApplyOnce(s: Strategy) = DeclaredStrategyInstance("applyOnce", s)
+  def ApplyOnceAndThen(s1: Strategy, s2: Strategy) = DeclaredStrategyInstance("applyOnceAndThen", s1, s2)
+  def ApplyOnce(s1: Strategy) = DeclaredStrategyInstance("applyOnce", s1)
   def ApplyToCluster(s: Strategy, n: Int) = DeclaredStrategyInstance(s"applyForCluster$n", s)
 
   /**
@@ -153,6 +160,11 @@ object SetOfModules2TransitionSystemWithAnonimization extends Logging {
   }
   private def buildInPutStrategy = (l: List[NonVariableStrategy]) => if (l.isEmpty) Identity else l.reduce((s1, s2) => Sequence(s1, s2))
 
+  private def buildSequenceOfDependentStrategies(l: List[NonVariableStrategy]): NonVariableStrategy = l match {
+    case head :: tail => ApplyOnceAndThen(head, buildSequenceOfDependentStrategies(tail))
+    case Nil => Identity
+  }
+
   // TODO rewrite doc
   /**
    *
@@ -168,28 +180,46 @@ object SetOfModules2TransitionSystemWithAnonimization extends Logging {
     pBodyToId: Map[NonVariableStrategy, String],
     pIdToNormalId: Map[String, String]): (TransitionSystem, Option[Int], Map[NonVariableStrategy, String], Map[String, String]) = {
     // we always need the equations for the arcs
-    val (tsWithInputArcs, bodyToId0, idToNormalId0) = 
-      createArcEquations(transition.inputArcs.toList.sortBy(a => pIdToNormalId.getOrElse(a.id, a.id)), 
-          ts, placeToModuleAndPosition, pBodyToId, pIdToNormalId, inputArcStrategyBody(ts, placeToModuleAndPosition)_)
+    val (tsWithInputArcs, bodyToId0, idToNormalId0) =
+      createArcEquations(transition.inputArcs.toList.sortBy(a => pIdToNormalId.getOrElse(a.id, a.id)),
+        ts, placeToModuleAndPosition, pBodyToId, pIdToNormalId, inputArcStrategyBody(ts, placeToModuleAndPosition)_)
     val (tsWithAllArcs, bodyToId, idToNormalId) = createArcEquations(transition.outputArcs.toList.sortBy(a => idToNormalId0.getOrElse(a.id, a.id)),
       tsWithInputArcs, placeToModuleAndPosition, bodyToId0, idToNormalId0, outputArcStrategyBody(ts, placeToModuleAndPosition)_)
     // first check that if the transition has places only in one cluster:
-    val placesGroupedByModules = (transition.inputArcs.map(_.place) ++ transition.outputArcs.map(_.place)).groupBy(placeToModuleAndPosition(_)._1)
-    val (strategyForArc, isTransition, localModuleNumber) = placesGroupedByModules.keys.size match {
-      case 1 => ((a: Arc) => ApplyOnce(DeclaredStrategyInstance(idToNormalId(a.id))), false, Some(placesGroupedByModules.keys.head))
-      case _ => ((a: Arc) => ApplyToCluster(ApplyOnce(DeclaredStrategyInstance(idToNormalId(a.id))), placeToModuleAndPosition(a.place)._1), true, None)
-    }
-    def sortedListOfArcs(arcs: Set[Arc]) = arcs.toList.sortBy(a => (a.place.name, a.place.id)).map(a => strategyForArc(a)): List[NonVariableStrategy]
-    val (inputStrategies, outputStrategies) = (sortedListOfArcs(transition.inputArcs), sortedListOfArcs(transition.outputArcs))
-    // let us check if there is other transition that does exactly the same
-    val strategyBody = Sequence(buildInPutStrategy(inputStrategies), buildInPutStrategy(outputStrategies))
-    bodyToId.lift(strategyBody) match {
-      // there is already a transition doing exactly the same, we do not create a new transition
-      case Some(id) =>
-        logger.trace(s"Transition ${transition.id} does the same as transition ${id} we remove it.")
-        (tsWithAllArcs, localModuleNumber, bodyToId, idToNormalId + (transition.id -> id))
-      case None =>
-        (tsWithAllArcs.declareStrategy(transition.id)(strategyBody)(isTransition), localModuleNumber, bodyToId + (strategyBody -> transition.id), idToNormalId + (transition.id -> transition.id))
+    val placesGroupedByModules = (transition.inputArcs ++ transition.outputArcs).groupBy(a => placeToModuleAndPosition(a.place)._1)
+    if (placesGroupedByModules.keys.size == 1) { // we have one cluster
+      val inputStrategies = buildSequenceOfDependentStrategies(transition.inputArcs.toList.sortBy(a => (a.place.name, a.place.id)).map(a => DeclaredStrategyInstance(idToNormalId(a.id))))
+      val ouputStrategies = buildSequenceOfDependentStrategies(transition.outputArcs.toList.sortBy(a => (a.place.name, a.place.id)).map(a => DeclaredStrategyInstance(idToNormalId(a.id))))
+      val strategyBody = Sequence(inputStrategies, ouputStrategies)
+      bodyToId.lift(strategyBody) match {
+        // there is already a transition doing exactly the same, we do not create a new transition
+        case Some(id) =>
+          logger.trace(s"Transition ${transition.id} does the same as transition ${id} we remove it.")
+          (tsWithAllArcs, Some(placesGroupedByModules.keys.head), bodyToId, idToNormalId + (transition.id -> id))
+        case None =>
+          (tsWithAllArcs.declareStrategy(transition.id)(strategyBody)(false),
+            Some(placesGroupedByModules.keys.head),
+            bodyToId + (strategyBody -> transition.id),
+            idToNormalId + (transition.id -> transition.id))
+      }
+    } else { // we have several clusters
+      val inputArcsByModule = transition.inputArcs.toList.sortBy(a => (a.place.name, a.place.id)).groupBy(a => placeToModuleAndPosition(a.place)._1)
+      val inputStrategies = buildSequenceOfDependentStrategies(
+        for (i <- inputArcsByModule.keys.toList.sortWith(_ < _)) yield {
+          ApplyToCluster(buildSequenceOfDependentStrategies(
+            inputArcsByModule(i).toList.sortBy(a => (a.place.name, a.place.id)).map(a => DeclaredStrategyInstance(idToNormalId(a.id)))), i)
+        })
+      val outputArcsByModule = transition.outputArcs.toList.sortBy(a => (a.place.name, a.place.id)).groupBy(a => placeToModuleAndPosition(a.place)._1)
+      val ouputStrategies = buildSequenceOfDependentStrategies(
+        for (i <- outputArcsByModule.keys.toList.sortWith(_ < _)) yield {
+          ApplyToCluster(buildSequenceOfDependentStrategies(
+            outputArcsByModule(i).toList.sortBy(a => (a.place.name, a.place.id)).map(a => DeclaredStrategyInstance(idToNormalId(a.id)))), i)
+        })
+      val strategyBody = Sequence(inputStrategies, ouputStrategies)
+      (tsWithAllArcs.declareStrategy(transition.id)(strategyBody)(true),
+        None,
+        bodyToId + (strategyBody -> transition.id),
+        idToNormalId + (transition.id -> transition.id))
     }
   }
 
@@ -224,7 +254,7 @@ object SetOfModules2TransitionSystemWithAnonimization extends Logging {
     val sortedListOfModules = modules
     // creates a map that maps each place to its cluster p1 -> c1, p2 -> c1, pn -> cm, etc
     val placeToModuleAndPosition = Map(sortedListOfModules.zipWithIndex.map(e => e._1.net.places.toList.sortBy(p => (p.name, p.id)).zipWithIndex.map(e1 => (e1._1, (e._2, e1._2)))).flatten: _*)
-//    println(sortedListOfModules.map(_.net.places.toList.sortBy(p => (p.name, p.id)).map(_.name).mkString(", ")).mkString("\n"))
+    println(sortedListOfModules.map(_.net.places.toList.sortBy(p => (p.name, p.id)).map(_.name).mkString(", ")).mkString("\n"))
     val signWithModules = createSignatureWithModules(basicSignature, sortedListOfModules, initialModuleNumber, -1)
     val adt = new ADT(net.name, signWithModules)
       .declareVariable("p", PLACE_SORT_NAME)
@@ -233,6 +263,7 @@ object SetOfModules2TransitionSystemWithAnonimization extends Logging {
 
     val initialTransitionSystem = new TransitionSystem(adt, createInitialState(sortedListOfModules, adt, adt.term(ENDCLUSTER), initialModuleNumber, placeToModuleAndPosition))
       .declareStrategy("applyOnce", S)(Choice(S, One(ApplyOnce(S), 2)))(false)
+      .declareStrategy("applyOnceAndThen", S, Q)(IfThenElse(S, One(Q, 2), One(ApplyOnceAndThen(S, Q), 2)))(false)
     createTransitionSystem(net.transitions.toList, adt, SetOfModules2TransitionSystem.addApplytoCluster(initialTransitionSystem, modules.size - 1), placeToModuleAndPosition, Map(), Map(), Map())
   }
 }

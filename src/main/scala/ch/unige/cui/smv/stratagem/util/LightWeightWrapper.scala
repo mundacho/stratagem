@@ -1,4 +1,4 @@
-/*
+ /*
 Stratagem is a model checker for transition systems described using rewriting
 rules and strategies.
 Copyright (C) 2013 - SMV@Geneva University.

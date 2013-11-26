@@ -98,7 +98,7 @@ object Modularizer extends Logging {
     logger.debug(s"Number of transitions after removing overlapping modules ${newModules.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
     // for each place, we decide in which cluster it goes
     var (unorderedResult, pairOfModules2ModuleDistance) = removeDuplicatedPlaces(net.places, newModules)
-    //        println(pairOfModules2ModuleDistance.map(e => (e._1.map(_.net.places.toList.sortBy(p => p.name).map(_.name).mkString("{", ", ", "}")), e._2)).mkString("\n"))
+//            println(pairOfModules2ModuleDistance.map(e => (e._1.map(_.net.places.toList.sortBy(p => p.name).map(_.name).mkString("{", ", ", "}")), e._2)).mkString("\n"))
     logger.debug(s"Number places before returning ${unorderedResult.map(_.net.places).reduce(_ ++ _).toSet.size}")
     logger.debug(s"Number of transitions before returning ${unorderedResult.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
     logger.debug(s"Number of modules before returning ${unorderedResult.size}")

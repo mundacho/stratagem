@@ -66,6 +66,12 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
         val (result2, message2) = checkSyntax(s2, params: _*)
         (result1 && result2, message1 + message2)
       }
+      case IfThenElse(s1, s2, s3) => {
+         val (result1, message1) = checkSyntax(s1, params: _*)
+        val (result2, message2) = checkSyntax(s2, params: _*)
+             val (result3, message3) = checkSyntax(s3, params: _*)
+        (result1 && result2 && result3, message1 + message2 + message3)       
+      }
       case v: VariableStrategy => if (params.toList.exists(elt => elt eq v)) (true, "") else {
         (false, DeclaredStrategy.errorInvalidVariable.format(v.name))
       }

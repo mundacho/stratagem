@@ -33,6 +33,7 @@ import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
+import ch.unige.cui.smv.stratagem.ts.IfThenElse
 /**
  * Represents a factory of rewriters.
  */
@@ -59,6 +60,7 @@ object SigmaDDRewriterFactory {
     case st @ FixPointStrategy(s) => rewriterCache.getOrElseUpdate(st.toString, new FixpointRewriter(strategyToRewriter(s)) with SigmaDDRewritingCache)
     case st @ Sequence(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new SequenceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
     case st @ Try(s1) => rewriterCache.getOrElseUpdate(st.toString, strategyToRewriter(Choice(s1, Identity)))
+    case st @ IfThenElse(s1, s2, s3) => rewriterCache.getOrElseUpdate(st.toString, new IfThenElseRewriter(strategyToRewriter(s1), strategyToRewriter(s2), strategyToRewriter(s3)) with SigmaDDRewritingCache)
     case st @ Saturation(s, n) => rewriterCache.getOrElseUpdate(st.toString, strategyToRewriter(Sequence(Choice(One(Saturation(s, n), n), FixPointStrategy(s)), FixPointStrategy(s))))
   }
 
@@ -71,10 +73,9 @@ object SigmaDDRewriterFactory {
         Union(Identity,
           ts.strategyDeclarations
             .filter(_._2.isTransition) // takes only the strategies that are transitions
-            .map(s  => Try(s._2.declaredStrategy.body))
+            .map(s => Try(s._2.declaredStrategy.body))
             .reduce(
-                (s1: Strategy, s2: Strategy) => Union(s1, s2))
-                )))(ts)
+              (s1: Strategy, s2: Strategy) => Union(s1, s2)))))(ts)
 
   /**
    * Transforms a transition system to a rewriter for SigmaDDs with saturation.
