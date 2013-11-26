@@ -264,6 +264,6 @@ object SetOfModules2TransitionSystemWithAnonimization extends Logging {
     val initialTransitionSystem = new TransitionSystem(adt, createInitialState(sortedListOfModules, adt, adt.term(ENDCLUSTER), initialModuleNumber, placeToModuleAndPosition))
       .declareStrategy("applyOnce", S)(Choice(S, One(ApplyOnce(S), 2)))(false)
       .declareStrategy("applyOnceAndThen", S, Q)(IfThenElse(S, One(Q, 2), One(ApplyOnceAndThen(S, Q), 2)))(false)
-    createTransitionSystem(net.transitions.toList, adt, SetOfModules2TransitionSystem.addApplytoCluster(initialTransitionSystem, modules.size - 1), placeToModuleAndPosition, Map(), Map(), Map())
+    createTransitionSystem(net.transitions.toList, adt, SetOfModules2TransitionSystem.addApplytoCluster(initialTransitionSystem, modules.size - 1, modules.size - 1), placeToModuleAndPosition, Map(), Map(), Map())
   }
 }

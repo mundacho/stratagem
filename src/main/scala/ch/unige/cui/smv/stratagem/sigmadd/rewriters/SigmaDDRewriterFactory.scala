@@ -81,10 +81,10 @@ object SigmaDDRewriterFactory {
    * Transforms a transition system to a rewriter for SigmaDDs with saturation.
    */
   def transitionSystemToStateSpaceRewriterWithSaturation(ts: TransitionSystem, firstStrat: NonVariableStrategy, n: Integer): SigmaDDRewriter = {
-    val fullStateSpaceCaculation = Union(Identity, ts.strategyDeclarations.filter(_._2.isTransition).map(_._2.declaredStrategy.body)
-      .reduce((s1: Strategy, s2: Strategy) => Union(Union(Try(s1), Try(s2)), Identity)))
+    val fullStateSpaceCaculation = Union(Identity, ts.strategyDeclarations.filter(_._2.isTransition).map(s => Try(s._2.declaredStrategy.body))
+      .reduce((s1: Strategy, s2: Strategy) => Union(s1, s2)))
     strategyToRewriter(Union(Saturation(fullStateSpaceCaculation, n),
-      FixPointStrategy(Union(firstStrat, fullStateSpaceCaculation))))(ts)
+      FixPointStrategy(Union(firstStrat, Saturation(fullStateSpaceCaculation, n)))))(ts)
   }
 
 }

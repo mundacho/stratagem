@@ -32,7 +32,7 @@ import com.typesafe.scalalogging.slf4j.Logging
  */
 class SetOfModules2TransitionSystemWithAnonimizationTest extends FlatSpec with Logging {
   "A SetOfModules2TransitionSystem" should "be able to calculate the simple load balancer problem" in {
-    val net = PNML2PetriNet(new File("resources/test/Peterson-3.pnml"))
+    val net = PNML2PetriNet(new File("resources/test/simple_lbs-5.pnml"))
     val modules = Modularizer(net)
     val ts = SetOfModules2TransitionSystemWithAnonimization(modules, net)
     println(ts)
