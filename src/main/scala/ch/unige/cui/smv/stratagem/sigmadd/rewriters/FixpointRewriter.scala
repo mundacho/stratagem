@@ -28,7 +28,7 @@ private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter) extends 
 
   override lazy val hashCode = (this.getClass(), rewriter).hashCode
 
-  override lazy val toString = "FixpointRewriter(" + rewriter.toString + ")"
+  override lazy val toString = (new StringBuilder("FixpointRewriter(") append rewriter.toString append ")").toString
 
   override def equals(obj: Any): Boolean = obj match {
     case that @ FixpointRewriter(r) => (this eq that) || (rewriter == r)

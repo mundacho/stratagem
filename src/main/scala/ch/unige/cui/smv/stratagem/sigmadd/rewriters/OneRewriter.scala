@@ -28,7 +28,7 @@ private[sigmadd] class OneRewriter(rewr: => SigmaDDRewriter, val subTermPosition
 
   lazy val rewriter = rewr
 
-  override lazy val toString = "OneRewriter(" + rewriter.toString + ", " + subTermPosition + ")"
+  override lazy val toString = (new StringBuilder("OneRewriter(") append rewriter.toString append ", " append subTermPosition append ")").toString
 
   override lazy val hashCode = (this.getClass(), rewriter, subTermPosition).hashCode
 

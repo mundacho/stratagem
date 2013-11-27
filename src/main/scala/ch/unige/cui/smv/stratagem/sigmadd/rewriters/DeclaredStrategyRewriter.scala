@@ -42,7 +42,7 @@ import ch.unige.cui.smv.stratagem.ts.IfThenElse
  */
 private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredStrategyInstance, ts: TransitionSystem) extends SigmaDDRewriter with Logging {
 
-  override lazy val toString = "DeclaredStrategyRewriter(" + declaredStrategy.toString + ")"
+  override lazy val toString = (new StringBuilder("DeclaredStrategyRewriter(") append declaredStrategy.toString append ")").toString
 
   override lazy val hashCode = (this.getClass(), declaredStrategy, ts).hashCode
 

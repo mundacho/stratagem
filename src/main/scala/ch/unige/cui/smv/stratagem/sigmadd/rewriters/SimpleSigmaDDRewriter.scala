@@ -32,7 +32,7 @@ import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
  */
 private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy) extends SigmaDDRewriter {
 
-  override lazy val toString = "SimpleSigmaDDRewriter(" + simpleStrategy.toString + ")"
+  override lazy val toString = (new StringBuilder("SimpleSigmaDDRewriter(") append simpleStrategy.toString append ")").toString
 
   override lazy val hashCode = (this.getClass(), simpleStrategy).hashCode
 
