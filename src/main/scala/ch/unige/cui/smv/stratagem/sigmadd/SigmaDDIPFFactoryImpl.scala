@@ -82,13 +82,25 @@ object SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
     }
 
     def ^(that: IPFImpl): IPFImpl = {
-      val inter = alphaIntersection(this.alpha, that.alpha)
-      if (inter.isEmpty) bottomElement else create(inter)
+      if (this eq that) this
+      else if (this eq bottomElement) {
+        bottomElement
+      }
+      else {
+        val inter = alphaIntersection(this.alpha, that.alpha)
+        if (inter.isEmpty) bottomElement else create(inter)
+      }
     }
 
     def \(that: IPFImpl): IPFImpl = {
-      val diff = alphaDifference(this.alpha, that.alpha)
-      if (diff.isEmpty) bottomElement else create(diff)
+      if (this eq that) this.bottomElement
+      else if (that eq bottomElement) {
+        this
+      }
+      else {
+        val diff = alphaDifference(this.alpha, that.alpha)
+        if (diff.isEmpty) bottomElement else create(diff)
+      }
     }
 
     lazy val bottomElement = create(HashMap.empty)

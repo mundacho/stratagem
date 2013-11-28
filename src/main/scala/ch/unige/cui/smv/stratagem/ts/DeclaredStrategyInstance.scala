@@ -28,5 +28,5 @@ package ch.unige.cui.smv.stratagem.ts
  *
  */
 case class DeclaredStrategyInstance(name: String, actualParams: Strategy*) extends NonVariableStrategy {
-  override lazy val toString = name + actualParams.mkString("(", ", ", ")")
+  override lazy val toString = (new StringBuilder(name) append actualParams.mkString("(", ", ", ")")).toString
 }

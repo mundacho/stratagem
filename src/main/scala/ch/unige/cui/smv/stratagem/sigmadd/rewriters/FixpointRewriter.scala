@@ -45,8 +45,6 @@ private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter) extends 
         newResult = rewriter(result.get)
         logger.trace(s"Fixpoint rewriter has generated a decision diagram of size: ${newResult.get.size}")
         logger.trace(s"Fixpoint rewriter was applied on top of term with fuctor: ${newResult.get.iipf.alpha.keys.head}")
-        if ((result.get ne newResult.get)) println(s"${newResult.get.size} and ${result.get.size} are not equal" )
-//        logger.trace(s"Fixpoint rewriter applied was: ${rewriter: SigmaDDRewriter}")    
       }
       // if we arrive here either: result == newResult or newResult == None
       newResult
