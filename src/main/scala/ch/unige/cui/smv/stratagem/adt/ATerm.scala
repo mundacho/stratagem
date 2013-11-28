@@ -68,8 +68,7 @@ object ATerm {
  * @param theAdt the adt this terms uses.
  */
 private case class Term(val operationSymbol: Operation, val subterms: List[ATerm], theAdt: ADT) extends ATerm(theAdt) {
-
-  require(operationSymbol.arity == subterms.map(_.sort), "Invalid parameter")
+  require(operationSymbol.arity.corresponds(subterms.map(_.sort))((l,r) => ASort.findCommonParent(l, r).get == l), "Invalid parameter")
   require((adt.signature.operations ++ adt.signature.generators)(operationSymbol.name) == operationSymbol) // the adt contains the operation
   // scalastyle:off
   require(if (!subterms.isEmpty) subterms.map(_.adt eq theAdt).reduce(_ && _) else true, "It is not allowed to mix adts") // require that each adt in the subterms is the same that the parent term adt
