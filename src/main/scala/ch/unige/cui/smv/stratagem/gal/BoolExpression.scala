@@ -36,6 +36,8 @@ sealed abstract class BoolExpression {
 
   def partialEval(pattern: IntExpression, replace: IntExpression): BoolExpression
 
+  override def toString(): String = throw new NotImplementedError("pretty printing is not implemented for this BoolExpression!")
+
   def unary_! = BoolExpressionFactory.createNot(this)
 }
 
@@ -46,6 +48,8 @@ case class BoolConstant private[expressions] (val value: Boolean) extends BoolEx
   def simplify(): BoolExpression = this
 
   def partialEval(pattern: IntExpression, replace: IntExpression): BoolExpression = this
+
+  override def toString(): String = if (value) "true" else "false"
 }
 
 /**
@@ -64,6 +68,8 @@ case class Not private[expressions] (val term: BoolExpression) extends BoolExpre
 
   def partialEval(pattern: IntExpression, replace: IntExpression): BoolExpression =
     BoolExpressionFactory.createNot(term.partialEval(pattern, replace))
+
+  override def toString(): String = "! (" + term + ")"
 }
 
 /**
@@ -123,6 +129,20 @@ sealed abstract class NaryBoolExpression protected (val terms: Set[BoolExpressio
 
   def partialEval(pattern: IntExpression, replace: IntExpression): BoolExpression =
     builder(terms map { e => e.partialEval(pattern, replace) }).simplify()
+
+  def opSymbol(): String
+
+  override def toString(): String = {
+    var res = ""
+    for (v <- terms) {
+      if (v == terms.head) {
+        res += v
+      } else {
+        res += opSymbol() + v
+      }
+    }
+    res
+  }
 }
 
 /**
@@ -137,10 +157,9 @@ case class And private[expressions] (override val terms: Set[BoolExpression]) ex
   }
 
   def neutral: Boolean = true
-
   def operation(x: Boolean, y: Boolean): Boolean = x && y
-
   def builder(s: Set[BoolExpression]) = And(s)
+  def opSymbol(): String = " && "
 }
 
 /**
@@ -155,10 +174,9 @@ case class Or private[expressions] (override val terms: Set[BoolExpression]) ext
   }
 
   def neutral: Boolean = false
-
   def operation(x: Boolean, y: Boolean): Boolean = x || y
-
   def builder(s: Set[BoolExpression]) = Or(s)
+  def opSymbol(): String = " || "
 }
 
 /**
@@ -196,6 +214,10 @@ sealed abstract class BinaryBoolExpression protected (val lhs: IntExpression, va
 
   def partialEval(pattern: IntExpression, replace: IntExpression): BoolExpression =
     builder(lhs.partialEval(pattern, replace), rhs.partialEval(pattern, replace)).simplify()
+
+  def opSymbol(): String
+
+  override def toString(): String = lhs + opSymbol() + rhs
 }
 
 case class Eq private[expressions] (override val lhs: IntExpression, override val rhs: IntExpression) extends BinaryBoolExpression(lhs,rhs) {
@@ -203,6 +225,7 @@ case class Eq private[expressions] (override val lhs: IntExpression, override va
 
   //@TODO sort the variables to get a canonical expression
   def builder(x: IntExpression, y: IntExpression) = Eq(x,y)
+  def opSymbol(): String = " == "
 }
 
 case class Neq private[expressions] (override val lhs: IntExpression, override val rhs: IntExpression) extends BinaryBoolExpression(lhs,rhs) {
@@ -210,30 +233,35 @@ case class Neq private[expressions] (override val lhs: IntExpression, override v
 
   //@TODO sort the variables to get a canonical expression
   def builder(x: IntExpression, y: IntExpression) = Neq(x,y)
+  def opSymbol(): String = " != "
 }
 
 case class Gt private[expressions] (override val lhs: IntExpression, override val rhs: IntExpression) extends BinaryBoolExpression(lhs,rhs) {
   def operation(x: Int, y: Int): Boolean = x > y
 
   def builder(x: IntExpression, y: IntExpression) = Lt(y,x)
+  def opSymbol(): String = " > "
 }
 
 case class Lt private[expressions] (override val lhs: IntExpression, override val rhs: IntExpression) extends BinaryBoolExpression(lhs,rhs) {
   def operation(x: Int, y: Int): Boolean = x < y
 
   def builder(x: IntExpression, y: IntExpression) = Lt(x,y)
+  def opSymbol(): String = " < "
 }
 
 case class Geq private[expressions] (override val lhs: IntExpression, override val rhs: IntExpression) extends BinaryBoolExpression(lhs,rhs) {
   def operation(x: Int, y: Int): Boolean = x >= y
 
   def builder(x: IntExpression, y: IntExpression) = Leq(y,x)
+  def opSymbol(): String = " >= "
 }
 
 case class Leq private[expressions] (override val lhs: IntExpression, override val rhs: IntExpression) extends BinaryBoolExpression(lhs,rhs) {
   def operation(x: Int, y: Int): Boolean = x <= y
 
   def builder(x: IntExpression, y: IntExpression) = Leq(x,y)
+  def opSymbol(): String = " <= "
 }
 
 /**

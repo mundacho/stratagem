@@ -17,7 +17,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.gal
 
-import ch.unige.cui.smv.stratagem.gal.expressions._
+import ch.unige.cui.smv.stratagem.gal.expressions.BoolExpression
+import ch.unige.cui.smv.stratagem.gal.expressions.IntExpression
 
 /**
  * Represents a GAL transition
@@ -32,9 +33,9 @@ case class Transition(val name: String, val label: String, val guard: BoolExpres
     if (label != "") {
       res += " label " + label
     }
-    res += " [ " + PrettyPrinter.printBoolExpr(guard) + " ] {\n"
+    res += " [ " + guard + " ] {\n"
     res += PrettyPrinter.printAction(action)
-    res += "}\n"
+    res += "\n}\n"
     res
   }
 }
@@ -43,38 +44,11 @@ case class Transition(val name: String, val label: String, val guard: BoolExpres
  * @TODO this object does not belong here
  */
 object PrettyPrinter {
-
-  def printBoolExpr: BoolExpression => String = (_: BoolExpression) match {
-    case BoolConstant(value)  => if (value) "true" else "false"
-    case And(s)               => s./:("")({ case (a: String,b: BoolExpression) => a + " && " + printBoolExpr(b) }: (String,BoolExpression) => String)
-    case Or(s)                => s./:("")({ case (a: String,b: BoolExpression) => a + " || " + printBoolExpr(b) }: (String,BoolExpression) => String)
-    case Not(b)               => "!" + printBoolExpr(b)
-    case Eq(l,r)              => printIntExpr(l) + "==" + printIntExpr(r)
-    case Neq(l,r)             => printIntExpr(l) + "!=" + printIntExpr(r)
-    case Gt(l,r)              => printIntExpr(l) + ">" + printIntExpr(r)
-    case Lt(l,r)              => printIntExpr(l) + "<" + printIntExpr(r)
-    case Geq(l,r)             => printIntExpr(l) + ">=" + printIntExpr(r)
-    case Leq(l,r)             => printIntExpr(l) + "<=" + printIntExpr(r)
-  }
-
-  // @TODO all expressions are not printed
-  def printIntExpr(arg: IntExpression): String = arg match {
-    case Constant(i)      => i.toString
-    case IntVariable(x)   => x
-    case Plus(s)          => s./:("")({ case (a: String,b: IntExpression) => a + " + " + printIntExpr(b) }: (String,IntExpression) => String)
-    case Mult(s)          => s./:("")({ case (a: String,b: IntExpression) => a + " * " + printIntExpr(b) }: (String,IntExpression) => String)
-    case Minus(l,r)       => printIntExpr(l) + " - " + printIntExpr(r)
-    case Divide(l,r)      => printIntExpr(l) + " / " + printIntExpr(r)
-    case Modulo(l,r)      => printIntExpr(l) + " % " + printIntExpr(r)
-    case Power(l,r)       => printIntExpr(l) + " ** " + printIntExpr(r)
-    case ArrayAccess(l,r) => l + "[" + printIntExpr(r) + "]"
-  }
-
   def printAction: Statement => String = _ match {
     case SeqStatement(s)      => s./:("")({ case (a: String,b: Statement) => a + "\n" + printAction(b) }: (String,Statement) => String)
-    case Assignment(l,r)  => printIntExpr(l) + " = " + printIntExpr(r) + ";"
+    case Assignment(l,r)  => l + " = " + r + ";"
     case Abort()          => "abort;"
-    case ITE(c,l,r)       => "if (" + printBoolExpr(c) + ") {" + printAction(l) + "} else {" + printAction(r) + "}"
+    case ITE(c,l,r)       => "if (" + c + ") {" + printAction(l) + "} else {" + printAction(r) + "}"
     case FixStatement(b)  => "fixpoint {" + printAction(b) + "}"
     case Call(l)          => "self." + l + ";"
   }

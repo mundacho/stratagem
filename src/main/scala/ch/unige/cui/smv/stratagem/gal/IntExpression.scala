@@ -17,6 +17,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.gal.expressions
 
+import ch.unige.cui.smv.stratagem.gal.PrettyPrinter
+
 /**
  * Represents integer expression
  *
@@ -47,6 +49,8 @@ sealed abstract class IntExpression {
 
   protected def partialEvalAux(pattern: IntExpression, replace: IntExpression): IntExpression
 
+  override def toString(): String = throw new NotImplementedError("the print method is not implemented for this IntExpression!")
+
   /**
    * A helper function to make the creation of IntExpression less verbose
    */
@@ -67,6 +71,8 @@ case class Constant private[expressions] (val value: Int) extends IntExpression 
    * the pattern is not a constant expression (or it is quite a strange manner to use the mechanism)
    */
   def partialEvalAux(pattern: IntExpression, replace: IntExpression): IntExpression = this
+
+  override def toString(): String = value.toString
 }
 
 /**
@@ -78,6 +84,8 @@ case class IntVariable private[expressions] (val name: String) extends IntExpres
   def isInSupport(x: String): Boolean = name == x
 
   def partialEvalAux(pattern: IntExpression, replace: IntExpression): IntExpression = this
+
+  override def toString(): String = name
 }
 
 /**
@@ -98,6 +106,8 @@ case class WrapBool private[expressions] (val value: BoolExpression) extends Int
 
   def partialEvalAux(pattern: IntExpression, replace: IntExpression): IntExpression =
     IntExpressionFactory.createWrapBool(value.partialEval(pattern, replace))
+
+  override def toString(): String = "[" + value + "]"
 }
 
 /**
@@ -132,6 +142,8 @@ case class ArrayAccess private[expressions] (val arrayName: String, val index: I
 
   def partialEvalAux(pattern: IntExpression, replace: IntExpression) =
     IntExpressionFactory.createArrayAccess(arrayName, index.partialEval(pattern, replace))
+
+  override def toString(): String = arrayName + "[" + index + "]"
 }
 
 /**
@@ -182,6 +194,20 @@ sealed abstract class NaryIntExpression protected (val terms: Set[IntExpression]
   def partialEvalAux(pattern: IntExpression, replace: IntExpression) = {
     builder(terms map { e => e.partialEval(pattern, replace) }).simplify()
   }
+
+  def opSymbol(): String
+
+  override def toString(): String = {
+    var res = ""
+    for (v <- terms) {
+      if (v == terms.head) {
+        res += v
+      } else {
+        res += opSymbol + v
+      }
+    }
+    res
+  }
 }
 
 /**
@@ -200,6 +226,8 @@ case class Plus private[expressions] (override val terms: Set[IntExpression]) ex
   def operation(x: Int, y: Int): Int = x + y
 
   def builder(s: Set[IntExpression]): IntExpression = Plus(s)
+
+  def opSymbol(): String = " + "
 }
 
 /**
@@ -218,6 +246,8 @@ case class Mult private[expressions] (override val terms: Set[IntExpression]) ex
   def operation(x: Int, y: Int): Int = x * y
 
   def builder(s: Set[IntExpression]): IntExpression = Mult(s)
+
+  def opSymbol(): String = " * "
 }
 
 /**
@@ -236,6 +266,8 @@ case class BitAnd private[expressions] (override val terms: Set[IntExpression]) 
   def operation(x: Int, y: Int): Int = x & y
 
   def builder(s: Set[IntExpression]): IntExpression = BitAnd(s)
+
+  def opSymbol(): String = " & "
 }
 
 /**
@@ -254,6 +286,8 @@ case class BitOr private[expressions] (override val terms: Set[IntExpression]) e
   def operation(x: Int, y: Int): Int = x | y
 
   def builder(s: Set[IntExpression]): IntExpression = BitOr(s)
+
+  def opSymbol(): String = " | "
 }
 
 /**
@@ -272,6 +306,8 @@ case class BitXor private[expressions] (override val terms: Set[IntExpression]) 
   def operation(x: Int, y: Int): Int = x ^ y
 
   def builder(s: Set[IntExpression]): IntExpression = BitXor(s)
+
+  def opSymbol(): String = " ^ "
 }
 
 /**
@@ -327,6 +363,10 @@ sealed abstract class BinaryIntExpression protected (val lhs: IntExpression, val
 
   def partialEvalAux(pattern: IntExpression, replace: IntExpression): IntExpression =
     builder(lhs.partialEval(pattern, replace), rhs.partialEval(pattern, replace)).simplify()
+
+  def opSymbol(): String
+
+  override def toString(): String = lhs + opSymbol() + rhs
 }
 
 /**
@@ -337,6 +377,7 @@ case class Minus private[expressions] (override val lhs: IntExpression, override
   def rneutral: Option[Int] = Some(0)
   def operation(x: Int,y: Int) = x - y
   def builder(l: IntExpression, r: IntExpression): IntExpression = Minus(l,r)
+  def opSymbol(): String = " - "
 }
 
 /**
@@ -347,6 +388,7 @@ case class Divide private[expressions] (override val lhs: IntExpression, overrid
   def rneutral: Option[Int] = Some(1)
   def operation(x: Int,y: Int) = x / y
   def builder(l: IntExpression, r: IntExpression): IntExpression = Divide(l,r)
+  def opSymbol(): String = " / "
 }
 
 /**
@@ -357,6 +399,7 @@ case class Modulo private[expressions] (override val lhs: IntExpression, overrid
   def rneutral: Option[Int] = None
   def operation(x: Int,y: Int) = x % y
   def builder(l: IntExpression, r: IntExpression): IntExpression = Modulo(l,r)
+  def opSymbol(): String = " % "
 }
 
 /**
@@ -374,6 +417,7 @@ case class Power private[expressions] (override val lhs: IntExpression, override
     }
   }
   def builder(l: IntExpression, r: IntExpression): IntExpression = Power(l,r)
+  def opSymbol(): String = " ** "
 }
 
 /**
@@ -384,6 +428,7 @@ case class LShift private[expressions] (override val lhs: IntExpression, overrid
   def rneutral: Option[Int] = Some(0)
   def operation(x: Int,y: Int) = x << y
   def builder(l: IntExpression, r: IntExpression): IntExpression = LShift(l,r)
+  def opSymbol(): String = " << "
 }
 
 /**
@@ -394,6 +439,7 @@ case class RShift private[expressions] (override val lhs: IntExpression, overrid
   def rneutral: Option[Int] = Some(0)
   def operation(x: Int,y: Int) = x >> y
   def builder(l: IntExpression, r: IntExpression): IntExpression = RShift(l,r)
+  def opSymbol(): String = " >> "
 }
 
 /**
