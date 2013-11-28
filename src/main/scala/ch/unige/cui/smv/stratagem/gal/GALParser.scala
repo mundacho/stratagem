@@ -72,9 +72,20 @@ class GALParser2 extends scala.util.parsing.combinator.RegexParsers with scala.u
       }
 
   lazy val transition: PackratParser[Transition] =
-    "transition" ~ qualifiedName ~ "[" ~ boolOr ~ "]" ~ (("label" ~> string)?) ~ body ^^ {
-      case _ ~ name ~ _ ~ guard ~ _ ~ Some(label) ~ trbody => Transition(name,label,guard,trbody)//result.addTransition(Transition(name,label,guard,trbody))
-      case _ ~ name ~ _ ~ guard ~ _ ~ None ~ trbody => Transition(name,"",guard,trbody)//result.addTransition(Transition(name,"",guard,trbody))
+    "transition" ~ qualifiedName ~ "[" ~ (boolOr?) ~ "]" ~ (("label" ~> string)?) ~ body ^^ {
+      case _ ~ name ~ _ ~ guard ~ _ ~ label ~ trbody => {
+        var g: BoolExpression = BoolExpressionFactory.createBoolConstant(true)
+        guard match {
+          case Some(gg) => g = gg
+          case None     => ()
+        }
+        var l: String = ""
+        label match {
+          case Some(ll) => l = ll
+          case None     => ()
+        }
+        Transition(name, l, g, trbody)
+      }
     }
 
   lazy val body: PackratParser[SeqStatement] =
