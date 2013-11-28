@@ -20,9 +20,23 @@ package ch.unige.cui.smv.stratagem.gal
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.adt.Signature
-import ch.unige.cui.smv.stratagem.ts._
 
 import ch.unige.cui.smv.stratagem.gal.expressions.BoolExpression
+
+import ch.unige.cui.smv.stratagem.ts.Choice
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.ts.Fail
+import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
+import ch.unige.cui.smv.stratagem.ts.GALAssignment
+import ch.unige.cui.smv.stratagem.ts.GALPredicate
+import ch.unige.cui.smv.stratagem.ts.Identity
+import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
+import ch.unige.cui.smv.stratagem.ts.One
+import ch.unige.cui.smv.stratagem.ts.Sequence
+import ch.unige.cui.smv.stratagem.ts.Strategy
+import ch.unige.cui.smv.stratagem.ts.TransitionSystem
+import ch.unige.cui.smv.stratagem.ts.Union
+import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 
 /**
  * A translater that turns a GAL into a Transition System.
@@ -46,7 +60,6 @@ object GAL2TransitionSystem {
       .withGenerator("endvar", "variable")
       .withGenerator("zero", "integer")
       .withGenerator("succ", "integer", "integer")
-      //.withGenerator("minus", "integer", "integer")
 
   private val S = VariableStrategy("S")
 
@@ -87,10 +100,8 @@ object GAL2TransitionSystem {
   private def addLabelledTransition(transitions: List[Transition], ts: TransitionSystem): TransitionSystem = {
     require(transitions.nonEmpty)
     val label = transitions.head.label
-    println("found " + transitions.size + " transitions for label \"" + label + "\"")
     val strategies = transitions map transition2strategy
     val union = strategies.reduceLeft((s1,s2) => Union(s1,s2))
-    println("big union is " + union)
     ts.declareStrategy(label)(union)(false)
   }
 
@@ -101,7 +112,6 @@ object GAL2TransitionSystem {
    * @return the corresponding TS
    */
   def createTransitionSystem(transitions: List[List[Transition]], adt: ADT, initState: ATerm): TransitionSystem = {
-    println("Found " + transitions.size + " clusters of transitions")
     transitions match {
       case Nil    => (new TransitionSystem(adt, initState)).declareStrategy("applyOnce", S)(Choice(S, One(DeclaredStrategyInstance("applyOnce", S), 2)))(false)
       case t::l   => addLabelledTransition(t, createTransitionSystem(l, adt, initState))
@@ -128,7 +138,7 @@ object GAL2TransitionSystem {
    * @TODO handle negative integers
    *
    * @param i   the plain integer to be translated
-   * @param adt the used ADT (needs to be refered to in the returned term)
+   * @param adt the used ADT (needs to be referred to in the returned term)
    * @return a term representing algebraically the input 'i'
    */
   def adtInt(i: Int, adt: ADT): ATerm = i match {
