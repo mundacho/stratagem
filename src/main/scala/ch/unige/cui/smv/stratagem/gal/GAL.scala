@@ -28,7 +28,6 @@ import ch.unige.cui.smv.stratagem.gal.expressions.IntExpressionFactory
  *
  * @author mcolange
  *
- * @TODO use class Declaration to treat uniformly variable and array declarations, will help the parser
  * @TODO add checks in constructor, especially to ensure that all used variables have been declared
  */
 case class GAL(val name: String) {
@@ -40,11 +39,15 @@ case class GAL(val name: String) {
   var transitions = scala.collection.mutable.Set[Transition]()
 
   def addVariable(name: String, initVal: Int) {
+    // a variable should not be defined twice
+    require(!variables.contains(name))
     variables.add(name)
     initValue(name) = initVal
   }
 
   def addArray(name: String, init: Array[Int]) {
+    // an array should not be defined twice
+    require(!arrays.contains(name))
     arrays.add(name)
     arraySize(name) = init.length
     for (a <- 0 to init.length-1) {
