@@ -32,7 +32,6 @@ trait SigmaDDRewritingCache extends SigmaDDRewriter {
    * A map where we keep our cache.
    */
   val operationCache = (new MapMaker).weakValues().makeMap[LightWeightWrapper[SigmaDDFactoryImpl.SigmaDDImpl], SigmaDDFactoryImpl.SigmaDDImpl]()
-  // new scala.collection.mutable.HashMap[LightWeightWrapper[SigmaDDFactoryImpl.SigmaDDImpl], SigmaDDFactoryImpl.SigmaDDImpl]
 
   /**
    * This function adds cache functionality to the SigmaDD rewriter.

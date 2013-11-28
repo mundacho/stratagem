@@ -25,7 +25,6 @@ import ch.unige.cui.smv.stratagem.adt.Equation
 import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 
-
 /**
  * This class implements a SigmaDDRewriter for simple strategies.
  * @param simpleStrategy a strategy that will be transformed to a rewriter.

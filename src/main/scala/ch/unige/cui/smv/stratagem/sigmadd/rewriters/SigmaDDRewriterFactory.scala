@@ -60,7 +60,7 @@ object SigmaDDRewriterFactory {
     case st @ FixPointStrategy(s) => rewriterCache.getOrElseUpdate(st, new FixpointRewriter(strategyToRewriter(s)))
     case st @ Sequence(s1, s2) => rewriterCache.getOrElseUpdate(st, new SequenceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)))
     case st @ Try(s1) => rewriterCache.getOrElseUpdate(st, strategyToRewriter(Choice(s1, Identity)))
-    case st @ IfThenElse(s1, s2, s3) => rewriterCache.getOrElseUpdate(st, new IfThenElseRewriter(strategyToRewriter(s1), strategyToRewriter(s2), strategyToRewriter(s3)) )
+    case st @ IfThenElse(s1, s2, s3) => rewriterCache.getOrElseUpdate(st, new IfThenElseRewriter(strategyToRewriter(s1), strategyToRewriter(s2), strategyToRewriter(s3)))
     case st @ Saturation(s, n) => rewriterCache.getOrElseUpdate(st, strategyToRewriter(Sequence(Choice(One(Saturation(s, n), n), FixPointStrategy(s)), FixPointStrategy(s))))
   }
 

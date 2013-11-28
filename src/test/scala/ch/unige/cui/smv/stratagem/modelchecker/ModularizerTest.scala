@@ -19,13 +19,14 @@ package ch.unige.cui.smv.stratagem.modelchecker
 
 import org.scalatest.FlatSpec
 import java.io.File
+import com.typesafe.scalalogging.slf4j.Logging
 
 /**
  * Tests the Modularizer object.
  * @author mundacho
  *
  */
-class ModularizerTest extends FlatSpec {
+class ModularizerTest extends FlatSpec with Logging {
   "Modularizer" should "find the right number of philosophers" in {
     val net = PNML2PetriNet(new File("resources/test/philo.pnml"))
     val modules = Modularizer(net)
@@ -35,7 +36,7 @@ class ModularizerTest extends FlatSpec {
   it should "find the right number of kanban modules" in {
     val net = PNML2PetriNet(new File("resources/test/Kanban-5.pnml"))
     val modules = Modularizer(net)
-    println(s"Number of modules ${modules.size}")
+    logger.debug(s"Number of modules ${modules.size}")
     assert(modules.size == 5)
   }
 

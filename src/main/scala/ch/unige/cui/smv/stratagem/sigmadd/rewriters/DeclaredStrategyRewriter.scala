@@ -66,7 +66,7 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
       Some(r)
     case None => //logger.trace(s"Strategy ${declaredStrategy.name} failed")
       None
-    }
+  }
 
   /**
    * We instanciate the variables of a strategy with variables.

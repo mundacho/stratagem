@@ -35,7 +35,6 @@ class SetOfModules2TransitionSystemTest extends FlatSpec {
     val modules = Modularizer(net)
     val ts = SetOfModules2TransitionSystem(modules, net)
     val initialState = SigmaDDFactoryImpl.create(ts.initialState)
-    println(ts.strategyDeclarations.size)
     val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
     assert(rewriter(initialState).get.size == 2546432)
   }
