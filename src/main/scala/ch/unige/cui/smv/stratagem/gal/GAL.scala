@@ -70,7 +70,7 @@ case class GAL(val name: String) {
     var res = "GAL " + name + " {\n";
     // variables
     for (v <- variables)
-      res += "\tint " + v + " = " + initValue(v) + ";\n"
+      res += "int " + v + " = " + initValue(v) + ";\n"
     // arrays
     for (v <- arrays) {
       res += "\tarray[" + arraySize(v) + "] " + v + " = (";
@@ -82,6 +82,7 @@ case class GAL(val name: String) {
       }
       res += ");\n"
     }
+    res += "\n"
     // transitions
     for (t <- transitions)
       res += t.toString() + "\n"

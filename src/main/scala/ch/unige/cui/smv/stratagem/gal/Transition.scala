@@ -33,7 +33,7 @@ case class Transition(val name: String, val label: String, val guard: BoolExpres
     if (label != "") {
       res += " label " + label
     }
-    res += " [ " + guard + " ] {\n"
+    res += " [ " + guard + " ] {"
     res += PrettyPrinter.printAction(action)
     res += "\n}\n"
     res
