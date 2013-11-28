@@ -76,9 +76,9 @@ object ASort {
         None
       } else {
         while (list1.head == list2.head && (list1.tail != List.empty && list2.tail != List.empty)) {
-          result = list1.head
           list1 = list1.tail
           list2 = list2.tail
+          result = list1.head
         }
         Some(result)
       }
