@@ -31,15 +31,14 @@ import com.typesafe.scalalogging.slf4j.Logging
  *
  */
 class SetOfModules2TransitionSystemWithAnonimizationTest extends FlatSpec with Logging {
-  "A SetOfModules2TransitionSystem" should "be able to calculate the simple load balancer problem" in {
-    val net = PNML2PetriNet(new File("resources/test/simple_lbs-5.pnml"))
+  "A SetOfModules2TransitionSystem" should "be able to calculate the FMS problem for 10 instances" in {
+    val net = PNML2PetriNet(new File("resources/test/FMS-10.pnml"))
     val modules = Modularizer(net)
     val ts = SetOfModules2TransitionSystemWithAnonimization(modules, net)
-    println(ts)
     val initialState = SigmaDDFactoryImpl.create(ts.initialState)
     logger.debug("Starting translation to SigmaDD")
     val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
     logger.debug("Finished translation to SigmaDD")
-    println(rewriter(initialState).get.size)
+    assert(rewriter(initialState).get.size == 2501413200L)
   }
 }
