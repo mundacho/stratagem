@@ -90,11 +90,11 @@ class GALParser2 extends scala.util.parsing.combinator.RegexParsers with scala.u
 
   lazy val body: PackratParser[SeqStatement] =
     "{" ~> ((
-        (varAccess ~ "=" ~ bit_or ~ ';')  ^^  { case v ~ _ ~ va ~ _ => Assignment(v,va) }   |
-          ("self" ~ '.' ~ string ~ ';')   ^^  { case _ ~ _ ~ lab ~ _ => Call(lab) }         |
-          (("abort" ~ ';')                ^^  { case _ => Abort() })                        |
-          (iteAction)                                                                       |
-          ("fixpoint" ~ body)             ^^  { case _ ~ fixbody => FixStatement(fixbody) }
+        (("abort" ~ ';')                ^^  { case _ => Abort() })                        |
+        (varAccess ~ "=" ~ bit_or ~ ';')  ^^  { case v ~ _ ~ va ~ _ => Assignment(v,va) } |
+        ("self" ~ '.' ~ string ~ ';')   ^^  { case _ ~ _ ~ lab ~ _ => Call(lab) }         |
+        (iteAction)                                                                       |
+        ("fixpoint" ~ body)             ^^  { case _ ~ fixbody => FixStatement(fixbody) }
           )*) <~ "}" ^^ { l => SeqStatement(l.toArray) }
 
   lazy val iteAction: PackratParser[ITE] =
