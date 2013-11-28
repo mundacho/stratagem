@@ -91,6 +91,8 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
           (false, DeclaredStrategy.errorMessageStringNotDefined.format(name))
         }
       }
+      case GALPredicate(_)    => (true, "")
+      case GALAssignment(_,_) => (true, "")
     }
   }
 }

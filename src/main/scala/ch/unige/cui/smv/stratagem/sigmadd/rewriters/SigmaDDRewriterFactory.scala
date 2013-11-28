@@ -33,6 +33,10 @@ import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
+
+import ch.unige.cui.smv.stratagem.ts.GALAssignment
+import ch.unige.cui.smv.stratagem.ts.GALPredicate
+
 /**
  * Represents a factory of rewriters.
  */
@@ -60,6 +64,8 @@ object SigmaDDRewriterFactory {
     case st @ Sequence(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new SequenceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
     case st @ Try(s1) => rewriterCache.getOrElseUpdate(st.toString, strategyToRewriter(Choice(s1, Identity)))
     case st @ Saturation(s, n) => rewriterCache.getOrElseUpdate(st.toString, strategyToRewriter(Sequence(Choice(One(Saturation(s, n), n), FixPointStrategy(s)), FixPointStrategy(s))))
+    case st @ GALAssignment(l, r) => rewriterCache.getOrElseUpdate(st.toString, new GALAssignmentRewriter(l, r, ts))
+    case st @ GALPredicate(b) => rewriterCache.getOrElseUpdate(st.toString, new Predicate(b, ts))
   }
 
   /**

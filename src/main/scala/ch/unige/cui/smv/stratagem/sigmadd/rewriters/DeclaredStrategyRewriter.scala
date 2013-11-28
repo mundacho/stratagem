@@ -32,6 +32,9 @@ import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 
+import ch.unige.cui.smv.stratagem.ts.GALAssignment
+import ch.unige.cui.smv.stratagem.ts.GALPredicate
+
 /**
  * Implements a rewriter for a declared strategy.
  * @param declaredStrategy the strategy to transform.
@@ -78,6 +81,8 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
     case v: VariableStrategy => formalToActualParameterMap(v)
     case s @ SimpleStrategy(List(_, _*)) => s
     case strategyInstance @ DeclaredStrategyInstance(name, actualParams @ _*) => DeclaredStrategyInstance(name, actualParams.map(instanciate(_)).toArray: _*)
+    case s @ GALPredicate(_) => s
+    case s @ GALAssignment(_, _) => s
   }
 
 }
