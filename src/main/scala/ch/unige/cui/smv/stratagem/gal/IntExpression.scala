@@ -141,7 +141,10 @@ case class ArrayAccess private[expressions] (val arrayName: String, val index: I
   }
 
   def partialEvalAux(pattern: IntExpression, replace: IntExpression) =
-    IntExpressionFactory.createArrayAccess(arrayName, index.partialEval(pattern, replace))
+    index match {
+      case Constant(i) => if (IntExpressionFactory.createIntVariable(toString) == pattern) replace else this
+      case _           => IntExpressionFactory.createArrayAccess(arrayName, index.partialEval(pattern, replace))
+    }
 
   override def toString(): String = arrayName + "[" + index + "]"
 }
