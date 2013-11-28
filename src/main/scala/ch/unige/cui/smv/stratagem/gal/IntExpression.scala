@@ -155,11 +155,11 @@ case class ArrayAccess private[expressions] (val arrayName: String, val index: I
 /**
  * represents n-ary integer operations
  */
-sealed abstract class NaryIntExpression protected (val terms: Set[IntExpression]) extends IntExpression {
-  def flattenHelper(x: IntExpression): Set[IntExpression]
+sealed abstract class NaryIntExpression protected (val terms: Array[IntExpression]) extends IntExpression {
+  def flattenHelper(x: IntExpression): Array[IntExpression]
   val neutral: Int
   def operation(x: Int,y: Int): Int
-  def builder(s: Set[IntExpression]): IntExpression
+  def builder(s: Array[IntExpression]): IntExpression
 
   def simplify(): IntExpression = {
     // recursive calls
@@ -171,7 +171,7 @@ sealed abstract class NaryIntExpression protected (val terms: Set[IntExpression]
     val constantTerm = constants.foldLeft(neutral)({ case (x,Constant(y)) => operation(x,y) })
     s = rest
     if (constantTerm != neutral) {
-      s = s + Constant(constantTerm)
+      s = s :+ Constant(constantTerm)
     }
     if (s.size == 1) {
       s.head
@@ -213,11 +213,11 @@ sealed abstract class NaryIntExpression protected (val terms: Set[IntExpression]
 /**
  * n-ary integer addition
  */
-case class Plus private[expressions] (override val terms: Set[IntExpression]) extends NaryIntExpression(terms) {
-  def flattenHelper(x: IntExpression): Set[IntExpression] = {
+case class Plus private[expressions] (override val terms: Array[IntExpression]) extends NaryIntExpression(terms) {
+  def flattenHelper(x: IntExpression): Array[IntExpression] = {
     x match {
       case Plus(y)  => y
-      case _        => Set(x)
+      case _        => Array(x)
     }
   }
 
@@ -225,7 +225,7 @@ case class Plus private[expressions] (override val terms: Set[IntExpression]) ex
 
   def operation(x: Int, y: Int): Int = x + y
 
-  def builder(s: Set[IntExpression]): IntExpression = Plus(s)
+  def builder(s: Array[IntExpression]): IntExpression = Plus(s)
 
   def opSymbol(): String = " + "
 }
@@ -233,11 +233,11 @@ case class Plus private[expressions] (override val terms: Set[IntExpression]) ex
 /**
  * n-ary integer multiplication
  */
-case class Mult private[expressions] (override val terms: Set[IntExpression]) extends NaryIntExpression(terms) {
-  def flattenHelper(x: IntExpression): Set[IntExpression] = {
+case class Mult private[expressions] (override val terms: Array[IntExpression]) extends NaryIntExpression(terms) {
+  def flattenHelper(x: IntExpression): Array[IntExpression] = {
     x match {
       case Mult(y)  => y
-      case _        => Set(x)
+      case _        => Array(x)
     }
   }
 
@@ -245,7 +245,7 @@ case class Mult private[expressions] (override val terms: Set[IntExpression]) ex
 
   def operation(x: Int, y: Int): Int = x * y
 
-  def builder(s: Set[IntExpression]): IntExpression = Mult(s)
+  def builder(s: Array[IntExpression]): IntExpression = Mult(s)
 
   def opSymbol(): String = " * "
 }
@@ -253,11 +253,11 @@ case class Mult private[expressions] (override val terms: Set[IntExpression]) ex
 /**
  * n-ary integer bitwise AND
  */
-case class BitAnd private[expressions] (override val terms: Set[IntExpression]) extends NaryIntExpression(terms) {
-  def flattenHelper(x: IntExpression): Set[IntExpression] = {
+case class BitAnd private[expressions] (override val terms: Array[IntExpression]) extends NaryIntExpression(terms) {
+  def flattenHelper(x: IntExpression): Array[IntExpression] = {
     x match {
       case BitAnd(y)  => y
-      case _          => Set(x)
+      case _          => Array(x)
     }
   }
 
@@ -265,7 +265,7 @@ case class BitAnd private[expressions] (override val terms: Set[IntExpression]) 
 
   def operation(x: Int, y: Int): Int = x & y
 
-  def builder(s: Set[IntExpression]): IntExpression = BitAnd(s)
+  def builder(s: Array[IntExpression]): IntExpression = BitAnd(s)
 
   def opSymbol(): String = " & "
 }
@@ -273,11 +273,11 @@ case class BitAnd private[expressions] (override val terms: Set[IntExpression]) 
 /**
  * n-ary integer bitwise OR
  */
-case class BitOr private[expressions] (override val terms: Set[IntExpression]) extends NaryIntExpression(terms) {
-  def flattenHelper(x: IntExpression): Set[IntExpression] = {
+case class BitOr private[expressions] (override val terms: Array[IntExpression]) extends NaryIntExpression(terms) {
+  def flattenHelper(x: IntExpression): Array[IntExpression] = {
     x match {
       case BitOr(y)  => y
-      case _          => Set(x)
+      case _          => Array(x)
     }
   }
 
@@ -285,7 +285,7 @@ case class BitOr private[expressions] (override val terms: Set[IntExpression]) e
 
   def operation(x: Int, y: Int): Int = x | y
 
-  def builder(s: Set[IntExpression]): IntExpression = BitOr(s)
+  def builder(s: Array[IntExpression]): IntExpression = BitOr(s)
 
   def opSymbol(): String = " | "
 }
@@ -293,11 +293,11 @@ case class BitOr private[expressions] (override val terms: Set[IntExpression]) e
 /**
  * n-ary integer bitwise XOR
  */
-case class BitXor private[expressions] (override val terms: Set[IntExpression]) extends NaryIntExpression(terms) {
-  def flattenHelper(x: IntExpression): Set[IntExpression] = {
+case class BitXor private[expressions] (override val terms: Array[IntExpression]) extends NaryIntExpression(terms) {
+  def flattenHelper(x: IntExpression): Array[IntExpression] = {
     x match {
       case BitXor(y)  => y
-      case _          => Set(x)
+      case _          => Array(x)
     }
   }
 
@@ -305,7 +305,7 @@ case class BitXor private[expressions] (override val terms: Set[IntExpression]) 
 
   def operation(x: Int, y: Int): Int = x ^ y
 
-  def builder(s: Set[IntExpression]): IntExpression = BitXor(s)
+  def builder(s: Array[IntExpression]): IntExpression = BitXor(s)
 
   def opSymbol(): String = " ^ "
 }
@@ -443,7 +443,7 @@ case class RShift private[expressions] (override val lhs: IntExpression, overrid
 }
 
 /**
- * A foctory for IntExpr, ensures simplification during construction
+ * A factory for IntExpr, ensures simplification during construction
  */
 object IntExpressionFactory {
   def createConstant(i: Int) = Constant(i)
@@ -451,20 +451,20 @@ object IntExpressionFactory {
   def createArrayAccess(a: String,i: IntExpression) = ArrayAccess(a,i).simplify()
   def createWrapBool(b: BoolExpression) = WrapBool(b).simplify()
 
-  def createBinaryAddition(l: IntExpression, r: IntExpression) = Plus(Set(l,r)).simplify()
-  def createPlus(s: Set[IntExpression]) = Plus(s).simplify()
+  def createBinaryAddition(l: IntExpression, r: IntExpression) = Plus(Array(l,r)).simplify()
+  def createPlus(s: Array[IntExpression]) = Plus(s).simplify()
 
-  def createBinaryMult(l: IntExpression, r: IntExpression) = Mult(Set(l,r)).simplify()
-  def createMult(s: Set[IntExpression]) = Mult(s).simplify()
+  def createBinaryMult(l: IntExpression, r: IntExpression) = Mult(Array(l,r)).simplify()
+  def createMult(s: Array[IntExpression]) = Mult(s).simplify()
 
-  def createBinaryBitor(l: IntExpression, r: IntExpression) = BitOr(Set(l,r)).simplify()
-  def createBitOr(s: Set[IntExpression]) = BitOr(s).simplify()
+  def createBinaryBitor(l: IntExpression, r: IntExpression) = BitOr(Array(l,r)).simplify()
+  def createBitOr(s: Array[IntExpression]) = BitOr(s).simplify()
 
-  def createBinaryBitxor(l: IntExpression, r: IntExpression) = BitXor(Set(l,r)).simplify()
-  def createBitXor(s: Set[IntExpression]) = BitXor(s).simplify()
+  def createBinaryBitxor(l: IntExpression, r: IntExpression) = BitXor(Array(l,r)).simplify()
+  def createBitXor(s: Array[IntExpression]) = BitXor(s).simplify()
 
-  def createBinaryBitand(l: IntExpression, r: IntExpression) = BitAnd(Set(l,r)).simplify()
-  def createBitAnd(s: Set[IntExpression]) = BitAnd(s).simplify()
+  def createBinaryBitand(l: IntExpression, r: IntExpression) = BitAnd(Array(l,r)).simplify()
+  def createBitAnd(s: Array[IntExpression]) = BitAnd(s).simplify()
 
   def createMinus(l: IntExpression, r:IntExpression) = {
     Minus(l,r).simplify()
