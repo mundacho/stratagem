@@ -17,6 +17,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
+import ch.unige.cui.smv.stratagem.adt.ASort
+
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl$SigmaDDImpl
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDIPFFactoryImpl
@@ -89,6 +91,12 @@ private[sigmadd] case class GALAssignmentRewriter(lhs: IntExpression, rhs: IntEx
   }
 
   /**
+   * a helper to build a SigmaDD
+   * @TODO this is an alias on a method of the companion object
+   */
+  private def DDbuilder = GALAssignmentRewriter.DDbuilder(_, _, _)
+
+  /**
    * The real algorithm to evaluate the assignment
    * @TODO  it is not very clear when it should return None.
    *        so far, it returns only Some(_)
@@ -132,7 +140,7 @@ private[sigmadd] case class GALAssignmentRewriter(lhs: IntExpression, rhs: IntEx
                 val index = ArrayIndexExtractor.unapply(partialLHS).get
                 if (index.isInSupport(curVar)) {
                   // find a sub-expression to evaluate (in fact, the index)
-                  val recIndex = GALAssignmentRewriter.queryVal(index,SigmaDDFactoryImpl.create(sigmaDD.sort,SigmaDDIPFFactoryImpl.create(curVar,new SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl(Map(currentValDD -> secondTerm)))))
+                  val recIndex = GALAssignmentRewriter.queryVal(index, DDbuilder(sigmaDD.sort, curVar, new SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl(Map(currentValDD -> secondTerm))))
                   for ((resolvedIndex,resolvedIndexDD) <- recIndex.data) {
                     val resolvedLHS = partialLHS.partialEval(index,resolvedIndex)
                     val resolvedRHS = partialRHS.partialEval(index,resolvedIndex)
@@ -144,7 +152,7 @@ private[sigmadd] case class GALAssignmentRewriter(lhs: IntExpression, rhs: IntEx
                   }
                 } else {
                   val recRewriter = new GALAssignmentRewriter(partialLHS, partialRHS, ts)
-                  recRewriter(SigmaDDFactoryImpl.create(sigmaDD.sort,SigmaDDIPFFactoryImpl.create(curVar,new SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl(Map(currentValDD -> secondTerm))))) match {
+                  recRewriter(DDbuilder(sigmaDD.sort, curVar,new SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl(Map(currentValDD -> secondTerm)))) match {
                     case Some(d) => result = result v d
                     case None    => () //@TODO emit a warning or an error?
                   }
@@ -183,12 +191,25 @@ object GALAssignmentRewriter {
   }
 
   /**
+   * shorter aliases
+   */
+  private val ZERO = GAL2TransitionSystem.ZERO
+  private val SUCC = GAL2TransitionSystem.SUCC
+  private val NEG = GAL2TransitionSystem.NEG
+
+  /**
+   * a helper shortcut to build a SigmaDD
+   */
+  private[GALAssignmentRewriter] def DDbuilder(sort: ASort, variable: String, value: SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl) =
+    SigmaDDFactoryImpl.create(sort, SigmaDDIPFFactoryImpl.create(variable, value))
+
+  /**
    * side EquivSplit to deal with algebraic integers (hmmpf)
    * @TODO handle negative integers
    */
   private[rewriters] def intEquivSplit(ddd: SigmaDDImplType): MapEquivSplit = {
     var result = new MapEquivSplit()
-    val wrap0 = StringSetWrapperFactory.create(Set("zero"))
+    val wrap0 = StringSetWrapperFactory.create(Set(ZERO))
     for ((entry,tail) <- ddd.iipf.alpha) {
       // if it contains 0 (it should be alone, and tail should be empty)
       if ((entry ^ wrap0) != entry.bottomElement) {
@@ -196,20 +217,29 @@ object GALAssignmentRewriter {
         assert(entry.size == 1)
         // check that the tail is emtpy (i.e. is the terminal 1)
         assert(tail == terminalOne)
-        result += (SigmaDDFactoryImpl.create(ddd.sort,SigmaDDIPFFactoryImpl.create("zero",terminalOne)),IntExpressionFactory.createConstant(0))
+        result += (DDbuilder(ddd.sort, ZERO, terminalOne), IntExpressionFactory.createConstant(0))
       }
       // otherwise, recursively build the map
       else {
-        // 'entry' should contain a single element "succ"
-        assert(entry.size == 1) // only size is checked here
+        // `entry` may contain NEG or SUCC
+        val containsSucc = (entry ^ StringSetWrapperFactory.create(Set(SUCC))) != entry.bottomElement
+        val containsNeg = (entry ^ StringSetWrapperFactory.create(Set(NEG))) != entry.bottomElement
         for ((d,t) <- tail.alpha) {
-          // check that t is empty, i.e. terminal '1'
+          // check that `t` is empty, i.e. terminal '1'
           assert(t == terminalOne)
           val recRes = intEquivSplit(d)
           for ((expr,delta) <- recRes.data) {
+            val inductiveSplit = new SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl(Map(delta -> t))
             expr match {
-              case Constant(i)  => result += (SigmaDDFactoryImpl.create(delta.sort,SigmaDDIPFFactoryImpl.create("succ",new SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl(Map(delta -> t)))),IntExpressionFactory.createConstant(i+1))
-              case _            => throw new RuntimeException("equivsplit should not return non-constant expressions")
+              case Constant(i)  => {
+                if (containsSucc) {
+                  result += (DDbuilder(delta.sort, SUCC, inductiveSplit), IntExpressionFactory.createConstant(i+1))
+                }
+                if (containsNeg) {
+                  result += (DDbuilder(delta.sort, NEG, inductiveSplit), IntExpressionFactory.createConstant(-i))
+                }
+              }
+              case _            => throw new RuntimeException("EquivSplit should always return constant expressions")
             }
           }
         }
@@ -239,11 +269,11 @@ object GALAssignmentRewriter {
                 if (partialExpr.isInSupport(currentVariable)) {
                   // find a sub-expression to recursively evaluate it
                   val Some(subExpr) = partialExpr.getSubExpression(currentVariable)
-                  val recResult = queryVal(subExpr,SigmaDDFactoryImpl.create(ddd.sort,SigmaDDIPFFactoryImpl.create(currentVariable,new SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl(Map(currentValDD -> secondTerm)))))
+                  val recResult = queryVal(subExpr, DDbuilder(ddd.sort, currentVariable, new SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl(Map(currentValDD -> secondTerm))))
                   for ((subExprResolved,subExprResolvedDD) <- recResult.data) {
                     val skipExpr = partialExpr.partialEval(subExpr,subExprResolved)
                     // rebuild the result, with a recursive call to EquivSplit
-                    val dd2 = SigmaDDFactoryImpl.create(ddd.sort,SigmaDDIPFFactoryImpl.create(currentVariable,new SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl(Map(subExprResolvedDD -> secondTerm))))
+                    val dd2 = DDbuilder(ddd.sort, currentVariable, new SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl(Map(subExprResolvedDD -> secondTerm)))
                     val rec2 = queryVal(skipExpr,dd2)
                     for ((eeee,dddd) <- rec2.data) {
                       result += (dddd,eeee)
@@ -255,7 +285,7 @@ object GALAssignmentRewriter {
                     val recRes = queryVal(partialExpr,next)
                     for ((eeee,dddd) <- recRes.data) {
                       val ttt = new SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl(Map(dddd -> tt))
-                      result += (SigmaDDFactoryImpl.create(ddd.sort,SigmaDDIPFFactoryImpl.create(currentVariable,new SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl(Map(currentValDD -> ttt)))),eeee)
+                      result += (DDbuilder(ddd.sort, currentVariable, new SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl(Map(currentValDD -> ttt))),eeee)
                     }
                   }
                 }
