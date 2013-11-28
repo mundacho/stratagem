@@ -41,7 +41,8 @@ class Predicate(expr: BoolExpression, ts: TransitionSystem) extends SigmaDDRewri
   /**
    * Evaluates a BoolExpression
    * @TODO  it is not clear when None should be returned.
-   *        so far, None is never returned
+   * @param sigmaDD the DD on which `expr` is to be evaluated
+   * @return None if no path match the predicate, Some(d) otherwise, where d is the subset of sigmaDD that matches the predicate `expr`
    */
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
     var result = sigmaDD.bottomElement
