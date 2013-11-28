@@ -25,4 +25,12 @@ import java.io.File
  * @author mundacho
  *
  */
-case class Config(quiet: Boolean = false, debug: Boolean = false, saturation: Boolean = false, model: File = new File("."))
+case class Config(quiet: Boolean = false,
+    verbose: Boolean = false,
+    saturation: Boolean = false, 
+    model: File = new File("."),
+    mode: String = "",
+    modules: Boolean = false,
+    names: Boolean = false,
+    ids: Boolean = false
+    )

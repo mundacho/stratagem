@@ -87,7 +87,6 @@ class ADT private (val name: String, val signature: Signature, val variables: Ma
   def withEquation(leftSide: ATerm, rightSide: ATerm) = {
     require(leftSide.adt eq this)
     require(rightSide.adt eq this)
-
     new ADT(name, signature, variables, equations + new Equation(leftSide, rightSide))
   }
 
