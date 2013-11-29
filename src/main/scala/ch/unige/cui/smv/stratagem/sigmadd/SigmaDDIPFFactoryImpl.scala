@@ -82,22 +82,22 @@ object SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
     }
 
     def ^(that: IPFImpl): IPFImpl = {
-      if (this eq that) this
-      else if (this eq bottomElement) {
+      if (this eq that) {
+        this
+      } else if (this eq bottomElement) {
         bottomElement
-      }
-      else {
+      } else {
         val inter = alphaIntersection(this.alpha, that.alpha)
         if (inter.isEmpty) bottomElement else create(inter)
       }
     }
 
     def \(that: IPFImpl): IPFImpl = {
-      if (this eq that) this.bottomElement
-      else if (that eq bottomElement) {
+      if (this eq that) {
+        this.bottomElement
+      } else if (that eq bottomElement) {
         this
-      }
-      else {
+      } else {
         val diff = alphaDifference(this.alpha, that.alpha)
         if (diff.isEmpty) bottomElement else create(diff)
       }

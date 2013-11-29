@@ -15,9 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package ch.unige.cui.smv.stratagem.modelchecker
-
-import scala.annotation.migration
+package ch.unige.cui.smv.stratagem.transformers
 import com.typesafe.scalalogging.slf4j.Logging
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
@@ -28,13 +26,14 @@ import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
+import ch.unige.cui.smv.stratagem.petrinets.PTModule
 
 /**
  * This object encapsulates a method to transform a petri net in to a modular petri net automatically.
  * @author mundacho
  *
  */
-object Modularizer extends Logging {
+object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
 
   /**
    * Transforms a petri net into a list of smaller petri nets with some places in common.
@@ -48,28 +47,12 @@ object Modularizer extends Logging {
     logger.trace(s"Number of places in initial modules ${newModules.map(_.net.places).reduce(_ ++ _).toSet.size}")
     logger.trace(s"Number of transitions in intialModules ${newModules.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
     newModules = bottomUpClustering(newModules)
-    logger.trace(s"Number places after bottom-up clusterization ${newModules.map(_.net.places).reduce(_ ++ _).toSet.size}")
-    logger.trace(s"Number transitions after bottom-up clusterization ${newModules.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
     // now remove duplicates and fusion
     val (clustered, unclustered) = newModules.partition(s => ((s.outputPlaces.isEmpty) && (s.inputPlaces.isEmpty)))
     logger.trace(s"Clustered elements are ${clustered.size}")
     logger.trace(s"Unclustered elements are ${unclustered.size}")
     // this removes duplicated clusters where threre is a choice
-    unclustered.foreach { n =>
-      val clustersWithChoices = clustered.filter(m => n.net.places subsetOf m.net.places)
-      if (!clustersWithChoices.isEmpty) {
-        var workingNet = new PetriNet("", Set.empty, Set.empty)
-        clustersWithChoices.foreach { m =>
-          newModules -= m
-          workingNet = new PetriNet("", workingNet.places ++ m.net.places, workingNet.transitions ++ m.net.transitions)
-        }
-        newModules += new PTModule(workingNet, Set.empty, Set.empty, workingNet.places)
-        newModules -= n
-      }
-    }
-    logger.trace(s"Number of modules after removing duplicated clusters with choice ${newModules.size}")
-    logger.trace(s"Number places after removing duplicated clusters with choice ${newModules.map(_.net.places).reduce(_ ++ _).toSet.size}")
-    logger.trace(s"Number of transitions after removing duplicated clusters with choice ${newModules.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
+    newModules = removeDuplicatedWithChoices(newModules, clustered, unclustered)
     modules = newModules
     // second pass, remove duplicates, i.e. modules that are already completely contained in other modules
     modules.foreach { m =>
@@ -78,7 +61,6 @@ object Modularizer extends Logging {
         if ((newModules - n).map(_.net.places).reduce(_ ++ _).toSet.size == newModules.map(_.net.places).reduce(_ ++ _).toSet.size) newModules -= n
       }
     }
-
     logger.trace(s"Number of modules after removing clusters already contained by other clusters ${newModules.size}")
     logger.trace(s"Number places after removing clusters already contained by other clusters ${newModules.map(_.net.places).reduce(_ ++ _).toSet.size}")
     logger.trace(s"Number of transitions after removing clusters already contained by other clusters ${newModules.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
@@ -98,7 +80,6 @@ object Modularizer extends Logging {
     logger.trace(s"Number of transitions after removing overlapping modules ${newModules.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
     // for each place, we decide in which cluster it goes
     var (unorderedResult, pairOfModules2ModuleDistance) = removeDuplicatedPlaces(net.places, newModules)
-//            println(pairOfModules2ModuleDistance.map(e => (e._1.map(_.net.places.toList.sortBy(p => p.name).map(_.name).mkString("{", ", ", "}")), e._2)).mkString("\n"))
     logger.trace(s"Number places before returning ${unorderedResult.map(_.net.places).reduce(_ ++ _).toSet.size}")
     logger.trace(s"Number of transitions before returning ${unorderedResult.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
     logger.trace(s"Number of modules before returning ${unorderedResult.size}")
@@ -106,7 +87,27 @@ object Modularizer extends Logging {
     sortModules(unorderedResult, pairOfModules2ModuleDistance)
   }
 
-  def sortModules(modules: Set[PTModule], pairOfModules2ModuleDistance: Map[Set[PTModule], Int]) = {
+  def removeDuplicatedWithChoices(modules: Set[PTModule], clustered: Set[PTModule], unclustered: Set[PTModule]) = {
+    var newModules = modules
+    unclustered.foreach { n =>
+      val clustersWithChoices = clustered.filter(m => n.net.places subsetOf m.net.places)
+      if (!clustersWithChoices.isEmpty) {
+        var workingNet = new PetriNet("", Set.empty, Set.empty)
+        clustersWithChoices.foreach { m =>
+          newModules -= m
+          workingNet = new PetriNet("", workingNet.places ++ m.net.places, workingNet.transitions ++ m.net.transitions)
+        }
+        newModules += new PTModule(workingNet, Set.empty, Set.empty, workingNet.places)
+        newModules -= n
+      }
+    }
+    logger.trace(s"Number of modules after removing duplicated clusters with choice ${newModules.size}")
+    logger.trace(s"Number places after removing duplicated clusters with choice ${newModules.map(_.net.places).reduce(_ ++ _).toSet.size}")
+    logger.trace(s"Number of transitions after removing duplicated clusters with choice ${newModules.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
+    newModules
+  }
+
+  private def sortModules(modules: Set[PTModule], pairOfModules2ModuleDistance: Map[Set[PTModule], Int]) = {
     var unorderedResult = modules
     var resultAsList = unorderedResult.head :: Nil
     unorderedResult -= unorderedResult.head
@@ -119,13 +120,13 @@ object Modularizer extends Logging {
     resultAsList
   }
 
-  def removeDuplicatedPlaces(places: Set[Place], modules: Set[PTModule]): (Set[PTModule], Map[Set[PTModule], Int]) = {
+  private def removeDuplicatedPlaces(places: Set[Place], modules: Set[PTModule]): (Set[PTModule], Map[Set[PTModule], Int]) = {
     var newModules = modules
     var pairOfModules2ModuleDistance: Map[Set[PTModule], Int] = Map()
     places.foreach { p =>
       // we group all the modules that share this place by their ranking of how good are they as modules
       val modulesForThisPlace = newModules.filter(_.net.places.contains(p)).groupBy(m => m.innerPlaces.size.toDouble / m.net.places.size).toList.sortWith(_._1 > _._1)
-      // we take the first element 
+      // we take the first element
       if (modulesForThisPlace.size > 0) {
         // we remove the place from all elements of the first element's tail, if any
         modulesForThisPlace.head._2.tail.foreach { m =>
@@ -137,7 +138,7 @@ object Modularizer extends Logging {
           // we need to update all elements that used m
           pairOfModules2ModuleDistance = pairOfModules2ModuleDistance.map(e => ((if (e._1.contains(m)) ((e._1 - m) + theNewModule) else e._1), e._2))
           pairOfModules2ModuleDistance += (unorderedPairOfModules -> (1 + pairOfModules2ModuleDistance.getOrElse(unorderedPairOfModules, 0)))
-          pairOfModules2ModuleDistance -= oldDistancePair // we remove 
+          pairOfModules2ModuleDistance -= oldDistancePair // we remove
           if (newPlaces != Set.empty) newModules += theNewModule
         }
         // we remove the places for all elements of the tail, if any
@@ -149,7 +150,7 @@ object Modularizer extends Logging {
             val unorderedPairOfModules = Set(theNewModule, modulesForThisPlace.head._2.head)
             val oldDistancePair = Set(m, modulesForThisPlace.head._2.head)
             pairOfModules2ModuleDistance = pairOfModules2ModuleDistance.map(e => ((if (e._1.contains(m)) ((e._1 - m) + theNewModule) else e._1), e._2))
-            pairOfModules2ModuleDistance -= oldDistancePair // we remove 
+            pairOfModules2ModuleDistance -= oldDistancePair // we remove
             pairOfModules2ModuleDistance += (unorderedPairOfModules -> (1 + pairOfModules2ModuleDistance.getOrElse(unorderedPairOfModules, 0)))
             if (newPlaces != Set.empty) newModules += theNewModule
           }
@@ -187,6 +188,8 @@ object Modularizer extends Logging {
         }
       }
     }
+    logger.trace(s"Number places after bottom-up clusterization ${newModules.map(_.net.places).reduce(_ ++ _).toSet.size}")
+    logger.trace(s"Number transitions after bottom-up clusterization ${newModules.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
     newModules
   }
 

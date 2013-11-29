@@ -15,17 +15,15 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package ch.unige.cui.smv.stratagem.modelchecker
+package ch.unige.cui.smv.stratagem.transformers
 
 import java.io.File
-import java.io.FileNotFoundException
-
 import com.typesafe.scalalogging.slf4j.Logging
-
-import ch.unige.cui.smv.stratagem.petrinets.Arc
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
 import ch.unige.cui.smv.stratagem.petrinets.Place
+import java.io.FileNotFoundException
 import ch.unige.cui.smv.stratagem.petrinets.Transition
+import ch.unige.cui.smv.stratagem.petrinets.Arc
 
 /**
  * This object takes a file and transforms it to a stratagem transition system.
@@ -33,7 +31,7 @@ import ch.unige.cui.smv.stratagem.petrinets.Transition
  * @author mundacho
  *
  */
-object PNML2PetriNet extends Logging {
+object PNML2PetriNet extends Logging with ((File*) => PetriNet) {
 
   var name: String = ""
 
@@ -42,8 +40,9 @@ object PNML2PetriNet extends Logging {
    * @param a file pnml P/T format.
    * @return a petri net.
    */
-  def apply(input: File) = {
-    val xml = loadFile(input)
+  def apply(input: File*) = {
+    require(input.size == 1)
+    val xml = loadFile(input.head)
     val ptType = (xml \ "net" \ "@type").text
     if (ptType != "http://www.pnml.org/version-2009/grammar/ptnet") {
       logger.error("Petri net type not supported. Only Place / Transitions nets are supported.")
@@ -64,7 +63,7 @@ object PNML2PetriNet extends Logging {
     logger.debug(s"Number of places is ${places.values.toSet.size}")
     val transitions = (xml \ "net" \ "page" \ "transition").map(t =>
       new Transition(
-        (t \ "@id").text, // extract id 
+        (t \ "@id").text, // extract id
         (t \ "name" \ "text").text, // extract name
         // now extract the input arcs
         arcsByTarget.getOrElse((t \ "@id").text, Set.empty).map(arc =>

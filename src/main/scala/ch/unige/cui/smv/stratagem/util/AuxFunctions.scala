@@ -25,11 +25,12 @@ import com.typesafe.scalalogging.slf4j.Logging
  *
  */
 object AuxFunctions extends Logging {
-  def time[R](block: => R): R = {
+  def timeAndSpace[R](block: => R): R = {
     val t0 = System.nanoTime()
     val result = block // call-by-name
     val t1 = System.nanoTime()
-    logger.info("Elapsed time: " + (t1 - t0) * 1.0e-9 + "[seconds]")
+    logger.debug("Elapsed time: " + (t1 - t0) * 1.0e-9 + "[seconds]")
+    logger.debug("Total memory used: " + Runtime.getRuntime().totalMemory() / 1048576 + "[MB]")
     result
   }
 }

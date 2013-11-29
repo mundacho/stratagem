@@ -72,9 +72,9 @@ object SigmaDDRewritingCacheStats extends Logging {
   def stats[R](block: => R): R = {
     val result = block // call-by-name
 
-    logger.info("Total cache hits: " + SigmaDDRewritingCacheStats.hitCounter)
-    logger.info("Total rewrites: " + SigmaDDRewritingCacheStats.callsCounter)
-    logger.info("Cache hits to rewrites ratio: " + 100 * SigmaDDRewritingCacheStats.hitCounter / SigmaDDRewritingCacheStats.callsCounter + "%")
+    logger.debug("Total cache hits: " + SigmaDDRewritingCacheStats.hitCounter)
+    logger.debug("Total rewrites: " + SigmaDDRewritingCacheStats.callsCounter)
+    logger.debug("Cache hits to rewrites ratio: " + 100 * SigmaDDRewritingCacheStats.hitCounter / SigmaDDRewritingCacheStats.callsCounter + "%")
     result
   }
 

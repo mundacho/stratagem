@@ -29,6 +29,6 @@ package ch.unige.cui.smv.stratagem.adt
  *
  */
 case class Operation(val name: String, val returnType: ASort, val arity: List[ASort]) {
-  override def toString = name + ":" + arity.mkString(", ") + " -> " + returnType.toString 
+  override def toString = name + ":" + arity.mkString(", ") + " -> " + returnType.toString
   require(name != "")
 }

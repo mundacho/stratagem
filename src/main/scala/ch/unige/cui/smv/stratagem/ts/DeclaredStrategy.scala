@@ -67,36 +67,38 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
         (result1 && result2, message1 + message2)
       }
       case IfThenElse(s1, s2, s3) => {
-         val (result1, message1) = checkSyntax(s1, params: _*)
+        val (result1, message1) = checkSyntax(s1, params: _*)
         val (result2, message2) = checkSyntax(s2, params: _*)
-             val (result3, message3) = checkSyntax(s3, params: _*)
-        (result1 && result2 && result3, message1 + message2 + message3)       
+        val (result3, message3) = checkSyntax(s3, params: _*)
+        (result1 && result2 && result3, message1 + message2 + message3)
       }
       case v: VariableStrategy => if (params.toList.exists(elt => elt eq v)) (true, "") else {
         (false, DeclaredStrategy.errorInvalidVariable.format(v.name))
       }
       case SimpleStrategy(List(_, _*)) => (true, "")
-      case strategyInstance @ DeclaredStrategyInstance(name, _*) => {
-        // check if the strategy is already defined
-        if (ts.strategyDeclarations.isDefinedAt(name)) {
-          val theDeclaredStrategy = ts.strategyDeclarations(name).declaredStrategy
-          // first check that the number of formal parameters is correct
-          if (theDeclaredStrategy.formalParameters.size == strategyInstance.actualParams.size) {
-            var (res, mes) = (true, "")
-            for (param <- strategyInstance.actualParams) {
-              val (result, message) = checkSyntax(param, params: _*)
-              res &&= result
-              mes += message
-            }
-            (res, mes)
-          } else {
-            (false, DeclaredStrategy.errorBadNumberOfParameters.format(
-              theDeclaredStrategy.label, theDeclaredStrategy.formalParameters.size, strategyInstance.actualParams.size))
-          }
-        } else {
-          (false, DeclaredStrategy.errorMessageStringNotDefined.format(name))
+      case strategyInstance @ DeclaredStrategyInstance(name, _*) => checkSyntaxForDeclaredStrategy(name, strategyInstance, params: _*)
+    }
+  }
+
+  def checkSyntaxForDeclaredStrategy(name: String, strategyInstance: DeclaredStrategyInstance, params: VariableStrategy*)(implicit ts:TransitionSystem) = {
+    // check if the strategy is already defined
+    if (ts.strategyDeclarations.isDefinedAt(name)) {
+      val theDeclaredStrategy = ts.strategyDeclarations(name).declaredStrategy
+      // first check that the number of formal parameters is correct
+      if (theDeclaredStrategy.formalParameters.size == strategyInstance.actualParams.size) {
+        var (res, mes) = (true, "")
+        for (param <- strategyInstance.actualParams) {
+          val (result, message) = checkSyntax(param, params: _*)
+          res &&= result
+          mes += message
         }
+        (res, mes)
+      } else {
+        (false, DeclaredStrategy.errorBadNumberOfParameters.format(
+          theDeclaredStrategy.label, theDeclaredStrategy.formalParameters.size, strategyInstance.actualParams.size))
       }
+    } else {
+      (false, DeclaredStrategy.errorMessageStringNotDefined.format(name))
     }
   }
 }

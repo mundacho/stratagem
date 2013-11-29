@@ -15,15 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package ch.unige.cui.smv.stratagem.modelchecker
+package ch.unige.cui.smv.stratagem.transformers
 
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.adt.PredefADT.NAT_SORT_NAME
 import ch.unige.cui.smv.stratagem.adt.Signature
 import ch.unige.cui.smv.stratagem.petrinets.Arc
-import ch.unige.cui.smv.stratagem.petrinets.PTModule
-import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
 import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT
@@ -32,14 +30,10 @@ import ch.unige.cui.smv.stratagem.petrinets.Place
 import ch.unige.cui.smv.stratagem.petrinets.Transition
 import ch.unige.cui.smv.stratagem.ts.Choice
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.ts.Fail
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.Identity
+import ch.unige.cui.smv.stratagem.ts.IfThenElse
 import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
 import ch.unige.cui.smv.stratagem.ts.One
 import ch.unige.cui.smv.stratagem.ts.Sequence
@@ -48,16 +42,13 @@ import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-import ch.unige.cui.smv.stratagem.ts.IfThenElse
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.Fail
 
 /**
  * Takes a set of modules and transforms it to a transition system.
  * @author mundacho
  *
  */
-object SetOfModules2TransitionSystem {
+object SetOfModules2TransitionSystem extends ((List[PTModule], PetriNet) => TransitionSystem) {
 
   /**
    * Name of endcluster constant of sort cluster.
@@ -174,7 +165,7 @@ object SetOfModules2TransitionSystem {
 
   def addApplytoCluster(ts: TransitionSystem, n: Int, maxCluster: Int): TransitionSystem = n match {
     case 0 => addStrategies(ts, 0, maxCluster)
-    case n => addApplytoCluster(addStrategies(ts, n, maxCluster), n - 1, maxCluster)
+    case _ => addApplytoCluster(addStrategies(ts, n, maxCluster), n - 1, maxCluster)
   }
 
   /**

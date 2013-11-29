@@ -23,6 +23,8 @@ import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDInductiveIPFFactoryImpl
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDIPFFactoryImpl
+import ch.unige.cui.smv.stratagem.transformers.PetriNet2TransitionSystem
+import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
 
 /**
  * @author mundacho

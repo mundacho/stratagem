@@ -20,6 +20,8 @@ package ch.unige.cui.smv.stratagem.modelchecker
 import org.scalatest.FlatSpec
 import java.io.File
 import com.typesafe.scalalogging.slf4j.Logging
+import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
+import ch.unige.cui.smv.stratagem.transformers.Modularizer
 
 /**
  * Tests the Modularizer object.

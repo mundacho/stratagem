@@ -18,8 +18,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.ts
 
-import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.adt.ADT
+import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.adt.Equation
 
 /**
@@ -33,12 +33,12 @@ import ch.unige.cui.smv.stratagem.adt.Equation
  */
 class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strategyDeclarations: Map[String, StrategyDeclaration]) {
   require(initialState.adt eq adt)
-  
-  override def toString = 
-    s"Transition System\n${adt.toString}\n"+
-    s"Initial State = $initialState\n" +
-    s"Strategy Declarations\n" +
-    strategyDeclarations.map(e => s"${e._1} = ${e._2.declaredStrategy.body} [${e._2.isTransition}]").mkString("   ", "\n   ", "\n") 
+
+  override def toString =
+    s"Transition System\n${adt.toString}\n" +
+      s"Initial State = $initialState\n" +
+      s"Strategy Declarations\n" +
+      strategyDeclarations.map(e => s"${e._1} = ${e._2.declaredStrategy.body} [${e._2.isTransition}]").mkString("   ", "\n   ", "\n")
 
   /**
    * Constructor creates transition system with no global transitions.

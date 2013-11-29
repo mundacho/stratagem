@@ -26,11 +26,12 @@ import java.io.File
  *
  */
 case class Config(quiet: Boolean = false,
-    verbose: Boolean = false,
-    saturation: Boolean = false, 
-    model: File = new File("."),
-    mode: String = "",
-    modules: Boolean = false,
-    names: Boolean = false,
-    ids: Boolean = false
-    )
+  verbose: Boolean = false,
+  transformation: String = "",
+  saturation: Boolean = true,
+  model: File = new File("."),
+  mode: String = "",
+  modules: Boolean = false,
+  names: Boolean = false,
+  ids: Boolean = false,
+  transitionSystem: Boolean = false)

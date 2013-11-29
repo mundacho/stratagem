@@ -30,15 +30,13 @@ class ADT private (val name: String, val signature: Signature, val variables: Ma
 
   override def toString =
     s"Adt $name\n" +
-    "Signature\n" +
-    signature + "\n" +
-    "Variables\n" +
-    variables.map(v => s"${v._1}: ${v._2.sort}").mkString("   ", "\n   ", "\n") +
-    "Equations\n" +
-    equations.mkString("   ", "\n   ", "\n") 
-    
-    
-  
+      "Signature\n" +
+      signature + "\n" +
+      "Variables\n" +
+      variables.map(v => s"${v._1}: ${v._2.sort}").mkString("   ", "\n   ", "\n") +
+      "Equations\n" +
+      equations.mkString("   ", "\n   ", "\n")
+
   /**
    * Creates an empty ADT.
    * @param name the name of this ADT.

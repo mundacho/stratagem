@@ -15,17 +15,29 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+package ch.unige.cui.smv.stratagem.transformers
 
-package ch.unige.cui.smv.stratagem.adt
+import java.io.File
+
+import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 
 /**
- * Represents an equation using terms of the ADT.
- *
- * @param leftSide the left side of the equation.
- * @param rightSide the right side of the equation.
+ * All classes inheritinig from this one transform some model into a transition system.
  * @author mundacho
  *
  */
-case class Equation(val leftSide: ATerm, val rightSide: ATerm) {
-  override def toString = s"$leftSide = $rightSide"
+abstract class Model2TransitionSystem {
+
+  type ModelType
+  type PreprocessedModelType
+
+  val file2Model: (File*) => ModelType
+  val modelPreprocessor: ModelType => PreprocessedModelType
+  val preprocessedModel2TransitionSystem: (PreprocessedModelType) => TransitionSystem
+
+  def apply(files: File*): TransitionSystem = {
+    val model = file2Model(files: _*)
+    val preprocessedModel = modelPreprocessor(model)
+    preprocessedModel2TransitionSystem(preprocessedModel)
+  }
 }

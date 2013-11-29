@@ -23,6 +23,9 @@ import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.ts.Identity
 import com.typesafe.scalalogging.slf4j.Logging
+import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWithAnonimization
+import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
+import ch.unige.cui.smv.stratagem.transformers.Modularizer
 
 /**
  * Tests the SetOfModules2TransitionSystem object
