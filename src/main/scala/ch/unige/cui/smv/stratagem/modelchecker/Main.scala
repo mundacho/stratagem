@@ -43,11 +43,11 @@ import ch.unige.cui.smv.stratagem.transformers.Modularizer
 object Main extends Logging {
 
   val programName = "stratagem"
-  val version = "0.2"
+  val sversion = "0.2"
   val quietMode = "activate quiet mode. Only errors are printed."
   val fileComment = "the model in pnml format."
-  val debugMode = "activate debug mode. Lots of output"
-  val saturationComment = "Disable saturation Might improve speed in some examples"
+  val debugMode = "activate debug mode. Lots of output."
+  val saturationComment = "Disable saturation."
 
   def main(args: Array[String]) {
     val parser = configureParser
@@ -100,7 +100,7 @@ object Main extends Logging {
   }
 
   def configureParser = new scopt.OptionParser[Config](programName) {
-    head(programName)
+    head(programName + " " +  sversion)
     opt[Unit]('q', "quiet") action { (_, c) =>
       c.copy(quiet = true)
     } text (quietMode)
@@ -134,7 +134,7 @@ places. The intersection of two modules is empty."""),
       opt[Unit]("with-ids") action { (_, c) =>
         c.copy(ids = true)
       } text ("Print the ids of the modules (from the PNML)"),
-      opt[Unit]("--print-transition-system") abbr ("ts") action { (_, c) =>
+      opt[Unit]("print-transition-system") abbr ("ts") action { (_, c) =>
         c.copy(transitionSystem = true)
       } text ("Print the generated transition system"))
   }

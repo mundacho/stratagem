@@ -6,10 +6,20 @@ You can download the binaries from [here](https://sourceforge.net/projects/strat
 Features
 ========
 
-Right now stratagem can load PNML files (only place transition nets) and calculate the state space size of the given net.
+Stratagem v0.2 can perform the following tasks:
 
-- Read PNML (Place Transition)
-- Use saturation to speed state space calculation
+- Read a Place/Transition Petri net and calculate its state space.
+- Automatically decompose a P/T Petri net in modules
+- Transform a P/T Petri net into a rewriting based transition system
+- Use different strategies to speed up the calculation of the state space. In particular it can use anonymization and saturation.
+
+Input formats
+=============
+
+The following input formats are supported:
+
+- [PNML](http://www.pnml.org) for P/T nets
+
 
 Requirements
 ============
