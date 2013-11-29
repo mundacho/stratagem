@@ -38,11 +38,21 @@
 <h1>
 <a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h1>
 
-<p>Right now stratagem can load PNML files (only place transition nets) and calculate the state space size of the given net.</p>
+<p>Stratagem v0.2 can perform the following tasks:</p>
 
 <ul>
-<li>Read PNML (Place Transition)</li>
-<li>Use saturation to speed state space calculation</li>
+<li>Read a Place/Transition Petri net and calculate its state space.</li>
+<li>Automatically decompose a P/T Petri net in modules</li>
+<li>Transform a P/T Petri net into a rewriting based transition system</li>
+<li>Use different strategies to speed up the calculation of the state space. In particular it can use anonymization and saturation.</li>
+</ul><h1>
+<a name="input-formats" class="anchor" href="#input-formats"><span class="octicon octicon-link"></span></a>Input formats</h1>
+
+<p>The following input formats are supported:</p>
+
+<ul>
+<li>
+<a href="http://www.pnml.org">PNML</a> for P/T nets</li>
 </ul><h1>
 <a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h1>
 
@@ -66,7 +76,7 @@
 <p>Stratagem - DD- and rewriting strategies- based model checker</p>
       </section>
       <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
