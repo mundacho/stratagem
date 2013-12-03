@@ -57,9 +57,10 @@ object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
     // second pass, remove duplicates, i.e. modules that are already completely contained in other modules
     modules.foreach { m =>
       val modulesToRemove = modules.filter(n => (n.net.places subsetOf m.net.places) && (n != m))
-      modulesToRemove.foreach { n =>
-        if ((newModules - n).map(_.net.places).reduce(_ ++ _).toSet.size == newModules.map(_.net.places).reduce(_ ++ _).toSet.size) newModules -= n
-      }
+        modulesToRemove.foreach { n =>
+          val newModulesMinusN = (newModules - n)
+          if (!newModulesMinusN.isEmpty && newModulesMinusN.map(_.net.places).reduce(_ ++ _).toSet.size == newModules.map(_.net.places).reduce(_ ++ _).toSet.size) newModules -= n
+        }
     }
     logger.trace(s"Number of modules after removing clusters already contained by other clusters ${newModules.size}")
     logger.trace(s"Number places after removing clusters already contained by other clusters ${newModules.map(_.net.places).reduce(_ ++ _).toSet.size}")
