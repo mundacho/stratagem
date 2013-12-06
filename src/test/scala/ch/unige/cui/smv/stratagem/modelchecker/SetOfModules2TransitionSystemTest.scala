@@ -15,17 +15,28 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package ch.unige.cui.smv.stratagem.petrinets
+package ch.unige.cui.smv.stratagem.modelchecker
+
+import org.scalatest.FlatSpec
+import java.io.File
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import ch.unige.cui.smv.stratagem.ts.Identity
 
 /**
- * Represents a petri net module (non standard).
+ * Tests the SetOfModules2TransitionSystem object
  *
  * @author mundacho
  *
  */
-case class PTModule(val net: PetriNet, val inputPlaces: Set[Place], val outputPlaces: Set[Place], val innerPlaces: Set[Place]) {
-  require(inputPlaces.intersect(outputPlaces) == Set.empty, "Input and output share places")
-  require(inputPlaces.intersect(innerPlaces) == Set.empty, "Inner and input places share places")
-  require(outputPlaces.intersect(innerPlaces) == Set.empty, "Inner and output places share places")
-  require(net.places.size == (inputPlaces.size + outputPlaces.size + innerPlaces.size)) 
-} 
+class SetOfModules2TransitionSystemTest extends FlatSpec {
+  "A SetOfModules2TransitionSystem" should "be able to calculate Kanban" in {
+    val net = PNML2PetriNet(new File("resources/test/Kanban-5.pnml"))
+    val modules = Modularizer(net)
+    val ts = SetOfModules2TransitionSystem(modules, net)
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    println(ts.strategyDeclarations.size)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
+    assert(rewriter(initialState).get.size == 2546432)
+  }
+}

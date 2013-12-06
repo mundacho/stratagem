@@ -15,17 +15,32 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package ch.unige.cui.smv.stratagem.petrinets
+package ch.unige.cui.smv.stratagem.adt
 
 /**
- * Represents a petri net module (non standard).
- *
+ * This object define basic adts and some useful functions.
  * @author mundacho
  *
  */
-case class PTModule(val net: PetriNet, val inputPlaces: Set[Place], val outputPlaces: Set[Place], val innerPlaces: Set[Place]) {
-  require(inputPlaces.intersect(outputPlaces) == Set.empty, "Input and output share places")
-  require(inputPlaces.intersect(innerPlaces) == Set.empty, "Inner and input places share places")
-  require(outputPlaces.intersect(innerPlaces) == Set.empty, "Inner and output places share places")
-  require(net.places.size == (inputPlaces.size + outputPlaces.size + innerPlaces.size)) 
-} 
+object PredefADT {
+  val NAT_SORT_NAME = "nat"
+  val ZERO = "zero"
+  val SUC = "suc"
+
+  lazy val basicNatSignature = (new Signature)
+    .withSort(NAT_SORT_NAME)
+    .withGenerator(ZERO, NAT_SORT_NAME)
+    .withGenerator(SUC, NAT_SORT_NAME, NAT_SORT_NAME)
+
+  /**
+   * Defines n succesors of a given term.
+   * @param n is the number of sucs before the initialterm
+   * @param initialTerm is the initial term in this sequence
+   * @param a is the adt where the terms are.
+   * @return a term from the given adt with the form suc(suc(... <n times> suc(initialTerm)))
+   */
+  def define(n: Int, initialTerm: ATerm, a: ADT): ATerm = n match {
+    case 0 => initialTerm
+    case _ => a.term(SUC, (define(n - 1, initialTerm, a)))
+  }
+}

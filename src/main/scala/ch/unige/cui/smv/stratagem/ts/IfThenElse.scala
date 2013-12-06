@@ -15,17 +15,14 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package ch.unige.cui.smv.stratagem.petrinets
+
+package ch.unige.cui.smv.stratagem.ts
 
 /**
- * Represents a petri net module (non standard).
- *
+ * Represents the Choice strategy.
+ * @param S1 strategy to be used as parameter.
+ * @param S2 strategy to be used as parameter.
  * @author mundacho
  *
  */
-case class PTModule(val net: PetriNet, val inputPlaces: Set[Place], val outputPlaces: Set[Place], val innerPlaces: Set[Place]) {
-  require(inputPlaces.intersect(outputPlaces) == Set.empty, "Input and output share places")
-  require(inputPlaces.intersect(innerPlaces) == Set.empty, "Inner and input places share places")
-  require(outputPlaces.intersect(innerPlaces) == Set.empty, "Inner and output places share places")
-  require(net.places.size == (inputPlaces.size + outputPlaces.size + innerPlaces.size)) 
-} 
+case class IfThenElse(S1: Strategy, S2: Strategy, S3: Strategy) extends NonVariableStrategy

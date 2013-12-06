@@ -17,15 +17,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.petrinets
 
+import ch.unige.cui.smv.stratagem.adt.PredefADT
+
 /**
- * Represents a petri net module (non standard).
- *
+ * This object defines basic adts for petri nets.
  * @author mundacho
  *
  */
-case class PTModule(val net: PetriNet, val inputPlaces: Set[Place], val outputPlaces: Set[Place], val innerPlaces: Set[Place]) {
-  require(inputPlaces.intersect(outputPlaces) == Set.empty, "Input and output share places")
-  require(inputPlaces.intersect(innerPlaces) == Set.empty, "Inner and input places share places")
-  require(outputPlaces.intersect(innerPlaces) == Set.empty, "Inner and output places share places")
-  require(net.places.size == (inputPlaces.size + outputPlaces.size + innerPlaces.size)) 
-} 
+object PetriNetADT {
+  val PLACE_SORT_NAME = "place"
+  val ENDPLACE = "endplace"
+
+  lazy val basicPetriNetSignature = PredefADT.basicNatSignature
+    .withSort(PLACE_SORT_NAME)
+    .withGenerator(ENDPLACE, PLACE_SORT_NAME)
+}
