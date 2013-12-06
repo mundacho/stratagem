@@ -17,7 +17,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.gal
 
-import scala.util.parsing.combinator.lexical.Scanners
 import ch.unige.cui.smv.stratagem.gal.expressions.BoolExpression
 import ch.unige.cui.smv.stratagem.gal.expressions.BoolExpressionFactory
 import ch.unige.cui.smv.stratagem.gal.expressions.IntExpression
@@ -91,14 +90,14 @@ class GALParser2 extends scala.util.parsing.combinator.RegexParsers with scala.u
   lazy val body: PackratParser[SeqStatement] =
     "{" ~> ((
         (("abort" ~ ';')                ^^  { case _ => Abort() })                        |
-        (varAccess ~ "=" ~ bit_or ~ ';')  ^^  { case v ~ _ ~ va ~ _ => Assignment(v,va) } |
-        ("self" ~ '.' ~ string ~ ';')   ^^  { case _ ~ _ ~ lab ~ _ => Call(lab) }         |
         (iteAction)                                                                       |
+        ("self" ~ '.' ~ string ~ ';')   ^^  { case _ ~ _ ~ lab ~ _ => Call(lab) }         |
+        (varAccess ~ "=" ~ bit_or ~ ';')  ^^  { case v ~ _ ~ va ~ _ => Assignment(v,va) } |
         ("fixpoint" ~ body)             ^^  { case _ ~ fixbody => FixStatement(fixbody) }
           )*) <~ "}" ^^ { l => SeqStatement(l.toArray) }
 
   lazy val iteAction: PackratParser[ITE] =
-    "if" ~ '(' ~ boolOr ~ ')' ~ body ~ (("else" ~> body)?) ^^ {
+    "if" ~ "(" ~ boolOr ~ ")" ~ body ~ (("else" ~> body)?) ^^ {
       case _ ~ _ ~ cond ~ _ ~ iftrue ~ Some(iffalse)  => ITE(cond,iftrue,iffalse)
       case _ ~ _ ~ cond ~ _ ~ iftrue ~ None           => ITE(cond,iftrue,Abort())
   }
@@ -129,7 +128,7 @@ class GALParser2 extends scala.util.parsing.combinator.RegexParsers with scala.u
     "true"  ^^ { _ => BoolExpressionFactory.createBoolConstant(true) }   |
     // the ANTLR version features a syntactical predicate here
     comparison                                                           |
-    '(' ~> boolOr <~ ')'
+    "(" ~> boolOr <~ ")"
 
   lazy val comparison: PackratParser[BoolExpression] =
     bit_or ~ comparisonOperators ~ bit_or ^^ {
@@ -193,8 +192,8 @@ class GALParser2 extends scala.util.parsing.combinator.RegexParsers with scala.u
     integer     ^^ { i => IntExpressionFactory.createConstant(i) }  |
     varAccess                                                       |
     // @TODO add a syntactical predicate
-    '(' ~> bit_or <~ ')'                                            |
-    '(' ~> wrapBool <~ ')'
+    "(" ~> bit_or <~ ")"                                            |
+    "(" ~> wrapBool <~ ")"
 
   lazy val varAccess: PackratParser[IntExpression] =
     arrayVarAccess | variableRef
@@ -234,8 +233,11 @@ class GALParser2 extends scala.util.parsing.combinator.RegexParsers with scala.u
 
   lazy val identifier: PackratParser[String] = parser2packrat("""([a-z]|[A-Z])([a-z]|[A-Z]|\d|_)*""".r)
 
-  // @TODO the original parser also single-quoted string (copy-paste the regex)
-  lazy val string: PackratParser[String] = parser2packrat("""("\[btnfru"'\]|[^\"])*"""".r)
+  // @TODO the original parser also allows single-quoted string (copy-paste the regex)
+//  lazy val string: PackratParser[String] = parser2packrat("""("\[btnfru"'\]|[^\"])*"""".r)
+  lazy val string: PackratParser[String] = parser2packrat("\"".r) ~ identifier ~ parser2packrat("\"".r) ^^ {
+    case _ ~ b ~ _ => b
+  }
 
-  lazy val comparisonOperators: PackratParser[String] = "<" | ">" | ">=" | "<=" | "==" | "!="
+  lazy val comparisonOperators: PackratParser[String] = ">=" | "<=" | "<" | ">" | "==" | "!="
 }
