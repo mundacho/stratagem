@@ -17,6 +17,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.gal
 
+import java.io.File
+import java.io.FileReader
+import scala.util.parsing.input.StreamReader
+
 import ch.unige.cui.smv.stratagem.gal.expressions.BoolExpression
 import ch.unige.cui.smv.stratagem.gal.expressions.BoolExpressionFactory
 import ch.unige.cui.smv.stratagem.gal.expressions.IntExpression
@@ -88,5 +92,19 @@ case class GAL(val name: String) {
       res += t.toString() + "\n"
     res += "}"
     res
+  }
+}
+
+object GAL {
+  /**
+   * import a gal from a file (wraps the call to Parser etc.)
+   * @param input the GAL file to be read
+   * @return the GAL described in the file
+   */
+  def apply(input: File) = {
+    val toParse = StreamReader(new FileReader(input))
+    val parser = new GALParser2()
+    parser.phrase(parser.system)(toParse)
+    parser.getResult
   }
 }
