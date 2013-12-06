@@ -28,7 +28,7 @@ private[sigmadd] case class IfThenElseRewriter(rewriter1: SigmaDDRewriter, rewri
 
   override lazy val hashCode = (this.getClass(), rewriter1, rewriter2, rewriter3).hashCode
 
-  override lazy val toString = "IfThenElse(" + rewriter1.toString + ", " + rewriter2.toString + ", " + rewriter3.toString() + ")"
+  override lazy val toString = (new StringBuilder("IfThenElse(") append rewriter1.toString append ", " append rewriter2.toString append ", " append rewriter3.toString() append ")").toString
 
   override def equals(obj: Any): Boolean = obj match {
     case that @ IfThenElseRewriter(r1, r2, r3) => (this eq that) || ((rewriter1 == r1) && (rewriter2 == r2) && (rewriter3 == r3))

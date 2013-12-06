@@ -254,7 +254,7 @@ object SetOfModules2TransitionSystemWithAnonimization extends Logging {
     val sortedListOfModules = modules
     // creates a map that maps each place to its cluster p1 -> c1, p2 -> c1, pn -> cm, etc
     val placeToModuleAndPosition = Map(sortedListOfModules.zipWithIndex.map(e => e._1.net.places.toList.sortBy(p => (p.name, p.id)).zipWithIndex.map(e1 => (e1._1, (e._2, e1._2)))).flatten: _*)
-    println(sortedListOfModules.map(_.net.places.toList.sortBy(p => (p.name, p.id)).map(_.name).mkString(", ")).mkString("\n"))
+//    println(sortedListOfModules.map(_.net.places.toList.sortBy(p => (p.name, p.id)).map(_.name).mkString(", ")).mkString("\n"))
     val signWithModules = createSignatureWithModules(basicSignature, sortedListOfModules, initialModuleNumber, -1)
     val adt = new ADT(net.name, signWithModules)
       .declareVariable("p", PLACE_SORT_NAME)

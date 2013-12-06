@@ -42,9 +42,9 @@ import ch.unige.cui.smv.stratagem.ts.IfThenElse
  */
 object SigmaDDRewriterFactory {
 
-  private var rewriterCache = scala.collection.mutable.Map[String, SigmaDDRewriter]()
+  private var rewriterCache = scala.collection.mutable.HashMap[Strategy, SigmaDDRewriter]()
 
-  def resetOperationCaches { rewriterCache = scala.collection.mutable.Map[String, SigmaDDRewriter]() }
+  def resetOperationCaches { rewriterCache = scala.collection.mutable.HashMap[Strategy, SigmaDDRewriter]() }
 
   /**
    * Transforms a strategy to a SigmaDD rewriter.
@@ -52,21 +52,21 @@ object SigmaDDRewriterFactory {
    * @param ts the transition system in which the strategies are (it is necessary to obtain the declarations of the strategies)
    */
   def strategyToRewriter(s: Strategy)(implicit ts: TransitionSystem): SigmaDDRewriter = s match {
-    case st: SimpleStrategy => rewriterCache.getOrElseUpdate(st.toString, new SimpleSigmaDDRewriter(st) with SigmaDDRewritingCache)
-    case st @ Choice(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new ChoiceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
+    case st: SimpleStrategy => rewriterCache.getOrElseUpdate(st, new SimpleSigmaDDRewriter(st))
+    case st @ Choice(s1, s2) => rewriterCache.getOrElseUpdate(st, new ChoiceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)))
     case Fail => FailRewriter
     case Identity => IdentityRewriter
-    case st @ Union(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new UnionRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
+    case st @ Union(s1, s2) => rewriterCache.getOrElseUpdate(st, new UnionRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
     case strategyInstance @ DeclaredStrategyInstance(name, actualParams @ _*) =>
-      rewriterCache.getOrElseUpdate(strategyInstance.toString, new DeclaredStrategyRewriter(strategyInstance, ts) with SigmaDDRewritingCache)
-    case st @ One(s1, n) => rewriterCache.getOrElseUpdate(st.toString, new OneRewriter(strategyToRewriter(s1), n) with SigmaDDRewritingCache)
-    case st @ FixPointStrategy(s) => rewriterCache.getOrElseUpdate(st.toString, new FixpointRewriter(strategyToRewriter(s)) with SigmaDDRewritingCache)
-    case st @ Sequence(s1, s2) => rewriterCache.getOrElseUpdate(st.toString, new SequenceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
-    case st @ Try(s1) => rewriterCache.getOrElseUpdate(st.toString, strategyToRewriter(Choice(s1, Identity)))
-    case st @ IfThenElse(s1, s2, s3) => rewriterCache.getOrElseUpdate(st.toString, new IfThenElseRewriter(strategyToRewriter(s1), strategyToRewriter(s2), strategyToRewriter(s3)) with SigmaDDRewritingCache)
-    case st @ Saturation(s, n) => rewriterCache.getOrElseUpdate(st.toString, strategyToRewriter(Sequence(Choice(One(Saturation(s, n), n), FixPointStrategy(s)), FixPointStrategy(s))))
-    case st @ GALAssignment(l, r) => rewriterCache.getOrElseUpdate(st.toString, new GALAssignmentRewriter(l, r, ts))
-    case st @ GALPredicate(b) => rewriterCache.getOrElseUpdate(st.toString, new Predicate(b, ts))
+      rewriterCache.getOrElseUpdate(strategyInstance, new DeclaredStrategyRewriter(strategyInstance, ts) with SigmaDDRewritingCache)
+    case st @ One(s1, n) => rewriterCache.getOrElseUpdate(st, new OneRewriter(strategyToRewriter(s1), n))
+    case st @ FixPointStrategy(s) => rewriterCache.getOrElseUpdate(st, new FixpointRewriter(strategyToRewriter(s)))
+    case st @ Sequence(s1, s2) => rewriterCache.getOrElseUpdate(st, new SequenceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)))
+    case st @ Try(s1) => rewriterCache.getOrElseUpdate(st, strategyToRewriter(Choice(s1, Identity)))
+    case st @ IfThenElse(s1, s2, s3) => rewriterCache.getOrElseUpdate(st, new IfThenElseRewriter(strategyToRewriter(s1), strategyToRewriter(s2), strategyToRewriter(s3)) )
+    case st @ Saturation(s, n) => rewriterCache.getOrElseUpdate(st, strategyToRewriter(Sequence(Choice(One(Saturation(s, n), n), FixPointStrategy(s)), FixPointStrategy(s))))
+    case st @ GALAssignment(l, r) => rewriterCache.getOrElseUpdate(st, new GALAssignmentRewriter(l, r, ts))
+    case st @ GALPredicate(b) => rewriterCache.getOrElseUpdate(st, new Predicate(b, ts))
   }
 
   /**

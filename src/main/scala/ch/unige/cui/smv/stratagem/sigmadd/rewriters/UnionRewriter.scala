@@ -27,7 +27,7 @@ case class UnionRewriter(rewriter1: SigmaDDRewriter, rewriter2: SigmaDDRewriter)
 
   override lazy val hashCode = (this.getClass(), rewriter1, rewriter2).hashCode
 
-  override lazy val toString = "UnionRewriter(" + rewriter1.toString + ", " + rewriter2.toString + ")"
+  override lazy val toString = (new StringBuilder("UnionRewriter(") append rewriter1.toString append ", " append rewriter2.toString append ")").toString
 
   override def equals(obj: Any): Boolean = obj match {
     case that @ UnionRewriter(r1, r2) => (this eq that) || ((rewriter1 == r1) && (rewriter2 == r2))
