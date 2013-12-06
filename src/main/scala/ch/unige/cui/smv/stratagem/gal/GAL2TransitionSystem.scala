@@ -47,19 +47,29 @@ import ch.unige.cui.smv.stratagem.ts.VariableStrategy
  */
 object GAL2TransitionSystem {
   /**
+   * Macros for the signature (the EquivSplit rewritters use them)
+   */
+  val VARIABLE_SORT = "variable"
+  val ENDVAR = "endvar"
+  val INTEGER_SORT = "integer"
+  val NAT_SORT = "nat"
+  val NZNAT_SORT = "nznat"
+  val ZERO = "zero"
+  val SUCC = "suc"
+  val NEG = "neg"
+
+  /**
    * Basic signature
-   * @TODO  make the rules to handle properly negative integers
-   *        minus(zero) -> zero
-   *        minus(minus(s)) -> s
-   *        succ(minus(succ(s))) -> minus(s)
    */
   val basicSignature = (new Signature)
-      .withSort("variable")
-      .withSort("array")
-      .withSort("integer")
-      .withGenerator("endvar", "variable")
-      .withGenerator("zero", "integer")
-      .withGenerator("succ", "integer", "integer")
+      .withSort(VARIABLE_SORT)
+      .withGenerator(ENDVAR, VARIABLE_SORT)
+      .withSort(INTEGER_SORT)
+      .withSort(NAT_SORT, INTEGER_SORT)
+      .withSort(NZNAT_SORT, NAT_SORT)
+      .withGenerator(ZERO, NAT_SORT)
+      .withGenerator(SUCC, NZNAT_SORT, NAT_SORT)
+      .withGenerator(NEG, INTEGER_SORT, NZNAT_SORT)
 
   private val S = VariableStrategy("S")
 
@@ -87,7 +97,11 @@ object GAL2TransitionSystem {
    */
   def createSignature(variables: List[String]): Signature = variables match {
     case Nil => basicSignature
-    case x::l => createSignature(l).withGenerator(x, "variable", "integer", "variable")
+    case x::l => createSignature(l).withGenerator(x, VARIABLE_SORT, INTEGER_SORT, VARIABLE_SORT)
+  }
+
+  private def myUnion(s1: Strategy, s2: Strategy) = {
+    Choice(Union(s1, s2), Choice(s1, s2))
   }
 
   /**
@@ -101,7 +115,7 @@ object GAL2TransitionSystem {
     require(transitions.nonEmpty)
     val label = transitions.head.label
     val strategies = transitions map transition2strategy
-    val union = strategies.reduceLeft((s1,s2) => Union(s1,s2))
+    val union = strategies.reduceLeft((s1,s2) => myUnion(s1,s2))
     ts.declareStrategy(label)(union)(false)
   }
 
@@ -128,22 +142,21 @@ object GAL2TransitionSystem {
    * @return a term encoding the initial state
    */
   def createInitialState(vars: List[String], initValue: scala.collection.mutable.Map[String,Int], adt: ADT): ATerm = vars match {
-    case Nil => adt.term("endvar")
+    case Nil => adt.term(ENDVAR)
     case x::l => adt.term(x, adtInt(initValue(x), adt), createInitialState(l, initValue, adt))
   }
 
   /**
    * a helper function to turn a regular int into an algebraic int
    *
-   * @TODO handle negative integers
-   *
    * @param i   the plain integer to be translated
    * @param adt the used ADT (needs to be referred to in the returned term)
    * @return a term representing algebraically the input 'i'
    */
   def adtInt(i: Int, adt: ADT): ATerm = i match {
-    case 0      => adt.term("zero")
-    case a: Any => adt.term("succ",adtInt(a-1,adt))
+    case 0                => adt.term(ZERO)
+    case a: Any if (a>0)  => adt.term(SUCC, adtInt(a-1, adt))
+    case a: Any           => adt.term(NEG, adtInt(-a, adt))
   }
 
   /**
@@ -153,7 +166,6 @@ object GAL2TransitionSystem {
 
   /**
    * Translates a Statement
-   * @TODO is the strategy for the Abort correct?
    * @TODO implement the call of labelled transitions
    */
   def statement2strategy(stat: Statement): Strategy = stat match {
@@ -162,15 +174,14 @@ object GAL2TransitionSystem {
       case Nil        => Identity
       case x::l       => Sequence(statement2strategy(x),statement2strategy(SeqStatement(l.toArray)))
     }
-    case ITE(c,bt,bf)         => Union(Sequence(bool2strategy(c),statement2strategy(bt)), Sequence(bool2strategy(! c),statement2strategy(bf)))
+    case ITE(c,bt,bf)         => myUnion(Sequence(bool2strategy(c),statement2strategy(bt)), Sequence(bool2strategy(! c),statement2strategy(bf)))
     case FixStatement(b)      => FixPointStrategy(statement2strategy(b))
-    case Call(_)              => throw new NotImplementedError("call transitions by label is not implemented yet")
+    case Call(l)              => throw new NotImplementedError("call transitions by label is not implemented yet")
     case Abort()              => Fail
   }
 
   /**
    * Translates a transition
-   * @TODO what to do with the label?
    */
   def transition2strategy(trans: Transition): NonVariableStrategy =
     ch.unige.cui.smv.stratagem.ts.Sequence(bool2strategy(trans.guard),statement2strategy(trans.action))
@@ -181,7 +192,7 @@ object GAL2TransitionSystem {
     // the signature
     val sign = createSignature(varList)
     // the ADT
-    val adt = new ADT(model.name,sign).declareVariable("X","integer").declareVariable("D","variable")
+    val adt = new ADT(model.name,sign).declareVariable("X",INTEGER_SORT).declareVariable("D",VARIABLE_SORT)
     // the initial state
     val initState = createInitialState(varList, model.initValue, adt)
     createTransitionSystem(model.transitions.toList.groupBy(t => t.label).values.toList, adt, initState).declareStrategy("___main___")(DeclaredStrategyInstance(""))(true)
