@@ -18,6 +18,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.adt
 
+import ch.unige.cui.smv.stratagem.util.AuxFunctions
+
 /**
  * Represents a term.
  */
@@ -68,8 +70,8 @@ object ATerm {
  * @param theAdt the adt this terms uses.
  */
 private case class Term(val operationSymbol: Operation, val subterms: List[ATerm], theAdt: ADT) extends ATerm(theAdt) {
-
-  require(operationSymbol.arity == subterms.map(_.sort), "Invalid parameter")
+  require(operationSymbol.arity.size == subterms.size, "Invalid number of parameters")
+  require(!operationSymbol.arity.zip(subterms.map(_.sort)).map(e => (e._2 isSubsortOf e._1)).contains(false), "Invalid parameter")
   require((adt.signature.operations ++ adt.signature.generators)(operationSymbol.name) == operationSymbol) // the adt contains the operation
   // scalastyle:off
   require(if (!subterms.isEmpty) subterms.map(_.adt eq theAdt).reduce(_ && _) else true, "It is not allowed to mix adts") // require that each adt in the subterms is the same that the parent term adt

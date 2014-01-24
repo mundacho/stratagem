@@ -45,5 +45,11 @@ class SortTest extends FlatSpec {
     assert(superParentSort equals ASort.findCommonParent(someSubSort211, superParentSort).get)
     assert(someSubSort1 equals ASort.findCommonParent(someSubSort211, someSubSort12).get)
     assert(ASort.findCommonParent(someSubSort211, someOtherSuperParentSort) == None)
+    
+    assert((superParentSort isSubsortOf(someOtherSubSort1)) == false)
+    assert(someSubSort22 isSubsortOf(superParentSort))
+    assert(!(someOtherSuperParentSort isSubsortOf(superParentSort)))
+    assert(someSubSort212 isSubsortOf(someSubSort1))
   }
+  
 }

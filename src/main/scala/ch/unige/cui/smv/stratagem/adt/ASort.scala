@@ -23,7 +23,13 @@ import scala.collection.immutable.Nil
 /**
  * Represents an abstract sort.
  */
-abstract class ASort
+abstract class ASort {
+  
+  /**
+   * @return true if s is a super sort or the same sort as this. Otherwise returns false.
+   */
+  def isSubsortOf(s: ASort): Boolean
+}
 
 /**
  * Represents a subsort.
@@ -43,6 +49,8 @@ case class SubSort(name: String, superSort: ASort) extends ASort {
     case a: SubSort => a.toString
     case a: Sort => a.toString
   })
+
+  def isSubsortOf(s: ASort) = if (s == this) true else superSort isSubsortOf s
 }
 
 /**
@@ -50,6 +58,7 @@ case class SubSort(name: String, superSort: ASort) extends ASort {
  * @param name the name of the sort
  */
 case class Sort(name: String) extends ASort {
+  def isSubsortOf(s: ASort) = s == this
   override val toString = name
 }
 
@@ -83,6 +92,5 @@ object ASort {
         Some(result)
       }
     }
-
   }
 }
