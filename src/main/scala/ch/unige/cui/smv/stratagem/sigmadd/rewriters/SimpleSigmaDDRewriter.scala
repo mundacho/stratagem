@@ -29,14 +29,14 @@ import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
  * This class implements a SigmaDDRewriter for simple strategies.
  * @param simpleStrategy a strategy that will be transformed to a rewriter.
  */
-private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy) extends SigmaDDRewriter {
+private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy, isNotStrategy:Boolean = false) extends SigmaDDRewriter {
 
   override lazy val toString = (new StringBuilder("SimpleSigmaDDRewriter(") append simpleStrategy.toString append ")").toString
 
-  override lazy val hashCode = (this.getClass(), simpleStrategy).hashCode
+  override lazy val hashCode = (this.getClass(), simpleStrategy, isNotStrategy).hashCode
 
   override def equals(obj: Any): Boolean = obj match {
-    case that @ SimpleSigmaDDRewriter(strat) => (this eq that) || (simpleStrategy == strat)
+    case that @ SimpleSigmaDDRewriter(strat, isNot) => (this eq that) || ((simpleStrategy == strat) && isNotStrategy == isNot)
     case _ => false
   }
 
@@ -106,7 +106,7 @@ private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy
           sigmaDDToRemove = sigmaDDToRemove v SigmaDDFactoryImpl.instantiate(equation.leftSide, substitution)
           sigmaDDToAdd = sigmaDDToAdd v SigmaDDFactoryImpl.instantiate(equation.rightSide, substitution)
         }
-        Some(sigmaDDToAdd)
+        if (isNotStrategy) Some(sigmaDD \ sigmaDDToRemove) else Some(sigmaDDToAdd)
       }
     }
   }

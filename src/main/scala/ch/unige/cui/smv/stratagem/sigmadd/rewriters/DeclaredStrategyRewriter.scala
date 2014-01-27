@@ -18,11 +18,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
+import com.typesafe.scalalogging.slf4j.Logging
 import ch.unige.cui.smv.stratagem.ts.Choice
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.Fail
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.Identity
+import ch.unige.cui.smv.stratagem.ts.IfThenElse
 import ch.unige.cui.smv.stratagem.ts.One
 import ch.unige.cui.smv.stratagem.ts.Sequence
 import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
@@ -31,8 +33,8 @@ import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-import com.typesafe.scalalogging.slf4j.Logging
-import ch.unige.cui.smv.stratagem.ts.IfThenElse
+import ch.unige.cui.smv.stratagem.ts.Choice
+import ch.unige.cui.smv.stratagem.ts.Not
 
 /**
  * Implements a rewriter for a declared strategy.
@@ -79,6 +81,7 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
     case Fail => Fail
     case Identity => Identity
     case One(s, n) => One(instanciate(s), n)
+    case Not(s) => Not(s)
     case FixPointStrategy(s) => FixPointStrategy(instanciate(s))
     case Sequence(s1, s2) => Sequence(instanciate(s1), instanciate(s2))
     case Union(s1, s2) => Union(instanciate(s1), instanciate(s2))

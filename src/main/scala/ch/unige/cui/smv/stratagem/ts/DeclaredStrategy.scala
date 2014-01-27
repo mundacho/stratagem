@@ -52,6 +52,7 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
         val (result2, message2) = checkSyntax(s2, params: _*)
         (result1 && result2, message1 + message2)
       }
+      case Not(s) => (true, "")
       case Fail => (true, "")
       case Identity => (true, "")
       case One(s, _) => checkSyntax(s, params: _*)
