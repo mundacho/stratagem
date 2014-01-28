@@ -24,6 +24,7 @@ import scala.collection.immutable.Nil
  * Represents an abstract sort.
  */
 abstract class ASort {
+  val name:String
   
   /**
    * @return true if s is a super sort or the same sort as this. Otherwise returns false.
@@ -48,7 +49,7 @@ case class SubSort(name: String, superSort: ASort) extends ASort {
   override val toString: String = "(" + name + " < " + (superSort match {
     case a: SubSort => a.toString
     case a: Sort => a.toString
-  })
+  }) + ")"
 
   def isSubsortOf(s: ASort) = if (s == this) true else superSort isSubsortOf s
 }

@@ -98,7 +98,7 @@ object SigmaDDFactoryImpl extends CanonicalFactory {
       case _ => false
     }
 
-    def asElements = Element.elem(sort.toString) beside Element.elem("--") beside iipf.asElements
+    def asElements = Element.elem(sort.name) beside Element.elem("--") beside iipf.asElements
 
     override def toString = asElements.toString
 
