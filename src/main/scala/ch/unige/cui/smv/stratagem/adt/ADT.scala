@@ -56,6 +56,7 @@ class ADT private (val name: String, val signature: Signature, val variables: Ma
   def declareVariable(name: String, sortName: String): ADT = {
     require(!variables.isDefinedAt(name), "A variable with the name \"" + name + "\" exists already")
     require(signature.sorts.isDefinedAt(sortName), "The sort \"" + sortName + "\" is not in the signature of this ADT")
+    require(!(signature.generators ++ signature.operations).isDefinedAt(name), "Illegal variable name: There is a generator or operation already with that name: %s".format(name))
     new ADT(name, signature, variables + (name -> new VariableDeclaration(signature.sorts(sortName), name)), Set.empty)
   }
 

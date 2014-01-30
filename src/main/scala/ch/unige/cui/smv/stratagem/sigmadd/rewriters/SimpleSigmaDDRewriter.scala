@@ -31,7 +31,7 @@ import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
  */
 private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy, isNotStrategy:Boolean = false) extends SigmaDDRewriter {
 
-  override lazy val toString = (new StringBuilder("SimpleSigmaDDRewriter(") append simpleStrategy.toString append ")").toString
+  override lazy val toString = (new StringBuilder("SimpleSigmaDDRewriter(") append simpleStrategy.toString append ", " append isNotStrategy.toString append ")").toString
 
   override lazy val hashCode = (this.getClass(), simpleStrategy, isNotStrategy).hashCode
 
@@ -98,7 +98,7 @@ private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
     val firstListOfSubstitutions = simpleStrategy.equations.collectFirst((x: Equation) => matchSigmaDD(x.leftSide)(sigmaDD)(Map.empty, Nil) match { case Some(result) => (result, x) })
     firstListOfSubstitutions match {
-      case None => None // no possible substitutions, we return None to indicate failure
+      case None => if (isNotStrategy) Some(sigmaDD) else None // no possible substitutions, we return None to indicate failure or the SigmaDD if it is a Not strategy
       case Some((listOfSubstitutions, equation)) => {
         var sigmaDDToRemove = sigmaDD.bottomElement
         var sigmaDDToAdd = sigmaDD.bottomElement
@@ -106,7 +106,13 @@ private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy
           sigmaDDToRemove = sigmaDDToRemove v SigmaDDFactoryImpl.instantiate(equation.leftSide, substitution)
           sigmaDDToAdd = sigmaDDToAdd v SigmaDDFactoryImpl.instantiate(equation.rightSide, substitution)
         }
-        if (isNotStrategy) Some(sigmaDD \ sigmaDDToRemove) else Some(sigmaDDToAdd)
+        if (isNotStrategy) {
+          val res = sigmaDD \ sigmaDDToRemove
+          res match {
+            case res.bottomElement => None // we have rewritten everything
+            case _ => Some(res)
+          }
+        } else Some(sigmaDDToAdd)
       }
     }
   }

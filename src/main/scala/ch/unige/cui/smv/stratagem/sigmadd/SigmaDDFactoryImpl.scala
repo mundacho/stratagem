@@ -109,7 +109,7 @@ object SigmaDDFactoryImpl extends CanonicalFactory {
           val iipfUnion = this.iipf v that.iipf
           if ((commonParent == this.sort) && (iipfUnion eq this.iipf)) this else create(commonParent, iipfUnion)
         }
-        case None => throw new IllegalStateException
+        case None => throw new IllegalStateException("Invalid sort, trying to join SigmaDD of sort %s with SigmaDD of sort %s".format(this.sort.name, that.sort.name))
       }
 
     }

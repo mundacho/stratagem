@@ -24,4 +24,4 @@ package ch.unige.cui.smv.stratagem.ts
  * @author mundacho
  *
  */
-case class Not(S: SimpleStrategy) extends NonVariableStrategy
+case class Not(S: Strategy) extends NonVariableStrategy

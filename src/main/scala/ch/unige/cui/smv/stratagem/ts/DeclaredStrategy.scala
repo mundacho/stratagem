@@ -52,7 +52,13 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
         val (result2, message2) = checkSyntax(s2, params: _*)
         (result1 && result2, message1 + message2)
       }
-      case Not(s) => (true, "")
+      case Not(s) => s match {
+        case s1: SimpleStrategy => (true, "")
+        case s1 @ Not(s2) => checkSyntax(Not(s2), params: _*)
+        case s1 : VariableStrategy => (true, "")
+        case strategyInstance @ DeclaredStrategyInstance(name, _*) => checkDeclaredStrategyCanBeAfterNot(name, strategyInstance, params: _*)
+        case _@ s1 => (false, DeclaredStrategy.errorNotStrategy.format(s1.toString()))
+      }
       case Fail => (true, "")
       case Identity => (true, "")
       case One(s, _) => checkSyntax(s, params: _*)
@@ -81,7 +87,28 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
     }
   }
 
-  def checkSyntaxForDeclaredStrategy(name: String, strategyInstance: DeclaredStrategyInstance, params: VariableStrategy*)(implicit ts:TransitionSystem) = {
+  def checkDeclaredStrategyCanBeAfterNot(name: String, strategyInstance: DeclaredStrategyInstance, params: VariableStrategy*)(implicit ts: TransitionSystem):(Boolean, String) = {
+    // check if the strategy is already defined
+    if (ts.strategyDeclarations.isDefinedAt(name)) {
+      val theDeclaredStrategy = ts.strategyDeclarations(name).declaredStrategy
+      // first check that the number of formal parameters is correct
+      if (theDeclaredStrategy.formalParameters.size == 0) { // we require no params for strategies in a Not
+        theDeclaredStrategy.body match {
+          case SimpleStrategy(List(_, _*)) => (true, "") // OK
+          case Not(s) => checkSyntax(Not(s), params: _*) // we have a double not, we check the syntax of Not(s), just to be sure that declared strategies are treated right
+          case strategyInstance @ DeclaredStrategyInstance(name, _*) => checkDeclaredStrategyCanBeAfterNot(name, strategyInstance, params: _*)
+          case _ @ s => (false, DeclaredStrategy.errorNotStrategy.format(s))
+        }
+      } else {
+        (false, DeclaredStrategy.errorDeclareedStrategyInvalidParamsAfterNot.format(
+          theDeclaredStrategy.label))
+      }
+    } else {
+      (false, DeclaredStrategy.errorMessageStringNotDefined.format(name))
+    }
+  }
+
+  def checkSyntaxForDeclaredStrategy(name: String, strategyInstance: DeclaredStrategyInstance, params: VariableStrategy*)(implicit ts: TransitionSystem) = {
     // check if the strategy is already defined
     if (ts.strategyDeclarations.isDefinedAt(name)) {
       val theDeclaredStrategy = ts.strategyDeclarations(name).declaredStrategy
@@ -107,5 +134,7 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
 object DeclaredStrategy {
   val errorMessageStringNotDefined = "\nStrategy \"%s\" is not defined in the transition system"
   val errorBadNumberOfParameters = "\nStrategy %s does not have the good number of parameters. Expected %d and found %d"
+  val errorNotStrategy = "\nStrategy Not only accepts SimpleStrategy and Not strategies as parameters. Found %s"
+  val errorDeclareedStrategyInvalidParamsAfterNot = "\nStrategy Not only accepts declared strategies with no parameters as argument. Found %s"
   val errorInvalidVariable = "\nVariable %s does not reference the same variable in the parameters"
 }

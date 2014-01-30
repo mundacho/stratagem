@@ -22,19 +22,22 @@ import ch.unige.cui.smv.stratagem.ts.Choice
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.Fail
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
+import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.Identity
+import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
+import ch.unige.cui.smv.stratagem.ts.Not
 import ch.unige.cui.smv.stratagem.ts.One
 import ch.unige.cui.smv.stratagem.ts.Saturation
 import ch.unige.cui.smv.stratagem.ts.Sequence
+import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.ts.Strategy
 import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
-import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
 import ch.unige.cui.smv.stratagem.ts.IfThenElse
-import ch.unige.cui.smv.stratagem.ts.Not
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 /**
  * Represents a factory of rewriters.
  */
@@ -61,9 +64,21 @@ object SigmaDDRewriterFactory {
     case st @ FixPointStrategy(s) => rewriterCache.getOrElseUpdate(st, new FixpointRewriter(strategyToRewriter(s)))
     case st @ Sequence(s1, s2) => rewriterCache.getOrElseUpdate(st, new SequenceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)))
     case st @ Try(s1) => rewriterCache.getOrElseUpdate(st, strategyToRewriter(Choice(s1, Identity)))
-    case st @ Not(s) => rewriterCache.getOrElseUpdate(st, new SimpleSigmaDDRewriter(s, true))
+    case st @ Not(Not(s)) => strategyToRewriter(s)
+    case st @ Not(s @ SimpleStrategy(List(_, _*))) => rewriterCache.getOrElseUpdate(st, new SimpleSigmaDDRewriter(s, true)) // we create the rewriter
+    case st @ Not(s @ DeclaredStrategyInstance(name)) => strategyToRewriter(Not(unwindDeclaredStrategyInstance(s, ts)))
     case st @ IfThenElse(s1, s2, s3) => rewriterCache.getOrElseUpdate(st, new IfThenElseRewriter(strategyToRewriter(s1), strategyToRewriter(s2), strategyToRewriter(s3)))
     case st @ Saturation(s, n) => rewriterCache.getOrElseUpdate(st, strategyToRewriter(Sequence(Choice(One(Saturation(s, n), n), FixPointStrategy(s)), FixPointStrategy(s))))
+  }
+  
+  def unwindDeclaredStrategyInstance(strategy: DeclaredStrategyInstance, ts: TransitionSystem): Strategy = {
+    ts.strategyDeclarations(strategy.name).declaredStrategy.body match {
+      case DeclaredStrategyInstance(name) => unwindDeclaredStrategyInstance(strategy, ts)
+      case st : SimpleStrategy => st
+      case Not(Not(st)) => unwindDeclaredStrategyInstance(strategy, ts)
+      case Not(st) => Not(unwindDeclaredStrategyInstance(strategy, ts))
+      case _ => throw new IllegalStateException("Invalid declared strategy after Not: %s".format(strategy.name))
+    }
   }
 
   /**
