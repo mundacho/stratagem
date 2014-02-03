@@ -63,13 +63,17 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
    */
   lazy val rewriter = SigmaDDRewriterFactory.strategyToRewriter(instanciate(ts.strategyDeclarations(declaredStrategy.name).declaredStrategy.body))(ts)
 
-  def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = rewriter(sigmaDD) match {
-    case Some(r) => //logger.trace(s"Strategy ${declaredStrategy.name} succeeded")
-      Some(r)
-    case None => //logger.trace(s"Strategy ${declaredStrategy.name} failed")
-      None
+  def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
+    logger.trace(s"Entering strategy ${declaredStrategy.name}")
+    rewriter(sigmaDD) match {
+      case Some(r) =>
+        logger.trace(s"Strategy ${declaredStrategy.name} succeeded")
+        Some(r)
+      case None =>
+        logger.trace(s"Strategy ${declaredStrategy.name} failed")
+        None
+    }
   }
-
   /**
    * We instanciate the variables of a strategy with variables.
    * @oaram strategy the strategy that we are intanciating.
@@ -83,7 +87,7 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
     case One(s, n) => One(instanciate(s), n)
     case Not(s @ SimpleStrategy(List(_, _*))) => Not(s)
     case Not(s @ DeclaredStrategyInstance(_)) => Not(s)
-    case Not(v : VariableStrategy) => Not(formalToActualParameterMap(v))
+    case Not(v: VariableStrategy) => Not(formalToActualParameterMap(v))
     case FixPointStrategy(s) => FixPointStrategy(instanciate(s))
     case Sequence(s1, s2) => Sequence(instanciate(s1), instanciate(s2))
     case Union(s1, s2) => Union(instanciate(s1), instanciate(s2))

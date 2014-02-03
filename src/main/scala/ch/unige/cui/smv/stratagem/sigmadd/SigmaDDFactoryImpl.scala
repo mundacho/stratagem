@@ -103,35 +103,41 @@ object SigmaDDFactoryImpl extends CanonicalFactory {
     override def toString = asElements.toString
 
     def v(that: SigmaDDImpl): SigmaDDImpl = {
-      val newSort = ASort.findCommonParent(this.sort, that.sort)
-      newSort match {
-        case Some(commonParent) => {
-          val iipfUnion = this.iipf v that.iipf
-          if ((commonParent == this.sort) && (iipfUnion eq this.iipf)) this else create(commonParent, iipfUnion)
+      if (that != that.bottomElement) {
+        val newSort = ASort.findCommonParent(this.sort, that.sort)
+        newSort match {
+          case Some(commonParent) => {
+            val iipfUnion = this.iipf v that.iipf
+            if ((commonParent == this.sort) && (iipfUnion eq this.iipf)) this else create(commonParent, iipfUnion)
+          }
+          case None => throw new IllegalStateException("Invalid sort, trying to join SigmaDD of sort %s with SigmaDD of sort %s".format(this.sort.name, that.sort.name))
         }
-        case None => throw new IllegalStateException("Invalid sort, trying to join SigmaDD of sort %s with SigmaDD of sort %s".format(this.sort.name, that.sort.name))
-      }
-
+      } else this
     }
+
     def ^(that: SigmaDDImpl): SigmaDDImpl = {
-      val newSort = ASort.findCommonParent(this.sort, that.sort)
-      newSort match {
-        case Some(commonParent) => {
-          val iipfInter = this.iipf ^ that.iipf
-          if ((commonParent == this.sort) && (iipfInter eq this.iipf)) this else create(commonParent, iipfInter)
+      if (that != that.bottomElement) {
+        val newSort = ASort.findCommonParent(this.sort, that.sort)
+        newSort match {
+          case Some(commonParent) => {
+            val iipfInter = this.iipf ^ that.iipf
+            if ((commonParent == this.sort) && (iipfInter eq this.iipf)) this else create(commonParent, iipfInter)
+          }
+          case None => throw new IllegalStateException
         }
-        case None => throw new IllegalStateException
-      }
+      } else this.bottomElement
     }
     def \(that: SigmaDDImpl): SigmaDDImpl = {
-      val newSort = ASort.findCommonParent(this.sort, that.sort)
-      newSort match {
-        case Some(commonParent) => {
-          val iipfDiff = this.iipf \ that.iipf
-          if ((commonParent == this.sort) && (iipfDiff eq this.iipf)) this else create(commonParent, iipfDiff)
+      if (that != that.bottomElement) {
+        val newSort = ASort.findCommonParent(this.sort, that.sort)
+        newSort match {
+          case Some(commonParent) => {
+            val iipfDiff = this.iipf \ that.iipf
+            if ((commonParent == this.sort) && (iipfDiff eq this.iipf)) this else create(commonParent, iipfDiff)
+          }
+          case None => throw new IllegalStateException
         }
-        case None => throw new IllegalStateException
-      }
+      } else this
     }
 
     lazy val bottomElement = create(sort, this.iipf.bottomElement)
