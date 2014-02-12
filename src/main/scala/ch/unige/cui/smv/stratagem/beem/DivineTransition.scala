@@ -15,25 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package ch.unige.cui.smv.stratagem.util
+package ch.unige.cui.smv.stratagem.beem
 
-import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats
-import com.typesafe.scalalogging.slf4j.Logging
+import ch.unige.cui.smv.stratagem.beem.expressions.BooleanExpression
+import ch.unige.cui.smv.stratagem.beem.expressions.VoidExpression
 
 /**
+ * Represents a divine transition.
+ * @param stateChange is a tuple where the first entry is the process's state before the execution of the transition
+ * and the second entry is the process's state after the execution of the transition.
+ * @param guard represents the guard of the transition
+ * @param effects a list of expressions representing the changes in the global variables and the process's variables
  * @author mundacho
  *
  */
-object AuxFunctions extends Logging {
-  
-  lazy val identifierPattern =  """([a-zA-Z_]\w+)""".r 
-  
-  def timeAndSpace[R](block: => R): R = {
-    val t0 = System.nanoTime()
-    val result = block // call-by-name
-    val t1 = System.nanoTime()
-    logger.debug("Elapsed time: " + (t1 - t0) * 1.0e-9 + "[seconds]")
-    logger.debug("Total memory used: " + Runtime.getRuntime().totalMemory() / 1048576 + "[MB]")
-    result
-  }
-}
+class DivineTransition(val stateChange: (Symbol, Symbol), val guard: BooleanExpression, val effects: VoidExpression*)

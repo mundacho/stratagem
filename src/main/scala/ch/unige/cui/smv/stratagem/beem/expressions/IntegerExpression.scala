@@ -15,25 +15,20 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package ch.unige.cui.smv.stratagem.util
-
-import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats
-import com.typesafe.scalalogging.slf4j.Logging
+package ch.unige.cui.smv.stratagem.beem.expressions
 
 /**
+ * Represents an integer expression.
  * @author mundacho
  *
  */
-object AuxFunctions extends Logging {
-  
-  lazy val identifierPattern =  """([a-zA-Z_]\w+)""".r 
-  
-  def timeAndSpace[R](block: => R): R = {
-    val t0 = System.nanoTime()
-    val result = block // call-by-name
-    val t1 = System.nanoTime()
-    logger.debug("Elapsed time: " + (t1 - t0) * 1.0e-9 + "[seconds]")
-    logger.debug("Total memory used: " + Runtime.getRuntime().totalMemory() / 1048576 + "[MB]")
-    result
-  }
-}
+abstract class IntegerExpression extends DivineExpression
+
+abstract class LeftExpression extends IntegerExpression
+
+case class Var(name: String) extends LeftExpression
+case class Darray(name: String, position: IntegerExpression) extends LeftExpression
+
+case class Plus(m: IntegerExpression, n: IntegerExpression) extends IntegerExpression
+case class Minus(m: IntegerExpression, n: IntegerExpression) extends IntegerExpression
+case class Value(n: Int) extends IntegerExpression
