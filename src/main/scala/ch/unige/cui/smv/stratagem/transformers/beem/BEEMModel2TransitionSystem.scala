@@ -101,6 +101,12 @@ import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 import ch.unige.cui.smv.stratagem.ts.Choice
 import ch.unige.cui.smv.stratagem.ts.Not
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.beem.expressions.VoidExpression
+import ch.unige.cui.smv.stratagem.beem.expressions.VoidExpression
+import ch.unige.cui.smv.stratagem.beem.expressions.Noop
+import ch.unige.cui.smv.stratagem.beem.expressions.VoidExpression
+import ch.unige.cui.smv.stratagem.beem.expressions.Assign
+import ch.unige.cui.smv.stratagem.beem.expressions.LeftExpression
 
 /**
  * Translates a Beem model to a transition system.
@@ -195,6 +201,18 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
       Sequence(stratStateChange, stratGuard)
     }(true)
   }
+  
+  def createTransitionSystemForVoidExpr(proc: DivineProcess, exp: VoidExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) =  exp match {
+    case Noop => (initialTS, Identity)   
+    case Assign(leftExpr, rightExp) => 
+      val (readRightExpTS, readRightExpStrat) = createReadIntExpressionStrategy(proc, rightExp, initialTS)
+      val (assignTopOfStackTS, assignTopOfStackStrat) = createTransitionSystemForLeftExpression(proc, leftExpr, initialTS) // we need a strategy to put the head of the stack in a global variable
+      (assignTopOfStackTS, Sequence(readRightExpStrat, assignTopOfStackStrat))
+  }
+  
+  def createTransitionSystemForLeftExpression(proc: DivineProcess, exp: LeftExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) =  exp match {
+    case Var(name) => null// TODO
+  }
 
   def createTransitionSystemForBinExp(proc: DivineProcess, exp: BooleanExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = {
     exp match {
@@ -284,8 +302,8 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
               DeclaredStrategyInstance(findVarStrategyName(name), DeclaredStrategyInstance(copyVarStratName)),
               DeclaredStrategyInstance("upVariable")))
         } else
-          (null, null)
-    }
+          (null, null) // TODO local variable
+    } // TODO arrays
   }
   //  def createTransitionSystemForIntExp(procName: String, exp: IntegerExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = exp match {
   //    case Var(name) => 
