@@ -18,10 +18,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.modelchecker
 
 import scala.language.implicitConversions
+
+import org.scalatest.BeforeAndAfter
 import org.scalatest.FlatSpec
+
 import com.typesafe.scalalogging.slf4j.Logging
+
 import ch.unige.cui.smv.stratagem.beem.DivineModel
-import ch.unige.cui.smv.stratagem.beem.DivineProcess
 import ch.unige.cui.smv.stratagem.beem.DivineProcess
 import ch.unige.cui.smv.stratagem.beem.expressions.And
 import ch.unige.cui.smv.stratagem.beem.expressions.Assign
@@ -35,16 +38,20 @@ import ch.unige.cui.smv.stratagem.beem.expressions.Plus
 import ch.unige.cui.smv.stratagem.beem.expressions.True
 import ch.unige.cui.smv.stratagem.beem.expressions.Value
 import ch.unige.cui.smv.stratagem.beem.expressions.Var
-import ch.unige.cui.smv.stratagem.transformers.BEEMModel2TransitionSystem
-import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem
 
 /**
  * Test a transformation from beem to stratagem transition system.
  * @author mundacho
  *
  */
-class BEEMTest extends FlatSpec with Logging {
+class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
+
+  before {
+    SigmaDDRewriterFactory.resetOperationCaches
+  }
 
   implicit def int2IntegerExpression(n: Int) = Value(n)
   implicit def symbol2Var(s: Symbol) = Var(s.name)
@@ -108,23 +115,166 @@ class BEEMTest extends FlatSpec with Logging {
       new DivineProcess("P_2", Set('on, 'off), 'off)
         .declareTransition('off -> 'on, True, Noop)
     }
-    
-    "SimpleModel" should "have eight different states" in {
-        val ts = BEEMModel2TransitionSystem(simpleModelBEEM)
-        println(ts)
-        val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-        val initialState = SigmaDDFactoryImpl.create(ts.initialState)
-        val result = rewriter(initialState).get
-        println(result.size)
-        println(result)
-        assert(result.size == 8)
+
+  "SimpleModel" should "have eight different states" in {
+
+    val ts = BEEMModel2TransitionSystem(simpleModelBEEM)
+    println(ts)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    val result = rewriter(initialState).get
+    println(result.size)
+    println(result)
+    assert(result.size == 8)
+  }
+
+  val simpleModelBEEM2 = new DivineModel()
+    .declareProc {
+      new DivineProcess("P_0", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, IsDifferent(5, 5), Noop)
+    }.declareProc {
+      new DivineProcess("P_1", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, True, Noop)
     }
-    
-//
-//  "test" should "test" in {
-//
-//    val sign = BEEMModel2TransitionSystem.createSignature(petersonBEEM.globalVariables, petersonBEEM.processes, BEEMModel2TransitionSystem.basicSignature)
-//    BEEMModel2TransitionSystem(petersonBEEM)
-//  }
+    .declareProc {
+      new DivineProcess("P_2", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, True, Noop)
+    }
+
+  "SimpleModel2" should "have 4 different states" in {
+    val ts = BEEMModel2TransitionSystem(simpleModelBEEM2)
+    println(ts)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    val result = rewriter(initialState).get
+    println(result.size)
+    println(result)
+    assert(result.size == 4)
+  }
+
+  val simpleModelBEEM3 = new DivineModel()
+    .declareProc {
+      new DivineProcess("P_0", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, LessThan(5, 7), Noop)
+    }.declareProc {
+      new DivineProcess("P_1", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, True, Noop)
+    }
+    .declareProc {
+      new DivineProcess("P_2", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, True, Noop)
+    }
+
+  "SimpleModel3" should "have 8 different states" in {
+    val ts = BEEMModel2TransitionSystem(simpleModelBEEM3)
+    println(ts)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    val result = rewriter(initialState).get
+    println(result.size)
+    println(result)
+    assert(result.size == 8)
+  }
+
+  val simpleModelBEEM4 = new DivineModel()
+    .declareProc {
+      new DivineProcess("P_0", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, LessThan(7, 4), Noop)
+    }.declareProc {
+      new DivineProcess("P_1", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, True, Noop)
+    }
+    .declareProc {
+      new DivineProcess("P_2", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, True, Noop)
+    }
+
+  "SimpleModel4" should "have 4 different states" in {
+    val ts = BEEMModel2TransitionSystem(simpleModelBEEM4)
+    println(ts)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    val result = rewriter(initialState).get
+    println(result.size)
+    println(result)
+    assert(result.size == 4)
+  }
+
+  val simpleModelBEEM5 = new DivineModel()
+    .declareIntVariable('i, 0)
+    .declareProc {
+      new DivineProcess("P_0", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, LessThan('i, 9), Noop)
+    }.declareProc {
+      new DivineProcess("P_1", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, True, Noop)
+    }
+    .declareProc {
+      new DivineProcess("P_2", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, True, Noop)
+    }
+
+  "SimpleModel5" should "have 8 different states" in {
+    val ts = BEEMModel2TransitionSystem(simpleModelBEEM5)
+    println(ts)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    val result = rewriter(initialState).get
+    println(result.size)
+    println(result)
+    assert(result.size == 8)
+  }
+
+  val simpleModelBEEM6 = new DivineModel()
+    .declareIntVariable('i, 9)
+    .declareIntVariable('j, 2)
+    .declareProc {
+      new DivineProcess("P_0", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, LessThan('j, 9), Noop)
+    }.declareProc {
+      new DivineProcess("P_1", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, True, Noop)
+    }
+    .declareProc {
+      new DivineProcess("P_2", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, True, Noop)
+    }
+
+  "SimpleModel6" should "have 8 different states" in {
+    val ts = BEEMModel2TransitionSystem(simpleModelBEEM6)
+    println(ts)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    val result = rewriter(initialState).get
+    println(result.size)
+    println(result)
+    assert(result.size == 8)
+  }
+
+  val simpleModelBEEM7 = new DivineModel()
+    .declareIntVariable('i, 9)
+    .declareIntVariable('j, 10)
+    .declareProc {
+      new DivineProcess("P_0", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, LessThan('j, 9), Noop)
+    }.declareProc {
+      new DivineProcess("P_1", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, True, Noop)
+    }
+    .declareProc {
+      new DivineProcess("P_2", Set('on, 'off), 'off)
+        .declareTransition('off -> 'on, True, Noop)
+    }
+
+  "SimpleModel7" should "have 4 different states" in {
+    val ts = BEEMModel2TransitionSystem(simpleModelBEEM7)
+    println(ts)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    val result = rewriter(initialState).get
+    println(result.size)
+    println(result)
+    assert(result.size == 4)
+  }
 
 }

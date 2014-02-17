@@ -71,7 +71,7 @@ object ATerm {
  */
 private case class Term(val operationSymbol: Operation, val subterms: List[ATerm], theAdt: ADT) extends ATerm(theAdt) {
   require(operationSymbol.arity.size == subterms.size, "Invalid number of parameters")
-  require(!operationSymbol.arity.zip(subterms.map(_.sort)).map(e => (e._2 isSubsortOf e._1)).contains(false), "Invalid parameter")
+  require(!operationSymbol.arity.zip(subterms.map(_.sort)).map(e => (e._2 isSubsortOf e._1)).contains(false), s"Invalid parameter in term ${operationSymbol.name}(" + subterms.mkString(", ") + ")")
   require((adt.signature.operations ++ adt.signature.generators)(operationSymbol.name) == operationSymbol) // the adt contains the operation
   // scalastyle:off
   require(if (!subterms.isEmpty) subterms.map(_.adt eq theAdt).reduce(_ && _) else true, "It is not allowed to mix adts") // require that each adt in the subterms is the same that the parent term adt

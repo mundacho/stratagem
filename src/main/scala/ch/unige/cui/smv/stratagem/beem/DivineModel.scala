@@ -51,7 +51,7 @@ case class DivineModel(val globalVariables: Map[String, DivineVariable], val pro
    * @param initialVauel the initial value of the variable, when omitted its value is 0.
    * @return a new divine model with the int variable declared.
    */
-  def declareIntVariable(nameSymbol: Symbol, initialValue: Int = 0) {
+  def declareIntVariable(nameSymbol: Symbol, initialValue: Int = 0) = {
     require(!globalVariables.contains(nameSymbol.name), s"There is a variable with name ${nameSymbol.name} already in the this divine model.")
     this.copy(globalVariables = globalVariables + DivineIntVariable(nameSymbol.name, initialValue).asTuple)
   }
