@@ -27,15 +27,20 @@ import ch.unige.cui.smv.stratagem.beem.DivineProcess
 import ch.unige.cui.smv.stratagem.beem.DivineTransition
 import ch.unige.cui.smv.stratagem.beem.DivineVariable
 import ch.unige.cui.smv.stratagem.beem.expressions.And
+import ch.unige.cui.smv.stratagem.beem.expressions.Assign
 import ch.unige.cui.smv.stratagem.beem.expressions.BooleanExpression
 import ch.unige.cui.smv.stratagem.beem.expressions.IntegerExpression
 import ch.unige.cui.smv.stratagem.beem.expressions.IsDifferent
 import ch.unige.cui.smv.stratagem.beem.expressions.IsEqual
+import ch.unige.cui.smv.stratagem.beem.expressions.LeftExpression
 import ch.unige.cui.smv.stratagem.beem.expressions.LessThan
+import ch.unige.cui.smv.stratagem.beem.expressions.Noop
 import ch.unige.cui.smv.stratagem.beem.expressions.Or
+import ch.unige.cui.smv.stratagem.beem.expressions.Plus
 import ch.unige.cui.smv.stratagem.beem.expressions.True
 import ch.unige.cui.smv.stratagem.beem.expressions.Value
 import ch.unige.cui.smv.stratagem.beem.expressions.Var
+import ch.unige.cui.smv.stratagem.beem.expressions.VoidExpression
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.ARRAY_FUNCTOR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.ARRAY_VAR_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.BOOL_SORT_NAME
@@ -46,7 +51,6 @@ import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatur
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.I1_VAR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.I2_VAR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.INT_SORT_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.INT_VAR_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.INT_VAR_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.LESS_THAN_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.N1_VAR_NAME
@@ -77,36 +81,26 @@ import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatur
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.neg
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.neq
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.suc
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.minus
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.plus
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.PLUS_FUNCTOR
+import ch.unige.cui.smv.stratagem.ts.Choice
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.Identity
 import ch.unige.cui.smv.stratagem.ts.IfThenElse
 import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
+import ch.unige.cui.smv.stratagem.ts.Not
 import ch.unige.cui.smv.stratagem.ts.One
 import ch.unige.cui.smv.stratagem.ts.Sequence
-import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.ts.Strategy
 import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.Not
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.beem.expressions.VoidExpression
-import ch.unige.cui.smv.stratagem.beem.expressions.VoidExpression
-import ch.unige.cui.smv.stratagem.beem.expressions.Noop
-import ch.unige.cui.smv.stratagem.beem.expressions.VoidExpression
-import ch.unige.cui.smv.stratagem.beem.expressions.Assign
-import ch.unige.cui.smv.stratagem.beem.expressions.LeftExpression
+import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 
 /**
  * Translates a Beem model to a transition system.
@@ -197,21 +191,56 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
     implicit def proc2String(p: DivineProcess) = p.name
     val (transitionSystemWithStateChange, stratStateChange) = createTransitionSystemForStateChange(proc, transition, initialTS)
     val (transitionSystemWithGuard, stratGuard) = createTransitionSystemForBinExp(proc, transition.guard, transitionSystemWithStateChange)
-    transitionSystemWithGuard.declareStrategy(proc + s"_Transtion_$transitionNumber") {
-      Sequence(stratStateChange, stratGuard)
+    val (transitionSystemWithAssignment, stratAssignment) = createTransitionSystemForVoidExpressions(proc, transitionSystemWithGuard, transition.effects.toList)
+    transitionSystemWithAssignment.declareStrategy(proc + s"_Transtion_$transitionNumber") {
+      Sequence(Sequence(stratStateChange, stratGuard), stratAssignment)
     }(true)
   }
-  
-  def createTransitionSystemForVoidExpr(proc: DivineProcess, exp: VoidExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) =  exp match {
-    case Noop => (initialTS, Identity)   
-    case Assign(leftExpr, rightExp) => 
+
+  def createTransitionSystemForVoidExpressions(proc: DivineProcess, initialTS: TransitionSystem, expressions: List[VoidExpression]): (TransitionSystem, NonVariableStrategy) = expressions match {
+    case Nil => (initialTS, Identity)
+    case exp :: tail =>
+      val (ts, strat) = createTransitionSystemForVoidExpr(proc, exp, initialTS)
+      val (resultTS, tailStrat) = createTransitionSystemForVoidExpressions(proc, ts, tail)
+      (resultTS, Sequence(strat, tailStrat))
+  }
+
+  def createTransitionSystemForVoidExpr(proc: DivineProcess, exp: VoidExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = exp match {
+    case Noop => (initialTS, Identity)
+    case Assign(leftExpr, rightExp) =>
       val (readRightExpTS, readRightExpStrat) = createReadIntExpressionStrategy(proc, rightExp, initialTS)
-      val (assignTopOfStackTS, assignTopOfStackStrat) = createTransitionSystemForLeftExpression(proc, leftExpr, initialTS) // we need a strategy to put the head of the stack in a global variable
+      val (assignTopOfStackTS, assignTopOfStackStrat) = createTransitionSystemForLeftExpression(proc, leftExpr, readRightExpTS) // we need a strategy to put the head of the stack in a global variable
       (assignTopOfStackTS, Sequence(readRightExpStrat, assignTopOfStackStrat))
   }
-  
-  def createTransitionSystemForLeftExpression(proc: DivineProcess, exp: LeftExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) =  exp match {
-    case Var(name) => null// TODO
+
+  def createTransitionSystemForLeftExpression(proc: DivineProcess, exp: LeftExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = {
+    implicit val a = initialTS.adt
+    exp match {
+      case Var(name) =>
+        if (proc.container.get.globalVariables.contains(name)) { // global variable
+          val insertStrategyName = "insert_" + name
+          var currentTS = ifNotContained(insertStrategyName, initialTS) {
+            initialTS.declareStrategy(insertStrategyName,
+              a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I1_VAR_NAME, a.term(INT_VAR_FUNCTOR, name, I2_VAR_NAME, S1_VAR_NAME))
+                -> a.term(INT_VAR_FUNCTOR, name, I1_VAR_NAME, S1_VAR_NAME))(false)
+          }
+          val downSwapStratName = "downSwap"
+          currentTS = ifNotContained(downSwapStratName, currentTS) {
+            currentTS.declareStrategy(downSwapStratName,
+              a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I1_VAR_NAME, a.term(INT_VAR_FUNCTOR, name, I2_VAR_NAME, S1_VAR_NAME))
+                -> a.term(INT_VAR_FUNCTOR, name, I2_VAR_NAME, a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I1_VAR_NAME, S1_VAR_NAME)))(false)
+          }
+          val writeStrat = "writeVar_" + name
+          currentTS = ifNotContained(writeStrat, currentTS) {
+            currentTS.declareStrategy(writeStrat) {
+              DeclaredStrategyInstance("downAndThen",
+                DeclaredStrategyInstance(downSwapStratName), DeclaredStrategyInstance(insertStrategyName))
+            }(false)
+          }
+          (currentTS, DeclaredStrategyInstance(writeStrat))
+        } else // local variables
+          null // TODO   
+    }
   }
 
   def createTransitionSystemForBinExp(proc: DivineProcess, exp: BooleanExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = {
@@ -241,6 +270,7 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
             S1_VAR_NAME -> a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, n, S1_VAR_NAME))(false)
         }
         (resultTS, DeclaredStrategyInstance(createConstantOnTopOfStack))
+      case Plus(n1, n2) => createEvalStrategyForBinaryIntOperation(proc, initialTS, n1, n2, PLUS_FUNCTOR)(createStrategiesForPlus)
       case Var(name) => // two cases: global and local variables
         if (proc.container.get.globalVariables.contains(name)) { // global variable
           var currentTS = ifNotContained(checkForVarStrategyName(name), initialTS) {
@@ -374,6 +404,13 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
             DeclaredStrategyInstance("up", DeclaredStrategyInstance(swapRuleName)),
             DeclaredStrategyInstance(endUpRuleName)))
       }(false)
+      .declareStrategy("downAndThen", V1, V2) {
+        Choice(V2, Sequence(V1,
+          One(DeclaredStrategyInstance("downAndThen", V1, V2), 3)))
+      }(false)
+      .declareStrategy("bottomUp", V1) {
+        Choice(One(DeclaredStrategyInstance("bottomUp", V1)), V1)
+      }(false)
 
     createTransitionSystemForProcesses(model.processes, basicTransitionSystem)(a)
   }
@@ -419,6 +456,50 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
           One(FixPointStrategy(Try(fuctorEvaluationStrat)), 1)), // we rewrite the inner test
           SimpleStrategy((a.term(TEST_FUNCTOR, TRUE_CONSTANT_NAME, S1_VAR_NAME) -> S1_VAR_NAME) :: Nil) // we keep the tests that were true
           )
+      }(false)
+    }
+    (currenTS, DeclaredStrategyInstance(evalFunctor))
+  }
+
+  private def createEvalStrategyForBinaryIntOperation(
+    proc: DivineProcess,
+    initialTS: TransitionSystem,
+    n1: IntegerExpression,
+    n2: IntegerExpression,
+    opFunctor: String)(specificFunction: (String, TransitionSystem, String) => (TransitionSystem, NonVariableStrategy)): (TransitionSystem, NonVariableStrategy) = {
+    implicit val a = initialTS.adt
+
+    implicit def proc2String(p: DivineProcess) = p.name
+
+    val (readFirstIntTS, readFirstIntStrategy) = createReadIntExpressionStrategy(proc, n1, initialTS)
+    val (readSecondtIntTS, readSecondIntStrategy) = createReadIntExpressionStrategy(proc, n2, readFirstIntTS)
+    val readIntegersStrategyName = proc + readFirstIntStrategy + "_" + readSecondIntStrategy
+
+    var currenTS = ifNotContained(readIntegersStrategyName, readSecondtIntTS) {
+      readSecondtIntTS.declareStrategy(readIntegersStrategyName) {
+        Sequence(readSecondIntStrategy, readFirstIntStrategy) // since we have a stack, that will get them in the correct order
+      }(false)
+    }
+
+    val stackToEvalFunctor = "stackTo" + opFunctor
+    currenTS = ifNotContained(stackToEvalFunctor, currenTS) {
+      // we transform the top of the stack to a test.
+      currenTS.declareStrategy(stackToEvalFunctor,
+        // intVar(topStack, $i1, intVar(stackElt, $i2, $s1)) -> test(lt($i1, $i2), $s1)
+        a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I1_VAR_NAME, a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I2_VAR_NAME, S1_VAR_NAME)) ->
+          a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, a.term(opFunctor, I1_VAR_NAME, I2_VAR_NAME), S1_VAR_NAME))(false)
+    }
+
+    val (functorEvaluationTS, fuctorEvaluationStrat) = specificFunction(proc, currenTS, opFunctor)
+
+    val evalFunctor = "eval" + opFunctor
+    currenTS = ifNotContained(evalFunctor, functorEvaluationTS) {
+      // we transform the top of the stack to a test.
+      functorEvaluationTS.declareStrategy(evalFunctor) {
+        Sequence(Sequence(
+          DeclaredStrategyInstance(readIntegersStrategyName), // we read the integers
+          DeclaredStrategyInstance(stackToEvalFunctor)), // we pop them from the stack and obtain a test
+          One(FixPointStrategy(Try(fuctorEvaluationStrat)), 2)) // we rewrite the inner test
       }(false)
     }
     (currenTS, DeclaredStrategyInstance(evalFunctor))
@@ -479,4 +560,30 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
 
     (currenTS, DeclaredStrategyInstance(lessThanStrategyName))
   }
+
+  private def createStrategiesForPlus(procName: String, initialTS: TransitionSystem, testFunctor: String): (TransitionSystem, NonVariableStrategy) = {
+    implicit val a = initialTS.adt
+    val plusStrategyInstance = testFunctor + "Strat"
+    var currenTS = ifNotContained(plusStrategyInstance, initialTS) {
+      // we transform the top of the stack to a test.
+      initialTS.declareStrategy(plusStrategyInstance, List(
+        plus(I1_VAR_NAME, 0) -> I1_VAR_NAME,
+        plus(0, I1_VAR_NAME) -> I1_VAR_NAME,
+        neg(neg(I1_VAR_NAME)) -> I1_VAR_NAME,
+        neg(0) -> 0,
+        plus(suc(NZ1_VAR_NAME), suc(NZ2_VAR_NAME)) -> plus(suc(suc(NZ1_VAR_NAME)), NZ2_VAR_NAME),
+        plus(neg(NZ1_VAR_NAME), neg(NZ2_VAR_NAME)) -> neg(plus(NZ1_VAR_NAME, NZ2_VAR_NAME)),
+        plus(neg(NZ1_VAR_NAME), suc(NZ2_VAR_NAME)) -> minus(suc(NZ2_VAR_NAME), NZ1_VAR_NAME),
+        plus(suc(NZ1_VAR_NAME), neg(NZ2_VAR_NAME)) -> minus(suc(NZ1_VAR_NAME), NZ1_VAR_NAME),
+        minus(I1_VAR_NAME, 0) -> I1_VAR_NAME,
+        minus(0, suc(NZ1_VAR_NAME)) -> neg(suc(NZ1_VAR_NAME)),
+        minus(suc(NZ1_VAR_NAME), suc(NZ2_VAR_NAME)) -> minus(NZ1_VAR_NAME, NZ2_VAR_NAME),
+        minus(neg(NZ1_VAR_NAME), neg(NZ2_VAR_NAME)) -> neg(plus(NZ1_VAR_NAME, NZ2_VAR_NAME)),
+        minus(neg(NZ1_VAR_NAME), suc(NZ2_VAR_NAME)) -> minus(suc(NZ2_VAR_NAME), NZ1_VAR_NAME),
+        minus(I1_VAR_NAME, neg(NZ2_VAR_NAME)) -> plus(I1_VAR_NAME, NZ2_VAR_NAME)))(false)
+    }
+
+    (currenTS, (DeclaredStrategyInstance("bottomUp", DeclaredStrategyInstance(plusStrategyInstance))))
+  }
+
 }

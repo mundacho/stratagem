@@ -277,4 +277,57 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
     assert(result.size == 4)
   }
 
+  val simpleModelBEEM8 = new DivineModel()
+    .declareIntVariable('i, 0)
+    .declareProc {
+      new DivineProcess("P_0", Set('off), 'off)
+        .declareTransition('off -> 'off, True, Assign('i, 1))
+    }.declareProc {
+      new DivineProcess("P_1", Set('off), 'off)
+        .declareTransition('off -> 'off, True, Assign('i, 2))
+    }
+    .declareProc {
+      new DivineProcess("P_2", Set('off), 'off)
+        .declareTransition('off -> 'off, True, Assign('i, 3))
+    }
+
+  "SimpleModel8" should "have 4 different states" in {
+    val ts = BEEMModel2TransitionSystem(simpleModelBEEM8)
+    println(ts)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    val result = rewriter(initialState).get
+    println(result.size)
+    println(result)
+    assert(result.size == 4)
+  }
+
+  val simpleModelBEEM9 = new DivineModel()
+    .declareIntVariable('i, -1)
+    .declareProc {
+      new DivineProcess("P_0", Set('off), 'off)
+        .declareTransition('off -> 'off, LessThan('i, 9), Assign('i, Plus('i, 1)))
+    }.declareProc {
+      new DivineProcess("P_1", Set('off), 'off)
+        .declareTransition('off -> 'off, True, Noop)
+    }
+    .declareProc {
+      new DivineProcess("P_2", Set('off), 'off)
+        .declareTransition('off -> 'off, True, Noop)
+    }
+
+  "SimpleModel9" should "have 11 different states" in {
+    val ts = BEEMModel2TransitionSystem(simpleModelBEEM9)
+    println(ts)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    val result = rewriter(initialState).get
+    println(result.size)
+    println(result)
+    assert(result.size == 11)
+  }
+  
+  
+  
+
 }

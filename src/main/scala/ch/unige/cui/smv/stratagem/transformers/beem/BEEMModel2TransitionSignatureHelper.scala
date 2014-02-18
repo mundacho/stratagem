@@ -38,6 +38,8 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   def suc(n: ATerm)(implicit a: ADT) = a.term(SUC_FUNCTOR_NAME, n)
   def doubleVar(n1: ATerm, n2: ATerm, n3: ATerm)(implicit a: ADT) = a.term(DOUBLE_VAR_FUNCTOR, n1, n2, n3)
   def doubleVarNeg(n1: ATerm, n2: ATerm, n3: ATerm)(implicit a: ADT) = a.term(DOUBLE_VAR_NEG_FUNCTOR, n1, n2, n3)
+  def plus(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(PLUS_FUNCTOR, n1, n2)
+  def minus(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(MINUS_FUNCTOR, n1, n2)
 
   /**
    * Main function for the creation of the signature specific signature of the model.
@@ -110,6 +112,8 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   val TEST_FUNCTOR = "_test"
   val DOUBLE_VAR_FUNCTOR = "doubleVar"
   val DOUBLE_VAR_NEG_FUNCTOR = "doubleVarNeg"
+  val PLUS_FUNCTOR = "+"
+  val MINUS_FUNCTOR = "minus"
 
   val S1_VAR_NAME = "s1" // represents a state
   val I1_VAR_NAME = "i1" // represents an integer
@@ -142,7 +146,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
     .withGenerator(ZERO_CONSTANT_NAME, ZERO_SORT_NAME)
     .withGenerator(SUC_FUNCTOR_NAME, NZNAT_SORT_NAME, NAT_SORT_NAME)
     // Int
-    .withGenerator(NEG_FUNCTOR_NAME, INT_SORT_NAME, NZNAT_SORT_NAME)
+    .withGenerator(NEG_FUNCTOR_NAME, INT_SORT_NAME, INT_SORT_NAME)
     // state
     .withGenerator(EMPTY_STATE_CONSTANT, STATECOMP_SORT_NAME)
     // operations
@@ -152,6 +156,8 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
     .withOperation(TEST_FUNCTOR, STATECOMP_SORT_NAME, BOOL_SORT_NAME, STATECOMP_SORT_NAME)
     .withOperation(DOUBLE_VAR_FUNCTOR, INT_SORT_NAME, INT_SORT_NAME, INT_SORT_NAME, INT_SORT_NAME)
     .withOperation(DOUBLE_VAR_NEG_FUNCTOR, INT_SORT_NAME, INT_SORT_NAME, INT_SORT_NAME, INT_SORT_NAME)
+    .withOperation(PLUS_FUNCTOR, INT_SORT_NAME, INT_SORT_NAME, INT_SORT_NAME)
+    .withOperation(MINUS_FUNCTOR, INT_SORT_NAME, INT_SORT_NAME, INT_SORT_NAME)
     // var functors
     .withGenerator(INT_VAR_FUNCTOR, STATECOMP_SORT_NAME, VARIABLE_NAME_SORT_NAME, INT_SORT_NAME, STATECOMP_SORT_NAME)
     .withGenerator(ARRAY_VAR_FUNCTOR, STATECOMP_SORT_NAME, VARIABLE_NAME_SORT_NAME, ARRAY_SORT_NAME, STATECOMP_SORT_NAME)
