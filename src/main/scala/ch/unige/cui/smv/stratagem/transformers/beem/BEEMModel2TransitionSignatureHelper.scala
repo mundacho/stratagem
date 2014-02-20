@@ -114,6 +114,8 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   val DOUBLE_VAR_NEG_FUNCTOR = "doubleVarNeg"
   val PLUS_FUNCTOR = "+"
   val MINUS_FUNCTOR = "minus"
+  val GET_ARR_FUNCTOR = "getArr"
+  val READ_VAL_ARR_FUNCTOR = "readVal"
 
   val S1_VAR_NAME = "s1" // represents a state
   val I1_VAR_NAME = "i1" // represents an integer
@@ -124,6 +126,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   val NZ2_VAR_NAME = "nz2" // represents a nznat
   val NZ3_VAR_NAME = "nz3" // represents a nznat
   val V1_VAR_NAME = "v1" // represents a variable name
+  val A1_VAR_NAME = "a1" // represents an array
 
   /**
    * The basic signature. It will be enriched with the variable names and operations specific for the model.
@@ -158,6 +161,8 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
     .withOperation(DOUBLE_VAR_NEG_FUNCTOR, INT_SORT_NAME, INT_SORT_NAME, INT_SORT_NAME, INT_SORT_NAME)
     .withOperation(PLUS_FUNCTOR, INT_SORT_NAME, INT_SORT_NAME, INT_SORT_NAME)
     .withOperation(MINUS_FUNCTOR, INT_SORT_NAME, INT_SORT_NAME, INT_SORT_NAME)
+    .withOperation(GET_ARR_FUNCTOR, ARRAY_SORT_NAME, INT_SORT_NAME, ARRAY_SORT_NAME) // this is before reading
+    .withOperation(READ_VAL_ARR_FUNCTOR, ARRAY_SORT_NAME, INT_SORT_NAME, ARRAY_SORT_NAME) // this is after reading
     // var functors
     .withGenerator(INT_VAR_FUNCTOR, STATECOMP_SORT_NAME, VARIABLE_NAME_SORT_NAME, INT_SORT_NAME, STATECOMP_SORT_NAME)
     .withGenerator(ARRAY_VAR_FUNCTOR, STATECOMP_SORT_NAME, VARIABLE_NAME_SORT_NAME, ARRAY_SORT_NAME, STATECOMP_SORT_NAME)

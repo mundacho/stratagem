@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.transformers.beem
 
 import scala.language.implicitConversions
+
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.beem.DivineArrayVariable
@@ -26,37 +27,22 @@ import ch.unige.cui.smv.stratagem.beem.DivineModel
 import ch.unige.cui.smv.stratagem.beem.DivineProcess
 import ch.unige.cui.smv.stratagem.beem.DivineTransition
 import ch.unige.cui.smv.stratagem.beem.DivineVariable
-import ch.unige.cui.smv.stratagem.beem.expressions.And
-import ch.unige.cui.smv.stratagem.beem.expressions.Assign
-import ch.unige.cui.smv.stratagem.beem.expressions.BooleanExpression
-import ch.unige.cui.smv.stratagem.beem.expressions.IntegerExpression
-import ch.unige.cui.smv.stratagem.beem.expressions.IsDifferent
-import ch.unige.cui.smv.stratagem.beem.expressions.IsEqual
-import ch.unige.cui.smv.stratagem.beem.expressions.LeftExpression
-import ch.unige.cui.smv.stratagem.beem.expressions.LessThan
-import ch.unige.cui.smv.stratagem.beem.expressions.Noop
-import ch.unige.cui.smv.stratagem.beem.expressions.Or
-import ch.unige.cui.smv.stratagem.beem.expressions.Plus
-import ch.unige.cui.smv.stratagem.beem.expressions.True
-import ch.unige.cui.smv.stratagem.beem.expressions.Value
-import ch.unige.cui.smv.stratagem.beem.expressions.Var
-import ch.unige.cui.smv.stratagem.beem.expressions.VoidExpression
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionExpressionHelper.createTransitionSystemForBinExp
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionExpressionHelper.createTransitionSystemForVoidExpressions
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.A1_VAR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.ARRAY_FUNCTOR_NAME
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.ARRAY_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.ARRAY_VAR_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.BOOL_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.EMPTY_ARRAY_CONSTANT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.EMPTY_STATE_CONSTANT
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.EQ_FUNCTOR
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.FALSE_CONSTANT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.I1_VAR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.I2_VAR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.INT_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.INT_VAR_FUNCTOR
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.LESS_THAN_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.N1_VAR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.N2_VAR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.NAT_SORT_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.NEQ_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.NZ1_VAR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.NZ2_VAR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.NZ3_VAR_NAME
@@ -67,40 +53,22 @@ import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatur
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.STATECOMP_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.STATE_VAR_FUNCTOR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.SUC_FUNCTOR_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.TEST_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.TOP_STACK_VARIABLE_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.TRUE_CONSTANT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.V1_VAR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.VARIABLE_NAME_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.ZERO_CONSTANT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.basicSignature
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.doubleVar
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.doubleVarNeg
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.lt
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.myEq
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.neg
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.neq
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.suc
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.minus
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.plus
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.PLUS_FUNCTOR
 import ch.unige.cui.smv.stratagem.ts.Choice
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
-import ch.unige.cui.smv.stratagem.ts.Identity
 import ch.unige.cui.smv.stratagem.ts.IfThenElse
 import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
 import ch.unige.cui.smv.stratagem.ts.Not
 import ch.unige.cui.smv.stratagem.ts.One
 import ch.unige.cui.smv.stratagem.ts.Sequence
-import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.ts.Strategy
 import ch.unige.cui.smv.stratagem.ts.TransitionSystem
-import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 
 /**
  * Translates a Beem model to a transition system.
@@ -109,7 +77,30 @@ import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
  */
 object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
 
+  // Auxiliary functions
+  def findProcStrategyName(procName: String) = "findProc_" + procName
+  def checkForProcStrategyName(procName: String) = "checkForProc_" + procName
+  def findVarStrategyName(varName: String) = "findVar_" + varName
+  def checkForVarStrategyName(varName: String) = "checkForVar_" + varName
+  def checkForArrStrategyName(varName: String) = "checkForArr_" + varName
+  def findArrStrategyName(varName: String) = "findArr_" + varName
+
+  /**
+   * Transforms a string into its equivalent term for the implicit adt. 
+   * @note Pre-condition: The string is a constant's name in the adt.
+   * @param name the name of a constant in the adt.
+   * @param adt the adt where the constant is define.
+   * @return a term of the adt.
+   */  
   implicit def string2VariableTerm(name: String)(implicit adt: ADT) = adt.term(name)
+  
+  /**
+   * Transforms a number into its corresponding term.
+   * @note Pre-condition: The adt contains a definition of terms.
+   * @param n The integer to be converted.
+   * @param adt the adt to which the newly created term will belong. 
+   * @return a term of the adt
+   */
   implicit def int2ATerm(n: Int)(implicit adt: ADT): ATerm = n match {
     case 0 => adt.term(ZERO_CONSTANT_NAME)
     case _ => if (n > 0) adt.term(SUC_FUNCTOR_NAME, int2ATerm(n - 1)) else adt.term("-", int2ATerm(-n))
@@ -143,16 +134,11 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
     createVariables(model.globalVariables.map(_._2).toList, createProcessesState(model.processes.sortBy(_.name)))
   }
 
-  def findProcStrategyName(procName: String) = "findProc_" + procName
-  def checkForProcStrategyName(procName: String) = "checkForProc_" + procName
-  def findVarStrategyName(varName: String) = "findVar_" + varName
-  def checkForVarStrategyName(varName: String) = "checkForVar_" + varName
-
   def RewriteSetWith(s: Strategy) = DeclaredStrategyInstance("rewriteSetWith", s)
   val V1 = VariableStrategy("V1")
   val V2 = VariableStrategy("V2")
 
-  private def ifNotContained(name: String, initialTS: TransitionSystem)(ts: => TransitionSystem) =
+  private[beem] def ifNotContained(name: String, initialTS: TransitionSystem)(ts: => TransitionSystem) =
     if (initialTS.strategyDeclarations.isDefinedAt(name)) initialTS else ts
 
   def createTransitionSystemForProcesses(processes: List[DivineProcess], initialTS: TransitionSystem)(implicit a: ADT): TransitionSystem = processes match {
@@ -197,144 +183,6 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
     }(true)
   }
 
-  def createTransitionSystemForVoidExpressions(proc: DivineProcess, initialTS: TransitionSystem, expressions: List[VoidExpression]): (TransitionSystem, NonVariableStrategy) = expressions match {
-    case Nil => (initialTS, Identity)
-    case exp :: tail =>
-      val (ts, strat) = createTransitionSystemForVoidExpr(proc, exp, initialTS)
-      val (resultTS, tailStrat) = createTransitionSystemForVoidExpressions(proc, ts, tail)
-      (resultTS, Sequence(strat, tailStrat))
-  }
-
-  def createTransitionSystemForVoidExpr(proc: DivineProcess, exp: VoidExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = exp match {
-    case Noop => (initialTS, Identity)
-    case Assign(leftExpr, rightExp) =>
-      val (readRightExpTS, readRightExpStrat) = createReadIntExpressionStrategy(proc, rightExp, initialTS)
-      val (assignTopOfStackTS, assignTopOfStackStrat) = createTransitionSystemForLeftExpression(proc, leftExpr, readRightExpTS) // we need a strategy to put the head of the stack in a global variable
-      (assignTopOfStackTS, Sequence(readRightExpStrat, assignTopOfStackStrat))
-  }
-
-  def createTransitionSystemForLeftExpression(proc: DivineProcess, exp: LeftExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = {
-    implicit val a = initialTS.adt
-    exp match {
-      case Var(name) =>
-        if (proc.container.get.globalVariables.contains(name)) { // global variable
-          val insertStrategyName = "insert_" + name
-          var currentTS = ifNotContained(insertStrategyName, initialTS) {
-            initialTS.declareStrategy(insertStrategyName,
-              a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I1_VAR_NAME, a.term(INT_VAR_FUNCTOR, name, I2_VAR_NAME, S1_VAR_NAME))
-                -> a.term(INT_VAR_FUNCTOR, name, I1_VAR_NAME, S1_VAR_NAME))(false)
-          }
-          val downSwapStratName = "downSwap"
-          currentTS = ifNotContained(downSwapStratName, currentTS) {
-            currentTS.declareStrategy(downSwapStratName,
-              a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I1_VAR_NAME, a.term(INT_VAR_FUNCTOR, name, I2_VAR_NAME, S1_VAR_NAME))
-                -> a.term(INT_VAR_FUNCTOR, name, I2_VAR_NAME, a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I1_VAR_NAME, S1_VAR_NAME)))(false)
-          }
-          val writeStrat = "writeVar_" + name
-          currentTS = ifNotContained(writeStrat, currentTS) {
-            currentTS.declareStrategy(writeStrat) {
-              DeclaredStrategyInstance("downAndThen",
-                DeclaredStrategyInstance(downSwapStratName), DeclaredStrategyInstance(insertStrategyName))
-            }(false)
-          }
-          (currentTS, DeclaredStrategyInstance(writeStrat))
-        } else // local variables
-          null // TODO   
-    }
-  }
-
-  def createTransitionSystemForBinExp(proc: DivineProcess, exp: BooleanExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = {
-    exp match {
-      case True => (initialTS, Identity)
-      case And(b1, b2) =>
-        val (resultingTStemp, stra1) = createTransitionSystemForBinExp(proc, b1, initialTS)
-        val (resultingTS, strat2) = createTransitionSystemForBinExp(proc, b2, resultingTStemp)
-        (resultingTS, Sequence(stra1, strat2))
-      case Or(b1, b2) =>
-        val (resultingTStemp, stra1) = createTransitionSystemForBinExp(proc, b1, initialTS)
-        val (resultingTS, strat2) = createTransitionSystemForBinExp(proc, b2, resultingTStemp)
-        (resultingTS, Union(stra1, strat2))
-      case LessThan(n1, n2) => createStrategyForBinaryIntOperation(proc, initialTS, n1, n2, LESS_THAN_FUNCTOR)(createStrategiesForLessThan)
-      case IsEqual(n1, n2) => createStrategyForBinaryIntOperation(proc, initialTS, n1, n2, EQ_FUNCTOR)(createStrategiesForIsEqual)
-      case IsDifferent(n1, n2) => createStrategyForBinaryIntOperation(proc, initialTS, n1, n2, NEQ_FUNCTOR)(createStrategiesForNotEqual)
-    }
-  }
-
-  def createReadIntExpressionStrategy(proc: DivineProcess, exp: IntegerExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = {
-    implicit val a = initialTS.adt
-    exp match {
-      case Value(n) =>
-        val createConstantOnTopOfStack = "createConstantOnTopOfStack_" + n
-        val resultTS = ifNotContained(createConstantOnTopOfStack, initialTS) {
-          initialTS.declareStrategy(createConstantOnTopOfStack,
-            S1_VAR_NAME -> a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, n, S1_VAR_NAME))(false)
-        }
-        (resultTS, DeclaredStrategyInstance(createConstantOnTopOfStack))
-      case Plus(n1, n2) => createEvalStrategyForBinaryIntOperation(proc, initialTS, n1, n2, PLUS_FUNCTOR)(createStrategiesForPlus)
-      case Var(name) => // two cases: global and local variables
-        if (proc.container.get.globalVariables.contains(name)) { // global variable
-          var currentTS = ifNotContained(checkForVarStrategyName(name), initialTS) {
-            initialTS.declareStrategy(checkForVarStrategyName(name),
-              a.term(INT_VAR_FUNCTOR, name, I1_VAR_NAME, S1_VAR_NAME) -> a.term(INT_VAR_FUNCTOR, name, I1_VAR_NAME, S1_VAR_NAME))(false)
-          }
-          // strategy to find a variable
-          currentTS = ifNotContained(findVarStrategyName(name), initialTS) {
-            currentTS.declareStrategy(findVarStrategyName(name), V1) {
-              IfThenElse(DeclaredStrategyInstance(checkForVarStrategyName(name)),
-                V1,
-                One(DeclaredStrategyInstance(findVarStrategyName(name), V1), 3))
-            }(false)
-
-          }
-          // strategy to duplicate the value of any int variable
-          val doubleVarStrategyName = "doubleVar"
-          currentTS = ifNotContained(doubleVarStrategyName, currentTS) {
-            currentTS
-              .declareStrategy(doubleVarStrategyName, List(
-                suc(N1_VAR_NAME) -> doubleVar(0, 0, suc(N1_VAR_NAME)),
-                0 -> doubleVar(0, 0, 0),
-                neg(NZ1_VAR_NAME) -> doubleVar(0, 0, neg(NZ1_VAR_NAME))))(false)
-
-          }
-          val duplicateVarStrategyName = "duplicateVar"
-          currentTS = ifNotContained(duplicateVarStrategyName, currentTS) {
-            currentTS
-              .declareStrategy(duplicateVarStrategyName, List(
-                doubleVar(NZ1_VAR_NAME, NZ2_VAR_NAME, suc(NZ3_VAR_NAME)) -> doubleVar(suc(NZ1_VAR_NAME), suc(NZ2_VAR_NAME), NZ3_VAR_NAME),
-                doubleVar(NZ1_VAR_NAME, NZ2_VAR_NAME, neg(NZ3_VAR_NAME)) -> doubleVarNeg(NZ1_VAR_NAME, NZ2_VAR_NAME, NZ3_VAR_NAME),
-                doubleVarNeg(NZ1_VAR_NAME, NZ2_VAR_NAME, suc(NZ3_VAR_NAME)) -> doubleVarNeg(suc(NZ1_VAR_NAME), suc(NZ2_VAR_NAME), NZ3_VAR_NAME),
-                doubleVarNeg(NZ1_VAR_NAME, NZ2_VAR_NAME, 0) -> doubleVar(neg(NZ1_VAR_NAME), neg(NZ2_VAR_NAME), 0)))(false)
-          }
-
-          val extractValueStratName = "extractVar_" + name
-          currentTS = ifNotContained(extractValueStratName, currentTS) {
-            currentTS
-              .declareStrategy(extractValueStratName, List(
-                a.term(INT_VAR_FUNCTOR, V1_VAR_NAME, doubleVar(I1_VAR_NAME, I2_VAR_NAME, 0), S1_VAR_NAME) ->
-                  a.term(INT_VAR_FUNCTOR, TOP_STACK_VARIABLE_NAME, I1_VAR_NAME, a.term(INT_VAR_FUNCTOR, name, I2_VAR_NAME, S1_VAR_NAME))) // extract copy
-                  )(false)
-          }
-
-          val copyVarStratName = "copyVar_" + name
-          currentTS = ifNotContained(copyVarStratName, currentTS) {
-            currentTS
-              .declareStrategy(copyVarStratName) {
-                Sequence(
-                  One(Sequence(
-                    DeclaredStrategyInstance(doubleVarStrategyName),
-                    FixPointStrategy(RewriteSetWith(DeclaredStrategyInstance(duplicateVarStrategyName)))), 2),
-                  DeclaredStrategyInstance(extractValueStratName))
-              }(false)
-          }
-
-          (currentTS,
-            Sequence(
-              DeclaredStrategyInstance(findVarStrategyName(name), DeclaredStrategyInstance(copyVarStratName)),
-              DeclaredStrategyInstance("upVariable")))
-        } else
-          (null, null) // TODO local variable
-    } // TODO arrays
-  }
   //  def createTransitionSystemForIntExp(procName: String, exp: IntegerExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = exp match {
   //    case Var(name) => 
   //  }
@@ -385,6 +233,7 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
       .declareVariable(NZ1_VAR_NAME, NZNAT_SORT_NAME)
       .declareVariable(NZ2_VAR_NAME, NZNAT_SORT_NAME)
       .declareVariable(NZ3_VAR_NAME, NZNAT_SORT_NAME)
+      .declareVariable(A1_VAR_NAME, ARRAY_SORT_NAME)
     val swapRuleName = "swap"
     val endUpRuleName = "endUp"
 
@@ -396,8 +245,11 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
       }(false) // applies its strategy bottom up in the state vector     
       .declareStrategy(endUpRuleName, a.term(INT_VAR_FUNCTOR, TOP_STACK_VARIABLE_NAME, I1_VAR_NAME, S1_VAR_NAME)
         -> a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I1_VAR_NAME, S1_VAR_NAME))(false)
-      .declareStrategy(swapRuleName, a.term(INT_VAR_FUNCTOR, V1_VAR_NAME, I1_VAR_NAME, a.term(INT_VAR_FUNCTOR, TOP_STACK_VARIABLE_NAME, I2_VAR_NAME, S1_VAR_NAME))
-        -> a.term(INT_VAR_FUNCTOR, TOP_STACK_VARIABLE_NAME, I2_VAR_NAME, a.term(INT_VAR_FUNCTOR, V1_VAR_NAME, I1_VAR_NAME, S1_VAR_NAME)))(false)
+      .declareStrategy(swapRuleName,
+        List(a.term(INT_VAR_FUNCTOR, V1_VAR_NAME, I1_VAR_NAME, a.term(INT_VAR_FUNCTOR, TOP_STACK_VARIABLE_NAME, I2_VAR_NAME, S1_VAR_NAME)) // we contemplate ints
+          -> a.term(INT_VAR_FUNCTOR, TOP_STACK_VARIABLE_NAME, I2_VAR_NAME, a.term(INT_VAR_FUNCTOR, V1_VAR_NAME, I1_VAR_NAME, S1_VAR_NAME)),
+          a.term(ARRAY_VAR_FUNCTOR, V1_VAR_NAME, A1_VAR_NAME, a.term(INT_VAR_FUNCTOR, TOP_STACK_VARIABLE_NAME, I2_VAR_NAME, S1_VAR_NAME)) // we contemplate array
+            -> a.term(INT_VAR_FUNCTOR, TOP_STACK_VARIABLE_NAME, I2_VAR_NAME, a.term(ARRAY_VAR_FUNCTOR, V1_VAR_NAME, A1_VAR_NAME, S1_VAR_NAME))))(false)
       .declareStrategy("upVariable") {
         Choice(DeclaredStrategyInstance(endUpRuleName),
           Sequence(
@@ -413,177 +265,6 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
       }(false)
 
     createTransitionSystemForProcesses(model.processes, basicTransitionSystem)(a)
-  }
-
-  private def createStrategyForBinaryIntOperation(
-    proc: DivineProcess,
-    initialTS: TransitionSystem,
-    n1: IntegerExpression,
-    n2: IntegerExpression,
-    testFunctor: String)(specificFunction: (String, TransitionSystem, String) => (TransitionSystem, NonVariableStrategy)): (TransitionSystem, NonVariableStrategy) = {
-    implicit val a = initialTS.adt
-
-    implicit def proc2String(p: DivineProcess) = p.name
-
-    val (readFirstIntTS, readFirstIntStrategy) = createReadIntExpressionStrategy(proc, n1, initialTS)
-    val (readSecondtIntTS, readSecondIntStrategy) = createReadIntExpressionStrategy(proc, n2, readFirstIntTS)
-    val readIntegersStrategyName = proc + readFirstIntStrategy + "_" + readSecondIntStrategy
-
-    var currenTS = ifNotContained(readIntegersStrategyName, readSecondtIntTS) {
-      readSecondtIntTS.declareStrategy(readIntegersStrategyName) {
-        Sequence(readSecondIntStrategy, readFirstIntStrategy) // since we have a stack, that will get them in the correct order
-      }(false)
-    }
-
-    val stackToTestFcuntorName = "stackTo" + testFunctor
-    currenTS = ifNotContained(stackToTestFcuntorName, currenTS) {
-      // we transform the top of the stack to a test.
-      currenTS.declareStrategy(stackToTestFcuntorName,
-        // intVar(topStack, $i1, intVar(stackElt, $i2, $s1)) -> test(lt($i1, $i2), $s1)
-        a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I1_VAR_NAME, a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I2_VAR_NAME, S1_VAR_NAME)) ->
-          a.term(TEST_FUNCTOR, a.term(testFunctor, I1_VAR_NAME, I2_VAR_NAME), S1_VAR_NAME))(false)
-    }
-
-    val (functorEvaluationTS, fuctorEvaluationStrat) = specificFunction(proc, currenTS, testFunctor)
-
-    val evalFunctor = "eval" + testFunctor
-    currenTS = ifNotContained(evalFunctor, functorEvaluationTS) {
-      // we transform the top of the stack to a test.
-      functorEvaluationTS.declareStrategy(evalFunctor) {
-        Sequence(Sequence(Sequence(
-          DeclaredStrategyInstance(readIntegersStrategyName), // we read the integers
-          DeclaredStrategyInstance(stackToTestFcuntorName)), // we pop them from the stack and obtain a test
-          One(FixPointStrategy(Try(fuctorEvaluationStrat)), 1)), // we rewrite the inner test
-          SimpleStrategy((a.term(TEST_FUNCTOR, TRUE_CONSTANT_NAME, S1_VAR_NAME) -> S1_VAR_NAME) :: Nil) // we keep the tests that were true
-          )
-      }(false)
-    }
-    (currenTS, DeclaredStrategyInstance(evalFunctor))
-  }
-
-  private def createEvalStrategyForBinaryIntOperation(
-    proc: DivineProcess,
-    initialTS: TransitionSystem,
-    n1: IntegerExpression,
-    n2: IntegerExpression,
-    opFunctor: String)(specificFunction: (String, TransitionSystem, String) => (TransitionSystem, NonVariableStrategy)): (TransitionSystem, NonVariableStrategy) = {
-    implicit val a = initialTS.adt
-
-    implicit def proc2String(p: DivineProcess) = p.name
-
-    val (readFirstIntTS, readFirstIntStrategy) = createReadIntExpressionStrategy(proc, n1, initialTS)
-    val (readSecondtIntTS, readSecondIntStrategy) = createReadIntExpressionStrategy(proc, n2, readFirstIntTS)
-    val readIntegersStrategyName = proc + readFirstIntStrategy + "_" + readSecondIntStrategy
-
-    var currenTS = ifNotContained(readIntegersStrategyName, readSecondtIntTS) {
-      readSecondtIntTS.declareStrategy(readIntegersStrategyName) {
-        Sequence(readSecondIntStrategy, readFirstIntStrategy) // since we have a stack, that will get them in the correct order
-      }(false)
-    }
-
-    val stackToEvalFunctor = "stackTo" + opFunctor
-    currenTS = ifNotContained(stackToEvalFunctor, currenTS) {
-      // we transform the top of the stack to a test.
-      currenTS.declareStrategy(stackToEvalFunctor,
-        // intVar(topStack, $i1, intVar(stackElt, $i2, $s1)) -> test(lt($i1, $i2), $s1)
-        a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I1_VAR_NAME, a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I2_VAR_NAME, S1_VAR_NAME)) ->
-          a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, a.term(opFunctor, I1_VAR_NAME, I2_VAR_NAME), S1_VAR_NAME))(false)
-    }
-
-    val (functorEvaluationTS, fuctorEvaluationStrat) = specificFunction(proc, currenTS, opFunctor)
-
-    val evalFunctor = "eval" + opFunctor
-    currenTS = ifNotContained(evalFunctor, functorEvaluationTS) {
-      // we transform the top of the stack to a test.
-      functorEvaluationTS.declareStrategy(evalFunctor) {
-        Sequence(Sequence(
-          DeclaredStrategyInstance(readIntegersStrategyName), // we read the integers
-          DeclaredStrategyInstance(stackToEvalFunctor)), // we pop them from the stack and obtain a test
-          One(FixPointStrategy(Try(fuctorEvaluationStrat)), 2)) // we rewrite the inner test
-      }(false)
-    }
-    (currenTS, DeclaredStrategyInstance(evalFunctor))
-  }
-
-  private def createStrategiesForIsEqual(procName: String, initialTS: TransitionSystem, testFunctor: String): (TransitionSystem, NonVariableStrategy) = {
-    implicit val a = initialTS.adt
-    val isEqualStrategyName = testFunctor + "Strat"
-    var currenTS = ifNotContained(isEqualStrategyName, initialTS) {
-      // we transform the top of the stack to a test.
-      initialTS.declareStrategy(isEqualStrategyName, List(
-        myEq(0, 0) -> TRUE_CONSTANT_NAME,
-        myEq(suc(N1_VAR_NAME), suc(N2_VAR_NAME)) -> myEq(N1_VAR_NAME, N2_VAR_NAME),
-        myEq(neg(N1_VAR_NAME), neg(N2_VAR_NAME)) -> myEq(N1_VAR_NAME, N2_VAR_NAME),
-        myEq(0, suc(N1_VAR_NAME)) -> FALSE_CONSTANT_NAME,
-        myEq(0, neg(N1_VAR_NAME)) -> FALSE_CONSTANT_NAME,
-        myEq(suc(N1_VAR_NAME), 0) -> FALSE_CONSTANT_NAME,
-        myEq(neg(N1_VAR_NAME), 0) -> FALSE_CONSTANT_NAME))(false)
-    }
-
-    (currenTS, DeclaredStrategyInstance(isEqualStrategyName))
-  }
-
-  private def createStrategiesForNotEqual(procName: String, initialTS: TransitionSystem, testFunctor: String): (TransitionSystem, NonVariableStrategy) = {
-    implicit val a = initialTS.adt
-    val notEqualStrategyName = testFunctor + "Strat"
-    var currenTS = ifNotContained(notEqualStrategyName, initialTS) {
-      // we transform the top of the stack to a test.
-      initialTS.declareStrategy(notEqualStrategyName, List(
-        neq(0, 0) -> FALSE_CONSTANT_NAME,
-        neq(suc(N1_VAR_NAME), suc(N2_VAR_NAME)) -> neq(N1_VAR_NAME, N2_VAR_NAME),
-        neq(neg(NZ1_VAR_NAME), neg(NZ2_VAR_NAME)) -> neq(NZ1_VAR_NAME, NZ2_VAR_NAME),
-        neq(0, suc(N1_VAR_NAME)) -> TRUE_CONSTANT_NAME,
-        neq(0, neg(NZ1_VAR_NAME)) -> TRUE_CONSTANT_NAME,
-        neq(suc(N1_VAR_NAME), 0) -> TRUE_CONSTANT_NAME,
-        neq(neg(NZ1_VAR_NAME), 0) -> TRUE_CONSTANT_NAME))(false)
-    }
-
-    (currenTS, DeclaredStrategyInstance(notEqualStrategyName))
-  }
-
-  private def createStrategiesForLessThan(procName: String, initialTS: TransitionSystem, testFunctor: String): (TransitionSystem, NonVariableStrategy) = {
-    implicit val a = initialTS.adt
-    val lessThanStrategyName = testFunctor + "Strat"
-    var currenTS = ifNotContained(lessThanStrategyName, initialTS) {
-      // we transform the top of the stack to a test.
-      initialTS.declareStrategy(lessThanStrategyName, List(
-        lt(0, 0) -> FALSE_CONSTANT_NAME,
-        lt(0, neg(NZ1_VAR_NAME)) -> FALSE_CONSTANT_NAME,
-        lt(suc(N1_VAR_NAME), 0) -> FALSE_CONSTANT_NAME,
-        lt(neg(NZ1_VAR_NAME), 0) -> TRUE_CONSTANT_NAME,
-        lt(0, suc(N1_VAR_NAME)) -> TRUE_CONSTANT_NAME,
-        lt(neg(NZ1_VAR_NAME), suc(N2_VAR_NAME)) -> TRUE_CONSTANT_NAME,
-        lt(suc(N1_VAR_NAME), suc(N2_VAR_NAME)) -> lt(N1_VAR_NAME, N2_VAR_NAME),
-        lt(neg(NZ1_VAR_NAME), neg(NZ2_VAR_NAME)) -> lt(NZ2_VAR_NAME, NZ1_VAR_NAME),
-        lt(suc(N1_VAR_NAME), neg(NZ1_VAR_NAME)) -> FALSE_CONSTANT_NAME))(false)
-    }
-
-    (currenTS, DeclaredStrategyInstance(lessThanStrategyName))
-  }
-
-  private def createStrategiesForPlus(procName: String, initialTS: TransitionSystem, testFunctor: String): (TransitionSystem, NonVariableStrategy) = {
-    implicit val a = initialTS.adt
-    val plusStrategyInstance = testFunctor + "Strat"
-    var currenTS = ifNotContained(plusStrategyInstance, initialTS) {
-      // we transform the top of the stack to a test.
-      initialTS.declareStrategy(plusStrategyInstance, List(
-        plus(I1_VAR_NAME, 0) -> I1_VAR_NAME,
-        plus(0, I1_VAR_NAME) -> I1_VAR_NAME,
-        neg(neg(I1_VAR_NAME)) -> I1_VAR_NAME,
-        neg(0) -> 0,
-        plus(suc(NZ1_VAR_NAME), suc(NZ2_VAR_NAME)) -> plus(suc(suc(NZ1_VAR_NAME)), NZ2_VAR_NAME),
-        plus(neg(NZ1_VAR_NAME), neg(NZ2_VAR_NAME)) -> neg(plus(NZ1_VAR_NAME, NZ2_VAR_NAME)),
-        plus(neg(NZ1_VAR_NAME), suc(NZ2_VAR_NAME)) -> minus(suc(NZ2_VAR_NAME), NZ1_VAR_NAME),
-        plus(suc(NZ1_VAR_NAME), neg(NZ2_VAR_NAME)) -> minus(suc(NZ1_VAR_NAME), NZ1_VAR_NAME),
-        minus(I1_VAR_NAME, 0) -> I1_VAR_NAME,
-        minus(0, suc(NZ1_VAR_NAME)) -> neg(suc(NZ1_VAR_NAME)),
-        minus(suc(NZ1_VAR_NAME), suc(NZ2_VAR_NAME)) -> minus(NZ1_VAR_NAME, NZ2_VAR_NAME),
-        minus(neg(NZ1_VAR_NAME), neg(NZ2_VAR_NAME)) -> neg(plus(NZ1_VAR_NAME, NZ2_VAR_NAME)),
-        minus(neg(NZ1_VAR_NAME), suc(NZ2_VAR_NAME)) -> minus(suc(NZ2_VAR_NAME), NZ1_VAR_NAME),
-        minus(I1_VAR_NAME, neg(NZ2_VAR_NAME)) -> plus(I1_VAR_NAME, NZ2_VAR_NAME)))(false)
-    }
-
-    (currenTS, (DeclaredStrategyInstance("bottomUp", DeclaredStrategyInstance(plusStrategyInstance))))
   }
 
 }
