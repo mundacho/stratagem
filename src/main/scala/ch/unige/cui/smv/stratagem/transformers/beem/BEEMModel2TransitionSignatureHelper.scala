@@ -40,6 +40,12 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   def doubleVarNeg(n1: ATerm, n2: ATerm, n3: ATerm)(implicit a: ADT) = a.term(DOUBLE_VAR_NEG_FUNCTOR, n1, n2, n3)
   def plus(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(PLUS_FUNCTOR, n1, n2)
   def minus(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(MINUS_FUNCTOR, n1, n2)
+  def intVar(n1: ATerm, n2: ATerm, n3: ATerm)(implicit a: ADT) = a.term(INT_VAR_FUNCTOR, n1, n2, n3)
+  def arrVar(n1: ATerm, n2: ATerm, n3: ATerm)(implicit a: ADT) = a.term(ARRAY_VAR_FUNCTOR, n1, n2, n3)
+  def _test(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(TEST_FUNCTOR, n1, n2)
+  def getArr(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(GET_ARR_FUNCTOR, n1, n2)
+  def arr(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(ARRAY_FUNCTOR_NAME, n1, n2)
+  def readVal(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(READ_VAL_ARR_FUNCTOR, n1, n2)
 
   /**
    * Main function for the creation of the signature specific signature of the model.
@@ -103,7 +109,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   val STATE_VAR_FUNCTOR_NAME = "statVar"
 
   val TOP_STACK_VARIABLE_NAME = "___stack"
-  val STACK_ELT_VARIABLE_NAME = "___stackElt"
+  val stackElt = "___stackElt"
 
   // operations functors
   val LESS_THAN_FUNCTOR = "lt"
@@ -117,16 +123,17 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   val GET_ARR_FUNCTOR = "getArr"
   val READ_VAL_ARR_FUNCTOR = "readVal"
 
-  val S1_VAR_NAME = "s1" // represents a state
-  val I1_VAR_NAME = "i1" // represents an integer
-  val I2_VAR_NAME = "i2" // represents an integer
-  val N1_VAR_NAME = "n1" // represents a nat
-  val N2_VAR_NAME = "n2" // represents a nat
-  val NZ1_VAR_NAME = "nz1" // represents a nznat
-  val NZ2_VAR_NAME = "nz2" // represents a nznat
-  val NZ3_VAR_NAME = "nz3" // represents a nznat
-  val V1_VAR_NAME = "v1" // represents a variable name
-  val A1_VAR_NAME = "a1" // represents an array
+  val $s1 = "s1" // represents a state
+  val $s2 = "s2" // represents a state
+  val $i1 = "i1" // represents an integer
+  val $i2 = "i2" // represents an integer
+  val $n1 = "n1" // represents a nat
+  val $n2 = "n2" // represents a nat
+  val $nz1 = "nz1" // represents a nznat
+  val $nz2 = "nz2" // represents a nznat
+  val $nz3 = "nz3" // represents a nznat
+  val $v1 = "v1" // represents a variable name
+  val $a1 = "a1" // represents an array
 
   /**
    * The basic signature. It will be enriched with the variable names and operations specific for the model.
@@ -173,6 +180,6 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
     .withGenerator(EMPTY_ARRAY_CONSTANT_NAME, ARRAY_SORT_NAME)
     // temp variable name
     .withGenerator(TOP_STACK_VARIABLE_NAME, VARIABLE_NAME_SORT_NAME)
-    .withGenerator(STACK_ELT_VARIABLE_NAME, VARIABLE_NAME_SORT_NAME)
+    .withGenerator(stackElt, VARIABLE_NAME_SORT_NAME)
 
 }

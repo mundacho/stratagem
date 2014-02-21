@@ -29,32 +29,32 @@ import ch.unige.cui.smv.stratagem.beem.DivineTransition
 import ch.unige.cui.smv.stratagem.beem.DivineVariable
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionExpressionHelper.createTransitionSystemForBinExp
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionExpressionHelper.createTransitionSystemForVoidExpressions
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.A1_VAR_NAME
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper._
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.ARRAY_FUNCTOR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.ARRAY_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.ARRAY_VAR_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.BOOL_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.EMPTY_ARRAY_CONSTANT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.EMPTY_STATE_CONSTANT
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.I1_VAR_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.I2_VAR_NAME
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$i1
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$i2
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.INT_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.INT_VAR_FUNCTOR
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.N1_VAR_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.N2_VAR_NAME
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$n1
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$n2
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.NAT_SORT_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.NZ1_VAR_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.NZ2_VAR_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.NZ3_VAR_NAME
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$nz1
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$nz2
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$nz3
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.NZNAT_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.PROC_VAR_FUNCTOR
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.S1_VAR_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.STACK_ELT_VARIABLE_NAME
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$s1
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.stackElt
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.STATECOMP_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.STATE_VAR_FUNCTOR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.SUC_FUNCTOR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.TOP_STACK_VARIABLE_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.V1_VAR_NAME
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$v1
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.VARIABLE_NAME_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.ZERO_CONSTANT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.basicSignature
@@ -86,19 +86,19 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
   def findArrStrategyName(varName: String) = "findArr_" + varName
 
   /**
-   * Transforms a string into its equivalent term for the implicit adt. 
+   * Transforms a string into its equivalent term for the implicit adt.
    * @note Pre-condition: The string is a constant's name in the adt.
    * @param name the name of a constant in the adt.
    * @param adt the adt where the constant is define.
    * @return a term of the adt.
-   */  
+   */
   implicit def string2VariableTerm(name: String)(implicit adt: ADT) = adt.term(name)
-  
+
   /**
    * Transforms a number into its corresponding term.
    * @note Pre-condition: The adt contains a definition of terms.
    * @param n The integer to be converted.
-   * @param adt the adt to which the newly created term will belong. 
+   * @param adt the adt to which the newly created term will belong.
    * @return a term of the adt
    */
   implicit def int2ATerm(n: Int)(implicit adt: ADT): ATerm = n match {
@@ -115,9 +115,9 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
       globalVariables match {
         case Nil => currentState
         case variable :: tail => variable match {
-          case DivineIntVariable(name, value) => a.term(INT_VAR_FUNCTOR, variable.name, value, createVariables(tail, currentState))
+          case DivineIntVariable(name, value) => intVar(variable.name, value, createVariables(tail, currentState))
           case DivineArrayVariable(name, values) =>
-            a.term(ARRAY_VAR_FUNCTOR,
+            arrVar(
               variable.name,
               createValuesForArray(values.toList),
               createVariables(tail, currentState))
@@ -150,7 +150,7 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
     // create check for proc strategy
     val newTS = initialTS
       .declareStrategy(checkForProcStrategyName(proc.name),
-        a.term(PROC_VAR_FUNCTOR, proc.name, "s1", "s2") -> a.term(PROC_VAR_FUNCTOR, proc.name, "s1", "s2"))(false)
+        a.term(PROC_VAR_FUNCTOR, proc.name, $s1, $s2) -> a.term(PROC_VAR_FUNCTOR, proc.name, $s1, $s2))(false)
       .declareStrategy(findProcStrategyName(proc.name), V1) { // finds term and applies V1 to it
         IfThenElse(DeclaredStrategyInstance(checkForProcStrategyName(proc.name)),
           V1,
@@ -196,7 +196,7 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
     currentTS = ifNotContained(stateChangeStrategyName, currentTS) {
       currentTS
         .declareStrategy(stateChangeStrategyName,
-          adt.term(STATE_VAR_FUNCTOR_NAME, procName, preTransitionState, "s1") -> adt.term(STATE_VAR_FUNCTOR_NAME, procName, postTransitionState, "s1"))(false)
+          adt.term(STATE_VAR_FUNCTOR_NAME, procName, preTransitionState, $s1) -> adt.term(STATE_VAR_FUNCTOR_NAME, procName, postTransitionState, $s1))(false)
     }
     val globalStateChangeStrategyName = s"$procName" + "StateChange"
     currentTS = ifNotContained(globalStateChangeStrategyName, currentTS) {
@@ -219,21 +219,21 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
 
     val sign = BEEMModel2TransitionSignatureHelper.createSignature(model.globalVariables, model.processes, basicSignature)
     implicit val a = new ADT("BeemModel", sign) // we create a signature
-      .declareVariable(N1_VAR_NAME, NAT_SORT_NAME)
-      .declareVariable(N2_VAR_NAME, NAT_SORT_NAME)
+      .declareVariable($n1, NAT_SORT_NAME)
+      .declareVariable($n2, NAT_SORT_NAME)
       .declareVariable("n3", NAT_SORT_NAME)
-      .declareVariable(I1_VAR_NAME, INT_SORT_NAME)
-      .declareVariable(I2_VAR_NAME, INT_SORT_NAME)
+      .declareVariable($i1, INT_SORT_NAME)
+      .declareVariable($i2, INT_SORT_NAME)
       .declareVariable("i3", INT_SORT_NAME)
       .declareVariable("b1", BOOL_SORT_NAME)
       .declareVariable("b2", BOOL_SORT_NAME)
-      .declareVariable(S1_VAR_NAME, STATECOMP_SORT_NAME)
-      .declareVariable("s2", STATECOMP_SORT_NAME)
-      .declareVariable(V1_VAR_NAME, VARIABLE_NAME_SORT_NAME)
-      .declareVariable(NZ1_VAR_NAME, NZNAT_SORT_NAME)
-      .declareVariable(NZ2_VAR_NAME, NZNAT_SORT_NAME)
-      .declareVariable(NZ3_VAR_NAME, NZNAT_SORT_NAME)
-      .declareVariable(A1_VAR_NAME, ARRAY_SORT_NAME)
+      .declareVariable($s1, STATECOMP_SORT_NAME)
+      .declareVariable($s2, STATECOMP_SORT_NAME)
+      .declareVariable($v1, VARIABLE_NAME_SORT_NAME)
+      .declareVariable($nz1, NZNAT_SORT_NAME)
+      .declareVariable($nz2, NZNAT_SORT_NAME)
+      .declareVariable($nz3, NZNAT_SORT_NAME)
+      .declareVariable($a1, ARRAY_SORT_NAME)
     val swapRuleName = "swap"
     val endUpRuleName = "endUp"
 
@@ -243,13 +243,13 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
         Choice(V1,
           Sequence(One(DeclaredStrategyInstance("up", V1), 3), V1))
       }(false) // applies its strategy bottom up in the state vector     
-      .declareStrategy(endUpRuleName, a.term(INT_VAR_FUNCTOR, TOP_STACK_VARIABLE_NAME, I1_VAR_NAME, S1_VAR_NAME)
-        -> a.term(INT_VAR_FUNCTOR, STACK_ELT_VARIABLE_NAME, I1_VAR_NAME, S1_VAR_NAME))(false)
+      .declareStrategy(endUpRuleName, intVar(TOP_STACK_VARIABLE_NAME, $i1, $s1)
+        -> intVar(stackElt, $i1, $s1))(false)
       .declareStrategy(swapRuleName,
-        List(a.term(INT_VAR_FUNCTOR, V1_VAR_NAME, I1_VAR_NAME, a.term(INT_VAR_FUNCTOR, TOP_STACK_VARIABLE_NAME, I2_VAR_NAME, S1_VAR_NAME)) // we contemplate ints
-          -> a.term(INT_VAR_FUNCTOR, TOP_STACK_VARIABLE_NAME, I2_VAR_NAME, a.term(INT_VAR_FUNCTOR, V1_VAR_NAME, I1_VAR_NAME, S1_VAR_NAME)),
-          a.term(ARRAY_VAR_FUNCTOR, V1_VAR_NAME, A1_VAR_NAME, a.term(INT_VAR_FUNCTOR, TOP_STACK_VARIABLE_NAME, I2_VAR_NAME, S1_VAR_NAME)) // we contemplate array
-            -> a.term(INT_VAR_FUNCTOR, TOP_STACK_VARIABLE_NAME, I2_VAR_NAME, a.term(ARRAY_VAR_FUNCTOR, V1_VAR_NAME, A1_VAR_NAME, S1_VAR_NAME))))(false)
+        List(intVar($v1, $i1, intVar(TOP_STACK_VARIABLE_NAME, $i2, $s1)) // we contemplate ints
+          -> intVar(TOP_STACK_VARIABLE_NAME, $i2, intVar($v1, $i1, $s1)),
+          arrVar($v1, $a1, intVar(TOP_STACK_VARIABLE_NAME, $i2, $s1)) // we contemplate array
+            -> intVar(TOP_STACK_VARIABLE_NAME, $i2, arrVar($v1, $a1, $s1))))(false)
       .declareStrategy("upVariable") {
         Choice(DeclaredStrategyInstance(endUpRuleName),
           Sequence(
@@ -259,6 +259,10 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
       .declareStrategy("downAndThen", V1, V2) {
         Choice(V2, Sequence(V1,
           One(DeclaredStrategyInstance("downAndThen", V1, V2), 3)))
+      }(false)
+      .declareStrategy("arrayDownAndThen", V1, V2) {
+        Choice(V2, Sequence(V1,
+          One(DeclaredStrategyInstance("arrayDownAndThen", V1, V2), 3)))
       }(false)
       .declareStrategy("bottomUp", V1) {
         Choice(One(DeclaredStrategyInstance("bottomUp", V1)), V1)
