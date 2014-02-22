@@ -22,9 +22,9 @@ import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
 
 /**
  * The state monad.
- * 
+ *
  * @note Borrowed from http://blog.tmorris.net/posts/memoisation-with-state-using-scala/ .
- * 
+ *
  * @author mundacho
  *
  */
@@ -36,13 +36,11 @@ case class State[S, A](run: S => (A, S)) {
       (f(a), t)
     })
 
-
   def flatMap[B](f: A => State[S, B]): State[S, B] =
     State(s => {
       val (a, t) = run(s)
       f(a) run t
     })
-
 
   def eval(s: S): (S, A) = {
     val (res, finalState) = run(s)
@@ -62,5 +60,11 @@ object State {
   // Convenience function for modifying the current state
   def mod[S](f: S => S): State[S, Unit] =
     State(s => ((), f(s)))
-    
+
+  def modAndReturn[A, S](f: S => (A, S)): State[S, A] =
+    State(s => {
+      val (a, t) = f(s)
+      (a, t)
+    })
+
 }

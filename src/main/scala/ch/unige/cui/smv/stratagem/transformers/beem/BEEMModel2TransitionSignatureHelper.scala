@@ -108,7 +108,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   val ARRAY_FUNCTOR_NAME = "arr"
   val STATE_VAR_FUNCTOR_NAME = "statVar"
 
-  val TOP_STACK_VARIABLE_NAME = "___stack"
+  val topStack = "___stack"
   val stackElt = "___stackElt"
 
   // operations functors
@@ -179,7 +179,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
     .withGenerator(ARRAY_FUNCTOR_NAME, ARRAY_SORT_NAME, INT_SORT_NAME, ARRAY_SORT_NAME)
     .withGenerator(EMPTY_ARRAY_CONSTANT_NAME, ARRAY_SORT_NAME)
     // temp variable name
-    .withGenerator(TOP_STACK_VARIABLE_NAME, VARIABLE_NAME_SORT_NAME)
+    .withGenerator(topStack, VARIABLE_NAME_SORT_NAME)
     .withGenerator(stackElt, VARIABLE_NAME_SORT_NAME)
 
 }

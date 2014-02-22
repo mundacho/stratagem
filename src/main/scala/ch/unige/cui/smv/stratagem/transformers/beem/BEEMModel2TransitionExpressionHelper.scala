@@ -18,6 +18,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.transformers.beem
 
 import scala.language.implicitConversions
+
+import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.beem.DivineProcess
 import ch.unige.cui.smv.stratagem.beem.expressions.And
 import ch.unige.cui.smv.stratagem.beem.expressions.Assign
@@ -36,7 +38,7 @@ import ch.unige.cui.smv.stratagem.beem.expressions.True
 import ch.unige.cui.smv.stratagem.beem.expressions.Value
 import ch.unige.cui.smv.stratagem.beem.expressions.Var
 import ch.unige.cui.smv.stratagem.beem.expressions.VoidExpression
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper._
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$a1
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$i1
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$i2
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$n1
@@ -46,20 +48,19 @@ import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatur
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$nz3
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$s1
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$v1
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.ARRAY_FUNCTOR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.EQ_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.FALSE_CONSTANT_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.GET_ARR_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.LESS_THAN_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.MINUS_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.NEQ_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.PLUS_FUNCTOR
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.TEST_FUNCTOR
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.TOP_STACK_VARIABLE_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.TRUE_CONSTANT_NAME
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper._test
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.arr
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.arrVar
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.doubleVar
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.doubleVarNeg
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.getArr
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.intVar
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.lt
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.minus
@@ -67,10 +68,13 @@ import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatur
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.neg
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.neq
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.plus
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.readVal
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.stackElt
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.suc
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.topStack
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.RewriteSetWith
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.V1
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.checkForArrStrategyName
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.checkForVarStrategyName
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.findVarStrategyName
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.ifNotContained
@@ -87,9 +91,6 @@ import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
-import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
-import ch.unige.cui.smv.stratagem.adt.ADT
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategy
 
 /**
  * Helper containing all expression related operations.
@@ -329,33 +330,29 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
       (assignTopOfStackTS, Sequence(readRightExpStrat, assignTopOfStackStrat))
   }
 
+  def insertStrategyName(name: String) = "insert_" + name
+
+  def insertStrategy(name: String)(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    ifNotContained(insertStrategyName(name), initialTS) {
+      initialTS.declareStrategy(insertStrategyName(name),
+        intVar(stackElt, $i1, intVar(name, $i2, $s1))
+          -> intVar(name, $i1, $s1))(false)
+    }
+  }
+
   def createTransitionSystemForLeftExpression(proc: DivineProcess, exp: LeftExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = {
     implicit val a = initialTS.adt
     exp match {
       case Var(name) =>
         if (proc.container.get.globalVariables.contains(name)) { // global variable
-          val insertStrategyName = "insert_" + name
-          var currentTS = ifNotContained(insertStrategyName, initialTS) {
-            initialTS.declareStrategy(insertStrategyName,
-              intVar(stackElt, $i1, intVar(name, $i2, $s1))
-                -> intVar(name, $i1, $s1))(false)
-          }
-          val downSwapStratName = "downSwap"
-          currentTS = ifNotContained(downSwapStratName, currentTS) {
-            currentTS.declareStrategy(downSwapStratName, List(
-              intVar(stackElt, $i1, intVar(name, $i2, $s1))
-                -> intVar(name, $i2, intVar(stackElt, $i1, $s1)),
-              intVar(stackElt, $i1, arrVar(name, $a1, $s1))
-                -> arrVar(name, $a1, intVar(stackElt, $i1, $s1))))(false)
-          }
-          val writeStrat = "writeVar_" + name
-          currentTS = ifNotContained(writeStrat, currentTS) {
-            currentTS.declareStrategy(writeStrat) {
-              DeclaredStrategyInstance("downAndThen",
-                DeclaredStrategyInstance(downSwapStratName), DeclaredStrategyInstance(insertStrategyName))
-            }(false)
-          }
-          (currentTS, DeclaredStrategyInstance(writeStrat))
+
+          val res = for (
+            insertStrat <- for (_ <- State.mod(insertStrategy(name))) yield DeclaredStrategyInstance(insertStrategyName(name));
+            downSwapStrat <- for (_ <- State.mod(downSwapStrat(name))) yield DeclaredStrategyInstance(downSwapStratName)
+          ) yield DeclaredStrategyInstance("downAndThen",
+            downSwapStrat, insertStrat)
+          res.eval(initialTS)
         } else // local variables
           null // TODO   
     }
@@ -369,11 +366,30 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
     }
   }
 
+  def declareCheckArrForStratVar(name: String)(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    ifNotContained(checkForVarStrategyName(name), initialTS) {
+      initialTS.declareStrategy(checkForVarStrategyName(name),
+        arrVar(name, $a1, $s1) -> arrVar(name, $a1, $s1))(false)
+    }
+  }
+
   def declareFindVarStrategyName(name: String)(initialTS: TransitionSystem) = {
     implicit val a = initialTS.adt
     ifNotContained(findVarStrategyName(name), initialTS) {
       initialTS.declareStrategy(findVarStrategyName(name), V1) {
         IfThenElse(DeclaredStrategyInstance(checkForVarStrategyName(name)),
+          V1,
+          One(DeclaredStrategyInstance(findVarStrategyName(name), V1), 3))
+      }(false)
+    }
+  }
+
+  def declareFindArrStrategyName(name: String)(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    ifNotContained(findVarStrategyName(name), initialTS) {
+      initialTS.declareStrategy(findVarStrategyName(name), V1) {
+        IfThenElse(DeclaredStrategyInstance(checkForArrStrategyName(name)),
           V1,
           One(DeclaredStrategyInstance(findVarStrategyName(name), V1), 3))
       }(false)
@@ -404,7 +420,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
       initialTS
         .declareStrategy(extractValueStratName(name), List(
           intVar($v1, doubleVar($i1, $i2, 0), $s1) ->
-            intVar(TOP_STACK_VARIABLE_NAME, $i1, intVar(name, $i2, $s1))) // extract copy
+            intVar(topStack, $i1, intVar(name, $i2, $s1))) // extract copy
             )(false)
     }
   }
@@ -437,65 +453,142 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
 
   }
 
+  def insertGetStrategyName(name: String) = "insertGet_" + name
+
+  def insertGetStrategy(name: String)(initialTS: TransitionSystem) = { // use the value in the stack to go and search for the value
+    implicit val a = initialTS.adt
+    val insertStrategyName = insertGetStrategyName(name) // this strategy inserts the operation to extract some value in the array
+    ifNotContained(insertStrategyName, initialTS) {
+      initialTS.declareStrategy(insertStrategyName,
+        intVar(stackElt, $i1, arrVar(name, $a1, $s1)) -> arrVar(name, getArr($i1, $a1), $s1))(false)
+    }
+  }
+
+  def downSwapStratName = "downSwapGet"
+
+  def downSwapStrat(name: String)(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    val downSwapStratName0 = downSwapStratName // this strategy swaps two elements in the state space vector
+    ifNotContained(downSwapStratName0, initialTS) {
+      initialTS.declareStrategy(downSwapStratName0, List(
+        intVar(stackElt, $i1, intVar($v1, $i2, $s1)) -> intVar($v1, $i2, intVar(stackElt, $i1, $s1)),
+        intVar(stackElt, $i1, arrVar($v1, $a1, $s1)) -> arrVar($v1, $a1, intVar(stackElt, $i1, $s1))))(false)
+    }
+  }
+
+  val checkForZeroName = "checkForZero"
+
+  def checkZero(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    // we before we extract the value from the array, we want to check if we are at the right position
+    ifNotContained(checkForZeroName, initialTS) {
+      initialTS.declareStrategy(checkForZeroName,
+        getArr(0, arr($i1, $a1)) -> arr($i1, $a1))(false)
+    }
+  }
+
+  def readArrayName(name: String) = "readArray_" + name
+
+  def readArray(name: String, insertGet: NonVariableStrategy)(initialTS: TransitionSystem) = {
+
+    ifNotContained(readArrayName(name), initialTS) {
+      initialTS.declareStrategy(readArrayName(name)) {
+        DeclaredStrategyInstance("downAndThen",
+          DeclaredStrategyInstance(downSwapStratName), insertGet)
+      }(false)
+    }
+  }
+
+  val extractValueStratName = "extractArrVal"
+
+  def extractArrVal(name: String)(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    ifNotContained(extractValueStratName, initialTS) {
+      initialTS
+        .declareStrategy(extractValueStratName, List(
+          arr(doubleVar($i1, $i2, 0), $a1) ->
+            readVal($i1, arr($i2, $a1))) // extract copy
+            )(false)
+    }
+  }
+  val copyArrValStrat = "copyArrVal"
+  def copyArrVal(doubleVarStrat: NonVariableStrategy, duplicateVarStrat: NonVariableStrategy)(initialTS: TransitionSystem) = {
+    ifNotContained(copyArrValStrat, initialTS) {
+      initialTS
+        .declareStrategy(copyArrValStrat) {
+          Sequence(
+            One(Sequence(
+              doubleVarStrat,
+              FixPointStrategy(RewriteSetWith(duplicateVarStrat))), 1),
+            DeclaredStrategyInstance(extractValueStratName))
+        }(false)
+    }
+  }
+
+  val arrDownStratName = "arrDown"
+
+  def arrDownStrat(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    ifNotContained(arrDownStratName, initialTS) {
+      initialTS
+        .declareStrategy(arrDownStratName, getArr(suc($n1), arr($i1, $a1)) -> arr($i1, getArr($n1, $a1)))(false)
+    }
+  }
+
+  val arrUpStratName = "arrUp"
+
+  def arrUpStrat(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    ifNotContained(arrUpStratName, initialTS) {
+      initialTS
+        .declareStrategy(arrUpStratName, arr($i1, readVal($i2, $a1)) -> readVal($i2, arr($i1, $a1)))(false)
+    }
+  }
+
+  val extractFromArrayStratName = "extractFromArray"
+
+  def declareStratExtractFromArray(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    ifNotContained(extractFromArrayStratName, initialTS) {
+      initialTS
+        .declareStrategy(extractFromArrayStratName, arrVar($v1, readVal($i1, $a1), $s1) -> intVar(topStack, $i1, arrVar($v1, $a1, $s1)))(false)
+    }
+  }
+
   private def readGlobalArray(name: String, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = { // global array
     implicit val a = initialTS.adt
-        // use the value in the stack to go and search for the value
-        val insertStrategyName = "insertGet_" + name // this strategy inserts the operation to extract some value in the array
-        var currentTS = ifNotContained(insertStrategyName, initialTS) {
-          initialTS.declareStrategy(insertStrategyName,
-            intVar(stackElt, $i1, arrVar(name, $a1, $s1)) -> arrVar(name, getArr($i1, $a1), $s1))(false)
-        }
-    //    val downSwapStratName = "downSwapGet" // this strategy swaps two elements in the state space vector
-    //    currentTS = ifNotContained(downSwapStratName, currentTS) {
-    //      currentTS.declareStrategy(downSwapStratName, List(
-    //        intVar(stackElt, $i1, intVar($v1, $i2, $s1)) -> intVar($v1, $i2, intVar(stackElt, $i1, $s1)),
-    //        intVar(stackElt, $i1, arrVar($v1, $a1, $s1)) -> arrVar($v1, $a1, intVar(stackElt, $i1, $s1))))(false)
-    //    }
-    //    val checkForZero = "checkForZero" // we before we extract the value from the array, we want to check if we are at the right position
-    //    currentTS = ifNotContained(checkForZero, currentTS) {
-    //      currentTS.declareStrategy(checkForZero,
-    //        getArr(0, arr($i1, $a1)) -> getArr(0, arr($i1, $a1)))(false)
-    //    }
-    //
-    //    val readArray = "readArray_" + name
-    //    currentTS = ifNotContained(readArray, currentTS) {
-    //      currentTS.declareStrategy(readArray) {
-    //        DeclaredStrategyInstance("downAndThen",
-    //          DeclaredStrategyInstance(downSwapStratName), DeclaredStrategyInstance(insertStrategyName))
-    //      }(false)
-    //    }
-    //
-    //    val extractValueStratName = "extractArrVal"
-    //    currentTS = ifNotContained(extractValueStratName, currentTS) {
-    //      currentTS
-    //        .declareStrategy(extractValueStratName, List(
-    //          arr(doubleVar($i1, $i2, 0), $a1) ->
-    //            readVal($i1, arr($i2, $a1))) // extract copy
-    //            )(false)
-    //    }
-    //
-    //    val (doubleVarTS, doubleVarStrat) = doubleVarStrategy(currentTS)
-    //    val (duplicateVarTS, duplicateVarStrat) = duplicateVarStrategy(doubleVarTS)
-    //
-    //    val copyArrValStrat = "copyArrVal"
-    //    currentTS = ifNotContained(copyArrValStrat, doubleVarTS) {
-    //      doubleVarTS
-    //        .declareStrategy(copyArrValStrat) {
-    //          Sequence(
-    //            One(Sequence(
-    //              doubleVarStrat,
-    //              FixPointStrategy(RewriteSetWith(duplicateVarStrat))), 1),
-    //            DeclaredStrategyInstance(extractValueStratName))
-    //        }(false)
-    //    }
-    //
-    //    val arrDownStratName = "arrDown"
-    //    currentTS = ifNotContained(arrDownStratName, currentTS) {
-    //      currentTS
-    //        .declareStrategy(arrDownStratName, getArr(suc($n1), arr($i1, $a1)) -> arr($i1, getArr($n1, $a1)))(false)
-    //    }
 
-    null
+    val intermediateState = for (
+      checkArrVar <- State.mod(declareCheckArrForStratVar(name)) map ((_: Unit) => DeclaredStrategyInstance(findVarStrategyName(name)));
+      findVarStrat <- State.mod(declareFindArrStrategyName(name)) map ((_: Unit) => DeclaredStrategyInstance(findVarStrategyName(name), _: NonVariableStrategy));
+      insertGetStrategy <- for (_ <- State.mod(insertGetStrategy(name))) yield DeclaredStrategyInstance(insertGetStrategyName(name));
+      downSwapStrat <- for (_ <- State.mod(downSwapStrat(name))) yield DeclaredStrategyInstance(downSwapStratName);
+      checkForZero <- for (_ <- State.mod(checkZero)) yield DeclaredStrategyInstance(checkForZeroName);
+      readArray <- for (_ <- State.mod(readArray(name, insertGetStrategy))) yield DeclaredStrategyInstance(readArrayName(name));
+      extractArrVal <- for (_ <- State.mod(extractArrVal(name))) yield DeclaredStrategyInstance(extractValueStratName);
+      doubleVarStrat <- State.insert(doubleVarStrategy);
+      duplicateVarStrat <- State.insert(duplicateVarStrategy);
+      copyArrStrat <- for (_ <- State.mod(copyArrVal(doubleVarStrat, duplicateVarStrat))) yield DeclaredStrategyInstance(copyArrValStrat);
+      arrDown <- for (_ <- State.mod(arrDownStrat)) yield DeclaredStrategyInstance(arrDownStratName);
+      arrUp <- for (_ <- State.mod(arrUpStrat)) yield DeclaredStrategyInstance(arrUpStratName);
+      extractValFromArray <- State.mod(declareStratExtractFromArray) map ((_: Unit) => DeclaredStrategyInstance(extractFromArrayStratName))
+    ) yield DeclaredStrategyInstance("downAndThen", downSwapStrat,
+      Sequence(Sequence(
+        One(checkArrVar, 3),
+        insertGetStrategy), // first sequence checks if we are at the right array and then inserts the get in the array
+        Sequence(
+          One( // we enter the array
+            Sequence( // this sequence is applied on the array itself
+              DeclaredStrategyInstance("arrayDownAndThen", // we go down the array
+                arrDown,
+                Sequence(
+                  checkForZero, // if we get to zero
+                  copyArrStrat)), // we apply the strategy copyArr which gives us a term of the form readVal($i, arr($i, $a))
+              DeclaredStrategyInstance("upArr", arrUp)), 2) // up array is applied on top of the array
+              ,
+          extractValFromArray))) // finally we extract the value into an intVar
+    val (resultTS, extractVar) = intermediateState.eval(initialTS)
+    (resultTS, Sequence(extractVar, DeclaredStrategyInstance("upVariable")))
   }
 
 }

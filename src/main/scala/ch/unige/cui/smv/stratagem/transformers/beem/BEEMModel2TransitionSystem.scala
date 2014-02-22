@@ -53,7 +53,7 @@ import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatur
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.STATECOMP_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.STATE_VAR_FUNCTOR_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.SUC_FUNCTOR_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.TOP_STACK_VARIABLE_NAME
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.topStack
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$v1
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.VARIABLE_NAME_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.ZERO_CONSTANT_NAME
@@ -243,13 +243,13 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
         Choice(V1,
           Sequence(One(DeclaredStrategyInstance("up", V1), 3), V1))
       }(false) // applies its strategy bottom up in the state vector     
-      .declareStrategy(endUpRuleName, intVar(TOP_STACK_VARIABLE_NAME, $i1, $s1)
+      .declareStrategy(endUpRuleName, intVar(topStack, $i1, $s1)
         -> intVar(stackElt, $i1, $s1))(false)
       .declareStrategy(swapRuleName,
-        List(intVar($v1, $i1, intVar(TOP_STACK_VARIABLE_NAME, $i2, $s1)) // we contemplate ints
-          -> intVar(TOP_STACK_VARIABLE_NAME, $i2, intVar($v1, $i1, $s1)),
-          arrVar($v1, $a1, intVar(TOP_STACK_VARIABLE_NAME, $i2, $s1)) // we contemplate array
-            -> intVar(TOP_STACK_VARIABLE_NAME, $i2, arrVar($v1, $a1, $s1))))(false)
+        List(intVar($v1, $i1, intVar(topStack, $i2, $s1)) // we contemplate ints
+          -> intVar(topStack, $i2, intVar($v1, $i1, $s1)),
+          arrVar($v1, $a1, intVar(topStack, $i2, $s1)) // we contemplate array
+            -> intVar(topStack, $i2, arrVar($v1, $a1, $s1))))(false)
       .declareStrategy("upVariable") {
         Choice(DeclaredStrategyInstance(endUpRuleName),
           Sequence(
@@ -262,10 +262,14 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
       }(false)
       .declareStrategy("arrayDownAndThen", V1, V2) {
         Choice(V2, Sequence(V1,
-          One(DeclaredStrategyInstance("arrayDownAndThen", V1, V2), 3)))
+          One(DeclaredStrategyInstance("arrayDownAndThen", V1, V2), 2)))
       }(false)
       .declareStrategy("bottomUp", V1) {
         Choice(One(DeclaredStrategyInstance("bottomUp", V1)), V1)
+      }(false)
+      .declareStrategy("upArr", V1) {
+        Choice(V1,
+          Sequence(One(DeclaredStrategyInstance("upArr", V1), 2), V1))
       }(false)
 
     createTransitionSystemForProcesses(model.processes, basicTransitionSystem)(a)
