@@ -42,7 +42,7 @@ case class DivineModel(val globalVariables: Map[String, DivineVariable], val pro
   def declareArrayVariable(nameSymbol: Symbol, size: Int) = {
     require(!globalVariables.contains(nameSymbol.name), s"There is a variable with name ${nameSymbol.name} already in the this divine model.")
     require(size > 0, s"Invalid size $size for array ${nameSymbol}.name")
-    this.copy(globalVariables = globalVariables + DivineArrayVariable(nameSymbol.name, Array(size)).asTuple)
+    this.copy(globalVariables = globalVariables + DivineArrayVariable(nameSymbol.name, (for (i <- 1 to size) yield 0).toArray).asTuple)
   }
 
   /**

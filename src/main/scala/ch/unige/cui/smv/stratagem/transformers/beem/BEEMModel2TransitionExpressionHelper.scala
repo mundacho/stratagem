@@ -240,7 +240,8 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
         // two cases: global and local variables
         val (readNTS, readNStrat) = createReadIntExpressionStrategy(proc, n, initialTS)
         if (proc.container.get.globalVariables.contains(name)) {
-          readGlobalArray(name, readNTS)
+          val (resTS, readGArrayStrat) = readGlobalArray(name, readNTS)
+          (resTS, Sequence(readNStrat, readGArrayStrat))
         } else
           (null, null) // TODO local array
       case Var(name) => // two cases: global and local variables
@@ -368,9 +369,9 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
 
   def declareCheckArrForStratVar(name: String)(initialTS: TransitionSystem) = {
     implicit val a = initialTS.adt
-    ifNotContained(checkForVarStrategyName(name), initialTS) {
-      initialTS.declareStrategy(checkForVarStrategyName(name),
-        arrVar(name, $a1, $s1) -> arrVar(name, $a1, $s1))(false)
+    ifNotContained(checkForArrStrategyName(name), initialTS) {
+      initialTS.declareStrategy(checkForArrStrategyName(name),
+        intVar(stackElt, $i1, arrVar(name, $a1, $s1)) -> intVar(stackElt, $i1, arrVar(name, $a1, $s1)))(false)
     }
   }
 
@@ -559,8 +560,8 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
     implicit val a = initialTS.adt
 
     val intermediateState = for (
-      checkArrVar <- State.mod(declareCheckArrForStratVar(name)) map ((_: Unit) => DeclaredStrategyInstance(findVarStrategyName(name)));
-      findVarStrat <- State.mod(declareFindArrStrategyName(name)) map ((_: Unit) => DeclaredStrategyInstance(findVarStrategyName(name), _: NonVariableStrategy));
+      checkArrVar <- State.mod(declareCheckArrForStratVar(name)) map ((_: Unit) => DeclaredStrategyInstance(checkForArrStrategyName(name)));
+//      findVarStrat <- State.mod(declareFindArrStrategyName(name)) map ((_: Unit) => DeclaredStrategyInstance(findVarStrategyName(name), _: NonVariableStrategy));
       insertGetStrategy <- for (_ <- State.mod(insertGetStrategy(name))) yield DeclaredStrategyInstance(insertGetStrategyName(name));
       downSwapStrat <- for (_ <- State.mod(downSwapStrat(name))) yield DeclaredStrategyInstance(downSwapStratName);
       checkForZero <- for (_ <- State.mod(checkZero)) yield DeclaredStrategyInstance(checkForZeroName);
@@ -574,7 +575,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
       extractValFromArray <- State.mod(declareStratExtractFromArray) map ((_: Unit) => DeclaredStrategyInstance(extractFromArrayStratName))
     ) yield DeclaredStrategyInstance("downAndThen", downSwapStrat,
       Sequence(Sequence(
-        One(checkArrVar, 3),
+        checkArrVar,
         insertGetStrategy), // first sequence checks if we are at the right array and then inserts the get in the array
         Sequence(
           One( // we enter the array

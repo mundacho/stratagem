@@ -29,6 +29,7 @@ import ch.unige.cui.smv.stratagem.beem.DivineProcess
 import ch.unige.cui.smv.stratagem.beem.expressions.And
 import ch.unige.cui.smv.stratagem.beem.expressions.Assign
 import ch.unige.cui.smv.stratagem.beem.expressions.Darray
+import ch.unige.cui.smv.stratagem.beem.expressions.Darray
 import ch.unige.cui.smv.stratagem.beem.expressions.IsDifferent
 import ch.unige.cui.smv.stratagem.beem.expressions.IsEqual
 import ch.unige.cui.smv.stratagem.beem.expressions.LessThan
@@ -318,7 +319,6 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
 
   "SimpleModel9" should "have 11 different states" in {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM9)
-    println(ts)
     val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
     val initialState = SigmaDDFactoryImpl.create(ts.initialState)
     val result = rewriter(initialState).get
@@ -326,8 +326,31 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
     println(result)
     assert(result.size == 11)
   }
-  
-  
-  
+
+  val simpleModelBEEM10 = new DivineModel()
+    .declareIntVariable('i, -1)
+    .declareArrayVariable('a, 3)
+    .declareProc {
+      new DivineProcess("P_0", Set('off), 'off)
+        .declareTransition('off -> 'off, LessThan('i, Darray("a", 2)), Assign('i, Plus('i, 1)))
+    }.declareProc {
+      new DivineProcess("P_1", Set('off), 'off)
+        .declareTransition('off -> 'off, True, Noop)
+    }
+    .declareProc {
+      new DivineProcess("P_2", Set('off), 'off)
+        .declareTransition('off -> 'off, True, Noop)
+    }
+
+  "SimpleModel10" should "have 1 different states" in {
+    val ts = BEEMModel2TransitionSystem(simpleModelBEEM10)
+    println(ts)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    val result = rewriter(initialState).get
+    println(result.size)
+    println(result)
+    assert(result.size == 2)
+  }
 
 }
