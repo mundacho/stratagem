@@ -47,6 +47,8 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   def arr(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(ARRAY_FUNCTOR_NAME, n1, n2)
   def readVal(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(READ_VAL_ARR_FUNCTOR, n1, n2)
   def valueAndIndex(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(VAL_AND_INDEX_FUNCTOR, n1, n2)
+  def statVar(n1: ATerm, n2: ATerm, n3: ATerm)(implicit a: ADT) = a.term(STATE_VAR_FUNCTOR_NAME, n1, n2, n3)
+  def procVar(n1: ATerm, n2: ATerm, n3: ATerm)(implicit a: ADT) = a.term(PROC_VAR_FUNCTOR, n1, n2, n3)
 
   /**
    * Main function for the creation of the signature specific signature of the model.
@@ -71,7 +73,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
     def createStatesInSignature(possibleStates: List[Symbol], sign: Signature): Signature = possibleStates match {
       case Nil => sign
       case s :: tail =>
-        if (!sign.generators.contains(s.name)) createStatesInSignature(tail, sign.withGenerator(s.name, STATE_SORT_NAAME))
+        if (!sign.generators.contains(s.name)) createStatesInSignature(tail, sign.withGenerator(s.name, STATE_SORT_NAME))
         else createStatesInSignature(tail, sign)
     }
     def createVariablesInSignature(variables: List[String], sign: Signature): Signature = variables match {
@@ -88,7 +90,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   val NZNAT_SORT_NAME = "nznat"
   val BOOL_SORT_NAME = "bool"
   val INT_SORT_NAME = "int"
-  val STATE_SORT_NAAME = "state"
+  val STATE_SORT_NAME = "state"
   val STATECOMP_SORT_NAME = "stateComponent"
   val ZERO_SORT_NAME = "zero"
   val ARRAY_SORT_NAME = "array"
@@ -136,6 +138,8 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   val $nz3 = "nz3" // represents a nznat
   val $v1 = "v1" // represents a variable name
   val $a1 = "a1" // represents an array
+  val $pn1 = "pn1" // represents a process name
+  val $st1 = "st1" // represents a state 
 
   /**
    * The basic signature. It will be enriched with the variable names and operations specific for the model.
@@ -147,7 +151,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
     .withSort(ZERO_SORT_NAME, NAT_SORT_NAME)
     .withSort(NZNAT_SORT_NAME, NAT_SORT_NAME)
     .withSort(STATECOMP_SORT_NAME)
-    .withSort(STATE_SORT_NAAME)
+    .withSort(STATE_SORT_NAME)
     .withSort(VARIABLE_NAME_SORT_NAME)
     .withSort(ARRAY_SORT_NAME)
     .withSort(PROCESS_NAME_SORT_NAME)
@@ -176,7 +180,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
     // var functors
     .withGenerator(INT_VAR_FUNCTOR, STATECOMP_SORT_NAME, VARIABLE_NAME_SORT_NAME, INT_SORT_NAME, STATECOMP_SORT_NAME)
     .withGenerator(ARRAY_VAR_FUNCTOR, STATECOMP_SORT_NAME, VARIABLE_NAME_SORT_NAME, ARRAY_SORT_NAME, STATECOMP_SORT_NAME)
-    .withGenerator(STATE_VAR_FUNCTOR_NAME, STATECOMP_SORT_NAME, PROCESS_NAME_SORT_NAME, STATE_SORT_NAAME, STATECOMP_SORT_NAME)
+    .withGenerator(STATE_VAR_FUNCTOR_NAME, STATECOMP_SORT_NAME, PROCESS_NAME_SORT_NAME, STATE_SORT_NAME, STATECOMP_SORT_NAME)
     .withGenerator(PROC_VAR_FUNCTOR, STATECOMP_SORT_NAME, PROCESS_NAME_SORT_NAME, STATECOMP_SORT_NAME, STATECOMP_SORT_NAME)
     // array generators
     .withGenerator(ARRAY_FUNCTOR_NAME, ARRAY_SORT_NAME, INT_SORT_NAME, ARRAY_SORT_NAME)

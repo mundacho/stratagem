@@ -374,9 +374,37 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
     val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
     val initialState = SigmaDDFactoryImpl.create(ts.initialState)
     val result = rewriter(initialState).get
-//    println(result.size)
-    println(result)
+    println(result.size)
+    //    println(result)
     assert(result.size == 10)
+  }
+
+  val simpleModelBEEM12 = new DivineModel()
+    .declareArrayVariable('a, 3)
+    .declareProc {
+      new DivineProcess("P_0", Set('off), 'off)
+        .declareIntVariable('i, 0)
+        .declareTransition('off -> 'off, LessThan('i, 3), Assign('i, Plus('i, 1)))
+    }.declareProc {
+      new DivineProcess("P_1", Set('off), 'off)
+        .declareIntVariable('i, 0)
+        .declareTransition('off -> 'off, LessThan('i, 3), Assign('i, Plus('i, 1)))
+    }
+    .declareProc {
+      new DivineProcess("P_2", Set('off), 'off)
+        .declareIntVariable('i, 0)
+        .declareTransition('off -> 'off, LessThan('i, 3), Assign('i, Plus('i, 1)))
+    }
+
+  "SimpleModel12" should "have 16 different states" in {
+    val ts = BEEMModel2TransitionSystem(simpleModelBEEM12)
+    println(ts)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    val result = rewriter(initialState).get
+    println(result.size)
+    println(result)
+    assert(result.size == 16)
   }
 
 }

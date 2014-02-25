@@ -196,7 +196,7 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
     currentTS = ifNotContained(stateChangeStrategyName, currentTS) {
       currentTS
         .declareStrategy(stateChangeStrategyName,
-          adt.term(STATE_VAR_FUNCTOR_NAME, procName, preTransitionState, $s1) -> adt.term(STATE_VAR_FUNCTOR_NAME, procName, postTransitionState, $s1))(false)
+          statVar(procName, preTransitionState, $s1) -> statVar(procName, postTransitionState, $s1))(false)
     }
     val globalStateChangeStrategyName = s"$procName" + "StateChange"
     currentTS = ifNotContained(globalStateChangeStrategyName, currentTS) {
@@ -234,6 +234,8 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
       .declareVariable($nz2, NZNAT_SORT_NAME)
       .declareVariable($nz3, NZNAT_SORT_NAME)
       .declareVariable($a1, ARRAY_SORT_NAME)
+      .declareVariable($pn1, PROCESS_NAME_SORT_NAME)
+      .declareVariable($st1, STATE_SORT_NAME)
     val swapRuleName = "swap"
     val endUpRuleName = "endUp"
 
@@ -249,7 +251,13 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
         List(intVar($v1, $i1, intVar(topStack, $i2, $s1)) // we contemplate ints
           -> intVar(topStack, $i2, intVar($v1, $i1, $s1)),
           arrVar($v1, $a1, intVar(topStack, $i2, $s1)) // we contemplate array
-            -> intVar(topStack, $i2, arrVar($v1, $a1, $s1))))(false)
+            -> intVar(topStack, $i2, arrVar($v1, $a1, $s1)),
+          procVar($pn1, $s1, intVar(topStack, $i2, $s2)) ->  
+            intVar(topStack, $i2,  procVar($pn1, $s1, $s2)),
+          statVar($pn1, $st1, intVar(topStack, $i2, $s2)) ->  intVar(topStack, $i2,  statVar($pn1, $st1, $s2))
+            )
+            
+      )(false)
       .declareStrategy("upVariable") {
         Choice(DeclaredStrategyInstance(endUpRuleName),
           Sequence(

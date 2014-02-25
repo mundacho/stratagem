@@ -65,6 +65,7 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
     logger.trace(s"Entering strategy ${declaredStrategy.name}")
+//    if(declaredStrategy.name.startsWith("checkForProc_P_0")) logger.trace(sigmaDD.toString)
     rewriter(sigmaDD) match {
       case Some(r) =>
         logger.trace(s"Strategy ${declaredStrategy.name} succeeded")

@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.transformers.beem
 
 import scala.language.implicitConversions
+
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.beem.DivineProcess
 import ch.unige.cui.smv.stratagem.beem.expressions.And
@@ -45,7 +46,10 @@ import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatur
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$nz1
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$nz2
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$nz3
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$pn1
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$s1
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$s2
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$st1
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.$v1
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.EQ_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.FALSE_CONSTANT_NAME
@@ -54,7 +58,6 @@ import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatur
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.NEQ_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.PLUS_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.TRUE_CONSTANT_NAME
-import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.valueAndIndex
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper._test
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.arr
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.arrVar
@@ -68,14 +71,19 @@ import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatur
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.neg
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.neq
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.plus
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.procVar
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.readVal
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.stackElt
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.statVar
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.suc
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.topStack
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.valueAndIndex
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.RewriteSetWith
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.V1
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.checkForArrStrategyName
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.checkForVarStrategyName
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.checkForProcStrategyName
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.findProcStrategyName
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.findVarStrategyName
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.ifNotContained
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.int2ATerm
@@ -91,8 +99,6 @@ import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
-import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 
 /**
  * Helper containing all expression related operations.
@@ -249,9 +255,31 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
       case Var(name) => // two cases: global and local variables
         if (proc.container.get.globalVariables.contains(name)) {
           readGlobalVar(name, initialTS)
-        } else
-          (null, null) // TODO local variable
+        } else if (proc.variables.contains(name)) { // local variable
+          (for {
+            findProcStrat <- State.insert(DeclaredStrategyInstance(findProcStrategyName(proc.name), _: NonVariableStrategy))
+            readGlobalVar <- State.modAndReturn(readGlobalVar(name, _: TransitionSystem))
+            upVariable <- State.insert(DeclaredStrategyInstance("upVariable"))
+            extractStrat <- State.modAndReturn(extractStackFromProc)
+          } yield Sequence(findProcStrat(
+            Sequence(One(readGlobalVar, 2),
+              extractStrat) // here we extract the result 
+              ), upVariable)
+          ).eval(initialTS)
+        } else {
+          throw new IllegalArgumentException(s"Cannot create strategy for undefined variable $name") // this should not happen
+        }
     }
+  }
+
+  def extractStackFromProc(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    val extractFromProcName = "extractFromProc"
+    val res = ifNotContained(extractFromProcName, initialTS) {
+      initialTS.declareStrategy(extractFromProcName, procVar($pn1, intVar(stackElt, $i1, $s1), $s2) -> intVar(topStack, $i1, procVar($pn1, $s1, $s2)))(false)
+    }
+
+    (res, DeclaredStrategyInstance(extractFromProcName))
   }
 
   def createTransitionSystemForBinExp(proc: DivineProcess, exp: BooleanExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = {
@@ -348,22 +376,32 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
     implicit val a = initialTS.adt
     (initialTS, SimpleStrategy(List(intVar(stackElt, $n1, intVar(stackElt, $n2, $s1)) -> intVar(stackElt, valueAndIndex($n2, $n1), $s1))))
   }
+  
+  def insertInProcessName(name:String) = "insertInProc_" + name
+  
+    def insertInProcess(name:String)(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    (initialTS.declareStrategy(insertInProcessName(name), intVar(stackElt, $i1, procVar(name, $s1, $s2)) -> procVar(name, intVar(stackElt, $i1, $s1), $s2))(false), DeclaredStrategyInstance(insertInProcessName(name)))
+  }
 
   def createTransitionSystemForLeftExpression(proc: DivineProcess, exp: LeftExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = {
     implicit val a = initialTS.adt
     exp match {
       case Var(name) =>
         if (proc.container.get.globalVariables.contains(name)) { // global variable
-
-          val res = for (
-            insertStrat <- for (_ <- State.mod(insertStrategy(name))) yield DeclaredStrategyInstance(insertStrategyName(name));
+          writeGlobalVariable(name).eval(initialTS)
+        } else { // local variable
+          (for {
+            findProcStrat <- State.insert(DeclaredStrategyInstance(findProcStrategyName(proc.name), _: NonVariableStrategy))
+            insertInProcess <- State.modAndReturn(insertInProcess(proc.name))
             downSwapStrat <- for (_ <- State.mod(downSwapStrat(name))) yield DeclaredStrategyInstance(downSwapStratName)
-          ) yield DeclaredStrategyInstance("downAndThen",
-            downSwapStrat, insertStrat)
-          res.eval(initialTS)
-        } else // local variables
-          null // TODO   
-      case Darray(name, n) => // TODO finish writing arrays, create new wrapper type 
+            writeVar <- writeGlobalVariable(name)
+          } yield DeclaredStrategyInstance("downAndThen",
+            downSwapStrat, Sequence(Sequence(
+                One(DeclaredStrategyInstance(checkForProcStrategyName(proc.name)), 3),
+                insertInProcess), One(writeVar, 2)))).eval(initialTS) // TODO
+        }
+      case Darray(name, n) =>
         val res = for {
           readValueStrat <- State.modAndReturn(createReadIntExpressionStrategy(proc, n))
           packStrategy <- State.modAndReturn(packAddressAndData)
@@ -380,8 +418,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
               insertWriteGet),
               One(
                 DeclaredStrategyInstance("arrayDownAndThen", arrWriteDown,
-                  arrWrite
-                  ), 2))))
+                  arrWrite), 2))))
         res.eval(initialTS)
     }
   }
@@ -511,7 +548,9 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
     ifNotContained(downSwapStratName0, initialTS) {
       initialTS.declareStrategy(downSwapStratName0, List(
         intVar(stackElt, $i1, intVar($v1, $i2, $s1)) -> intVar($v1, $i2, intVar(stackElt, $i1, $s1)),
-        intVar(stackElt, $i1, arrVar($v1, $a1, $s1)) -> arrVar($v1, $a1, intVar(stackElt, $i1, $s1))))(false)
+        intVar(stackElt, $i1, arrVar($v1, $a1, $s1)) -> arrVar($v1, $a1, intVar(stackElt, $i1, $s1)),
+        intVar(stackElt, $i1, statVar($pn1, $st1, $s1)) -> statVar($pn1, $st1, intVar(stackElt, $i1, $s1)),
+        intVar(stackElt, $i1, procVar($pn1, $s1, $s2)) -> procVar($pn1, $s1, intVar(stackElt, $i1, $s2))))(false)
     }
   }
 
@@ -647,6 +686,14 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
           extractValFromArray))) // finally we extract the value into an intVar
     val (resultTS, extractVar) = intermediateState.eval(initialTS)
     (resultTS, Sequence(extractVar, DeclaredStrategyInstance("upVariable")))
+  }
+
+  private def writeGlobalVariable(name: String): State[TransitionSystem, NonVariableStrategy] = {
+    for (
+      insertStrat <- for (_ <- State.mod(insertStrategy(name))) yield DeclaredStrategyInstance(insertStrategyName(name));
+      downSwapStrat <- for (_ <- State.mod(downSwapStrat(name))) yield DeclaredStrategyInstance(downSwapStratName)
+    ) yield DeclaredStrategyInstance("downAndThen",
+      downSwapStrat, insertStrat)
   }
 
 }
