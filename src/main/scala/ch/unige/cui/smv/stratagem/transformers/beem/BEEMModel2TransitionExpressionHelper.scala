@@ -18,7 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.transformers.beem
 
 import scala.language.implicitConversions
-
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.beem.DivineProcess
 import ch.unige.cui.smv.stratagem.beem.expressions.And
@@ -55,6 +54,7 @@ import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatur
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.NEQ_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.PLUS_FUNCTOR
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.TRUE_CONSTANT_NAME
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.valueAndIndex
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper._test
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.arr
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.arrVar
@@ -91,6 +91,8 @@ import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
+import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 
 /**
  * Helper containing all expression related operations.
@@ -109,8 +111,8 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
 
     implicit def proc2String(p: DivineProcess) = p.name
 
-    val (readFirstIntTS, readFirstIntStrategy) = createReadIntExpressionStrategy(proc, n1, initialTS)
-    val (readSecondtIntTS, readSecondIntStrategy) = createReadIntExpressionStrategy(proc, n2, readFirstIntTS)
+    val (readFirstIntTS, readFirstIntStrategy) = createReadIntExpressionStrategy(proc, n1)(initialTS)
+    val (readSecondtIntTS, readSecondIntStrategy) = createReadIntExpressionStrategy(proc, n2)(readFirstIntTS)
     val readIntegersStrategyName = proc + readFirstIntStrategy + "_" + readSecondIntStrategy
 
     var currenTS = ifNotContained(readIntegersStrategyName, readSecondtIntTS) {
@@ -224,7 +226,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
     (currenTS, (DeclaredStrategyInstance("bottomUp", DeclaredStrategyInstance(plusStrategyInstance))))
   }
 
-  def createReadIntExpressionStrategy(proc: DivineProcess, exp: IntegerExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = {
+  def createReadIntExpressionStrategy(proc: DivineProcess, exp: IntegerExpression)(initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = {
     implicit val a = initialTS.adt
     exp match {
       case Value(n) =>
@@ -238,7 +240,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
       case Minus(n1, n2) => createEvalStrategyForBinaryIntOperation(proc, initialTS, n1, n2, MINUS_FUNCTOR)(createStrategiesForPlus)
       case Darray(name, n) =>
         // two cases: global and local variables
-        val (readNTS, readNStrat) = createReadIntExpressionStrategy(proc, n, initialTS)
+        val (readNTS, readNStrat) = createReadIntExpressionStrategy(proc, n)(initialTS)
         if (proc.container.get.globalVariables.contains(name)) {
           val (resTS, readGArrayStrat) = readGlobalArray(name, readNTS)
           (resTS, Sequence(readNStrat, readGArrayStrat))
@@ -279,8 +281,8 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
 
     implicit def proc2String(p: DivineProcess) = p.name
 
-    val (readFirstIntTS, readFirstIntStrategy) = createReadIntExpressionStrategy(proc, n1, initialTS)
-    val (readSecondtIntTS, readSecondIntStrategy) = createReadIntExpressionStrategy(proc, n2, readFirstIntTS)
+    val (readFirstIntTS, readFirstIntStrategy) = createReadIntExpressionStrategy(proc, n1)(initialTS)
+    val (readSecondtIntTS, readSecondIntStrategy) = createReadIntExpressionStrategy(proc, n2)(readFirstIntTS)
     val readIntegersStrategyName = proc + readFirstIntStrategy + "_" + readSecondIntStrategy
 
     var currenTS = ifNotContained(readIntegersStrategyName, readSecondtIntTS) {
@@ -326,7 +328,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
   def createTransitionSystemForVoidExpr(proc: DivineProcess, exp: VoidExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = exp match {
     case Noop => (initialTS, Identity)
     case Assign(leftExpr, rightExp) =>
-      val (readRightExpTS, readRightExpStrat) = createReadIntExpressionStrategy(proc, rightExp, initialTS)
+      val (readRightExpTS, readRightExpStrat) = createReadIntExpressionStrategy(proc, rightExp)(initialTS)
       val (assignTopOfStackTS, assignTopOfStackStrat) = createTransitionSystemForLeftExpression(proc, leftExpr, readRightExpTS) // we need a strategy to put the head of the stack in a global variable
       (assignTopOfStackTS, Sequence(readRightExpStrat, assignTopOfStackStrat))
   }
@@ -340,6 +342,11 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
         intVar(stackElt, $i1, intVar(name, $i2, $s1))
           -> intVar(name, $i1, $s1))(false)
     }
+  }
+
+  def packAddressAndData(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    (initialTS, SimpleStrategy(List(intVar(stackElt, $n1, intVar(stackElt, $n2, $s1)) -> intVar(stackElt, valueAndIndex($n2, $n1), $s1))))
   }
 
   def createTransitionSystemForLeftExpression(proc: DivineProcess, exp: LeftExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = {
@@ -356,6 +363,26 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
           res.eval(initialTS)
         } else // local variables
           null // TODO   
+      case Darray(name, n) => // TODO finish writing arrays, create new wrapper type 
+        val res = for {
+          readValueStrat <- State.modAndReturn(createReadIntExpressionStrategy(proc, n))
+          packStrategy <- State.modAndReturn(packAddressAndData)
+          downSwapStrat <- for (_ <- State.mod(downSwapStrat(name))) yield DeclaredStrategyInstance(downSwapStratName)
+          checkArray <- for (_ <- State.mod(declareCheckArrForStratVar(name))) yield DeclaredStrategyInstance(checkForArrStrategyName(name))
+          insertWriteGet <- for (_ <- State.mod(insertWriteGetStrategy(name))) yield DeclaredStrategyInstance(insertWriteGetStrategyName(name))
+          arrWriteDown <- for (_ <- State.mod(arrWriteDownStrat)) yield DeclaredStrategyInstance(arrWriteDownStratName)
+          arrWrite <- for (_ <- State.mod(arrWriteStrat)) yield DeclaredStrategyInstance(arrWriteStratName)
+        } yield Sequence(Sequence(
+          readValueStrat, packStrategy),
+          DeclaredStrategyInstance("downAndThen", downSwapStrat,
+            Sequence(Sequence(
+              checkArray,
+              insertWriteGet),
+              One(
+                DeclaredStrategyInstance("arrayDownAndThen", arrWriteDown,
+                  arrWrite
+                  ), 2))))
+        res.eval(initialTS)
     }
   }
 
@@ -465,6 +492,17 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
     }
   }
 
+  def insertWriteGetStrategyName(name: String) = "insertWriteGet_" + name
+
+  def insertWriteGetStrategy(name: String)(initialTS: TransitionSystem) = { // use the value in the stack to go and search for the value
+    implicit val a = initialTS.adt
+    val insertStrategyName = insertWriteGetStrategyName(name) // this strategy inserts the operation to extract some value in the array
+    ifNotContained(insertStrategyName, initialTS) {
+      initialTS.declareStrategy(insertStrategyName,
+        intVar(stackElt, valueAndIndex($i1, $n1), arrVar(name, $a1, $s1)) -> arrVar(name, getArr(valueAndIndex($i1, $n1), $a1), $s1))(false)
+    }
+  }
+
   def downSwapStratName = "downSwapGet"
 
   def downSwapStrat(name: String)(initialTS: TransitionSystem) = {
@@ -536,6 +574,26 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
     }
   }
 
+  val arrWriteDownStratName = "arrWriteDown"
+
+  def arrWriteDownStrat(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    ifNotContained(arrWriteDownStratName, initialTS) {
+      initialTS
+        .declareStrategy(arrWriteDownStratName, getArr(valueAndIndex($i1, suc($n1)), arr($i2, $a1)) -> arr($i2, getArr(valueAndIndex($i1, $n1), $a1)))(false)
+    }
+  }
+
+  val arrWriteStratName = "arrWrite"
+
+  def arrWriteStrat(initialTS: TransitionSystem) = {
+    implicit val a = initialTS.adt
+    ifNotContained(arrWriteStratName, initialTS) {
+      initialTS
+        .declareStrategy(arrWriteStratName, getArr(valueAndIndex($i1, 0), arr($i2, $a1)) -> arr($i1, $a1))(false)
+    }
+  }
+
   val arrUpStratName = "arrUp"
 
   def arrUpStrat(initialTS: TransitionSystem) = {
@@ -561,7 +619,6 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
 
     val intermediateState = for (
       checkArrVar <- State.mod(declareCheckArrForStratVar(name)) map ((_: Unit) => DeclaredStrategyInstance(checkForArrStrategyName(name)));
-//      findVarStrat <- State.mod(declareFindArrStrategyName(name)) map ((_: Unit) => DeclaredStrategyInstance(findVarStrategyName(name), _: NonVariableStrategy));
       insertGetStrategy <- for (_ <- State.mod(insertGetStrategy(name))) yield DeclaredStrategyInstance(insertGetStrategyName(name));
       downSwapStrat <- for (_ <- State.mod(downSwapStrat(name))) yield DeclaredStrategyInstance(downSwapStratName);
       checkForZero <- for (_ <- State.mod(checkZero)) yield DeclaredStrategyInstance(checkForZeroName);

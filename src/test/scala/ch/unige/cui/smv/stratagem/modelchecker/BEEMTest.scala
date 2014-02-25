@@ -353,4 +353,30 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
     assert(result.size == 2)
   }
 
+  val simpleModelBEEM11 = new DivineModel()
+    .declareIntVariable('i, 2)
+    .declareArrayVariable('a, 3)
+    .declareProc {
+      new DivineProcess("P_0", Set('off), 'off)
+        .declareTransition('off -> 'off, LessThan(Darray("a", 'i), 9), Assign(Darray("a", 'i), Plus(Darray("a", 'i), 1)))
+    }.declareProc {
+      new DivineProcess("P_1", Set('off), 'off)
+        .declareTransition('off -> 'off, True, Noop)
+    }
+    .declareProc {
+      new DivineProcess("P_2", Set('off), 'off)
+        .declareTransition('off -> 'off, True, Noop)
+    }
+
+  "SimpleModel11" should "have 10 different states" in {
+    val ts = BEEMModel2TransitionSystem(simpleModelBEEM11)
+    println(ts)
+    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+    val result = rewriter(initialState).get
+//    println(result.size)
+    println(result)
+    assert(result.size == 10)
+  }
+
 }

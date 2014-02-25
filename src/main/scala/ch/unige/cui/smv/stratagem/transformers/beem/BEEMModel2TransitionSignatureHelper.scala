@@ -46,6 +46,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   def getArr(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(GET_ARR_FUNCTOR, n1, n2)
   def arr(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(ARRAY_FUNCTOR_NAME, n1, n2)
   def readVal(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(READ_VAL_ARR_FUNCTOR, n1, n2)
+  def valueAndIndex(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(VAL_AND_INDEX_FUNCTOR, n1, n2)
 
   /**
    * Main function for the creation of the signature specific signature of the model.
@@ -122,6 +123,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   val MINUS_FUNCTOR = "minus"
   val GET_ARR_FUNCTOR = "getArr"
   val READ_VAL_ARR_FUNCTOR = "readVal"
+  val VAL_AND_INDEX_FUNCTOR = "valIndex"
 
   val $s1 = "s1" // represents a state
   val $s2 = "s2" // represents a state
@@ -170,6 +172,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
     .withOperation(MINUS_FUNCTOR, INT_SORT_NAME, INT_SORT_NAME, INT_SORT_NAME)
     .withOperation(GET_ARR_FUNCTOR, ARRAY_SORT_NAME, INT_SORT_NAME, ARRAY_SORT_NAME) // this is before reading
     .withOperation(READ_VAL_ARR_FUNCTOR, ARRAY_SORT_NAME, INT_SORT_NAME, ARRAY_SORT_NAME) // this is after reading
+    .withOperation(VAL_AND_INDEX_FUNCTOR, INT_SORT_NAME, INT_SORT_NAME, NAT_SORT_NAME) // container type for a value + an array index
     // var functors
     .withGenerator(INT_VAR_FUNCTOR, STATECOMP_SORT_NAME, VARIABLE_NAME_SORT_NAME, INT_SORT_NAME, STATECOMP_SORT_NAME)
     .withGenerator(ARRAY_VAR_FUNCTOR, STATECOMP_SORT_NAME, VARIABLE_NAME_SORT_NAME, ARRAY_SORT_NAME, STATECOMP_SORT_NAME)

@@ -61,9 +61,9 @@ object State {
   def mod[S](f: S => S): State[S, Unit] =
     State(s => ((), f(s)))
 
-  def modAndReturn[A, S](f: S => (A, S)): State[S, A] =
+  def modAndReturn[A, S](f: S => (S, A)): State[S, A] =
     State(s => {
-      val (a, t) = f(s)
+      val (t, a) = f(s)
       (a, t)
     })
 
