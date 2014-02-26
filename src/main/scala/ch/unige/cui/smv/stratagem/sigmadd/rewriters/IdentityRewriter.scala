@@ -18,10 +18,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+
 /**
  * Implements the identity strategy. Always return the identity.
  */
-private[sigmadd] object IdentityRewriter extends SigmaDDRewriter {
+private[sigmadd] case class IdentityRewriter(override val sigmaDDFactory: SigmaDDFactoryImpl) extends SigmaDDRewriter(sigmaDDFactory) {
 
   override val toString = "IdentityRewriter"
 

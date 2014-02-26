@@ -24,8 +24,9 @@ import scala.collection.immutable.Nil
  * Represents an abstract sort.
  */
 abstract class ASort {
-  val name:String
-  
+
+  val name: String
+
   /**
    * @return true if s is a super sort or the same sort as this. Otherwise returns false.
    */
@@ -66,32 +67,52 @@ case class Sort(name: String) extends ASort {
 object ASort {
   /**
    * Finds the common parent of s1 and s2.
-   * @param s1 some sort
-   * @param s2 some other sort
-   * @return the common parent sort of s1 and s2
+   * @param sorts a list of sorts
+   * @return the common parent sort of all those sorts.
    */
-  def findCommonParent(s1: ASort, s2: ASort): Option[ASort] = {
+  def findCommonParent(sorts: ASort*): Option[ASort] = {
     // build list of sorts until root sort
     def buildList(sort: ASort): List[ASort] = sort match {
       case a: Sort => List(a)
       case e: SubSort => e :: buildList(e.superSort)
     }
-    if (s1 == s2) { Some(s1) } else {
-      // from now on, s1 and s2 are different
-      var list1 = buildList(s1).reverse
-      var list2 = buildList(s2).reverse
-      // prepare for very ugly and imperative part of the code
-      var result = list1.head
-      if (list1.head != list2.head) {
-        None
-      } else {
-        while (list1.head == list2.head && (list1.tail != List.empty && list2.tail != List.empty)) {
-          result = list1.head
-          list1 = list1.tail
-          list2 = list2.tail
+
+    def buildResult(list: List[ASort], listOfReverseLists: List[List[ASort]]):List[ASort] = list match {
+      case Nil => Nil
+      case head :: tail =>
+        val listOfFirstElements = listOfReverseLists.map(_.headOption)
+        if (listOfFirstElements.contains(None)) Nil
+        else if (!listOfFirstElements.filter(Some(head) != _).isEmpty) { // there is at least one element that is not equal to the first one
+          Nil
+        } else {
+          head::buildResult(tail, listOfReverseLists.map(_.tail))
         }
-        Some(result)
-      }
     }
+
+    val listOfReverseLists = for (list <- for (sort <- sorts) yield buildList(sort).reverse) yield list
+    val listOfFirstElements = listOfReverseLists.map(_.head)
+    if (!listOfFirstElements.filter(listOfFirstElements.head != _).isEmpty) { // there is at least one element that is not equal to the first one
+      None
+    } else {
+      Some(buildResult(listOfReverseLists.head, listOfReverseLists.tail.toList).reverse.head)
+    }
+
+    //    if (s1 == s2) { Some(s1) } else {
+    //      // from now on, s1 and s2 are different
+    //      var list1 = buildList(s1).reverse
+    //      var list2 = buildList(s2).reverse
+    //      // prepare for very ugly and imperative part of the code
+    //      var result = list1.head
+    //      if (list1.head != list2.head) {
+    //        None
+    //      } else {
+    //        while ((list1 != List.empty && list2 != List.empty) && list1.head == list2.head) {
+    //          result = list1.head
+    //          list1 = list1.tail
+    //          list2 = list2.tail
+    //        }
+    //        Some(result)
+    //      }
+    //    }
   }
 }

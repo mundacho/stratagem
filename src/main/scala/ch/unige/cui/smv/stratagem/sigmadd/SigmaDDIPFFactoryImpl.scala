@@ -30,9 +30,9 @@ import ch.unige.cui.smv.stratagem.util.OperationCache
  * This class implements an IPF factory to be embedded in SigmaDDs.
  * The IPFs produced by this factory can have other IPFs as value.
  */
-object SigmaDDIPFFactoryImpl extends IPFAbstractFactory {
+class SigmaDDIPFFactoryImpl(val sigmaDDInductiveFactory: SigmaDDInductiveIPFFactoryImpl) extends IPFAbstractFactory {
 
-  type InductiveIPFType = SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl
+  type InductiveIPFType = SigmaDDInductiveIPFFactoryImpl#InductiveIPFImpl
 
   type CanonicalType = IPFImpl
 

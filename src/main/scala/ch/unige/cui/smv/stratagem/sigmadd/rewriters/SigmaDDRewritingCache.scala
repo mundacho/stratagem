@@ -22,6 +22,7 @@ import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.util.LightWeightWrapper
 import com.typesafe.scalalogging.slf4j.Logging
 import com.google.common.collect.MapMaker
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 
 /**
  * This class should be used as a mixin.
@@ -31,14 +32,14 @@ trait SigmaDDRewritingCache extends SigmaDDRewriter {
   /**
    * A map where we keep our cache.
    */
-  val operationCache = (new MapMaker).weakValues().makeMap[LightWeightWrapper[SigmaDDFactoryImpl.SigmaDDImpl], SigmaDDFactoryImpl.SigmaDDImpl]()
+  val operationCache = (new MapMaker).weakValues().makeMap[LightWeightWrapper[SigmaDDFactoryImpl#SigmaDDImpl], SigmaDDFactoryImpl#SigmaDDImpl]()
 
   /**
    * This function adds cache functionality to the SigmaDD rewriter.
    */
   abstract override def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
     SigmaDDRewritingCacheStats.callsCounter = SigmaDDRewritingCacheStats.callsCounter + 1
-    val wrapper = LightWeightWrapper[SigmaDDFactoryImpl.SigmaDDImpl](sigmaDD)
+    val wrapper = LightWeightWrapper[SigmaDDFactoryImpl#SigmaDDImpl](sigmaDD)
     val cached = operationCache.get(wrapper)
     if (cached != null) {
       SigmaDDRewritingCacheStats.hitCounter = SigmaDDRewritingCacheStats.hitCounter + 1
@@ -46,7 +47,7 @@ trait SigmaDDRewritingCache extends SigmaDDRewriter {
         case sigmaDD.bottomElement => None
         case s @ _ => Some(s)
       }
-    } else {
+    } else { 
       val res = super.apply(sigmaDD)
       res match {
         case Some(s) =>
@@ -77,10 +78,5 @@ object SigmaDDRewritingCacheStats extends Logging {
     logger.debug("Cache hits to rewrites ratio: " + 100 * SigmaDDRewritingCacheStats.hitCounter / SigmaDDRewritingCacheStats.callsCounter + "%")
     result
   }
-
-  /**
-   * Resets the counters.
-   */
-  def resetCaches { callsCounter = 0; hitCounter = 0; SigmaDDRewriterFactory.resetOperationCaches }
 
 }

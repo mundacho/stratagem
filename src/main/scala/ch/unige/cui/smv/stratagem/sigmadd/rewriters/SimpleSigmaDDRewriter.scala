@@ -24,23 +24,24 @@ import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
 import ch.unige.cui.smv.stratagem.adt.Equation
 import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 
 /**
  * This class implements a SigmaDDRewriter for simple strategies.
  * @param simpleStrategy a strategy that will be transformed to a rewriter.
  */
-private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy, isNotStrategy:Boolean = false) extends SigmaDDRewriter {
+private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy, override val sigmaDDFactory:SigmaDDFactoryImpl, isNotStrategy:Boolean = false) extends SigmaDDRewriter(sigmaDDFactory) {
 
   override lazy val toString = (new StringBuilder("SimpleSigmaDDRewriter(") append simpleStrategy.toString append ", " append isNotStrategy.toString append ")").toString
 
   override lazy val hashCode = (this.getClass(), simpleStrategy, isNotStrategy).hashCode
 
   override def equals(obj: Any): Boolean = obj match {
-    case that @ SimpleSigmaDDRewriter(strat, isNot) => (this eq that) || ((simpleStrategy == strat) && isNotStrategy == isNot)
+    case that @ SimpleSigmaDDRewriter(strat, _, isNot) => (this eq that) || ((simpleStrategy == strat) && isNotStrategy == isNot) // we explicitly ignore the factory
     case _ => false
   }
 
-  type InductiveType = SigmaDDInductiveIPFFactoryImpl.InductiveIPFImpl
+  type InductiveType = SigmaDDInductiveIPFFactoryImpl#InductiveIPFImpl
 
   type SubstitutionMap = Map[String, SigmaDDImplType]
 
@@ -103,8 +104,8 @@ private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy
         var sigmaDDToRemove = sigmaDD.bottomElement
         var sigmaDDToAdd = sigmaDD.bottomElement
         for (substitution <- listOfSubstitutions) {
-          sigmaDDToRemove = sigmaDDToRemove v SigmaDDFactoryImpl.instantiate(equation.leftSide, substitution)
-          sigmaDDToAdd = sigmaDDToAdd v SigmaDDFactoryImpl.instantiate(equation.rightSide, substitution)
+          sigmaDDToRemove = sigmaDDToRemove v sigmaDDFactory.instantiate(equation.leftSide, substitution)
+          sigmaDDToAdd = sigmaDDToAdd v sigmaDDFactory.instantiate(equation.rightSide, substitution)
         }
         if (isNotStrategy) {
           val res = sigmaDD \ sigmaDDToRemove

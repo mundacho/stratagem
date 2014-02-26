@@ -79,12 +79,13 @@ object Main extends Logging {
         if (config.transitionSystem) {
           logger.info(ts.toString)
         }
-        val initialState = SigmaDDFactoryImpl.create(ts.initialState)
+        val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
+        val initialState = sigmaDDFactory.create(ts.initialState)
         logger.debug(s"Successfully created initial state")
         val rewriter = if (config.saturation) {
-          SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
+          sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
         } else {
-          SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+          sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
         }
         logger.debug(s"Successfully created state space rewriter")
         logger.debug("Starting calculation of state space")

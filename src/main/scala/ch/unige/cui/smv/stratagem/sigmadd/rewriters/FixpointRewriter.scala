@@ -19,19 +19,20 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
 import com.typesafe.scalalogging.slf4j.Logging
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 
 /**
  * Implements the fixpoint rewriter. It applies its rewriter until a fixpoint is reached.
  * @param rewriter the rewriter to be applied.
  */
-private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter) extends SigmaDDRewriter with Logging {
+private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter, override val sigmaDDFactory: SigmaDDFactoryImpl) extends SigmaDDRewriter(sigmaDDFactory) with Logging {
 
   override lazy val hashCode = (this.getClass(), rewriter).hashCode
 
   override lazy val toString = (new StringBuilder("FixpointRewriter(") append rewriter.toString append ")").toString
 
   override def equals(obj: Any): Boolean = obj match {
-    case that @ FixpointRewriter(r) => (this eq that) || (rewriter == r)
+    case that @ FixpointRewriter(r, _) => (this eq that) || (rewriter == r)
     case _ => false
   }
 

@@ -19,11 +19,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 
 /**
  * The parent class of all SigmaDD rewriters.
  */
-abstract class SigmaDDRewriter {
+abstract class SigmaDDRewriter(val sigmaDDFactory: SigmaDDFactoryImpl) {
 
   override def hashCode: Int = throw new NotImplementedError("All subclasses of" + this.getClass().getName() + " should implement hashcode")
 
@@ -32,7 +33,7 @@ abstract class SigmaDDRewriter {
   /**
    * An alias for the type of the rewriting type.
    */
-  type SigmaDDImplType = SigmaDDFactoryImpl.SigmaDDImpl
+  type SigmaDDImplType = SigmaDDFactoryImpl#SigmaDDImpl
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType]
 

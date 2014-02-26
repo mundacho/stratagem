@@ -42,17 +42,18 @@ class PNML2TransitionSystemTest extends FlatSpec {
   it should "be able to generate a valid transition system generating the right number of states." in {
     val pt = PNML2PetriNet(new File("resources/test/Philosophers-5.pnml"))
     val ts = PetriNet2TransitionSystem(pt)
-    val initialState = SigmaDDFactoryImpl.create(ts.initialState)
-    val rewriter = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
+    val initialState = sigmaDDFactory.create(ts.initialState)
+    val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
     assert(rewriter(initialState).get.size == 243)
   }
 
   it should "be able to generate a valid transition system generating the right number of states for even larger sets" in {
-    SigmaDDFactoryImpl.cleanAllCaches
     val pt = PNML2PetriNet(new File("resources/test/philo.pnml"))
     val ts1 = PetriNet2TransitionSystem(pt)
-    val initialState1 = SigmaDDFactoryImpl.create(ts1.initialState)
-    val rewriter1 = SigmaDDRewriterFactory.transitionSystemToStateSpaceRewriter(ts1)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts1.adt.signature)
+    val initialState1 = sigmaDDFactory.create(ts1.initialState)
+    val rewriter1 = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts1)
     assert(rewriter1(initialState1).get.size == 729)
   }
 

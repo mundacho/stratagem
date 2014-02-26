@@ -29,13 +29,13 @@ import ch.unige.cui.smv.stratagem.util.OperationCache
 /**
  * This factory represents the tail of a SigmaDD.
  */
-object SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
+class SigmaDDInductiveIPFFactoryImpl(val sigmaddFactory: SigmaDDFactoryImpl) extends IPFAbstractFactory {
 
   type CanonicalType = InductiveIPFImpl
 
-  type SigmaDDType = SigmaDDFactoryImpl.SigmaDDImpl
+  type SigmaDDType = SigmaDDFactoryImpl#SigmaDDImpl
 
-  type FromType = Map[SigmaDDType, InductiveIPFImpl]
+  type FromType = Map[SigmaDDType, SigmaDDInductiveIPFFactoryImpl#InductiveIPFImpl]
 
   protected def makeFrom(alpha: AnyRef): InductiveIPFImpl = alpha match {
     case a: HashMap[SigmaDDType, InductiveIPFImpl] @unchecked => new InductiveIPFImpl(a) with OperationCache
@@ -50,7 +50,7 @@ object SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
    */
   def create(terms: List[ATerm]): InductiveIPFImpl = terms match {
     case Nil => TopIPF
-    case x :: tail => create(HashMap(SigmaDDFactoryImpl.create(x) -> create(tail)))
+    case x :: tail => create(HashMap(sigmaddFactory.create(x) -> create(tail)))
   }
 
   /**
@@ -62,7 +62,7 @@ object SigmaDDInductiveIPFFactoryImpl extends IPFAbstractFactory {
    */
   def instanciate(terms: List[ATerm], variables: Map[String, SigmaDDType]): InductiveIPFImpl = terms match {
     case Nil => TopIPF
-    case x :: tail => create(HashMap(SigmaDDFactoryImpl.instantiate(x, variables) -> instanciate(tail, variables)))
+    case x :: tail => create(HashMap(sigmaddFactory.instantiate(x, variables) -> instanciate(tail, variables)))
   }
 
   /**

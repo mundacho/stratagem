@@ -38,10 +38,17 @@ import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.IfThenElse
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.IdentityRewriter
 /**
  * Represents a factory of rewriters.
  */
-object SigmaDDRewriterFactory {
+class SigmaDDRewriterFactory private[sigmadd] (sigmaDDFactory: SigmaDDFactoryImpl) {
+
+  /**
+   * Resets the counters.
+   */
+  def resetCaches { SigmaDDRewritingCacheStats.callsCounter = 0; SigmaDDRewritingCacheStats.hitCounter = 0; this.resetOperationCaches }
 
   private var rewriterCache = scala.collection.mutable.HashMap[Strategy, SigmaDDRewriter]()
 
@@ -53,28 +60,28 @@ object SigmaDDRewriterFactory {
    * @param ts the transition system in which the strategies are (it is necessary to obtain the declarations of the strategies)
    */
   def strategyToRewriter(s: Strategy)(implicit ts: TransitionSystem): SigmaDDRewriter = s match {
-    case st: SimpleStrategy => rewriterCache.getOrElseUpdate(st, new SimpleSigmaDDRewriter(st))
-    case st @ Choice(s1, s2) => rewriterCache.getOrElseUpdate(st, new ChoiceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)))
-    case Fail => FailRewriter
-    case Identity => IdentityRewriter
-    case st @ Union(s1, s2) => rewriterCache.getOrElseUpdate(st, new UnionRewriter(strategyToRewriter(s1), strategyToRewriter(s2)) with SigmaDDRewritingCache)
+    case st: SimpleStrategy => rewriterCache.getOrElseUpdate(st, new SimpleSigmaDDRewriter(st, sigmaDDFactory))
+    case st @ Choice(s1, s2) => rewriterCache.getOrElseUpdate(st, new ChoiceRewriter(strategyToRewriter(s1), strategyToRewriter(s2), sigmaDDFactory))
+    case Fail => FailRewriter(sigmaDDFactory)
+    case Identity => IdentityRewriter(sigmaDDFactory)
+    case st @ Union(s1, s2) => rewriterCache.getOrElseUpdate(st, new UnionRewriter(strategyToRewriter(s1), strategyToRewriter(s2), sigmaDDFactory) with SigmaDDRewritingCache)
     case strategyInstance @ DeclaredStrategyInstance(name, actualParams @ _*) =>
-      rewriterCache.getOrElseUpdate(strategyInstance, new DeclaredStrategyRewriter(strategyInstance, ts) with SigmaDDRewritingCache)
-    case st @ One(s1, n) => rewriterCache.getOrElseUpdate(st, new OneRewriter(strategyToRewriter(s1), n))
-    case st @ FixPointStrategy(s) => rewriterCache.getOrElseUpdate(st, new FixpointRewriter(strategyToRewriter(s)))
-    case st @ Sequence(s1, s2) => rewriterCache.getOrElseUpdate(st, new SequenceRewriter(strategyToRewriter(s1), strategyToRewriter(s2)))
+      rewriterCache.getOrElseUpdate(strategyInstance, new DeclaredStrategyRewriter(strategyInstance, ts, sigmaDDFactory) with SigmaDDRewritingCache)
+    case st @ One(s1, n) => rewriterCache.getOrElseUpdate(st, new OneRewriter(strategyToRewriter(s1), n, sigmaDDFactory))
+    case st @ FixPointStrategy(s) => rewriterCache.getOrElseUpdate(st, new FixpointRewriter(strategyToRewriter(s), sigmaDDFactory))
+    case st @ Sequence(s1, s2) => rewriterCache.getOrElseUpdate(st, new SequenceRewriter(strategyToRewriter(s1), strategyToRewriter(s2), sigmaDDFactory))
     case st @ Try(s1) => rewriterCache.getOrElseUpdate(st, strategyToRewriter(Choice(s1, Identity)))
     case st @ Not(Not(s)) => strategyToRewriter(s)
-    case st @ Not(s @ SimpleStrategy(List(_, _*))) => rewriterCache.getOrElseUpdate(st, new SimpleSigmaDDRewriter(s, true)) // we create the rewriter
+    case st @ Not(s @ SimpleStrategy(List(_, _*))) => rewriterCache.getOrElseUpdate(st, new SimpleSigmaDDRewriter(s, sigmaDDFactory, true)) // we create the rewriter
     case st @ Not(s @ DeclaredStrategyInstance(name)) => strategyToRewriter(Not(unwindDeclaredStrategyInstance(s, ts)))
-    case st @ IfThenElse(s1, s2, s3) => rewriterCache.getOrElseUpdate(st, new IfThenElseRewriter(strategyToRewriter(s1), strategyToRewriter(s2), strategyToRewriter(s3)))
+    case st @ IfThenElse(s1, s2, s3) => rewriterCache.getOrElseUpdate(st, new IfThenElseRewriter(strategyToRewriter(s1), strategyToRewriter(s2), strategyToRewriter(s3), sigmaDDFactory))
     case st @ Saturation(s, n) => rewriterCache.getOrElseUpdate(st, strategyToRewriter(Sequence(Choice(One(Saturation(s, n), n), FixPointStrategy(s)), FixPointStrategy(s))))
   }
-  
+
   def unwindDeclaredStrategyInstance(strategy: DeclaredStrategyInstance, ts: TransitionSystem): Strategy = {
     ts.strategyDeclarations(strategy.name).declaredStrategy.body match {
       case DeclaredStrategyInstance(name) => unwindDeclaredStrategyInstance(strategy, ts)
-      case st : SimpleStrategy => st
+      case st: SimpleStrategy => st
       case Not(Not(st)) => unwindDeclaredStrategyInstance(strategy, ts)
       case Not(st) => Not(unwindDeclaredStrategyInstance(strategy, ts))
       case _ => throw new IllegalStateException("Invalid declared strategy after Not: %s".format(strategy.name))

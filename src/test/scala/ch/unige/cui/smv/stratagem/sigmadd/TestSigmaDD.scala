@@ -42,14 +42,16 @@ class TestSigmaDD extends FlatSpec {
 
     new ADT("myAdt", sign).declareVariable("b", "bool").declareVariable("x", "nat").declareVariable("y", "nat")
   }
+  
+  val sigmaDDFactory = SigmaDDFactoryImpl(adt.signature)
 
   val boolSort = adt.signature.sorts("bool")
-  val trueSigmaDD = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create("true", SigmaDDInductiveIPFFactoryImpl.TopIPF)))
-  val falseSigmaDD = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create("false", SigmaDDInductiveIPFFactoryImpl.TopIPF)))
-  val topIPF = SigmaDDInductiveIPFFactoryImpl.TopIPF
-  val trueTuple = SigmaDDInductiveIPFFactoryImpl.create(HashMap(trueSigmaDD -> topIPF))
-  val trueTrueTuple = SigmaDDInductiveIPFFactoryImpl.create(HashMap(trueSigmaDD -> trueTuple))
-  val andTrueTrueSigmaDD = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create("and", trueTrueTuple)))
+  val trueSigmaDD = sigmaDDFactory.create((boolSort, sigmaDDFactory.sigmaDDIPFFactory.create("true", sigmaDDFactory.sigmaDDInductiveIPFFactory.TopIPF)))
+  val falseSigmaDD = sigmaDDFactory.create((boolSort, sigmaDDFactory.sigmaDDIPFFactory.create("false", sigmaDDFactory.sigmaDDInductiveIPFFactory.TopIPF)))
+  val topIPF = sigmaDDFactory.sigmaDDInductiveIPFFactory.TopIPF
+  val trueTuple = sigmaDDFactory.sigmaDDInductiveIPFFactory.create(HashMap(trueSigmaDD -> topIPF).asInstanceOf[sigmaDDFactory.sigmaDDInductiveIPFFactory.FromType])
+  val trueTrueTuple = sigmaDDFactory.sigmaDDInductiveIPFFactory.create(HashMap(trueSigmaDD -> trueTuple).asInstanceOf[sigmaDDFactory.sigmaDDInductiveIPFFactory.FromType])
+  val andTrueTrueSigmaDD = sigmaDDFactory.create((boolSort, sigmaDDFactory.sigmaDDIPFFactory.create("and", trueTrueTuple)))
 
   // defs for defining terms
   def zero = adt.term("zero")
@@ -64,21 +66,21 @@ class TestSigmaDD extends FlatSpec {
   "A SigmaDD" should "be capable of representing a constant set of constants" in {
     val unionOfConstants = trueSigmaDD v falseSigmaDD
     // scalastyle:off
-    val expectedResult = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create((HashMap(StringSetWrapperFactory.create(Set("true", "false")) -> SigmaDDInductiveIPFFactoryImpl.TopIPF)))))
+    val expectedResult = sigmaDDFactory.create((boolSort, sigmaDDFactory.sigmaDDIPFFactory.create((HashMap(StringSetWrapperFactory.create(Set("true", "false")) -> sigmaDDFactory.sigmaDDInductiveIPFFactory.TopIPF)))))
     // scalastyle:on
     assert(unionOfConstants eq expectedResult)
   }
 
   it should "be capabe of representing the union of a constant and a composite term" in {
     // scalastyle:off
-    val expectedResult = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
+    val expectedResult = sigmaDDFactory.create((boolSort, sigmaDDFactory.sigmaDDIPFFactory.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
     // scalastyle:on
     assert(expectedResult eq (andTrueTrueSigmaDD v trueSigmaDD))
   }
 
   it should "be capabe of representing the difference of two sets of terms" in {
     // scalastyle:off
-    val expectedResult = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
+    val expectedResult = sigmaDDFactory.create((boolSort, sigmaDDFactory.sigmaDDIPFFactory.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
     // scalastyle:on
     assert(expectedResult eq ((andTrueTrueSigmaDD v trueSigmaDD) \ falseSigmaDD)) // We subtract an element that is not in the set
     assert(andTrueTrueSigmaDD eq ((andTrueTrueSigmaDD v trueSigmaDD) \ trueSigmaDD)) // we subtract an element that was already there
@@ -86,7 +88,7 @@ class TestSigmaDD extends FlatSpec {
 
   it should "be capabe of representing the intersection of two sets of terms" in {
     // scalastyle:off
-    val expectedResult = SigmaDDFactoryImpl.create((boolSort, SigmaDDIPFFactoryImpl.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
+    val expectedResult = sigmaDDFactory.create((boolSort, sigmaDDFactory.sigmaDDIPFFactory.create((HashMap(StringSetWrapperFactory.create(Set("true")) -> topIPF, StringSetWrapperFactory.create(Set("and")) -> trueTrueTuple)))))
     // scalastyle:on
     assert(expectedResult == ((andTrueTrueSigmaDD v trueSigmaDD v falseSigmaDD) ^ (andTrueTrueSigmaDD v trueSigmaDD))) // We subtract an element that is not in the set
   }
@@ -96,36 +98,36 @@ class TestSigmaDD extends FlatSpec {
   }
 
   it should "create the correct SigmaDD from the correct term" in {
-    assert(SigmaDDFactoryImpl.create(andOp(trueOp, trueOp)) eq andTrueTrueSigmaDD)
-    assert(SigmaDDFactoryImpl.create(trueOp) eq trueSigmaDD)
+    assert(sigmaDDFactory.create(andOp(trueOp, trueOp)) eq andTrueTrueSigmaDD)
+    assert(sigmaDDFactory.create(trueOp) eq trueSigmaDD)
   }
 
   it should "not create a SigmaDD containing a variable" in {
-    intercept[IllegalArgumentException](SigmaDDFactoryImpl.create(andOp(adt.term("x"), trueOp)))
+    intercept[IllegalArgumentException](sigmaDDFactory.create(andOp(adt.term("x"), trueOp)))
   }
 
   it should "to rewrite integers" in {
     val simpleStrat1 = SimpleStrategy(List(plus(X, suc(Y)) -> suc(plus(X, Y))))
-    val rewriter = new SimpleSigmaDDRewriter(simpleStrat1)
-    val sigmadd1 = SigmaDDFactoryImpl.create(plus(suc(suc(zero)), suc(zero)))
-    val sigmadd2 = SigmaDDFactoryImpl.create(plus(suc(zero), suc(suc(zero))))
+    val rewriter = new SimpleSigmaDDRewriter(simpleStrat1, sigmaDDFactory)
+    val sigmadd1 = sigmaDDFactory.create(plus(suc(suc(zero)), suc(zero)))
+    val sigmadd2 = sigmaDDFactory.create(plus(suc(zero), suc(suc(zero))))
 
-    val sigmaddres1 = SigmaDDFactoryImpl.create(suc(plus(suc(suc(zero)), zero)))
-    val sigmaddres2 = SigmaDDFactoryImpl.create(suc(plus(suc(zero), suc(zero))))
+    val sigmaddres1 = sigmaDDFactory.create(suc(plus(suc(suc(zero)), zero)))
+    val sigmaddres2 = sigmaDDFactory.create(suc(plus(suc(zero), suc(zero))))
     assert(rewriter(sigmadd1 v sigmadd2).get eq (sigmaddres1 v sigmaddres2))
 
     val simpleStrat2 = SimpleStrategy(List(plus(X, zero) -> X))
-    val rewriter2 = new SimpleSigmaDDRewriter(simpleStrat2)
-    val sigmadd3 = SigmaDDFactoryImpl.create(plus(suc(suc(zero)), zero))
-    val sigmaddres3 = SigmaDDFactoryImpl.create(suc(suc(zero)))
+    val rewriter2 = new SimpleSigmaDDRewriter(simpleStrat2, sigmaDDFactory)
+    val sigmadd3 = sigmaDDFactory.create(plus(suc(suc(zero)), zero))
+    val sigmaddres3 = sigmaDDFactory.create(suc(suc(zero)))
     assert(rewriter2(sigmadd3).get eq sigmaddres3)
   }
 
   it should "rewrite even if there are no variables" in {
     val simpleStrat1 = SimpleStrategy(List(suc(suc(suc(zero))) -> zero))
-    val rewriter = new SimpleSigmaDDRewriter(simpleStrat1)
-    val sigmadd1 = SigmaDDFactoryImpl.create(suc(suc(suc(zero))))
-    val sigmaddres1 = SigmaDDFactoryImpl.create(zero)
+    val rewriter = new SimpleSigmaDDRewriter(simpleStrat1, sigmaDDFactory)
+    val sigmadd1 = sigmaDDFactory.create(suc(suc(suc(zero))))
+    val sigmaddres1 = sigmaDDFactory.create(zero)
 
     assert(rewriter(sigmadd1).get eq sigmaddres1)
   }
@@ -135,10 +137,10 @@ class TestSigmaDD extends FlatSpec {
       case 0 => zero
       case _ => suc(define(n - 1))
     }
-    val sigmadd1 = SigmaDDFactoryImpl.create(plus(define(100), define(100)))
+    val sigmadd1 = sigmaDDFactory.create(plus(define(100), define(100)))
     val simpleStrat1 = SimpleStrategy(List(plus(X, suc(Y)) -> suc(plus(X, Y))))
-    val rewriter = new SimpleSigmaDDRewriter(simpleStrat1)
-    assert(rewriter(sigmadd1).get eq SigmaDDFactoryImpl.create(suc(plus(define(100), define(99)))))
+    val rewriter = new SimpleSigmaDDRewriter(simpleStrat1, sigmaDDFactory)
+    assert(rewriter(sigmadd1).get eq sigmaDDFactory.create(suc(plus(define(100), define(99)))))
   }
 
 }

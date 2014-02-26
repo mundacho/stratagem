@@ -18,31 +18,28 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.sigmadd
 
 import org.scalatest.FlatSpec
+
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.adt.Signature
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.DeclaredStrategyRewriter
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.OneRewriter
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SimpleSigmaDDRewriter
-import ch.unige.cui.smv.stratagem.sigmadd.rewriters.UnionRewriter
 import ch.unige.cui.smv.stratagem.ts.Choice
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.Identity
+import ch.unige.cui.smv.stratagem.ts.Not
 import ch.unige.cui.smv.stratagem.ts.One
 import ch.unige.cui.smv.stratagem.ts.Sequence
 import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.ts.Strategy
 import ch.unige.cui.smv.stratagem.ts.TransitionSystem
-import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-import ch.unige.cui.smv.stratagem.sigmadd.rewriters.IdentityRewriter
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.Not
-import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
-import ch.unige.cui.smv.stratagem.ts.Union
-import ch.unige.cui.smv.stratagem.sigmadd.rewriters.FixpointRewriter
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.Try
+import ch.unige.cui.smv.stratagem.ts.Union
+import ch.unige.cui.smv.stratagem.ts.VariableStrategy
+
+
 
 /**
  * This class tests the strategies.
@@ -85,25 +82,28 @@ class TestStrategies extends FlatSpec {
   def Repeat(s: Strategy) = DeclaredStrategyInstance("repeat", s)
 
   val booleanStrategy = SimpleStrategy(List(not(trueOp) -> falseOp, not(falseOp) -> trueOp, andOp(trueOp, B) -> B, andOp(falseOp, B) -> falseOp))
-  val booleanRewriter = new SimpleSigmaDDRewriter(booleanStrategy)
+  
+  val sigmaDDFactory = SigmaDDFactoryImpl(adt.signature)
+  
+  val booleanRewriter = new SimpleSigmaDDRewriter(booleanStrategy, sigmaDDFactory)
 
   "OneStrategyRewriter" should "be able to rewrite simple booleans" in {
-    val oneRewriter = new OneRewriter(booleanRewriter, 0)
+    val oneRewriter = new OneRewriter(booleanRewriter, 0, sigmaDDFactory)
 
     // sigmaDDToRewrite1 = {not(true), and(true, false), and(true, not(false)}}
-    val sigmaDDToRewrite1 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, not(falseOp)))
+    val sigmaDDToRewrite1 = sigmaDDFactory.create(not(trueOp)) v sigmaDDFactory.create(andOp(trueOp, falseOp)) v sigmaDDFactory.create(andOp(trueOp, not(falseOp)))
     val rewrittenSigmaDD1 = oneRewriter(sigmaDDToRewrite1).get
-    assert(rewrittenSigmaDD1 eq SigmaDDFactoryImpl.create(andOp(trueOp, trueOp)))
+    assert(rewrittenSigmaDD1 eq sigmaDDFactory.create(andOp(trueOp, trueOp)))
 
-    val sigmaDDToRewrite2 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, not(trueOp))) v SigmaDDFactoryImpl.create(andOp(trueOp, not(falseOp)))
+    val sigmaDDToRewrite2 = sigmaDDFactory.create(not(trueOp)) v sigmaDDFactory.create(andOp(trueOp, not(trueOp))) v sigmaDDFactory.create(andOp(trueOp, not(falseOp)))
     val rewrittenSigmaDD2 = oneRewriter(sigmaDDToRewrite2).get
-    assert(rewrittenSigmaDD2 eq (SigmaDDFactoryImpl.create(andOp(trueOp, falseOp))))
+    assert(rewrittenSigmaDD2 eq (sigmaDDFactory.create(andOp(trueOp, falseOp))))
 
-    val sigmaDDToRewrite3 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(not(trueOp), falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, not(trueOp)))
+    val sigmaDDToRewrite3 = sigmaDDFactory.create(not(trueOp)) v sigmaDDFactory.create(andOp(not(trueOp), falseOp)) v sigmaDDFactory.create(andOp(trueOp, not(trueOp)))
     val rewrittenSigmaDD3 = oneRewriter(sigmaDDToRewrite3).get
-    assert(rewrittenSigmaDD3 eq (SigmaDDFactoryImpl.create(andOp(falseOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp))))
+    assert(rewrittenSigmaDD3 eq (sigmaDDFactory.create(andOp(falseOp, falseOp)) v sigmaDDFactory.create(andOp(trueOp, falseOp))))
 
-    val sigmaDDToRewrite4 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(falseOp, trueOp))
+    val sigmaDDToRewrite4 = sigmaDDFactory.create(not(trueOp)) v sigmaDDFactory.create(andOp(trueOp, falseOp)) v sigmaDDFactory.create(andOp(falseOp, trueOp))
     val rewrittenSigmaDD4 = oneRewriter(sigmaDDToRewrite4)
     assert(rewrittenSigmaDD4 == None)
   }
@@ -111,14 +111,14 @@ class TestStrategies extends FlatSpec {
   "NotStrategy" should "leave the elements that were not rewritten" in {
     var ts = (new TransitionSystem(adt, trueOp))
     // sigmaDDToRewrite1 = {not(true), and(true, false), and(true, not(false)}}
-    val sigmaDDToRewrite1 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, not(falseOp)))
-    val notRewriter = SigmaDDRewriterFactory.strategyToRewriter(Not(booleanStrategy))(ts)
+    val sigmaDDToRewrite1 = sigmaDDFactory.create(not(trueOp)) v sigmaDDFactory.create(andOp(trueOp, falseOp)) v sigmaDDFactory.create(andOp(trueOp, not(falseOp)))
+    val notRewriter = sigmaDDFactory.rewriterFactory.strategyToRewriter(Not(booleanStrategy))(ts)
     val rewrittenSigmaDD = notRewriter(sigmaDDToRewrite1).get
-    assert(rewrittenSigmaDD eq (SigmaDDFactoryImpl.create(andOp(trueOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(trueOp, not(falseOp)))))
+    assert(rewrittenSigmaDD eq (sigmaDDFactory.create(andOp(trueOp, falseOp)) v sigmaDDFactory.create(andOp(trueOp, not(falseOp)))))
     
-    val notRewriter1 = SigmaDDRewriterFactory.strategyToRewriter(FixPointStrategy(Union(Try(booleanStrategy), Try(Not(booleanStrategy)))))(ts)
+    val notRewriter1 = sigmaDDFactory.rewriterFactory.strategyToRewriter(FixPointStrategy(Union(Try(booleanStrategy), Try(Not(booleanStrategy)))))(ts)
     println(notRewriter1(sigmaDDToRewrite1).get)
-    assert(notRewriter1(sigmaDDToRewrite1).get eq  (SigmaDDFactoryImpl.create(trueOp) v SigmaDDFactoryImpl.create(falseOp)))
+    assert(notRewriter1(sigmaDDToRewrite1).get eq  (sigmaDDFactory.create(trueOp) v sigmaDDFactory.create(falseOp)))
   }
 
   "DeclaredStrategyRewriter" should "be able to handle common strategies" in {
@@ -130,22 +130,22 @@ class TestStrategies extends FlatSpec {
       .declareStrategy("fixpoint", S1) { FixPointStrategy(S1) }(false)
     val decOneBool = DeclaredStrategyInstance("onebooleanStrategy")
     val decBool = DeclaredStrategyInstance("booleanStrategy")
-    val declaredStrategy = new DeclaredStrategyRewriter(MyTry(decOneBool), ts)
-    val sigmaDDToRewrite1 = SigmaDDFactoryImpl.create(andOp(trueOp, falseOp)) v SigmaDDFactoryImpl.create(andOp(falseOp, trueOp))
+    val declaredStrategy = new DeclaredStrategyRewriter(MyTry(decOneBool), ts, sigmaDDFactory)
+    val sigmaDDToRewrite1 = sigmaDDFactory.create(andOp(trueOp, falseOp)) v sigmaDDFactory.create(andOp(falseOp, trueOp))
     val rewrittenSigmaDD = declaredStrategy(sigmaDDToRewrite1).get
     assert(rewrittenSigmaDD eq sigmaDDToRewrite1)
 
-    val sigmaDDToRewrite2 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(not(falseOp))
-    val repeatRewriter = new DeclaredStrategyRewriter(Fixpoint(MyTry(decBool)), ts)
-    assert(repeatRewriter(sigmaDDToRewrite2).get eq (SigmaDDFactoryImpl.create(falseOp)))
+    val sigmaDDToRewrite2 = sigmaDDFactory.create(not(trueOp)) v sigmaDDFactory.create(not(falseOp))
+    val repeatRewriter = new DeclaredStrategyRewriter(Fixpoint(MyTry(decBool)), ts, sigmaDDFactory)
+    assert(repeatRewriter(sigmaDDToRewrite2).get eq (sigmaDDFactory.create(falseOp)))
 
-    val sigmaDDToRewrite3 = SigmaDDFactoryImpl.create(not(trueOp)) v SigmaDDFactoryImpl.create(andOp(not(trueOp), falseOp)) v
-      SigmaDDFactoryImpl.create(andOp(trueOp, not(falseOp))) v SigmaDDFactoryImpl.create(not(falseOp))
-    val repeatRewriter1 = new DeclaredStrategyRewriter(Fixpoint(MyTry(Choice(decBool, decOneBool))), ts) // tests fixpoint rewriter
-    assert(repeatRewriter1(sigmaDDToRewrite3).get eq SigmaDDFactoryImpl.create(falseOp))
+    val sigmaDDToRewrite3 = sigmaDDFactory.create(not(trueOp)) v sigmaDDFactory.create(andOp(not(trueOp), falseOp)) v
+      sigmaDDFactory.create(andOp(trueOp, not(falseOp))) v sigmaDDFactory.create(not(falseOp))
+    val repeatRewriter1 = new DeclaredStrategyRewriter(Fixpoint(MyTry(Choice(decBool, decOneBool))), ts, sigmaDDFactory) // tests fixpoint rewriter
+    assert(repeatRewriter1(sigmaDDToRewrite3).get eq sigmaDDFactory.create(falseOp))
 
-    val repeatRewriter2 = new DeclaredStrategyRewriter(Repeat(Choice(decBool, decOneBool)), ts) // tests repeat rewriter
-    assert(repeatRewriter2(sigmaDDToRewrite3).get eq (SigmaDDFactoryImpl.create(falseOp)))
+    val repeatRewriter2 = new DeclaredStrategyRewriter(Repeat(Choice(decBool, decOneBool)), ts, sigmaDDFactory) // tests repeat rewriter
+    assert(repeatRewriter2(sigmaDDToRewrite3).get eq (sigmaDDFactory.create(falseOp)))
   }
 
 }

@@ -17,6 +17,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+
 /**
  * Represents a rewriter for the sequence strategy.
  *
@@ -26,14 +28,14 @@ package ch.unige.cui.smv.stratagem.sigmadd.rewriters
  * @author mundacho
  *
  */
-private[sigmadd] case class SequenceRewriter(rewriter1: SigmaDDRewriter, rewriter2: SigmaDDRewriter) extends SigmaDDRewriter {
+private[sigmadd] case class SequenceRewriter(rewriter1: SigmaDDRewriter, rewriter2: SigmaDDRewriter, override val sigmaDDFactory: SigmaDDFactoryImpl) extends SigmaDDRewriter(sigmaDDFactory) {
 
   override lazy val hashCode = (this.getClass(), rewriter1, rewriter2).hashCode
 
   override lazy val toString = (new StringBuilder("SequenceRewriter(") append rewriter1.toString append ", " append rewriter2.toString append ")").toString
 
   override def equals(obj: Any): Boolean = obj match {
-    case that @ SequenceRewriter(r1, r2) => (this eq that) || ((rewriter1 == r1) && (rewriter2 == r2))
+    case that @ SequenceRewriter(r1, r2, _) => (this eq that) || ((rewriter1 == r1) && (rewriter2 == r2))
     case _ => false
   }
 

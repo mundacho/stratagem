@@ -18,20 +18,22 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+
 /**
  * Implements the IfThenElse strategy.
  * @param rewriter1 is the rewriter created by the first strategy of the original IfThenElse strategy.
  * @param rewriter2 is the rewriter created by the second strategy of the original choice strategy.
  * @param rewriter3 is the rewriter created by the second strategy of the original choice strategy.
  */
-private[sigmadd] case class IfThenElseRewriter(rewriter1: SigmaDDRewriter, rewriter2: SigmaDDRewriter, rewriter3: SigmaDDRewriter) extends SigmaDDRewriter {
+private[sigmadd] case class IfThenElseRewriter(rewriter1: SigmaDDRewriter, rewriter2: SigmaDDRewriter, rewriter3: SigmaDDRewriter, override val sigmaDDFactory: SigmaDDFactoryImpl) extends SigmaDDRewriter(sigmaDDFactory) {
 
   override lazy val hashCode = (this.getClass(), rewriter1, rewriter2, rewriter3).hashCode
 
   override lazy val toString = (new StringBuilder("IfThenElse(") append rewriter1.toString append ", " append rewriter2.toString append ", " append rewriter3.toString() append ")").toString
 
   override def equals(obj: Any): Boolean = obj match {
-    case that @ IfThenElseRewriter(r1, r2, r3) => (this eq that) || ((rewriter1 == r1) && (rewriter2 == r2) && (rewriter3 == r3))
+    case that @ IfThenElseRewriter(r1, r2, r3, _) => (this eq that) || ((rewriter1 == r1) && (rewriter2 == r2) && (rewriter3 == r3))
     case _ => false
   }
 

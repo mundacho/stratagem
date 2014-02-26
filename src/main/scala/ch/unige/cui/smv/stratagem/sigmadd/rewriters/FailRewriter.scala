@@ -18,10 +18,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+
 /**
  * Implements the fail strategy. Always fails.
  */
-private[sigmadd] case object FailRewriter extends SigmaDDRewriter {
+private[sigmadd] case class FailRewriter(override val sigmaDDFactory: SigmaDDFactoryImpl) extends SigmaDDRewriter(sigmaDDFactory) {
 
   override val toString = "FailRewriter"
 

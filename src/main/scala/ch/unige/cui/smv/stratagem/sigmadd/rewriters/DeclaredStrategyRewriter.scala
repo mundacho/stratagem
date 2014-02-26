@@ -35,6 +35,8 @@ import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 import ch.unige.cui.smv.stratagem.ts.Choice
 import ch.unige.cui.smv.stratagem.ts.Not
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 
 /**
  * Implements a rewriter for a declared strategy.
@@ -42,14 +44,14 @@ import ch.unige.cui.smv.stratagem.ts.Not
  * @param ts the transition system where this declared strategy is used.
  * It is needed to find other declared strategies in its body.
  */
-private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredStrategyInstance, ts: TransitionSystem) extends SigmaDDRewriter with Logging {
+private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredStrategyInstance, ts: TransitionSystem, override val sigmaDDFactory: SigmaDDFactoryImpl) extends SigmaDDRewriter(sigmaDDFactory) with Logging {
 
   override lazy val toString = (new StringBuilder("DeclaredStrategyRewriter(") append declaredStrategy.toString append ")").toString
 
   override lazy val hashCode = (this.getClass(), declaredStrategy, ts).hashCode
 
   override def equals(obj: Any): Boolean = obj match {
-    case that @ DeclaredStrategyRewriter(decStrat, transSys) => (this eq that) || ((declaredStrategy == decStrat) && (ts == transSys))
+    case that @ DeclaredStrategyRewriter(decStrat, transSys, _) => (this eq that) || ((declaredStrategy == decStrat) && (ts == transSys))
     case _ => false
   }
 
@@ -61,7 +63,7 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
   /**
    * The actual rewriter that this strategy uses.
    */
-  lazy val rewriter = SigmaDDRewriterFactory.strategyToRewriter(instanciate(ts.strategyDeclarations(declaredStrategy.name).declaredStrategy.body))(ts)
+  lazy val rewriter = sigmaDDFactory.rewriterFactory.strategyToRewriter(instanciate(ts.strategyDeclarations(declaredStrategy.name).declaredStrategy.body))(ts)
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
     logger.trace(s"Entering strategy ${declaredStrategy.name}")
