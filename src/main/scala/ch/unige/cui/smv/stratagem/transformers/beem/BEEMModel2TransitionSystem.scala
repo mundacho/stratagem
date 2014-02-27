@@ -178,6 +178,7 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
     val (transitionSystemWithStateChange, stratStateChange) = createTransitionSystemForStateChange(proc, transition, initialTS)
     val (transitionSystemWithGuard, stratGuard) = createTransitionSystemForBinExp(proc, transition.guard, transitionSystemWithStateChange)
     val (transitionSystemWithAssignment, stratAssignment) = createTransitionSystemForVoidExpressions(proc, transitionSystemWithGuard, transition.effects.toList)
+    println(s"Declaring ${proc.name}_Transtion_$transitionNumber")
     transitionSystemWithAssignment.declareStrategy(proc + s"_Transtion_$transitionNumber") {
       Sequence(Sequence(stratStateChange, stratGuard), stratAssignment)
     }(true)
@@ -198,7 +199,7 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
         .declareStrategy(stateChangeStrategyName,
           statVar(procName, preTransitionState, $s1) -> statVar(procName, postTransitionState, $s1))(false)
     }
-    val globalStateChangeStrategyName = s"$procName" + "StateChange"
+    val globalStateChangeStrategyName = stateChangeStrategyName + "StateChange"
     currentTS = ifNotContained(globalStateChangeStrategyName, currentTS) {
       currentTS
         .declareStrategy(globalStateChangeStrategyName) {

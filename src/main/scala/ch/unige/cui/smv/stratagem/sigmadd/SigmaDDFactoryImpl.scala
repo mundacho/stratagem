@@ -115,10 +115,15 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
 
     def v(that: SigmaDDImpl): SigmaDDImpl = {
       if (that != that.bottomElement) {
-        val newSort = ASort.findCommonParent(this.sort, that.sort)
+        //        val newSort = ASort.findCommonParent(this.sort, that.sort)
+        val iipfUnion = this.iipf v that.iipf
+        val allSorts = for (
+          setWrapper <- iipfUnion.alpha.keySet;
+          symbol <- setWrapper.set
+        ) yield (signature.generators ++ signature.operations)(symbol).returnType
+        val newSort = ASort.findCommonParent(allSorts.toArray: _*)
         newSort match {
           case Some(commonParent) => {
-            val iipfUnion = this.iipf v that.iipf
             if ((commonParent == this.sort) && (iipfUnion eq this.iipf)) this else create(commonParent, iipfUnion)
           }
           case None => throw new IllegalStateException("Invalid sort, trying to join SigmaDD of sort %s with SigmaDD of sort %s".format(this.sort.name, that.sort.name))
@@ -163,7 +168,7 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
       } else this
     }
 
-    lazy val bottomElement = create(sort, this.iipf.bottomElement)
+    lazy val bottomElement = create(ASort.findSuperParentSort(sort), this.iipf.bottomElement)
 
   }
 }

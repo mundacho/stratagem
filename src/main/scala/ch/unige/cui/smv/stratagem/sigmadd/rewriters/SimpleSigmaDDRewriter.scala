@@ -101,19 +101,14 @@ private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy
     firstListOfSubstitutions match {
       case None => if (isNotStrategy) Some(sigmaDD) else None // no possible substitutions, we return None to indicate failure or the SigmaDD if it is a Not strategy
       case Some((listOfSubstitutions, equation)) => {
-        var sigmaDDToRemove = sigmaDD.bottomElement
-        var sigmaDDToAdd = sigmaDD.bottomElement
-        for (substitution <- listOfSubstitutions) {
-          sigmaDDToRemove = sigmaDDToRemove v sigmaDDFactory.instantiate(equation.leftSide, substitution)
-          sigmaDDToAdd = sigmaDDToAdd v sigmaDDFactory.instantiate(equation.rightSide, substitution)
-        }
+        val (toRem, toAdd) = (for (substitution <- listOfSubstitutions) yield (sigmaDDFactory.instantiate(equation.leftSide, substitution), sigmaDDFactory.instantiate(equation.rightSide, substitution))).unzip
         if (isNotStrategy) {
-          val res = sigmaDD \ sigmaDDToRemove
+          val res = sigmaDD \ toRem.reduce(_ v _)
           res match {
             case res.bottomElement => None // we have rewritten everything
             case _ => Some(res)
           }
-        } else Some(sigmaDDToAdd)
+        } else Some(toAdd.reduce(_ v _))
       }
     }
   }

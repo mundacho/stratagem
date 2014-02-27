@@ -19,10 +19,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
 import scala.collection.immutable.HashMap
-
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDIPFFactoryImpl
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDInductiveIPFFactoryImpl
+import ch.unige.cui.smv.stratagem.adt.ASort
 
 private[sigmadd] class OneRewriter(rewr: => SigmaDDRewriter, val subTermPosition: Int, override val sigmaDDFactory: SigmaDDFactoryImpl) extends SigmaDDRewriter(sigmaDDFactory) {
 
@@ -46,7 +46,12 @@ private[sigmadd] class OneRewriter(rewr: => SigmaDDRewriter, val subTermPosition
         val (key, inductiveIPF) = entry
         applyOneRewriterOnIIPF(inductiveIPF, subTermPosition) match {
           case None => None
-          case Some(r) => Some(sigmaDDFactory.create((sigmaDD.sort, sigmaDDFactory.sigmaDDIPFFactory.create(key, r))))
+          case Some(r) =>
+            val allSorts = for (
+              symbol <- key.set
+            ) yield (sigmaDDFactory.signature.generators ++ sigmaDDFactory.signature.operations)(symbol).returnType
+            val Some(newSort) = ASort.findCommonParent(allSorts.toArray: _*)
+            Some(sigmaDDFactory.create((newSort, sigmaDDFactory.sigmaDDIPFFactory.create(key, r))))
         }
       }).filter(_ != None)
     if (result.isEmpty) None else result.reduce((e1, e2) => Some(e1.get v e2.get))

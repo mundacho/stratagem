@@ -138,7 +138,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
 
     val (functorEvaluationTS, fuctorEvaluationStrat) = specificFunction(proc, currenTS, opFunctor)
 
-    val evalFunctor = "eval" + opFunctor
+    val evalFunctor = "eval_" + s"${proc.name}_${opFunctor}(${n1}, ${n2}) "
     currenTS = ifNotContained(evalFunctor, functorEvaluationTS) {
       // we transform the top of the stack to a test.
       functorEvaluationTS.declareStrategy(evalFunctor) {
@@ -210,7 +210,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
   def createStrategiesForPlus(procName: String, initialTS: TransitionSystem, testFunctor: String): (TransitionSystem, NonVariableStrategy) = {
     implicit val a = initialTS.adt
     val plusStrategyInstance = testFunctor + "Strat"
-    var currenTS = ifNotContained(plusStrategyInstance, initialTS) {
+    val currenTS = ifNotContained(plusStrategyInstance, initialTS) {
       // we transform the top of the stack to a test.
       initialTS.declareStrategy(plusStrategyInstance, List(
         plus($i1, 0) -> $i1,
@@ -330,7 +330,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
 
     val (functorEvaluationTS, fuctorEvaluationStrat) = specificFunction(proc, currenTS, testFunctor)
 
-    val evalFunctor = "eval" + testFunctor
+    val evalFunctor = "eval" + testFunctor + "_"  + proc.name + "_" + n1 + "_" + n2
     currenTS = ifNotContained(evalFunctor, functorEvaluationTS) {
       // we transform the top of the stack to a test.
       functorEvaluationTS.declareStrategy(evalFunctor) {
@@ -381,7 +381,10 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
   
     def insertInProcess(name:String)(initialTS: TransitionSystem) = {
     implicit val a = initialTS.adt
-    (initialTS.declareStrategy(insertInProcessName(name), intVar(stackElt, $i1, procVar(name, $s1, $s2)) -> procVar(name, intVar(stackElt, $i1, $s1), $s2))(false), DeclaredStrategyInstance(insertInProcessName(name)))
+    val resTS= ifNotContained(insertInProcessName(name), initialTS){
+      initialTS.declareStrategy(insertInProcessName(name), intVar(stackElt, $i1, procVar(name, $s1, $s2)) -> procVar(name, intVar(stackElt, $i1, $s1), $s2))(false)
+    }
+    (resTS, DeclaredStrategyInstance(insertInProcessName(name)))
   }
 
   def createTransitionSystemForLeftExpression(proc: DivineProcess, exp: LeftExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = {
