@@ -39,8 +39,6 @@ import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 
-
-
 /**
  * This class tests the strategies.
  * @author mundacho
@@ -82,9 +80,9 @@ class TestStrategies extends FlatSpec {
   def Repeat(s: Strategy) = DeclaredStrategyInstance("repeat", s)
 
   val booleanStrategy = SimpleStrategy(List(not(trueOp) -> falseOp, not(falseOp) -> trueOp, andOp(trueOp, B) -> B, andOp(falseOp, B) -> falseOp))
-  
+
   val sigmaDDFactory = SigmaDDFactoryImpl(adt.signature)
-  
+
   val booleanRewriter = new SimpleSigmaDDRewriter(booleanStrategy, sigmaDDFactory)
 
   "OneStrategyRewriter" should "be able to rewrite simple booleans" in {
@@ -115,10 +113,20 @@ class TestStrategies extends FlatSpec {
     val notRewriter = sigmaDDFactory.rewriterFactory.strategyToRewriter(Not(booleanStrategy))(ts)
     val rewrittenSigmaDD = notRewriter(sigmaDDToRewrite1).get
     assert(rewrittenSigmaDD eq (sigmaDDFactory.create(andOp(trueOp, falseOp)) v sigmaDDFactory.create(andOp(trueOp, not(falseOp)))))
-    
+
     val notRewriter1 = sigmaDDFactory.rewriterFactory.strategyToRewriter(FixPointStrategy(Union(Try(booleanStrategy), Try(Not(booleanStrategy)))))(ts)
     println(notRewriter1(sigmaDDToRewrite1).get)
-    assert(notRewriter1(sigmaDDToRewrite1).get eq  (sigmaDDFactory.create(trueOp) v sigmaDDFactory.create(falseOp)))
+    assert(notRewriter1(sigmaDDToRewrite1).get eq (sigmaDDFactory.create(trueOp) v sigmaDDFactory.create(falseOp)))
+  }
+
+  "SimpleStrat" should "rewrite everything that it matches" in {
+    val ts = (new TransitionSystem(adt, trueOp))
+    val sigmaDD = sigmaDDFactory.create(plus(suc(zero), suc(zero))) v sigmaDDFactory.create(plus(suc(suc(zero)), suc(suc(zero))))
+    println(sigmaDD.toString)
+    val testStrategy = SimpleStrategy(List(plus(suc(X), suc(Y)) -> plus(X, Y)))
+    val expected = sigmaDDFactory.create(plus(zero, zero)) v sigmaDDFactory.create(plus(suc(zero), suc(zero)))
+    assert(sigmaDDFactory.rewriterFactory.strategyToRewriter(testStrategy)(ts)(sigmaDD).get == expected)
+    
   }
 
   "DeclaredStrategyRewriter" should "be able to handle common strategies" in {

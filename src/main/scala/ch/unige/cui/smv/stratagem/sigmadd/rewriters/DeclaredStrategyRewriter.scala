@@ -66,14 +66,17 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
   lazy val rewriter = sigmaDDFactory.rewriterFactory.strategyToRewriter(instanciate(ts.strategyDeclarations(declaredStrategy.name).declaredStrategy.body))(ts)
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
-    logger.trace(s"Entering strategy ${declaredStrategy.name}")
-//    if(declaredStrategy.name.startsWith("checkForProc_P_0")) logger.trace(sigmaDD.toString)
+//    logger.trace(s"Entering strategy ${declaredStrategy.name}")
+//            if(declaredStrategy.name == "swap"){
+//      logger.trace(s"${sigmaDD}")
+//      println("-----------------------------<end")
+//    }
     rewriter(sigmaDD) match {
       case Some(r) =>
-        logger.trace(s"Strategy ${declaredStrategy.name} succeeded")
+//        logger.trace(s"Strategy ${declaredStrategy.name} succeeded")
         Some(r)
       case None =>
-        logger.trace(s"Strategy ${declaredStrategy.name} failed")
+//        logger.trace(s"Strategy ${declaredStrategy.name} failed")
         None
     }
   }

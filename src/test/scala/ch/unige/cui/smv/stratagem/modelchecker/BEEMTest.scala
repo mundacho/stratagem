@@ -36,10 +36,10 @@ import ch.unige.cui.smv.stratagem.beem.expressions.Plus
 import ch.unige.cui.smv.stratagem.beem.expressions.True
 import ch.unige.cui.smv.stratagem.beem.expressions.Value
 import ch.unige.cui.smv.stratagem.beem.expressions.Var
-
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem
-
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper
 
 /**
  * Test a transformation from beem to stratagem transition system.
@@ -58,11 +58,11 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
       new DivineProcess("P_0", Set('NCS, 'CS, 'wait, 'q2, 'q3), 'NCS)
         .declareIntVariable('j, 0)
         .declareIntVariable('k, 0)
-        .declareTransition('NCS -> 'wait, True, Assign('j, 1))
-        .declareTransition('wait -> 'q2, LessThan('j, 3), Assign(Darray("pos", 0), 'j))
-        .declareTransition('q2 -> 'q3, True, Assign(Darray("step", Minus('j, 1)), 0), Assign('k, 0))
-        .declareTransition('q3 -> 'q3, And(LessThan('k, 3), IsEqual('k, 0)), Assign('k, Plus('k, 1)))
-        .declareTransition('q3 -> 'q3, And(LessThan('k, 3), LessThan(Darray("pos", 'k), 'j)), Assign('k, Plus('k, 1)))
+        .declareTransition('NCS -> 'wait, True, Assign('j, 1)) // 2 states for this transition and only this proc
+        .declareTransition('wait -> 'q2, LessThan('j, 3), Assign(Darray("pos", 0), 'j)) // 3 states for this transition and the previous and only this proc
+        .declareTransition('q2 -> 'q3, True, Assign(Darray("step", Minus('j, 1)), 0), Assign('k, 0)) // 4 states for this transition and the previous and only this proc
+        .declareTransition('q3 -> 'q3, And(LessThan('k, 3), IsEqual('k, 0)), Assign('k, Plus('k, 1))) // 5 states for this transition and the previous and only this proc
+        .declareTransition('q3 -> 'q3, And(LessThan('k, 3), LessThan(Darray("pos", 'k), 'j)), Assign('k, Plus('k, 1))) // 7 states for this transition and the previous and only this proc
         .declareTransition('q3 -> 'wait, IsDifferent(Darray("step", Minus('j, 1)), 0), Assign('j, Plus('j, 1)))
         .declareTransition('q3 -> 'wait, IsEqual('k, 3), Assign('j, Plus('j, 1)))
         .declareTransition('wait -> 'CS, IsEqual('j, 3))
@@ -72,7 +72,7 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
       new DivineProcess("P_1", Set('NCS, 'CS, 'wait, 'q2, 'q3), 'NCS)
         .declareIntVariable('j, 0)
         .declareIntVariable('k, 0)
-        .declareTransition('NCS -> 'wait, True, Assign('j, Value(1)))
+        .declareTransition('NCS -> 'wait, True, Assign('j, 1))
         .declareTransition('wait -> 'q2, LessThan('j, 3), Assign(Darray("pos", 1), 'j))
         .declareTransition('q2 -> 'q3, True, Assign(Darray("step", Minus('j, 1)), 1), Assign('k, 0))
         .declareTransition('q3 -> 'q3, And(LessThan('k, 3), IsEqual('k, 1)), Assign('k, Plus('k, 1)))
@@ -86,7 +86,7 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
       new DivineProcess("P_2", Set('NCS, 'CS, 'wait, 'q2, 'q3), 'NCS)
         .declareIntVariable('j, 0)
         .declareIntVariable('k, 0)
-        .declareTransition('NCS -> 'wait, True, Assign('j, Value(1)))
+        .declareTransition('NCS -> 'wait, True, Assign('j, 1))
         .declareTransition('wait -> 'q2, LessThan('j, 3), Assign(Darray("pos", 2), 'j))
         .declareTransition('q2 -> 'q3, True, Assign(Darray("step", Minus('j, 1)), 2), Assign('k, 0))
         .declareTransition('q3 -> 'q3, And(LessThan('k, 3), IsEqual('k, 2)), Assign('k, Plus('k, 1)))
@@ -401,7 +401,7 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
         .declareTransition('off -> 'off, LessThan('i, 3), Assign('i, Plus('i, 1)))
     }
 
-  "SimpleModel12" should "have 16 different states" in {
+  "SimpleModel12" should "have 64 different states" in {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM12)
     val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
     println(ts)
@@ -409,8 +409,18 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
     val initialState = sigmaDDFactory.create(ts.initialState)
     val result = rewriter(initialState).get
     println(result.size)
-    println(result)
-    assert(result.size == 16)
+    assert(result.size == 64)
+  }
+  
+    "Peterson" should "have 12498 different states" in {
+    val ts = BEEMModel2TransitionSystem(petersonBEEM)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
+    println(ts)
+    val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+    val initialState = sigmaDDFactory.create(ts.initialState)
+    val result = rewriter(initialState).get
+    println(result.size)
+    assert(result.size == 12498)
   }
 
 }

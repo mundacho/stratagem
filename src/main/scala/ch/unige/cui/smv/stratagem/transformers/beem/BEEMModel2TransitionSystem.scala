@@ -241,7 +241,7 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
     val endUpRuleName = "endUp"
 
     val basicTransitionSystem = new TransitionSystem(a, createInitialState(model)(a))
-      .declareStrategy("rewriteSetWith", V1) { Union(Choice(V1, Not(V1)), Choice(Not(V1), V1)) }(false)
+      .declareStrategy("rewriteSetWith", V1) { Choice(Choice(Union(Choice(V1, Not(V1)), Choice(Not(V1), V1)), V1), Not(V1)) }(false)
       .declareStrategy("up", V1) {
         Choice(V1,
           Sequence(One(DeclaredStrategyInstance("up", V1), 3), V1))

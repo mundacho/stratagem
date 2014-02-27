@@ -28,7 +28,7 @@ import ch.unige.cui.smv.stratagem.adt.ATerm
  * @author mundacho
  *
  */
-private[beem] object BEEMModel2TransitionSignatureHelper {
+ private[beem] object BEEMModel2TransitionSignatureHelper {
 
   // aux functions
   def lt(n1: ATerm, n2: ATerm)(implicit a: ADT) = a.term(LESS_THAN_FUNCTOR, n1, n2)

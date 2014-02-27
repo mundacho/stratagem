@@ -18,7 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.transformers.beem
 
 import scala.language.implicitConversions
-
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.beem.DivineProcess
 import ch.unige.cui.smv.stratagem.beem.expressions.And
@@ -99,6 +98,7 @@ import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
+import ch.unige.cui.smv.stratagem.ts.Choice
 
 /**
  * Helper containing all expression related operations.
@@ -402,7 +402,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
           } yield DeclaredStrategyInstance("downAndThen",
             downSwapStrat, Sequence(Sequence(
                 One(DeclaredStrategyInstance(checkForProcStrategyName(proc.name)), 3),
-                insertInProcess), One(writeVar, 2)))).eval(initialTS) // TODO
+                insertInProcess), One(writeVar, 2)))).eval(initialTS)
         }
       case Darray(name, n) =>
         val res = for {
@@ -684,7 +684,9 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
                 Sequence(
                   checkForZero, // if we get to zero
                   copyArrStrat)), // we apply the strategy copyArr which gives us a term of the form readVal($i, arr($i, $a))
-              DeclaredStrategyInstance("upArr", arrUp)), 2) // up array is applied on top of the array
+              Choice(SimpleStrategy(List(readVal($i1, $a1) -> readVal($i1, $a1))), DeclaredStrategyInstance("upArr", arrUp))
+              
+            ), 2) // up array is applied on top of the array
               ,
           extractValFromArray))) // finally we extract the value into an intVar
     val (resultTS, extractVar) = intermediateState.eval(initialTS)
