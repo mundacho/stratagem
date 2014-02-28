@@ -141,12 +141,10 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
   private[beem] def ifNotContained(name: String, initialTS: TransitionSystem)(ts: => TransitionSystem) =
     if (initialTS.strategyDeclarations.isDefinedAt(name)) initialTS else ts
 
-  def createTransitionSystemForProcesses(processes: List[DivineProcess], initialTS: TransitionSystem)(implicit a: ADT): TransitionSystem = processes match {
-    case Nil => initialTS
-    case head :: tail => createTransitionSystemForProcesses(tail, createTransitionSystemForProc(head, initialTS))
-  }
+  def createTransitionSystemForProcesses(processes: List[DivineProcess], initialTS: TransitionSystem)(implicit a: ADT): TransitionSystem =
+    processes.foldLeft(initialTS)(createTransitionSystemForProc)
 
-  def createTransitionSystemForProc(proc: DivineProcess, initialTS: TransitionSystem)(implicit a: ADT) = {
+  def createTransitionSystemForProc(initialTS: TransitionSystem, proc: DivineProcess)(implicit a: ADT) = {
     // create check for proc strategy
     val newTS = initialTS
       .declareStrategy(checkForProcStrategyName(proc.name),
@@ -163,30 +161,24 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
     proc: DivineProcess,
     transitions: List[DivineTransition],
     transitionNumber: Int,
-    initialTS: TransitionSystem)(implicit adt: ADT): TransitionSystem = transitions match {
-    case Nil => initialTS
-    case transition :: tail =>
-      createTransitionSystemForTransitions(proc, tail, transitionNumber + 1, createTransitionSystemForTransition(proc, transition, transitionNumber, initialTS))
-  }
+    initialTS: TransitionSystem)(implicit adt: ADT): TransitionSystem =
+    // zipWithIndex gives us a list (0, t0), (1, t1), ... (n, tn)...
+    // for each pair of that list we build a function with the right parameters
+    // we then reduce the list composing all functions, and apply the resulting fct to the initial ts
+    transitions.zipWithIndex.map(e => createTransitionSystemForTransition(proc, e._2, e._1)_).reduce(_ compose _)(initialTS)
 
   def createTransitionSystemForTransition(
     proc: DivineProcess,
-    transition: DivineTransition,
     transitionNumber: Int,
-    initialTS: TransitionSystem)(implicit adt: ADT): TransitionSystem = {
-    implicit def proc2String(p: DivineProcess) = p.name
-    val (transitionSystemWithStateChange, stratStateChange) = createTransitionSystemForStateChange(proc, transition, initialTS)
+    transition: DivineTransition)(initialTS: TransitionSystem)(implicit adt: ADT): TransitionSystem = {
+
+    val (transitionSystemWithStateChange, stratStateChange) = createTransitionSystemForStateChange(proc.name, transition, initialTS)
     val (transitionSystemWithGuard, stratGuard) = createTransitionSystemForBinExp(proc, transition.guard, transitionSystemWithStateChange)
     val (transitionSystemWithAssignment, stratAssignment) = createTransitionSystemForVoidExpressions(proc, transitionSystemWithGuard, transition.effects.toList)
-    println(s"Declaring ${proc.name}_Transtion_$transitionNumber")
-    transitionSystemWithAssignment.declareStrategy(proc + s"_Transtion_$transitionNumber") {
+    transitionSystemWithAssignment.declareStrategy(proc.name + s"_Transtion_$transitionNumber") {
       Sequence(Sequence(stratStateChange, stratGuard), stratAssignment)
     }(true)
   }
-
-  //  def createTransitionSystemForIntExp(procName: String, exp: IntegerExpression, initialTS: TransitionSystem): (TransitionSystem, NonVariableStrategy) = exp match {
-  //    case Var(name) => 
-  //  }
 
   def createTransitionSystemForStateChange(procName: String, transition: DivineTransition, initialTS: TransitionSystem)(implicit adt: ADT): (TransitionSystem, NonVariableStrategy) = {
     // create transition system for state change
@@ -253,12 +245,9 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
           -> intVar(topStack, $i2, intVar($v1, $i1, $s1)),
           arrVar($v1, $a1, intVar(topStack, $i2, $s1)) // we contemplate array
             -> intVar(topStack, $i2, arrVar($v1, $a1, $s1)),
-          procVar($pn1, $s1, intVar(topStack, $i2, $s2)) ->  
-            intVar(topStack, $i2,  procVar($pn1, $s1, $s2)),
-          statVar($pn1, $st1, intVar(topStack, $i2, $s2)) ->  intVar(topStack, $i2,  statVar($pn1, $st1, $s2))
-            )
-            
-      )(false)
+          procVar($pn1, $s1, intVar(topStack, $i2, $s2)) ->
+            intVar(topStack, $i2, procVar($pn1, $s1, $s2)),
+          statVar($pn1, $st1, intVar(topStack, $i2, $s2)) -> intVar(topStack, $i2, statVar($pn1, $st1, $s2))))(false)
       .declareStrategy("upVariable") {
         Choice(DeclaredStrategyInstance(endUpRuleName),
           Sequence(
