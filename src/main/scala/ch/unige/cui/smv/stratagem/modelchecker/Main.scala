@@ -34,6 +34,7 @@ import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWith
 import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystem
 import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
 import ch.unige.cui.smv.stratagem.transformers.Modularizer
+import ch.unige.cui.smv.stratagem.transformers.FileModularizer
 
 /**
  * The main class of stratagem. It is used to launch the model checker.
@@ -59,7 +60,7 @@ object Main extends Logging {
       if (config.verbose) root.setLevel(Level.TRACE)
       if (config.verbose && config.quiet) logger.warn("Set quiet and verbose flag at the same time")
 
-      val model2ts: Model2TransitionSystem = createModelToTransitionSystemTransformation(config.transformation)
+      val model2ts: Model2TransitionSystem = createModelToTransitionSystemTransformation(config.transformation, if (config.hasClustering) Some(config.clustering) else None)
       logger.debug("Successfully processed input file")
       if (config.mode == "analyzer") {
         // check config
@@ -105,9 +106,12 @@ object Main extends Logging {
     opt[Unit]('q', "quiet") action { (_, c) =>
       c.copy(quiet = true)
     } text (quietMode)
-    opt[String]("no-saturate") abbr ("ns") action { (_, c) =>
-      c.copy(saturation = true)
+    opt[Unit]("no-saturate") abbr ("ns") action { (_, c) =>
+      c.copy(saturation = false)
     } text (saturationComment)
+    opt[File]("clustering") optional() abbr ("c") action { (x, c) =>
+      c.copy(hasClustering = true, clustering = x)
+    } text ("select the clustering file")
     opt[String]("transformation") abbr ("t") action { (x, c) =>
       c.copy(transformation = x)
     } text ("Choose the transformation for the model. Available transformations are:" +
@@ -140,11 +144,11 @@ places. The intersection of two modules is empty."""),
       } text ("Print the generated transition system"))
   }
 
-  def createModelToTransitionSystemTransformation(transformationName: String) = transformationName match {
+  def createModelToTransitionSystemTransformation(transformationName: String, clusteringFile: Option[File]) = transformationName match {
     case "naive" => new Model2TransitionSystem {
       type ModelType = PetriNet
       type PreprocessedModelType = PetriNet
-
+      
       val file2Model = PNML2PetriNet
       val modelPreprocessor = (m: PetriNet) => m
       val preprocessedModel2TransitionSystem = PetriNet2TransitionSystem
@@ -160,9 +164,14 @@ places. The intersection of two modules is empty."""),
     case "anonymized-modular" | "" => new Model2TransitionSystem {
       type ModelType = PetriNet
       type PreprocessedModelType = (List[PTModule], PetriNet)
-
+      
       val file2Model = PNML2PetriNet
-      val modelPreprocessor = (model: PetriNet) => (Modularizer(model), model)
+      
+      
+      val modelPreprocessor = clusteringFile match {
+        case None => (model: PetriNet) => (Modularizer(model), model)
+        case Some(file) => (model: PetriNet) => ((new FileModularizer(file))(model), model)
+      }
       val preprocessedModel2TransitionSystem = SetOfModules2TransitionSystemWithAnonimization.tupled
     }
     case _ =>
