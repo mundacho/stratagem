@@ -66,6 +66,9 @@ class SimpleIPFFactory extends IPFAbstractFactory {
       case o: SimpleIPFImplementation => (o eq this) || this.alpha == o.alpha
       case _ => false
     }
+    
+    
+     def wrapped = createWrapped(this)
 
     def v(that: SimpleIPFImplementation): SimpleIPFImplementation = create(alphaUnion(this.alpha, that.alpha))
 

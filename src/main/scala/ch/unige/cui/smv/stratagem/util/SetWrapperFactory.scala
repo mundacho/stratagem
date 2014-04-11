@@ -74,6 +74,8 @@ object StringSetWrapperFactory extends SetWrapperFactory {
    */
   class StringSetWrapper private[StringSetWrapperFactory] (set: Set[String]) extends SetWrapper(set) {
 
+    def wrapped = createWrapped(this)
+
     override type LatticeElementType = StringSetWrapper
 
     override val hashCode = set.hashCode

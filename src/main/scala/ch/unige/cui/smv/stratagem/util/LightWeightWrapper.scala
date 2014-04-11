@@ -17,6 +17,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.util
 
+import scala.ref.WeakReference
+
 /**
  * This class is a wrapper for classes created using a CanononicalFactory.
  * It redefines the equals and hashCode method to be just a reference
@@ -24,10 +26,30 @@ package ch.unige.cui.smv.stratagem.util
  * @author mundacho
  *
  */
-case class LightWeightWrapper[T <: AnyRef](val wrapped: T) {
+class LightWeightWrapper[T <: AnyRef] private (wrap: T) {
+  
+  val _wrap = new WeakReference(wrap)
+  
+  def wrapped = _wrap.get match {
+    case Some(w) => w
+    case None => // should never happen 
+      throw new IllegalStateException
+  }
+  
   override lazy val hashCode = wrapped.hashCode
+  
   override def equals(o: Any): Boolean = o match {
     case LightWeightWrapper(w) => w eq this.wrapped
     case _ => false
   }
+}
+
+object LightWeightWrapper {
+  
+  def unapply[T <: AnyRef](w: LightWeightWrapper[T]):Option[T] = w._wrap.get match {
+    case Some(w) => Some(w) 
+    case None => None
+  }
+  
+  def apply[T <: AnyRef](wrap: T) = new LightWeightWrapper[T](wrap)
 }

@@ -18,6 +18,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.util
 
 import scala.collection.mutable.HashMap
+import ch.unige.cui.smv.stratagem.ipf.IPFAbstractFactory
+import scala.collection.mutable.WeakHashMap
 /**
  * This class is designed to be used as a mixin. It implements an operation cache
  * for union, intersection and difference.
@@ -28,9 +30,9 @@ trait OperationCache extends LatticeElement {
 
   type LatticeElementType <: LatticeElement { type LatticeElementType = OperationCache.this.LatticeElementType }
 
-  lazy val unionOperationCache = new HashMap[LightWeightWrapper[LatticeElementType], LatticeElementType]
-  lazy val interOperationCache = new HashMap[LightWeightWrapper[LatticeElementType], LatticeElementType]
-  lazy val differenceOperationCache = new HashMap[LightWeightWrapper[LatticeElementType], LatticeElementType]
+  lazy val unionOperationCache = new WeakHashMap[LightWeightWrapper[LatticeElementType], LatticeElementType]
+  lazy val interOperationCache = new WeakHashMap[LightWeightWrapper[LatticeElementType], LatticeElementType]
+  lazy val differenceOperationCache = new WeakHashMap[LightWeightWrapper[LatticeElementType], LatticeElementType]
 
   /**
    * We override the standard operation to perform a join with cache.
@@ -40,7 +42,10 @@ trait OperationCache extends LatticeElement {
   abstract override def v(that: LatticeElementType): LatticeElementType = if (this.hashCode < that.hashCode) {
     that v this.asInstanceOf[OperationCache.this.LatticeElementType]
   } else {
-    unionOperationCache.getOrElseUpdate(LightWeightWrapper[LatticeElementType](that), super.v(that))
+    if (that.wrapped == null) {
+      println("something!")
+    }
+    unionOperationCache.getOrElseUpdate(that.wrapped, super.v(that))
   }
 
   /**
@@ -51,7 +56,7 @@ trait OperationCache extends LatticeElement {
   abstract override def ^(that: LatticeElementType): LatticeElementType = if (this.hashCode < that.hashCode) {
     that ^ this.asInstanceOf[OperationCache.this.LatticeElementType]
   } else {
-    interOperationCache.getOrElseUpdate(LightWeightWrapper[LatticeElementType](that), super.^(that))
+    interOperationCache.getOrElseUpdate(that.wrapped, super.^(that))
   }
 
   /**
@@ -59,5 +64,6 @@ trait OperationCache extends LatticeElement {
    * @param that is the lattice element to subtract.
    * @return the difference of this minus that.
    */
-  abstract override def \(that: LatticeElementType): LatticeElementType = differenceOperationCache.getOrElseUpdate(LightWeightWrapper[LatticeElementType](that), super.\(that))
+  abstract override def \(that: LatticeElementType): LatticeElementType =
+    differenceOperationCache.getOrElseUpdate(that.wrapped, super.\(that))
 }

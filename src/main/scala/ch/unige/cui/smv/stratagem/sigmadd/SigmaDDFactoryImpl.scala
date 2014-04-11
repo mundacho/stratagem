@@ -100,6 +100,8 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
     val iipf: IPFType) extends LatticeElement {
     type LatticeElementType = SigmaDDImpl
 
+    def wrapped = createWrapped(this)
+
     override lazy val hashCode = (sort, iipf) ##
 
     lazy val size = iipf.size

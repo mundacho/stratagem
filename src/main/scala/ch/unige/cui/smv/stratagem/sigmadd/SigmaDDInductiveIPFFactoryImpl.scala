@@ -79,6 +79,8 @@ class SigmaDDInductiveIPFFactoryImpl(val sigmaddFactory: SigmaDDFactoryImpl) ext
     type DomainTypeElt = String
     type ImageTypeElt = String
 
+    def wrapped = createWrapped(this)
+
     override lazy val hashCode = alpha##
 
     lazy val size: BigInt = alpha.map((e) => e._1.size * e._2.size).reduce(_ + _)

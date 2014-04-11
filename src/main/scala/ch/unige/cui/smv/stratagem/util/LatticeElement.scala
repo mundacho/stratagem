@@ -58,5 +58,7 @@ trait LatticeElement {
    * @return this minus that
    */
   def \(that: LatticeElementType): LatticeElementType
+  
+  def wrapped: LightWeightWrapper[LatticeElementType]
 
 }

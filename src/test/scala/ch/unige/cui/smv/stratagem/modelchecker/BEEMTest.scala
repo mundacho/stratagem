@@ -411,8 +411,8 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
     println(result.size)
     assert(result.size == 64)
   }
-  
-    "Peterson" should "have 12498 different states" in {
+
+  "Peterson" should "have 12498 different states" in {
     val ts = BEEMModel2TransitionSystem(petersonBEEM)
     val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
     println(ts)

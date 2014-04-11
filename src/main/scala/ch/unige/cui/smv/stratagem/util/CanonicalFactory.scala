@@ -29,7 +29,7 @@ trait CanonicalFactory {
   /**
    * This is the concrete type created by this canonical factory.
    */
-  type CanonicalType
+  type CanonicalType <: AnyRef
 
   /**
    * This is the type that will be used as argument of the create function.
@@ -39,21 +39,43 @@ trait CanonicalFactory {
   /**
    * The canonical map.
    */
-  var unicityTable = new WeakHashMap[CanonicalType, CanonicalType]
+  var unicityTable = new WeakHashMap[CanonicalType, LightWeightWrapper[CanonicalType]]
 
   /**
    * Create a new element from any object.
    * @param from the object that will be used to generate a new instance of your canonical object.
    */
   def create(from: FromType) = {
+    // WARNING: DO NOT REMOVE
+    // This code is so complicated because of the weak hashmaps, do not modify without thinking about it.
+    // WeakHashMaps are very good for memory usage also, so please do not change unless it's for something better
     val newElt = makeFrom(from)
-    unicityTable.getOrElseUpdate(newElt, newElt)
+    val wrapper = unicityTable.get(newElt)
+    wrapper match {
+      case Some(w) => w._wrap.get match { // if the element is in the map
+        case Some(element) => element // the element was not garbage collected while we obtaining it
+        case None => // some how, the wrapped element was garbage collected before we get it, so we recreate it, and put it back
+          unicityTable.put(newElt, LightWeightWrapper(newElt))
+          newElt
+      }
+      case None => // the element is not in the map
+        unicityTable.put(newElt, LightWeightWrapper(newElt))   
+        newElt
+    }
   }
+
+  /**
+   * Create a new element from any object.
+   * @param from the object that will be used to generate a new instance of your canonical object.
+   */
+  def createWrapped(from: CanonicalType) = {
+    unicityTable.getOrElseUpdate(from, LightWeightWrapper[CanonicalType](from))
+  } ensuring { _.wrapped eq from }
 
   /**
    *  Cleans the unicity table.
    */
-  def cleanUnicityTable { unicityTable = new WeakHashMap[CanonicalType, CanonicalType] }
+  def cleanUnicityTable { unicityTable = new WeakHashMap[CanonicalType, LightWeightWrapper[CanonicalType]] }
 
   /**
    * Its implementation should be able to create a new instance of the canonical
