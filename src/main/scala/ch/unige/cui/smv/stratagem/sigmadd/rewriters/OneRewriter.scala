@@ -54,13 +54,13 @@ private[sigmadd] class OneRewriter(rewr: => SigmaDDRewriter, val subTermPosition
             Some(sigmaDDFactory.create((newSort, sigmaDDFactory.sigmaDDIPFFactory.create(key, r))))
         }
       }).filter(_ != None)
-    if (result.isEmpty) None else result.reduce((e1, e2) => Some(e1.get v e2.get))
+    if (result.isEmpty) None else result .reduce((e1, e2) => Some(e1.get v e2.get))
   }
 
   def applyOneRewriterOnIIPF(iipf: InductiveIPF, n: Int): Option[InductiveIPF] = iipf match {
     case sigmaDDFactory.sigmaDDInductiveIPFFactory.TopIPF => None // could not rewrite here
     case e: InductiveIPF => {
-      val res = e.alpha.map((entry) => {
+      val res = e.alpha.view.map((entry) => {
         val (sigmaDD, nextIIPF) = entry
         if (n == 0) {
           rewriter(sigmaDD) match {
