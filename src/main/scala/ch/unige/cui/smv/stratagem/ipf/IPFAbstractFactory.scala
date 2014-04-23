@@ -22,7 +22,7 @@ import ch.unige.cui.smv.stratagem.util.LatticeElement
 import scala.collection.immutable.HashMap
 import ch.unige.cui.smv.stratagem.util.CanonicalFactory
 import scala.Array.canBuildFrom
-import ch.unige.cui.smv.stratagem.util.LightWeightWrapper
+import ch.unige.cui.smv.stratagem.util.StrongLightWeightWrapper
 
 /**
  * This is a factory for IPF objects.
@@ -91,8 +91,8 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
      */
     def alphaUnion(alpha1: Map[DomainType, ImageType], alpha2: Map[DomainType, ImageType]): Map[DomainType, ImageType] = {
       val W = squareUnion(alpha1, alpha2)
-      val result = new scala.collection.mutable.HashMap[LightWeightWrapper[DomainType], ImageType]
-      val existingMappings = new scala.collection.mutable.HashMap[LightWeightWrapper[ImageType], DomainType] // keeps a log of elements with a mapping
+      val result = new scala.collection.mutable.HashMap[StrongLightWeightWrapper[DomainType], ImageType]
+      val existingMappings = new scala.collection.mutable.HashMap[StrongLightWeightWrapper[ImageType], DomainType] // keeps a log of elements with a mapping
       W.foreach(
         (entry1) => {
           val (tail1, key1) = entry1
@@ -102,14 +102,14 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
               val (tail2, key2) = entry2
               val keyIntersection = key1 ^ key2
               if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm
-                val tailUnion = (tail1.wrapped v tail2.wrapped).wrapped
+                val tailUnion = StrongLightWeightWrapper[ImageType](tail1.wrapped v tail2.wrapped)
                 existingMappings.lift(tailUnion) match {
                   case Some(existingKey) =>
-                    result -= existingKey.wrapped
-                    result((existingKey v keyIntersection).wrapped) = tailUnion.wrapped
+                    result -= StrongLightWeightWrapper[DomainType](existingKey)
+                    result(StrongLightWeightWrapper[DomainType](existingKey v keyIntersection)) = tailUnion.wrapped
                     existingMappings(tailUnion) = existingKey v keyIntersection // and keep track of it
                   case None =>
-                    result((key1 ^ key2).wrapped) = tailUnion.wrapped
+                    result(StrongLightWeightWrapper[DomainType](key1 ^ key2)) = tailUnion.wrapped
                     existingMappings(tailUnion) = keyIntersection
                 }
                 if (keyFromRemoving != key1.bottomElement) { // if there are still some elements in keyFromRemoving
@@ -120,11 +120,11 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
           if (keyFromRemoving != key1.bottomElement) {
             existingMappings.lift(tail1) match {
               case Some(existingKey) =>
-                result -= existingKey.wrapped
-                result((existingKey v keyFromRemoving).wrapped) = tail1.wrapped
+                result -= StrongLightWeightWrapper[DomainType](existingKey)
+                result(StrongLightWeightWrapper[DomainType](existingKey v keyFromRemoving)) = tail1.wrapped
                 existingMappings(tail1) = existingKey v keyFromRemoving // and keep track of it
               case None =>
-                result((keyFromRemoving).wrapped) = tail1.wrapped
+                result(StrongLightWeightWrapper[DomainType](keyFromRemoving)) = tail1.wrapped
                 existingMappings(tail1) = keyFromRemoving
             }
           }
@@ -136,7 +136,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
      * Intersects to alphas.
      */
     def alphaIntersection(alpha1: Map[DomainType, ImageType], alpha2: Map[DomainType, ImageType]): Map[DomainType, ImageType] = {
-      val existingMappings = new scala.collection.mutable.HashMap[LightWeightWrapper[ImageType], DomainType]
+      val existingMappings = new scala.collection.mutable.HashMap[StrongLightWeightWrapper[ImageType], DomainType]
       alpha1.foreach(
         (entry1) => {
           val (key1, tail1) = entry1
@@ -144,7 +144,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
             val (key2, tail2) = entry2
             val keyIntersection = key1 ^ key2
             if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm
-              val tailIntersection = (tail1 ^ tail2).wrapped
+              val tailIntersection = StrongLightWeightWrapper[ImageType](tail1 ^ tail2)
               if (tailIntersection.wrapped != tail1.bottomElement) {
                 existingMappings(tailIntersection) = keyIntersection v existingMappings.getOrElse(tailIntersection, key1.bottomElement)
               }
@@ -159,7 +159,7 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
      * Makes the difference between two alphas.
      */
     def alphaDifference(alpha1: Map[DomainType, ImageType], alpha2: Map[DomainType, ImageType]): Map[DomainType, ImageType] = {
-      val result = new scala.collection.mutable.HashMap[LightWeightWrapper[ImageType], DomainType]
+      val result = new scala.collection.mutable.HashMap[StrongLightWeightWrapper[ImageType], DomainType]
       alpha1.foreach(
         (entry1) => {
           val (key1, tail1) = entry1
@@ -169,14 +169,14 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
             val keyIntersection = key1 ^ key2
             if (keyIntersection != key1.bottomElement) { // if the intersection is not empty, then continue with the algorithm
               keyFromRemove = keyFromRemove \ key2
-              val tailDifference = (tail1 \ tail2).wrapped
+              val tailDifference = StrongLightWeightWrapper[ImageType](tail1 \ tail2)
               if (tailDifference.wrapped != tail1.bottomElement) { // if the tail is not empty, then we continue with the algorithm
                 result(tailDifference) = keyIntersection v (result.getOrElse(tailDifference, key1.bottomElement))
               }
             }
           })
           if (keyFromRemove != key1.bottomElement) {
-            val key = tail1.wrapped
+            val key = StrongLightWeightWrapper[ImageType](tail1)
             result(key) = keyFromRemove v (result.getOrElse(key, key1.bottomElement))
           }
         })
@@ -189,10 +189,10 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
      * @param alpha2 the second operand
      */
     def squareUnion(alpha1: Map[DomainType, ImageType], alpha2: Map[DomainType, ImageType]) = {
-      val result = new scala.collection.mutable.HashMap[LightWeightWrapper[ImageType], DomainType]
-      alpha1.foreach((entry) => result(entry._2.wrapped) = entry._1) // this makes result an inverted version of alpha1
+      val result = new scala.collection.mutable.HashMap[StrongLightWeightWrapper[ImageType], DomainType]
+      alpha1.foreach((entry) => result(StrongLightWeightWrapper[ImageType](entry._2)) = entry._1) // this makes result an inverted version of alpha1
       alpha2.foreach((entry) => {
-        val key = entry._2.wrapped
+        val key = StrongLightWeightWrapper[ImageType](entry._2)
         result(key) = (result.getOrElse(key, entry._1.bottomElement) v entry._1)
       })
       result
