@@ -68,7 +68,7 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
 //    logger.trace(s"Entering strategy ${declaredStrategy.name}")
 //            if(declaredStrategy.name == "swap"){
-//      logger.trace(s"${sigmaDD}")
+//      logger.trace(s"${sigmaDD.iipf.alpha.keySet.head}")
 //      println("-----------------------------<end")
 //    }
     rewriter(sigmaDD) match {

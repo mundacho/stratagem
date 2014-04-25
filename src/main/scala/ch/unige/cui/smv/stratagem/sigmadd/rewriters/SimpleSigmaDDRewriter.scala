@@ -99,7 +99,8 @@ private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
     val firstListOfSubstitutions = simpleStrategy.equations.collectFirst((x: Equation) => matchSigmaDD(x.leftSide)(sigmaDD)(Map.empty, Nil) match { case Some(result) => (result, x) })
     firstListOfSubstitutions match {
-      case None => if (isNotStrategy) Some(sigmaDD) else None // no possible substitutions, we return None to indicate failure or the SigmaDD if it is a Not strategy
+      case None => 
+        if (isNotStrategy) Some(sigmaDD) else None // no possible substitutions, we return None to indicate failure or the SigmaDD if it is a Not strategy
       case Some((listOfSubstitutions, equation)) => {
         val (toRem, toAdd) = (for (substitution <- listOfSubstitutions) yield (sigmaDDFactory.instantiate(equation.leftSide, substitution), sigmaDDFactory.instantiate(equation.rightSide, substitution))).unzip
         if (isNotStrategy) {
