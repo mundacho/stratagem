@@ -39,7 +39,7 @@ class FileSuperModularizerTest extends FlatSpec with Logging {
     println(res.mkString("\n"))
     assert(res.size == 6)
     assert(res(3).size == 5)
-    assert(res(5)(0).size == 6)
+    assert(res(0)(0).size == 6)
   }
 
 }
