@@ -37,6 +37,7 @@ import ch.unige.cui.smv.stratagem.ts.Choice
 import ch.unige.cui.smv.stratagem.ts.Not
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
+import ch.unige.cui.smv.stratagem.ts.Saturation
 
 /**
  * Implements a rewriter for a declared strategy.
@@ -86,6 +87,7 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
    * @return strategy with a concrete strategy in each parameter.
    */
   private def instanciate(strategy: Strategy): Strategy = strategy match {
+    case Saturation(s, n) => Saturation(instanciate(s), n)
     case Choice(s1, s2) => Choice(instanciate(s1), instanciate(s2))
     case Try(s) => instanciate(Choice(s, Identity))
     case Fail => Fail

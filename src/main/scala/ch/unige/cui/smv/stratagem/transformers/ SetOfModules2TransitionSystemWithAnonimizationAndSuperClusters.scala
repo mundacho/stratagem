@@ -66,6 +66,10 @@ import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.IfThenElse
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.ts.Saturation
+import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 
 /**
  * @author mundacho
@@ -103,6 +107,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
   def ApplyToPlaceAndThen(s: Strategy, q: Strategy, n: Int) = DeclaredStrategyInstance(s"applyForPlace$n", s, q)
   def ApplyToSClusterAndThen(s: Strategy, q: Strategy, n: Int) = DeclaredStrategyInstance(s"applyForSCluster$n", s, q)
   def ApplyToClusterAndThen(s: Strategy, q: Strategy, n: Int) = DeclaredStrategyInstance(s"applyForCluster$n", s, q)
+  def SuperClusterFixPointAndThen(s: Strategy, q: Strategy, n: Int) = DeclaredStrategyInstance(s"superClusterFixPointAndThen$n", s, q)
+    def ClusterFixPointAndThen(s: Strategy, q: Strategy, n: Int) = DeclaredStrategyInstance(s"clusterFixPointAndThen$n", s, q)
 
   /**
    * The signature we use for clustered petri nets.
@@ -348,11 +354,13 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       .declareStrategy("applyOnceAndThen", S, Q)(IfThenElse(S, One(Q, 2), One(ApplyOnceAndThen(S, Q), 2)))(false)
     // add apply to scluster
 
-    val transSystemState = for (
-      _ <- addApplyToSCluster(modules.size);
-      _ <- addApplyToCluster(maxClusters);
+    val transSystemState = for {
+      _ <- addApplyToSCluster(modules.size)
+      _ <- addApplyToCluster(maxClusters)
       _ <- addApplyToPlace(maxPlaces)
-    ) yield ()
+      _ <- addSuperClusterFixPointAndThen(modules.size)
+      _ <- addClusterFixPointAndThen(maxClusters)
+    } yield ()
 
     val computationInitialState = (
       transSystemState.eval(initialTransitionSystem)._1,
@@ -362,63 +370,45 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
 
     (for (
       _ <- calculateTransitionSystem(net.transitions);
-      _ <- calculateSClusterSaturationStrategies;
-      _ <- createAddSaturatingTransitions
+      _ <- calculateSClusterSaturationStrategies
     ) yield ()).eval(computationInitialState)._1._1
   }
 
-  def createAddSaturatingTransitions: State[CalculationState, Unit] = State(cs => {
-    val (ts, strat2Name, superCluster2LocalStrategies, place2Position) = cs
-    val res = (for (superClusterIndex <- superCluster2LocalStrategies.keys.toList.sortWith(_ < _)) // for each local supercluster we need to create a fixpoint strategy
-      yield addSaturatingTransitionForIndex(superClusterIndex)).reduceLeft((s1, s2) => s1.flatMap(_ => s2))
-    ((), res.eval(cs)._1)
-  })
 
-  def addSaturatingTransitionForIndex(superClusterIndex: Int): State[CalculationState, Unit] = State(cs => {
-    val (ts, strat2Name, superCluster2LocalStrategies, place2Position) = cs
-    val res = (for (strategyName <- superCluster2LocalStrategies(superClusterIndex)(-1)) yield DeclaredStrategyInstance(strategyName): NonVariableStrategy).reduce((a, b) => Union(Try(a), Try(b)))
-    ((),
-      ({
-        ts.declareStrategy(s"superClusterFixpoint$superClusterIndex") { ApplyToSClusterAndThen(FixPointStrategy(Union(res, Identity)), Identity, superClusterIndex) }(true)
-      },
-        strat2Name,
-        superCluster2LocalStrategies,
-        place2Position))
-  })
-
-  def calculateSClusterSaturationStrategies: State[CalculationState, Unit] = State(cs => {
-    val (ts, strat2Name, superCluster2LocalStrategies, place2Position) = cs
-    val res = (for (superClusterIndex <- superCluster2LocalStrategies.keys.toList.sortWith(_ < _)) // for each local supercluster we need to create a fixpoint strategy
-      yield calculateSClusterSaturationStrategyForIndex(superClusterIndex)).reduceLeft((s1, s2) => s1.flatMap(_ => s2))
-    ((), res.eval(cs)._1)
-  })
-
-  def calculateSClusterSaturationStrategyForIndex(i: Int): State[CalculationState, Unit] = State(cs => {
-    val (ts, strat2Name, superCluster2LocalStrategies, place2Position) = cs
-    val res = (for (clusterIndex <- superCluster2LocalStrategies(i).keys.toList.sortWith(_ < _)) // for each cluster we need we create a fix point
-    yield {
-      if (clusterIndex == -1) // no change that supercluster already has all transitions for that supercluster where they need to be 
-        State((cs: CalculationState) => ((), cs))
-      else // we need to add transitions that operate in that super cluster
-        calculateClusterSaturationStrategyIndexForSingleCluster(i, clusterIndex) //we have a transition spanning one cluster in one super cluster, great!
-    })
-      .reduceLeft((s1, s2) => s1.flatMap(_ => s2))
-    ((), res.eval(cs)._1)
-  })
-
-  def calculateClusterSaturationStrategyIndexForSingleCluster(superClusterIndex: Int, clusterIndex: Int): State[CalculationState, Unit] = State(cs => {
-    val (ts, strat2Name, superCluster2LocalStrategies, place2Position) = cs
-    val strategyBody = superCluster2LocalStrategies(superClusterIndex)(clusterIndex).map(DeclaredStrategyInstance(_): NonVariableStrategy).reduce((a, b) => Union(Try(a), Try(b)))
-    val strategyName = "fixPoint_" + superClusterIndex + "_" + clusterIndex
-    val newTS = ts.declareStrategy(strategyName) { ApplyToClusterAndThen(FixPointStrategy(Union(Identity, strategyBody)), Identity, clusterIndex) }(false)
-    ((), (newTS,
-      strat2Name,
-      superCluster2LocalStrategies.updated(
-        superClusterIndex, superCluster2LocalStrategies(superClusterIndex).updated(
-          -1, superCluster2LocalStrategies(superClusterIndex).getOrElse(-1, Set()) + strategyName)),
-        place2Position))
-  })
-
+  def calculateSClusterSaturationStrategies: State[CalculationState, Unit] = for {
+    cs <- State.get((cs: CalculationState) => cs)
+    (ts, strat2Name, superCluster2LocalStrategies, place2Position) = cs
+    strategyBody = createFixpointStrategieForSuperClusters(superCluster2LocalStrategies)
+    _ <- saveStrategyWithName("superClusterSaturationStrategy", strategyBody, true)
+  } yield ()
+    
+  def createFixpointStrategieForSuperClusters(superCluster2LocalStrategies: Map[Int, Map[Int, Set[String]]]):NonVariableStrategy = {
+    val listOfSuperClusterFixPointStrategies = for (superClusterIndex <- superCluster2LocalStrategies.keys.toList.sortWith(_ < _)) yield (superClusterFixPointStrategy(superCluster2LocalStrategies(superClusterIndex)), superClusterIndex)
+    chainSuperClusterFixPointStrategies(listOfSuperClusterFixPointStrategies)
+  }
+  
+  def superClusterFixPointStrategy(cluster2localStrategies:Map[Int, Set[String]]):NonVariableStrategy = {
+	val listOfClusterFixPointStrategies = for (clusterIndex <- cluster2localStrategies.keys.toList.sortWith(_ < _) if (clusterIndex != -1)) yield (clusterFixPointStrategy(cluster2localStrategies(clusterIndex)), clusterIndex)
+    if (cluster2localStrategies.isDefinedAt(-1)) {
+      val clusterStrategies:NonVariableStrategy = (for (stratName <- cluster2localStrategies(-1)) yield Try(DeclaredStrategyInstance(stratName)):NonVariableStrategy).reduce((a,b) => Union(a, b))
+      Saturation(Union(Identity, Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), clusterStrategies)), 2)
+    } else
+      Saturation(Union(Identity,chainClusterFixPointStrategies(listOfClusterFixPointStrategies)), 2)
+  }
+  
+  def clusterFixPointStrategy(strategyNames: Set[String]):NonVariableStrategy = Saturation(Union(Identity, strategyNames.map(a => Try(DeclaredStrategyInstance(a)):NonVariableStrategy).reduce((a,b) => Union(a, b))), 2)
+  
+  def chainClusterFixPointStrategies(strategies: List[(NonVariableStrategy, Int)]):NonVariableStrategy = strategies match {
+    case Nil => Identity
+    case (strat, n)::tail => Choice(ClusterFixPointAndThen(strat, chainClusterFixPointStrategies(tail), n), chainClusterFixPointStrategies(tail))
+  }
+  
+  def chainSuperClusterFixPointStrategies(strategies: List[(NonVariableStrategy, Int)]):NonVariableStrategy = strategies match {
+    case Nil => Identity
+    case (strat, n)::tail => Choice(SuperClusterFixPointAndThen(strat, chainSuperClusterFixPointStrategies(tail), n), chainSuperClusterFixPointStrategies(tail))
+  }
+  
+    
   def calculateTransitionSystem(transitions: Set[Transition]): State[CalculationState, Unit] =
     transitions.map(t => transitionStrategy(t)).reduceLeft((s1, s2) => s1.flatMap(_ => s2))
 
@@ -515,6 +505,58 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       for (
         checkClusterBody <- checkSCluster;
         res <- State((ts: TransitionSystem) => ((), ts.declareStrategy(s"applyForCluster$i", S, Q) { checkClusterBody }(false)))
+      ) yield res
+    }
+    r.reduceLeft((state1, state2) => state1.flatMap(_ => state2))
+  }
+
+  def addSuperClusterFixPointAndThen(maxSCluster: Int) = {
+    val r = for (i <- (0 to (maxSCluster - 1))) yield {
+      // list of State containing the checkForCluster functions to check if we are bigger
+      val checkNotBiggerThanClusterList = ((for (j <- (i + 1) to (maxSCluster - 1)) yield checkForSCluster(j)))
+      // reduces the functions to a list of choices
+      val checkNotBiggerThanCluster: State[TransitionSystem, NonVariableStrategy] =
+        if (checkNotBiggerThanClusterList.isEmpty) State.insert(Fail) else checkNotBiggerThanClusterList.reduceLeft((state1, state2) => for (s1 <- state1; s2 <- state1) yield Choice(s1, s2))
+      val checkSCluster = for (
+        checkForiStrat <- checkForSCluster(i);
+        checkNotBiggerThanClusterStrat <- checkNotBiggerThanCluster
+      ) yield {
+        IfThenElse(
+          checkForiStrat,
+          Union(One(S, 1), One(Q, 2)), // if we are in the right cluster, apply the strategy
+          IfThenElse(checkNotBiggerThanClusterStrat,
+            Fail,
+            One(DeclaredStrategyInstance(s"superClusterFixPointAndThen$i", S, Q), 2))) // else we enter the recursion only if we are not bigger than the cluster
+      }
+      for (
+        checkSClusterBody <- checkSCluster;
+        res <- State((ts: TransitionSystem) => ((), ts.declareStrategy(s"superClusterFixPointAndThen$i", S, Q) { checkSClusterBody }(false)))
+      ) yield res
+    }
+    r.reduceLeft((state1, state2) => state1.flatMap(_ => state2))
+  }
+
+  def addClusterFixPointAndThen(maxCluster: Int) = {
+    val r = for (i <- (0 to (maxCluster - 1))) yield {
+      // list of State containing the checkForCluster functions to check if we are bigger
+      val checkNotBiggerThanClusterList = ((for (j <- (i + 1) to (maxCluster - 1)) yield checkForCluster(j)))
+      // reduces the functions to a list of choices
+      val checkNotBiggerThanCluster: State[TransitionSystem, NonVariableStrategy] =
+        if (checkNotBiggerThanClusterList.isEmpty) State.insert(Fail) else checkNotBiggerThanClusterList.reduceLeft((state1, state2) => for (s1 <- state1; s2 <- state1) yield Choice(s1, s2))
+      val checkSCluster = for (
+        checkForiStrat <- checkForCluster(i);
+        checkNotBiggerThanClusterStrat <- checkNotBiggerThanCluster
+      ) yield {
+        IfThenElse(
+          checkForiStrat,
+          Union(Try(One(S, 1)), Try(One(Q, 2))), // if we are in the right cluster, apply the strategy
+          IfThenElse(checkNotBiggerThanClusterStrat,
+            Fail,
+            One(DeclaredStrategyInstance(s"clusterFixPointAndThen$i", S, Q), 2))) // else we enter the recursion only if we are not bigger than the cluster
+      }
+      for (
+        checkClusterBody <- checkSCluster;
+        res <- State((ts: TransitionSystem) => ((), ts.declareStrategy(s"clusterFixPointAndThen$i", S, Q) { checkClusterBody }(false)))
       ) yield res
     }
     r.reduceLeft((state1, state2) => state1.flatMap(_ => state2))

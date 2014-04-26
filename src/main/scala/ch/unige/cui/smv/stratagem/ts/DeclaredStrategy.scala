@@ -47,6 +47,7 @@ case class DeclaredStrategy(label: String, body: NonVariableStrategy, formalPara
   private def checkSyntax(strategy: Strategy, params: VariableStrategy*)(implicit ts: TransitionSystem): (Boolean, String) = {
     strategy match {
       case Try(s) => checkSyntax(s, params: _*)
+      case Saturation(s, n) => checkSyntax(s)
       case Choice(s1, s2) => {
         val (result1, message1) = checkSyntax(s1, params: _*)
         val (result2, message2) = checkSyntax(s2, params: _*)
