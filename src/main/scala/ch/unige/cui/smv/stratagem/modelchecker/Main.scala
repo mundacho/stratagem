@@ -29,12 +29,15 @@ import ch.unige.cui.smv.stratagem.ts.Identity
 import ch.unige.cui.smv.stratagem.transformers.Model2TransitionSystem
 import ch.unige.cui.smv.stratagem.transformers.PetriNet2TransitionSystem
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
+import ch.unige.cui.smv.stratagem.petrinets.Place
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWithAnonimization
+import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters
 import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystem
 import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
 import ch.unige.cui.smv.stratagem.transformers.Modularizer
 import ch.unige.cui.smv.stratagem.transformers.FileModularizer
+import ch.unige.cui.smv.stratagem.transformers.FileSuperModularizer
 
 /**
  * The main class of stratagem. It is used to launch the model checker.
@@ -44,7 +47,7 @@ import ch.unige.cui.smv.stratagem.transformers.FileModularizer
 object Main extends Logging {
 
   val programName = "stratagem"
-  val sversion = "0.2"
+  val sversion = "0.3"
   val quietMode = "activate quiet mode. Only errors are printed."
   val fileComment = "the model in pnml format."
   val debugMode = "activate debug mode. Lots of output."
@@ -60,7 +63,7 @@ object Main extends Logging {
       if (config.verbose) root.setLevel(Level.TRACE)
       if (config.verbose && config.quiet) logger.warn("Set quiet and verbose flag at the same time")
 
-      val model2ts: Model2TransitionSystem = createModelToTransitionSystemTransformation(config.transformation, if (config.hasClustering) Some(config.clustering) else None)
+      val model2ts: Model2TransitionSystem = createModelToTransitionSystemTransformation(config.transformation, config.clustering, config.names)
       logger.debug("Successfully processed input file")
       if (config.mode == "analyzer") {
         // check config
@@ -102,16 +105,16 @@ object Main extends Logging {
   }
 
   def configureParser = new scopt.OptionParser[Config](programName) {
-    head(programName + " " +  sversion)
+    head(programName + " " + sversion)
     opt[Unit]('q', "quiet") action { (_, c) =>
       c.copy(quiet = true)
     } text (quietMode)
     opt[Unit]("no-saturate") abbr ("ns") action { (_, c) =>
       c.copy(saturation = false)
     } text (saturationComment)
-    opt[File]("clustering") optional() abbr ("c") action { (x, c) =>
-      c.copy(hasClustering = true, clustering = x)
-    } text ("select the clustering file")
+    opt[File]("clustering-file") optional () abbr ("cf") action { (x, c) =>
+      c.copy(clustering = Some(x))
+    } text ("option to specify the clustering file")
     opt[String]("transformation") abbr ("t") action { (x, c) =>
       c.copy(transformation = x)
     } text ("Choose the transformation for the model. Available transformations are:" +
@@ -122,9 +125,13 @@ object Main extends Logging {
     opt[Unit]("debug") action { (_, c) =>
       c.copy(verbose = true)
     } text (debugMode)
+    opt[Unit]("with-names") action { (_, c) =>
+      c.copy(names = true)
+    } text ("Print the names of the modules (from the PNML)")
     arg[File]("<file>") required () action { (x, c) =>
       c.copy(model = x)
     } text (fileComment)
+    checkConfig { c => if ((c.clustering.isEmpty) && c.transformation != "anonymized-modular") failure("Clustering only works on anonymized-modular transformation") else success }
     cmd("analyzer") action { (_, c) =>
       c.copy(mode = "analyzer")
     } text ("Analyzer mode allows to analyze the petri net without performing the state space calculation") children (
@@ -144,11 +151,11 @@ places. The intersection of two modules is empty."""),
       } text ("Print the generated transition system"))
   }
 
-  def createModelToTransitionSystemTransformation(transformationName: String, clusteringFile: Option[File]) = transformationName match {
+  def createModelToTransitionSystemTransformation(transformationName: String, clusteringFile: Option[File], withNames: Boolean) = transformationName match {
     case "naive" => new Model2TransitionSystem {
       type ModelType = PetriNet
       type PreprocessedModelType = PetriNet
-      
+
       val file2Model = PNML2PetriNet
       val modelPreprocessor = (m: PetriNet) => m
       val preprocessedModel2TransitionSystem = PetriNet2TransitionSystem
@@ -161,19 +168,26 @@ places. The intersection of two modules is empty."""),
       val modelPreprocessor = (model: PetriNet) => (Modularizer(model), model)
       val preprocessedModel2TransitionSystem = SetOfModules2TransitionSystem.tupled
     }
-    case "anonymized-modular" | "" => new Model2TransitionSystem {
-      type ModelType = PetriNet
-      type PreprocessedModelType = (List[PTModule], PetriNet)
-      
-      val file2Model = PNML2PetriNet
-      
-      
-      val modelPreprocessor = clusteringFile match {
-        case None => (model: PetriNet) => (Modularizer(model), model)
-        case Some(file) => (model: PetriNet) => ((new FileModularizer(file))(model), model)
+    case "anonymized-modular" | "" =>
+      clusteringFile match {
+        case None =>
+          new Model2TransitionSystem {
+            type ModelType = PetriNet
+            val file2Model = PNML2PetriNet
+            type PreprocessedModelType = (List[PTModule], PetriNet)
+            val modelPreprocessor = (model: PetriNet) => (Modularizer(model), model)
+            val preprocessedModel2TransitionSystem = SetOfModules2TransitionSystem.tupled
+          }
+        case Some(file) =>
+          new Model2TransitionSystem {
+            type ModelType = PetriNet
+            val file2Model = PNML2PetriNet
+            type PreprocessedModelType = (List[List[List[Place]]], PetriNet)
+            val modelPreprocessor = (model: PetriNet) => ((new FileSuperModularizer(file, withNames))(model), model)
+            val preprocessedModel2TransitionSystem = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters.tupled
+          }
+
       }
-      val preprocessedModel2TransitionSystem = SetOfModules2TransitionSystemWithAnonimization.tupled
-    }
     case _ =>
       logger.error("Unrecognized transformation")
       scala.sys.exit(-1)

@@ -39,6 +39,7 @@ import ch.unige.cui.smv.stratagem.ts.IfThenElse
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 
 /**
  * Represents a factory of rewriters.
@@ -105,7 +106,7 @@ class SigmaDDRewriterFactory private[sigmadd] (sigmaDDFactory: SigmaDDFactoryImp
    * Transforms a transition system to a rewriter for SigmaDDs with saturation.
    */
   def transitionSystemToStateSpaceRewriterWithSaturation(ts: TransitionSystem, firstStrat: NonVariableStrategy, n: Integer): SigmaDDRewriter = {
-    val fullStateSpaceCaculation = Union(Identity, ts.strategyDeclarations.filter(_._2.isTransition).map(s => Try(s._2.declaredStrategy.body))
+    val fullStateSpaceCaculation = Union(Identity, ts.strategyDeclarations.filter(_._2.isTransition).map(s => Try(DeclaredStrategyInstance(s._2.declaredStrategy.label)))
       .reduce((s1: Strategy, s2: Strategy) => Union(s1, s2)))
     strategyToRewriter(Union(Saturation(fullStateSpaceCaculation, n),
       FixPointStrategy(Union(firstStrat, Saturation(fullStateSpaceCaculation, n)))))(ts)

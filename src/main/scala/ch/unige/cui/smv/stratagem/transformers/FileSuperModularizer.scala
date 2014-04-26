@@ -34,7 +34,7 @@ import scala.collection.mutable.ListBuffer
  * @author mundacho
  *
  */
-class FileSuperModularizer(file: File) extends Logging with ((PetriNet) => List[List[List[Place]]]) {
+class FileSuperModularizer(file: File, withNames: Boolean) extends Logging with ((PetriNet) => List[List[List[Place]]]) {
 
   def splitBySeparator[T](l: Seq[T], sep: T): List[List[T]] = {
     val b = ListBuffer(ListBuffer[T]())
@@ -55,7 +55,9 @@ class FileSuperModularizer(file: File) extends Logging with ((PetriNet) => List[
     val res = (for (line <- Source.fromFile(file).getLines) yield {
       if (line.toString.trim.isEmpty) Nil else {
         val placeIDs = line.toString.split(",\\s+").toList
-        val placeNameToPlace = Map(net.places.map(p => (p.id -> p)).toArray: _*)
+        val placeNameToPlace =
+          if (withNames) Map(net.places.map(p => (p.name -> p)).toArray: _*) else
+            Map(net.places.map(p => (p.id -> p)).toArray: _*)
         val placesForModules = (for (id <- placeIDs) yield {
           if (!placeNameToPlace.isDefinedAt(id)) {
             logger.error(s"Place $id is not a valid place in the model, please fix the clustering file")
