@@ -45,10 +45,10 @@ private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter, override
       while ((newResult != None) && (result.get ne newResult.get)) {
         result = newResult
         newResult = rewriter(result.get)
-        if (newResult.get.iipf.alpha.keys.head.toString.startsWith("{sc")) {
+//        if (newResult.get.iipf.alpha.keys.head.toString.startsWith("{sc")) {
           logger.trace(s"Fixpoint rewriter has generated a decision diagram of size: ${newResult.get.size}")
           logger.trace(s"Fixpoint rewriter was applied on top of term with functor: ${newResult.get.iipf.alpha.keys.head}")
-        }
+//        }
       }
       newResult
     }

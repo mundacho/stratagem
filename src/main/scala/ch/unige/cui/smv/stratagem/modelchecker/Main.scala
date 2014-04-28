@@ -131,7 +131,7 @@ object Main extends Logging {
     arg[File]("<file>") required () action { (x, c) =>
       c.copy(model = x)
     } text (fileComment)
-    checkConfig { c => if ((c.clustering.isEmpty) && c.transformation != "anonymized-modular") failure("Clustering only works on anonymized-modular transformation") else success }
+//    checkConfig { c => if ((c.clustering.isEmpty) && c.transformation != "anonymized-modular") failure("Clustering only works on anonymized-modular transformation") else success }
     cmd("analyzer") action { (_, c) =>
       c.copy(mode = "analyzer")
     } text ("Analyzer mode allows to analyze the petri net without performing the state space calculation") children (
@@ -174,9 +174,14 @@ places. The intersection of two modules is empty."""),
           new Model2TransitionSystem {
             type ModelType = PetriNet
             val file2Model = PNML2PetriNet
-            type PreprocessedModelType = (List[PTModule], PetriNet)
-            val modelPreprocessor = (model: PetriNet) => (Modularizer(model), model)
-            val preprocessedModel2TransitionSystem = SetOfModules2TransitionSystem.tupled
+            type PreprocessedModelType = (List[List[List[Place]]], PetriNet)
+            val modelPreprocessor = (model: PetriNet) => (modulesToLisOfSuperClusters(Modularizer(model)), model)
+            val preprocessedModel2TransitionSystem = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters.tupled
+            
+            def modulesToLisOfSuperClusters(listOfModules: List[PTModule]): List[List[List[Place]]] = {
+              List(listOfModules.map(_.net.places.toList.sortBy(p => (p.id, p.name))))
+            }
+            
           }
         case Some(file) =>
           new Model2TransitionSystem {

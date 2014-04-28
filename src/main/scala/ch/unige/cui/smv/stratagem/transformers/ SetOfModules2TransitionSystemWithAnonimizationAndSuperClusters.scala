@@ -18,7 +18,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.transformers
 
 import scala.language.implicitConversions
+
 import com.typesafe.scalalogging.slf4j.Logging
+
+import ch.unige.cui.smv.stratagem.petrinets._
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.adt.Equation
@@ -29,7 +32,6 @@ import ch.unige.cui.smv.stratagem.adt.Signature
 import ch.unige.cui.smv.stratagem.petrinets.Arc
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
 import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT
-import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT.ENDPLACE
 import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT.PLACE_SORT_NAME
 import ch.unige.cui.smv.stratagem.petrinets.Place
 import ch.unige.cui.smv.stratagem.petrinets.Transition
@@ -37,8 +39,6 @@ import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystem.CLU
 import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystem.ENDCLUSTER
 import ch.unige.cui.smv.stratagem.transformers.beem.State
 import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.Fail
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
@@ -53,23 +53,6 @@ import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
-import ch.unige.cui.smv.stratagem.ts.IfThenElse
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.Sequence
-import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
-import ch.unige.cui.smv.stratagem.ts.IfThenElse
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.Saturation
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 
 /**
  * @author mundacho
@@ -218,7 +201,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
         ts.adt.term(placeId, ts.adt.term("x"), ts.adt.term("p")) :: Nil))
   }
 
-  private def outputArcStrategyBody(ts: TransitionSystem, placeToModuleAndPosition: Map[Place, (Int, Int, Int)])(arc: Arc):NonVariableStrategy = {
+  private def outputArcStrategyBody(ts: TransitionSystem, placeToModuleAndPosition: Map[Place, (Int, Int, Int)])(arc: Arc): NonVariableStrategy = {
     val placeId = s"p${placeToModuleAndPosition(arc.place)._3}"
     SimpleStrategy(
       (ts.adt.term(placeId, ts.adt.term("x"), ts.adt.term("p")) ->
@@ -246,7 +229,6 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
           cs <- State.get((cs: CalculationState) => cs)
           (ts, strat2Name, superCluster2Strategies, place2Position) = cs
         } yield {
-          logger.trace(s"Transition ${transition.id} is in completely in superCluster ${placesGroupedBySuperClusters.keys.head} and cluster ${placesGroupedByClusters.keys.head}")
           (chainStrategiesForPlaces(arc2Strategies(transition.inputArcs, transition.outputArcs, ts, place2Position)), false)
         }
       } else if (placesGroupedByClusters.keys.size > 1) { // more than one
@@ -259,12 +241,14 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
         throw new IllegalStateException("Clusters must have at least one elt.")
       }
     } else { // multi super clustered transition
-      //      println(s"Creating transition for multi-super-clustered transition ${transition.id}")
       for {
         cs <- State.get((cs: CalculationState) => cs)
         (ts, strat2Name, superCluster2Strategies, place2Position) = cs
         strategyList = createListOfStrategiesForSuperClusters(transition.inputArcs, transition.outputArcs, ts, place2Position)
-      } yield (chainStrategiesForSuperClusters(strategyList), true)
+      } yield {
+        (chainStrategiesForSuperClusters(strategyList), true)
+
+      }
     }
 
   def chainStrategiesForSuperClusters(strategies: List[(NonVariableStrategy, Int)]): NonVariableStrategy = strategies match {
@@ -381,13 +365,14 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
   def superClusterFixPointStrategy(cluster2localStrategies: Map[Int, Set[String]]): NonVariableStrategy = {
     val listOfClusterFixPointStrategies = for (clusterIndex <- cluster2localStrategies.keys.toList.sortWith(_ < _) if (clusterIndex != -1)) yield (clusterFixPointStrategy(cluster2localStrategies(clusterIndex)), clusterIndex)
     if (cluster2localStrategies.isDefinedAt(-1)) {
-      val clusterStrategies: NonVariableStrategy = (for (stratName <- cluster2localStrategies(-1)) yield Try(DeclaredStrategyInstance(stratName)): NonVariableStrategy).reduce((a, b) => Union(a, b))
-      Saturation(Union(Identity, Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), clusterStrategies)), 2)
+      val superClusterStrategies: NonVariableStrategy = (for (stratName <- cluster2localStrategies(-1)) yield FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(stratName)))): NonVariableStrategy).reduce((a, b) => Union(a, b))
+      FixPointStrategy(Union(Identity, Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), superClusterStrategies)))
+      //      Saturation(Union(Identity, Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), superClusterStrategies)), 2)
     } else
-      Saturation(Union(Identity, chainClusterFixPointStrategies(listOfClusterFixPointStrategies)), 2)
+      FixPointStrategy(Union(Identity, chainClusterFixPointStrategies(listOfClusterFixPointStrategies)))
   }
 
-  def clusterFixPointStrategy(strategyNames: Set[String]): NonVariableStrategy = Saturation(Union(Identity, strategyNames.map(a => Try(DeclaredStrategyInstance(a)): NonVariableStrategy).reduce((a, b) => Union(a, b))), 2)
+  def clusterFixPointStrategy(strategyNames: Set[String]): NonVariableStrategy = FixPointStrategy(Union(Identity, strategyNames.map(a => FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(a)))): NonVariableStrategy).reduce((a, b) => Union(a, b))))
 
   def chainClusterFixPointStrategies(strategies: List[(NonVariableStrategy, Int)]): NonVariableStrategy = strategies match {
     case Nil => Identity
@@ -396,7 +381,9 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
 
   def chainSuperClusterFixPointStrategies(strategies: List[(NonVariableStrategy, Int)]): NonVariableStrategy = strategies match {
     case Nil => Identity
-    case (strat, n) :: tail => Choice(SuperClusterFixPointAndThen(strat, chainSuperClusterFixPointStrategies(tail), n), chainSuperClusterFixPointStrategies(tail))
+    case (strat, n) :: tail => //Choice(
+      SuperClusterFixPointAndThen(strat, chainSuperClusterFixPointStrategies(tail), n)
+    //        , chainSuperClusterFixPointStrategies(tail))
   }
 
   def calculateTransitionSystem(transitions: Set[Transition]): State[CalculationState, Unit] =
