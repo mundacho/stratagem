@@ -18,9 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.transformers
 
 import scala.language.implicitConversions
-
 import com.typesafe.scalalogging.slf4j.Logging
-
 import ch.unige.cui.smv.stratagem.petrinets._
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.adt.ATerm
@@ -53,6 +51,8 @@ import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
+import ch.unige.cui.smv.stratagem.ts.Saturation
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 
 /**
  * @author mundacho
@@ -157,12 +157,13 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     }
   ) yield ()
 
-  def saveStrategyWithName(name: String, strategy: NonVariableStrategy, isTransition: Boolean): State[CalculationState, Unit] = State((cs: CalculationState) => {
+  def saveStrategyWithName(name: String, strategy: NonVariableStrategy, isTransition: Boolean): State[CalculationState, String] = State((cs: CalculationState) => {
     val (ts, strat2Name, superCluster2Strategies, place2Position) = cs
     if (strat2Name.isDefinedAt(strategy)) {
-      ((), cs)
+      logger.trace(s"Did not redefine strategy $name because it was already defined")
+      (strat2Name(strategy), cs)
     } else {
-      ((),
+      (name,
         (ts.declareStrategy(name) { strategy }(isTransition),
           strat2Name + (strategy -> name),
           superCluster2Strategies,
@@ -189,7 +190,6 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       placesGroupedByClusters = (transition.inputArcs ++ transition.outputArcs).groupBy(a => place2Position(a.place)._2);
       res <- calculateTransitionStrategy(transition, placesGroupedBySuperClusters, placesGroupedByClusters);
       (tranStrategy, isTransition) = res;
-      _ <- saveStrategyWithName(transition.id, tranStrategy, isTransition);
       _ <- addStrategyToClusteringMapAtPosition(tranStrategy, placesGroupedBySuperClusters.keys.head,
         if (placesGroupedByClusters.keys.size == 1) placesGroupedByClusters.keys.head else -1) if (!isTransition)
     ) yield ()
@@ -228,15 +228,19 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
         for {
           cs <- State.get((cs: CalculationState) => cs)
           (ts, strat2Name, superCluster2Strategies, place2Position) = cs
+          strategyBody = chainStrategiesForPlaces(arc2Strategies(transition.inputArcs, transition.outputArcs, ts, place2Position))
+          normalName <- saveStrategyWithName(transition.id, strategyBody, false)
         } yield {
-          (chainStrategiesForPlaces(arc2Strategies(transition.inputArcs, transition.outputArcs, ts, place2Position)), false)
+          (strategyBody, false)
         }
       } else if (placesGroupedByClusters.keys.size > 1) { // more than one
         for {
           cs <- State.get((cs: CalculationState) => cs)
           (ts, strat2Name, superCluster2Strategies, place2Position) = cs
           strategyList = createListOfStrategiesForClusters(transition.inputArcs, transition.outputArcs, ts, place2Position)
-        } yield (chainStrategiesForClusters(strategyList), false)
+          strategyBody = chainStrategiesForClusters(strategyList)
+          normalName <- saveStrategyWithName(transition.id, strategyBody, false)
+        } yield (strategyBody, false)
       } else {
         throw new IllegalStateException("Clusters must have at least one elt.")
       }
@@ -245,8 +249,10 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
         cs <- State.get((cs: CalculationState) => cs)
         (ts, strat2Name, superCluster2Strategies, place2Position) = cs
         strategyList = createListOfStrategiesForSuperClusters(transition.inputArcs, transition.outputArcs, ts, place2Position)
+        strategyBody = chainStrategiesForSuperClusters(strategyList)
+        normalName <- saveStrategyWithName(transition.id, strategyBody, true)
       } yield {
-        (chainStrategiesForSuperClusters(strategyList), true)
+        (strategyBody, true)
 
       }
     }
@@ -329,6 +335,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       .declareStrategy("applyOnce", S)(Choice(S, One(ApplyOnce(S), 2)))(false)
       .declareStrategy("applyOnceAndThen", S, Q)(IfThenElse(S, One(Q, 2), One(ApplyOnceAndThen(S, Q), 2)))(false)
     // add apply to scluster
+      
+      
 
     val transSystemState = for {
       _ <- addApplyToSCluster(modules.size)
@@ -366,7 +374,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val listOfClusterFixPointStrategies = for (clusterIndex <- cluster2localStrategies.keys.toList.sortWith(_ < _) if (clusterIndex != -1)) yield (clusterFixPointStrategy(cluster2localStrategies(clusterIndex)), clusterIndex)
     if (cluster2localStrategies.isDefinedAt(-1)) {
       val superClusterStrategies: NonVariableStrategy = (for (stratName <- cluster2localStrategies(-1)) yield FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(stratName)))): NonVariableStrategy).reduce((a, b) => Union(a, b))
-      FixPointStrategy(Union(Identity, Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), superClusterStrategies)))
+      FixPointStrategy(Union(Identity, Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), Saturation(Union(superClusterStrategies, Identity), 2))))
       //      Saturation(Union(Identity, Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), superClusterStrategies)), 2)
     } else
       FixPointStrategy(Union(Identity, chainClusterFixPointStrategies(listOfClusterFixPointStrategies)))

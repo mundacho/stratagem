@@ -73,7 +73,7 @@ class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strat
   }
 
   private def addDeclaredStrategy(declaredStrategy: DeclaredStrategy)(isTransition: Boolean) = {
-    require(!strategyDeclarations.contains(declaredStrategy.label), "A strategy with that name is already defined in this transition system")
+    require(!strategyDeclarations.contains(declaredStrategy.label), s"A strategy with the name ${declaredStrategy.label} is already defined in this transition system")
     require(!isTransition || declaredStrategy.formalParameters.isEmpty) // being a transition implies that there are no formal parameters.
     val ts = new TransitionSystem(adt, initialState, strategyDeclarations + (declaredStrategy.label -> StrategyDeclaration(declaredStrategy, isTransition)))
     val (result, message) = declaredStrategy.syntaxCheck(ts)

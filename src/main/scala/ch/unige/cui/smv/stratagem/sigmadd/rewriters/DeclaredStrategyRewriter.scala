@@ -36,7 +36,6 @@ import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 import ch.unige.cui.smv.stratagem.ts.Choice
 import ch.unige.cui.smv.stratagem.ts.Not
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
-import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 import ch.unige.cui.smv.stratagem.ts.Saturation
 
 /**
