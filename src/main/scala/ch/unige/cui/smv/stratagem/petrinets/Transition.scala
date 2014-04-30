@@ -27,4 +27,6 @@ package ch.unige.cui.smv.stratagem.petrinets
  * @author mundacho
  *
  */
-case class Transition(val id: String, val name: String, val inputArcs: Set[Arc], val outputArcs: Set[Arc])
+case class Transition(val id: String, val name: String, val inputArcs: Set[Arc], val outputArcs: Set[Arc]) {
+  lazy val arcs = inputArcs ++ outputArcs
+}

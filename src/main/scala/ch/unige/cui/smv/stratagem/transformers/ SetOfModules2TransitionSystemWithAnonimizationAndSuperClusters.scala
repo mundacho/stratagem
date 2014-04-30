@@ -18,7 +18,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.transformers
 
 import scala.language.implicitConversions
+
 import com.typesafe.scalalogging.slf4j.Logging
+
 import ch.unige.cui.smv.stratagem.petrinets._
 import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.adt.ATerm
@@ -44,6 +46,7 @@ import ch.unige.cui.smv.stratagem.ts.Identity
 import ch.unige.cui.smv.stratagem.ts.IfThenElse
 import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
 import ch.unige.cui.smv.stratagem.ts.One
+import ch.unige.cui.smv.stratagem.ts.Saturation
 import ch.unige.cui.smv.stratagem.ts.Sequence
 import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.ts.Strategy
@@ -51,8 +54,6 @@ import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-import ch.unige.cui.smv.stratagem.ts.Saturation
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 
 /**
  * @author mundacho
@@ -186,8 +187,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     for (
       cs <- State.get((cs: CalculationState) => cs);
       (ts, strat2Name, superCluster2Strategies, place2Position) = cs;
-      placesGroupedBySuperClusters = (transition.inputArcs ++ transition.outputArcs).groupBy(a => place2Position(a.place)._1);
-      placesGroupedByClusters = (transition.inputArcs ++ transition.outputArcs).groupBy(a => place2Position(a.place)._2);
+      placesGroupedBySuperClusters = transition.arcs.groupBy(a => place2Position(a.place)._1);
+      placesGroupedByClusters = transition.arcs.groupBy(a => place2Position(a.place)._2);
       res <- calculateTransitionStrategy(transition, placesGroupedBySuperClusters, placesGroupedByClusters);
       (tranStrategy, isTransition) = res;
       _ <- addStrategyToClusteringMapAtPosition(tranStrategy, placesGroupedBySuperClusters.keys.head,
@@ -335,9 +336,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       .declareStrategy("applyOnce", S)(Choice(S, One(ApplyOnce(S), 2)))(false)
       .declareStrategy("applyOnceAndThen", S, Q)(IfThenElse(S, One(Q, 2), One(ApplyOnceAndThen(S, Q), 2)))(false)
     // add apply to scluster
-      
-      
 
+    println("Add basic strategies")
     val transSystemState = for {
       _ <- addApplyToSCluster(modules.size)
       _ <- addApplyToCluster(maxClusters)
@@ -345,6 +345,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       _ <- addSuperClusterFixPointAndThen(modules.size)
       _ <- addClusterFixPointAndThen(maxClusters)
     } yield ()
+    println("End adding basic strategies")
+    println("Starting calculation of computation initial state")
 
     val computationInitialState = (
       transSystemState.eval(initialTransitionSystem)._1,
@@ -352,10 +354,13 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       Map[Int, Map[Int, Set[String]]](),
       placeToSClusterClusterPosition)
 
-    (for (
+    println("end computation initial state modules")
+    val computation = (for (
       _ <- calculateTransitionSystem(net.transitions);
       _ <- calculateSClusterSaturationStrategies
-    ) yield ()).eval(computationInitialState)._1._1
+    ) yield ())
+    println("Finished calculating computation")
+    computation.eval(computationInitialState)._1._1
   }
 
   def calculateSClusterSaturationStrategies: State[CalculationState, Unit] = for {
@@ -408,143 +413,86 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
 
   implicit def equation2SimpleStrategy(eq: Equation) = SimpleStrategy(List(eq))
 
-  def checkForSCluster(n: Int): State[TransitionSystem, NonVariableStrategy] =
-    State(ts => (ts.adt.term(s"sc$n", ts.adt.term("c"), ts.adt.term("sc")) -> ts.adt.term(s"sc$n", ts.adt.term("c"), ts.adt.term("sc")), ts))
+  private def addApplyToPlace(maxPlace: Int): State[TransitionSystem, Unit] = State((ts: TransitionSystem) => {
+    val checkForSClusterName = "checkForPlace"
+    val checkBiggerThanSClusterName = "checkBiggerThanPlace"
+    val applyForSClusterName = "applyForPlace"
+    val elementPrefix = "p"
+    val elementVariable = ts.adt.term("p")
+    val containedElementVariable = ts.adt.term("x")
+    // this function adds the checks
+    ((), modifyTSForApplyFor(maxPlace, checkForSClusterName, checkBiggerThanSClusterName, applyForSClusterName, elementPrefix, elementVariable, containedElementVariable)(ts))
+  })
 
-  def checkForPlace(n: Int): State[TransitionSystem, NonVariableStrategy] =
-    State(ts => (ts.adt.term(s"p$n", ts.adt.term("x"), ts.adt.term("p")) -> ts.adt.term(s"p$n", ts.adt.term("x"), ts.adt.term("p")), ts))
+  private def addApplyToSCluster(maxSCluster: Int): State[TransitionSystem, Unit] = State((ts: TransitionSystem) => {
+    val checkForSClusterName = "checkForSCluster"
+    val checkBiggerThanSClusterName = "checkBiggerThanSCluster"
+    val applyForSClusterName = "applyForSCluster"
+    val elementPrefix = "sc"
+    val elementVariable = ts.adt.term("sc")
+    val containedElementVariable = ts.adt.term("c")
+    // this function adds the checks
+    ((), modifyTSForApplyFor(maxSCluster, checkForSClusterName, checkBiggerThanSClusterName, applyForSClusterName, elementPrefix, elementVariable, containedElementVariable)(ts))
+  })
 
-  def checkForCluster(n: Int): State[TransitionSystem, NonVariableStrategy] =
-    State(ts => (ts.adt.term(s"c$n", ts.adt.term("p"), ts.adt.term("c")) -> ts.adt.term(s"c$n", ts.adt.term("p"), ts.adt.term("c")), ts))
+  private def addApplyToCluster(maxCluster: Int): State[TransitionSystem, Unit] = State((ts: TransitionSystem) => {
+    val checkForName = "checkForCluster"
+    val checkBiggerThanName = "checkBiggerThanCluster"
+    val applyForName = "applyForCluster"
+    val elementPrefix = "c"
+    val elementVariable = ts.adt.term("c")
+    val containedElementVariable = ts.adt.term("p")
+    // this function adds the checks
+    ((), modifyTSForApplyFor(maxCluster, checkForName, checkBiggerThanName, applyForName, elementPrefix, elementVariable, containedElementVariable)(ts))
+  })
 
-  private def addApplyToPlace(maxPlace: Int): State[TransitionSystem, Unit] = {
-    val r = for (i <- (0 to (maxPlace - 1))) yield {
-      // list of State containing the checkForCluster functions to check if we are bigger
-      val checkNotBiggerThanPlaceList = ((for (j <- (i + 1) to (maxPlace - 1)) yield checkForPlace(j)))
-      // reduces the functions to a list of choices
-      val checkNotBiggerThanPlace: State[TransitionSystem, NonVariableStrategy] =
-        if (checkNotBiggerThanPlaceList.isEmpty) State.insert(Fail) else checkNotBiggerThanPlaceList.reduceLeft((state1, state2) => for (s1 <- state1; s2 <- state1) yield Choice(s1, s2))
-      val checkPlace = for (
-        checkForiStrat <- checkForPlace(i);
-        checkNotBiggerThanPlaceStrat <- checkNotBiggerThanPlace
-      ) yield {
-        IfThenElse(
-          checkForiStrat,
-          Sequence(S, One(Q, 2)), // if we are in the right cluster, apply the strategy
-          IfThenElse(checkNotBiggerThanPlaceStrat,
-            Fail,
-            One(DeclaredStrategyInstance(s"applyForPlace$i", S, Q), 2))) // else we enter the recursion only if we are not bigger than the cluster
-      }
-      for (
-        checkPlaceBody <- checkPlace;
-        res <- State((ts: TransitionSystem) => ((), ts.declareStrategy(s"applyForPlace$i", S, Q) { checkPlaceBody }(false)))
-      ) yield res
-    }
-    r.reduceLeft((state1, state2) => state1.flatMap(_ => state2))
-  }
+  def addSuperClusterFixPointAndThen(maxSCluster: Int) = State((ts: TransitionSystem) => {
+    val checkForSClusterName = "checkForSCluster"
+    val checkBiggerThanSClusterName = "checkBiggerThanSCluster"
+    val applyForSClusterName = "superClusterFixPointAndThen"
+    val elementPrefix = "sc"
+    val elementVariable = ts.adt.term("sc")
+    val containedElementVariable = ts.adt.term("c")
+    // this function adds the checks
+    ((), modifyTSForApplyFor(maxSCluster, checkForSClusterName, checkBiggerThanSClusterName, applyForSClusterName, elementPrefix, elementVariable, containedElementVariable, true)(ts))
+  })
 
-  private def addApplyToSCluster(maxSCluster: Int): State[TransitionSystem, Unit] = {
-    val r = for (i <- (0 to (maxSCluster - 1))) yield {
-      // list of State containing the checkForCluster functions to check if we are bigger
-      val checkNotBiggerThanClusterList = ((for (j <- (i + 1) to (maxSCluster - 1)) yield checkForSCluster(j)))
-      // reduces the functions to a list of choices
-      val checkNotBiggerThanCluster: State[TransitionSystem, NonVariableStrategy] =
-        if (checkNotBiggerThanClusterList.isEmpty) State.insert(Fail) else checkNotBiggerThanClusterList.reduceLeft((state1, state2) => for (s1 <- state1; s2 <- state1) yield Choice(s1, s2))
-      val checkSCluster = for (
-        checkForiStrat <- checkForSCluster(i);
-        checkNotBiggerThanClusterStrat <- checkNotBiggerThanCluster
-      ) yield {
-        IfThenElse(
-          checkForiStrat,
-          Sequence(One(S, 1), One(Q, 2)), // if we are in the right cluster, apply the strategy
-          IfThenElse(checkNotBiggerThanClusterStrat,
-            Fail,
-            One(DeclaredStrategyInstance(s"applyForSCluster$i", S, Q), 2))) // else we enter the recursion only if we are not bigger than the cluster
-      }
-      for (
-        checkSClusterBody <- checkSCluster;
-        res <- State((ts: TransitionSystem) => ((), ts.declareStrategy(s"applyForSCluster$i", S, Q) { checkSClusterBody }(false)))
-      ) yield res
-    }
-    r.reduceLeft((state1, state2) => state1.flatMap(_ => state2))
-  }
+  def addClusterFixPointAndThen(maxCluster: Int) = State((ts: TransitionSystem) => {
+    val checkForName = "checkForCluster"
+    val checkBiggerThanName = "checkBiggerThanCluster"
+    val applyForName = "clusterFixPointAndThen"
+    val elementPrefix = "c"
+    val elementVariable = ts.adt.term("c")
+    val containedElementVariable = ts.adt.term("p")
+    // this function adds the checks
+    ((), modifyTSForApplyFor(maxCluster, checkForName, checkBiggerThanName, applyForName, elementPrefix, elementVariable, containedElementVariable, true)(ts))
+  })
 
-  private def addApplyToCluster(maxCluster: Int): State[TransitionSystem, Unit] = {
-    val r = for (i <- (0 to (maxCluster - 1))) yield {
-      // list of State containing the checkForCluster functions to check if we are bigger
-      val checkNotBiggerThanClusterList = ((for (j <- (i + 1) to (maxCluster - 1)) yield checkForCluster(j)))
-      // reduces the functions to a list of choices
-      val checkNotBiggerThanCluster: State[TransitionSystem, NonVariableStrategy] =
-        if (checkNotBiggerThanClusterList.isEmpty) State.insert(Fail) else checkNotBiggerThanClusterList.reduceLeft((state1, state2) => for (s1 <- state1; s2 <- state1) yield Choice(s1, s2))
-      val checkSCluster = for (
-        checkForiStrat <- checkForCluster(i);
-        checkNotBiggerThanClusterStrat <- checkNotBiggerThanCluster
-      ) yield {
-        IfThenElse(
-          checkForiStrat,
-          Sequence(One(S, 1), One(Q, 2)), // if we are in the right cluster, apply the strategy
-          IfThenElse(checkNotBiggerThanClusterStrat,
-            Fail,
-            One(DeclaredStrategyInstance(s"applyForCluster$i", S, Q), 2))) // else we enter the recursion only if we are not bigger than the cluster
-      }
-      for (
-        checkClusterBody <- checkSCluster;
-        res <- State((ts: TransitionSystem) => ((), ts.declareStrategy(s"applyForCluster$i", S, Q) { checkClusterBody }(false)))
-      ) yield res
-    }
-    r.reduceLeft((state1, state2) => state1.flatMap(_ => state2))
-  }
-
-  def addSuperClusterFixPointAndThen(maxSCluster: Int) = {
-    val r = for (i <- (0 to (maxSCluster - 1))) yield {
-      // list of State containing the checkForCluster functions to check if we are bigger
-      val checkNotBiggerThanClusterList = ((for (j <- (i + 1) to (maxSCluster - 1)) yield checkForSCluster(j)))
-      // reduces the functions to a list of choices
-      val checkNotBiggerThanCluster: State[TransitionSystem, NonVariableStrategy] =
-        if (checkNotBiggerThanClusterList.isEmpty) State.insert(Fail) else checkNotBiggerThanClusterList.reduceLeft((state1, state2) => for (s1 <- state1; s2 <- state1) yield Choice(s1, s2))
-      val checkSCluster = for (
-        checkForiStrat <- checkForSCluster(i);
-        checkNotBiggerThanClusterStrat <- checkNotBiggerThanCluster
-      ) yield {
-        IfThenElse(
-          checkForiStrat,
-          Union(One(S, 1), One(Q, 2)), // if we are in the right cluster, apply the strategy
-          IfThenElse(checkNotBiggerThanClusterStrat,
-            Fail,
-            One(DeclaredStrategyInstance(s"superClusterFixPointAndThen$i", S, Q), 2))) // else we enter the recursion only if we are not bigger than the cluster
-      }
-      for (
-        checkSClusterBody <- checkSCluster;
-        res <- State((ts: TransitionSystem) => ((), ts.declareStrategy(s"superClusterFixPointAndThen$i", S, Q) { checkSClusterBody }(false)))
-      ) yield res
-    }
-    r.reduceLeft((state1, state2) => state1.flatMap(_ => state2))
-  }
-
-  def addClusterFixPointAndThen(maxCluster: Int) = {
-    val r = for (i <- (0 to (maxCluster - 1))) yield {
-      // list of State containing the checkForCluster functions to check if we are bigger
-      val checkNotBiggerThanClusterList = ((for (j <- (i + 1) to (maxCluster - 1)) yield checkForCluster(j)))
-      // reduces the functions to a list of choices
-      val checkNotBiggerThanCluster: State[TransitionSystem, NonVariableStrategy] =
-        if (checkNotBiggerThanClusterList.isEmpty) State.insert(Fail) else checkNotBiggerThanClusterList.reduceLeft((state1, state2) => for (s1 <- state1; s2 <- state1) yield Choice(s1, s2))
-      val checkSCluster = for (
-        checkForiStrat <- checkForCluster(i);
-        checkNotBiggerThanClusterStrat <- checkNotBiggerThanCluster
-      ) yield {
-        IfThenElse(
-          checkForiStrat,
-          Union(Try(One(S, 1)), Try(One(Q, 2))), // if we are in the right cluster, apply the strategy
-          IfThenElse(checkNotBiggerThanClusterStrat,
-            Fail,
-            One(DeclaredStrategyInstance(s"clusterFixPointAndThen$i", S, Q), 2))) // else we enter the recursion only if we are not bigger than the cluster
-      }
-      for (
-        checkClusterBody <- checkSCluster;
-        res <- State((ts: TransitionSystem) => ((), ts.declareStrategy(s"clusterFixPointAndThen$i", S, Q) { checkClusterBody }(false)))
-      ) yield res
-    }
-    r.reduceLeft((state1, state2) => state1.flatMap(_ => state2))
-  }
+  private def modifyTSForApplyFor(maxElt: Int, checkForName: String, checkBiggerThanName: String, applyForName: String, eltPrefix: String, eltVariable: ATerm, containedVariable: ATerm, fixpoint: Boolean = false) = (for (i <- (0 to (maxElt - 1))) yield {
+    (ts: TransitionSystem) =>
+      // first we declare the checkForSCluster
+      (if (fixpoint) {
+        ts
+      } else { // we declare it only when we are not declare the fixpoint strategies, because the are supposed to be defined before
+        ts.declareStrategy(checkForName + i, ts.adt.term(s"$eltPrefix$i", containedVariable, eltVariable) -> ts.adt.term(s"$eltPrefix$i", containedVariable, eltVariable))(false)
+          // We declare the strategy to check if we are bigger that some cluster
+          .declareStrategy(checkBiggerThanName + i) {
+            if (i == (maxElt - 1)) Fail else
+              Choice(DeclaredStrategyInstance(checkForName + (i + 1)), DeclaredStrategyInstance(checkBiggerThanName + (i + 1)))
+          }(false)
+      })
+        // we declare the applyForClusterStrategy
+        .declareStrategy(s"$applyForName$i", S, Q) {
+          IfThenElse(
+            DeclaredStrategyInstance(checkForName + i),
+            if (fixpoint) Union(Try(One(S, 1)), Try(One(Q, 2))) else
+              Sequence(
+                if (eltPrefix == "p") S else One(S, 1), One(Q, 2)), // if we are in the right cluster, apply the strategy
+            IfThenElse(DeclaredStrategyInstance(checkBiggerThanName + i),
+              Fail,
+              One(DeclaredStrategyInstance(s"$applyForName$i", S, Q), 2))) // else we enter the recursion only if we are not bigger than the cluster          
+        }(false)
+  }).reduceLeft(_ compose _)
 
 }
+

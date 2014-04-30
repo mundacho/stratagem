@@ -77,7 +77,7 @@ class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strat
     require(!isTransition || declaredStrategy.formalParameters.isEmpty) // being a transition implies that there are no formal parameters.
     val ts = new TransitionSystem(adt, initialState, strategyDeclarations + (declaredStrategy.label -> StrategyDeclaration(declaredStrategy, isTransition)))
     val (result, message) = declaredStrategy.syntaxCheck(ts)
-    require(result, "There is a syntax error in the declaration of strategy: " + message)
+    require(result, s"There is a syntax error in the declaration of strategy ${declaredStrategy.label}: $message")
     ts
   }
 
