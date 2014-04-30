@@ -389,7 +389,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
 
   def chainClusterFixPointStrategies(strategies: List[(NonVariableStrategy, Int)]): NonVariableStrategy = strategies match {
     case Nil => Identity
-    case (strat, n) :: tail => Choice(ClusterFixPointAndThen(strat, chainClusterFixPointStrategies(tail), n), chainClusterFixPointStrategies(tail))
+    case (strat, n) :: tail => ClusterFixPointAndThen(strat, chainClusterFixPointStrategies(tail), n)
   }
 
   def chainSuperClusterFixPointStrategies(strategies: List[(NonVariableStrategy, Int)]): NonVariableStrategy = strategies match {
