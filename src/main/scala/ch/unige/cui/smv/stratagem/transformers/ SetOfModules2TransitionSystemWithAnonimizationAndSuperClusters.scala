@@ -54,6 +54,9 @@ import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
+import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 
 /**
  * @author mundacho
@@ -114,7 +117,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val modSize = if (modules.size > 1) modules.size else 2
     (for (i <- 0 to modSize) yield (sign: Signature) => sign.withGenerator(s"sc$i", SUPER_CLUSTER_SORT_NAME, CLUSTER_SORT_NAME, SUPER_CLUSTER_SORT_NAME)).reduce(_ compose _)(s)
   }
-  
+
   private def buildSequenceOfDependentStrategiesMonadic(l: List[State[CalculationState, NonVariableStrategy]]): State[CalculationState, NonVariableStrategy] =
     if (l.isEmpty) State.insert(Identity) else
       (if (l.size == 1) (State.insert[CalculationState, NonVariableStrategy](Identity) :: l).reverse
@@ -206,8 +209,17 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     }
   }
 
+  def getMinimalRecursiveStrategy(strategies: List[(NonVariableStrategy, Int)], maxCluster: Int): NonVariableStrategy = {
+    assert(strategies.size > 1)
+    val divisionNumber = if (closestPowerOfTwo(maxCluster) == maxCluster) maxCluster / 2 else closestPowerOfTwo(maxCluster)
+    val (list1, list2) = strategies partition (_._2 < divisionNumber)
+    if (list1.isEmpty) getMinimalRecursiveStrategy(list2.map(e => (e._1, e._2 - divisionNumber)), maxCluster - divisionNumber)
+    else if (list2.isEmpty) getMinimalRecursiveStrategy(list1, divisionNumber)
+    else chainRecursiveStrategiesForClusters(strategies, maxCluster)
+  }
+
   def chainRecursiveStrategiesForClusters(strategies: List[(NonVariableStrategy, Int)], maxCluster: Int): NonVariableStrategy = {
-    if ((strategies.size == 1) && (strategies.head._2 == 0) && (maxCluster == 1) ) {
+    if ((strategies.size == 1) && (strategies.head._2 == 0) && (maxCluster == 1)) {
       ApplyToClusterAndThen(strategies.head._1, Identity, 0)
     } else {
       val divisionNumber = if (closestPowerOfTwo(maxCluster) == maxCluster) maxCluster / 2 else closestPowerOfTwo(maxCluster)
@@ -217,6 +229,16 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       else ApplyToSClusterAndThen(chainRecursiveStrategiesForClusters(list1, divisionNumber), ApplyToSClusterAndThen(chainRecursiveStrategiesForClusters(list2.map(e => (e._1, e._2 - divisionNumber)), maxCluster - divisionNumber), Identity, 1), 0)
     }
   }
+
+  def getMinimalRecursiveStrategyName(strategies: List[(NonVariableStrategy, Int)], maxCluster: Int): String = {
+    assert(strategies.size > 1)
+    val divisionNumber = if (closestPowerOfTwo(maxCluster) == maxCluster) maxCluster / 2 else closestPowerOfTwo(maxCluster)
+    val (list1, list2) = strategies partition (_._2 < divisionNumber)
+    if (list1.isEmpty) "1" + getMinimalRecursiveStrategyName(list2.map(e => (e._1, e._2 - divisionNumber)), maxCluster - divisionNumber)
+    else if (list2.isEmpty) "0" + getMinimalRecursiveStrategyName(list1, divisionNumber)
+    else "_end"
+  }
+
   def calculateTransitionStrategy(transition: Transition, placesGroupedBySuperClusters: Map[Int, Set[Arc]], placesGroupedByClusters: Map[Int, Set[Arc]], recursiveSetToSize: Map[Int, Int]): State[CalculationState, (NonVariableStrategy, Boolean)] =
     if (placesGroupedBySuperClusters.keys.size == 1) {
       if (placesGroupedByClusters.keys.size == 1) { // this transition is completely contained in one cluster
@@ -229,15 +251,24 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
           (strategyBody, false)
         }
       } else if (placesGroupedByClusters.keys.size > 1) { // more than one
-        for {
-          cs <- State.get((cs: CalculationState) => cs)
-          (ts, strat2Name, superCluster2Strategies, place2Position) = cs
-          strategyList = createListOfStrategiesForClusters(transition.inputArcs, transition.outputArcs, ts, place2Position)
-          superCluster = placesGroupedBySuperClusters.keys.head
-          _ = println(s"hello! superCluster = $superCluster, recSet = $recursiveSetToSize")
-          strategyBody = if (recursiveSetToSize.keySet contains superCluster) chainRecursiveStrategiesForClusters(strategyList, recursiveSetToSize(superCluster)) else chainStrategiesForClusters(strategyList)
-          normalName <- saveStrategyWithName(transition.id, strategyBody, false)
-        } yield (strategyBody, false)
+        val superCluster = placesGroupedBySuperClusters.keys.head
+        if (recursiveSetToSize.keySet contains superCluster) {
+          for {
+            cs <- State.get((cs: CalculationState) => cs)
+            (ts, strat2Name, superCluster2Strategies, place2Position) = cs
+            strategyList = createListOfStrategiesForClusters(transition.inputArcs, transition.outputArcs, ts, place2Position)
+            strategyBody = getMinimalRecursiveStrategy(strategyList, recursiveSetToSize(superCluster))
+            name = getMinimalRecursiveStrategyName(strategyList, recursiveSetToSize(superCluster))
+            normalName <- saveStrategyWithName("__fixpoint_" + name + "_" + transition.id, strategyBody, false)
+          } yield (strategyBody, false)
+        } else
+          for {
+            cs <- State.get((cs: CalculationState) => cs)
+            (ts, strat2Name, superCluster2Strategies, place2Position) = cs
+            strategyList = createListOfStrategiesForClusters(transition.inputArcs, transition.outputArcs, ts, place2Position)
+            strategyBody = chainStrategiesForClusters(strategyList)
+            normalName <- saveStrategyWithName(transition.id, strategyBody, false)
+          } yield (strategyBody, false)
       } else {
         throw new IllegalStateException("Clusters must have at least one elt.")
       }
@@ -366,32 +397,41 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     _ <- saveStrategyWithName("superClusterSaturationStrategy", strategyBody, true)
   } yield ()
 
-  def recursiveSuperClusterFixPointStrategy(cluster2localStrategies: Map[Int, Set[String]], maxCluster: Int): NonVariableStrategy = 
-    if ((cluster2localStrategies.size == 1) && (cluster2localStrategies.head._1 == 0) && (maxCluster == 1)) {
-    ClusterFixPointAndThen(clusterFixPointStrategy(cluster2localStrategies.head._2), Identity, 0)
-  } else {
-    assert(maxCluster != 0)
-    val splitNumber = if (closestPowerOfTwo(maxCluster) == maxCluster) maxCluster / 2 else closestPowerOfTwo(maxCluster)
-    val (map1, map2) = cluster2localStrategies.partition(e => e._1 < splitNumber)
-    if (map1.isEmpty) SuperClusterFixPointAndThen(recursiveSuperClusterFixPointStrategy(map2.map(e => (e._1 - splitNumber, e._2)), maxCluster - splitNumber), Identity, 1)
-    else if (map2.isEmpty) SuperClusterFixPointAndThen(recursiveSuperClusterFixPointStrategy(map1, splitNumber), Identity, 0)
-    else {
-      SuperClusterFixPointAndThen(recursiveSuperClusterFixPointStrategy(map1, splitNumber), SuperClusterFixPointAndThen(recursiveSuperClusterFixPointStrategy(map2.map(e => (e._1 - splitNumber, e._2)), maxCluster - splitNumber), Identity, 1), 0)
+  def recursiveSuperClusterFixPointStrategy(cluster2localStrategies: Map[Int, Set[String]], fixPointStrategies: Set[String], maxCluster: Int, superClusterName: String): NonVariableStrategy = {
+    val clusterFixPointNameStart = "__fixpoint_" + superClusterName + "_end"
+    val (currentFixPointStrategies, removedCurrentFixPointStrategies) = fixPointStrategies.partition(_.startsWith(clusterFixPointNameStart))
+    val fixPointsForSuperClusterStrategies = currentFixPointStrategies.map(name => Union(Identity, Try(DeclaredStrategyInstance(name))): NonVariableStrategy)
+    if (cluster2localStrategies.size == 1 && cluster2localStrategies.head._1 == 0 && maxCluster == 1) {
+      ClusterFixPointAndThen(clusterFixPointStrategy(cluster2localStrategies.head._2), Identity, 0) 
+    } else {
+      assert(maxCluster != 0)
+      val splitNumber = if (closestPowerOfTwo(maxCluster) == maxCluster) maxCluster / 2 else closestPowerOfTwo(maxCluster)
+      val (map1, map2) = cluster2localStrategies.partition(e => e._1 < splitNumber)
+      val (filteredMap1, filteredMap2) = (
+        map1.map(e => (e._1, e._2)), map2.map(e => (e._1 - splitNumber, e._2)))
+      val innerFixPoint = if (map1.isEmpty) SuperClusterFixPointAndThen(recursiveSuperClusterFixPointStrategy(filteredMap2, removedCurrentFixPointStrategies, maxCluster - splitNumber, superClusterName + "1"), Identity, 1)
+      else if (map2.isEmpty) SuperClusterFixPointAndThen(recursiveSuperClusterFixPointStrategy(filteredMap1, removedCurrentFixPointStrategies, splitNumber, superClusterName + "0"), Identity, 0)
+      else {
+        SuperClusterFixPointAndThen(recursiveSuperClusterFixPointStrategy(filteredMap1, removedCurrentFixPointStrategies, splitNumber, superClusterName + "0"),
+          SuperClusterFixPointAndThen(recursiveSuperClusterFixPointStrategy(filteredMap2, removedCurrentFixPointStrategies, maxCluster - splitNumber, superClusterName + "1"), Identity, 1), 0)
+      }
+      if (currentFixPointStrategies.isEmpty) {
+        FixPointStrategy(innerFixPoint)
+      } else {
+        Union(FixPointStrategy(Union(Identity, fixPointsForSuperClusterStrategies.reduce(Union(_, _)))), FixPointStrategy(innerFixPoint))
+      }
     }
   }
 
   def createFixpointStrategieForSuperClusters(superCluster2LocalStrategies: Map[Int, Map[Int, Set[String]]], recursiveSetToSize: Map[Int, Int]): NonVariableStrategy = {
     val listOfSuperClusterFixPointStrategies = for (superClusterIndex <- superCluster2LocalStrategies.keys.toList.sortWith(_ < _)) yield {
-      if (recursiveSetToSize.keySet contains superClusterIndex)
-        if (superCluster2LocalStrategies(superClusterIndex).isDefinedAt(-1)) {
-          val superClusterStrat = FixPointStrategy(Union(Identity, superCluster2LocalStrategies(superClusterIndex)(-1).map(name => FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(name)))):NonVariableStrategy).reduce(Union(_, _))))
-          println("supreCluster on several clusters strat = " + superClusterStrat)
-          println("superCluster fixpoints for one cluster each = " + recursiveSuperClusterFixPointStrategy(superCluster2LocalStrategies(superClusterIndex) - (-1), recursiveSetToSize(superClusterIndex)))
-          (Union(superClusterStrat, FixPointStrategy(recursiveSuperClusterFixPointStrategy(superCluster2LocalStrategies(superClusterIndex) - (-1), recursiveSetToSize(superClusterIndex)))), superClusterIndex)
-        } else
-          (recursiveSuperClusterFixPointStrategy(superCluster2LocalStrategies(superClusterIndex), recursiveSetToSize(superClusterIndex)), superClusterIndex)
-      else
-        (superClusterFixPointStrategy(superCluster2LocalStrategies(superClusterIndex)), superClusterIndex)
+
+      if (recursiveSetToSize.keySet contains superClusterIndex) {
+        (FixPointStrategy(
+            recursiveSuperClusterFixPointStrategy(superCluster2LocalStrategies(superClusterIndex) - (-1),
+          if (superCluster2LocalStrategies(superClusterIndex).isDefinedAt(-1)) superCluster2LocalStrategies(superClusterIndex)(-1) else Set(), recursiveSetToSize(superClusterIndex), "")), superClusterIndex)
+      } else
+        (FixPointStrategy(superClusterFixPointStrategy(superCluster2LocalStrategies(superClusterIndex))), superClusterIndex)
     }
     chainSuperClusterFixPointStrategies(listOfSuperClusterFixPointStrategies)
   }
@@ -433,10 +473,10 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
   private def closestPowerOfTwo(n: Int): Int = {
     assert(n > 0)
     if (n == 1) 1 else if (n == 2) 2 else {
-    2 * closestPowerOfTwo(n / 2)
+      2 * closestPowerOfTwo(n / 2)
+    }
   }
-  }
-  
+
   def createRecursiveInitialState(clusters: List[Cluster])(endTerm: ATerm)(implicit adt: ADT): ATerm = {
     require(clusters.size >= 1)
     if (clusters.size == 1) {
