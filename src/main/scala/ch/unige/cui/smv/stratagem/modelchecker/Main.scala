@@ -174,8 +174,8 @@ places. The intersection of two modules is empty."""),
           new Model2TransitionSystem {
             type ModelType = PetriNet
             val file2Model = PNML2PetriNet
-            type PreprocessedModelType = (List[List[List[Place]]], PetriNet)
-            val modelPreprocessor = (model: PetriNet) => (modulesToLisOfSuperClusters(Modularizer(model)), model)
+            type PreprocessedModelType = (List[List[List[Place]]], Set[Int], PetriNet)
+            val modelPreprocessor = (model: PetriNet) => (modulesToLisOfSuperClusters(Modularizer(model)), Set[Int](), model)
             val preprocessedModel2TransitionSystem = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters.tupled
             
             def modulesToLisOfSuperClusters(listOfModules: List[PTModule]): List[List[List[Place]]] = {
@@ -187,8 +187,8 @@ places. The intersection of two modules is empty."""),
           new Model2TransitionSystem {
             type ModelType = PetriNet
             val file2Model = PNML2PetriNet
-            type PreprocessedModelType = (List[List[List[Place]]], PetriNet)
-            val modelPreprocessor = (model: PetriNet) => ((new FileSuperModularizer(file, withNames))(model), model)
+            type PreprocessedModelType = (List[List[List[Place]]], Set[Int], PetriNet)
+            val modelPreprocessor = (model: PetriNet) => ((new FileSuperModularizer(file, withNames))(model), Set[Int](), model)
             val preprocessedModel2TransitionSystem = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters.tupled
           }
 
