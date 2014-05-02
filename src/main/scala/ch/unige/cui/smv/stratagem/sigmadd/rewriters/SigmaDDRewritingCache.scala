@@ -42,7 +42,7 @@ trait SigmaDDRewritingCache extends SigmaDDRewriter {
    */
   abstract override def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
     SigmaDDRewritingCacheStats.callsCounter = SigmaDDRewritingCacheStats.callsCounter + 1
-    val wrapper = sigmaDD.wrapped.asInstanceOf[LightWeightWrapper[SigmaDDFactoryImpl#SigmaDDImpl]]
+    val wrapper = sigmaDD.wrapped.asInstanceOf[LightWeightWrapper[SigmaDDFactoryImpl#SigmaDDImpl]]    
     val cached = operationCache.lift(wrapper)
     if (cached != None) {
       SigmaDDRewritingCacheStats.hitCounter = SigmaDDRewritingCacheStats.hitCounter + 1

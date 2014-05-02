@@ -158,9 +158,20 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
 
   def saveStrategyWithName(name: String, strategy: NonVariableStrategy, isTransition: Boolean): State[CalculationState, String] = State((cs: CalculationState) => {
     val (ts, strat2Name, superCluster2Strategies, place2Position) = cs
-    if (strat2Name.isDefinedAt(strategy)) {
+    if (name.startsWith("__fixpoint_")) {
+      logger.trace(s"Did redefine strategy $name in order to have it as a fixpoint")
+      (name,
+        (ts.declareStrategy(name) { strategy } (isTransition),
+          strat2Name + (strategy -> name),
+          superCluster2Strategies,
+          place2Position))
+    } else if (strat2Name.isDefinedAt(strategy)) {
       logger.trace(s"Did not redefine strategy $name because it was already defined")
-      (strat2Name(strategy), cs)
+      (name,
+        (ts.declareStrategy(name) { strategy }(isTransition),
+          strat2Name + (strategy -> name),
+          superCluster2Strategies,
+          place2Position))
     } else {
       (name,
         (ts.declareStrategy(name) { strategy }(isTransition),
@@ -246,7 +257,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
           cs <- State.get((cs: CalculationState) => cs)
           (ts, strat2Name, superCluster2Strategies, place2Position) = cs
           strategyBody = chainStrategiesForPlaces(arc2Strategies(transition.inputArcs, transition.outputArcs, ts, place2Position))
-          normalName <- saveStrategyWithName(transition.id, strategyBody, false)
+          normalName <- saveStrategyWithName(transition.name, strategyBody, false)
         } yield {
           (strategyBody, false)
         }
@@ -258,8 +269,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
             (ts, strat2Name, superCluster2Strategies, place2Position) = cs
             strategyList = createListOfStrategiesForClusters(transition.inputArcs, transition.outputArcs, ts, place2Position)
             strategyBody = getMinimalRecursiveStrategy(strategyList, recursiveSetToSize(superCluster))
-            name = getMinimalRecursiveStrategyName(strategyList, recursiveSetToSize(superCluster))
-            normalName <- saveStrategyWithName("__fixpoint_" + name + "_" + transition.id, strategyBody, false)
+            name = "__fixpoint_" + getMinimalRecursiveStrategyName(strategyList, recursiveSetToSize(superCluster)) + "_" + transition.name
+            normalName <- saveStrategyWithName(name, strategyBody, false)
           } yield (strategyBody, false)
         } else
           for {
@@ -267,7 +278,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
             (ts, strat2Name, superCluster2Strategies, place2Position) = cs
             strategyList = createListOfStrategiesForClusters(transition.inputArcs, transition.outputArcs, ts, place2Position)
             strategyBody = chainStrategiesForClusters(strategyList)
-            normalName <- saveStrategyWithName(transition.id, strategyBody, false)
+            normalName <- saveStrategyWithName(transition.name, strategyBody, false)
           } yield (strategyBody, false)
       } else {
         throw new IllegalStateException("Clusters must have at least one elt.")
@@ -278,7 +289,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
         (ts, strat2Name, superCluster2Strategies, place2Position) = cs
         strategyList = createListOfStrategiesForSuperClusters(transition.inputArcs, transition.outputArcs, ts, place2Position, recursiveSetToSize)
         strategyBody = chainStrategiesForSuperClusters(strategyList)
-        normalName <- saveStrategyWithName(transition.id, strategyBody, true)
+        normalName <- saveStrategyWithName(transition.name, strategyBody, true)
       } yield {
         (strategyBody, true)
       }
@@ -368,7 +379,6 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
 
     val recursiveToSize = Map(recursiveSet.toList.view.map(n => (n -> modules(n).size)): _*)
 
-    println("Add basic strategies")
     val transSystemState = for {
       _ <- addApplyToSCluster(if (modules.size > 1) modules.size else 2)
       _ <- addApplyToCluster(maxClusters)
@@ -400,38 +410,40 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
   def recursiveSuperClusterFixPointStrategy(cluster2localStrategies: Map[Int, Set[String]], fixPointStrategies: Set[String], maxCluster: Int, superClusterName: String): NonVariableStrategy = {
     val clusterFixPointNameStart = "__fixpoint_" + superClusterName + "_end"
     val (currentFixPointStrategies, removedCurrentFixPointStrategies) = fixPointStrategies.partition(_.startsWith(clusterFixPointNameStart))
-    val fixPointsForSuperClusterStrategies = currentFixPointStrategies.map(name => Union(Identity, Try(DeclaredStrategyInstance(name))): NonVariableStrategy)
+    // fixPointsForSuperClusterStrategies is the fixpoint for the current superCluster
+    val currentSuperClusterStrategies = currentFixPointStrategies.map(name => Try(DeclaredStrategyInstance(name)): NonVariableStrategy)
     if (cluster2localStrategies.size == 1 && cluster2localStrategies.head._1 == 0 && maxCluster == 1) {
-      ClusterFixPointAndThen(clusterFixPointStrategy(cluster2localStrategies.head._2), Identity, 0) 
+      ClusterFixPointAndThen(clusterFixPointStrategy(cluster2localStrategies.head._2), Identity, 0)
     } else {
       assert(maxCluster != 0)
       val splitNumber = if (closestPowerOfTwo(maxCluster) == maxCluster) maxCluster / 2 else closestPowerOfTwo(maxCluster)
       val (map1, map2) = cluster2localStrategies.partition(e => e._1 < splitNumber)
       val (filteredMap1, filteredMap2) = (
-        map1.map(e => (e._1, e._2)), map2.map(e => (e._1 - splitNumber, e._2)))
-      val innerFixPoint = if (map1.isEmpty) SuperClusterFixPointAndThen(recursiveSuperClusterFixPointStrategy(filteredMap2, removedCurrentFixPointStrategies, maxCluster - splitNumber, superClusterName + "1"), Identity, 1)
-      else if (map2.isEmpty) SuperClusterFixPointAndThen(recursiveSuperClusterFixPointStrategy(filteredMap1, removedCurrentFixPointStrategies, splitNumber, superClusterName + "0"), Identity, 0)
+        map1, map2.map(e => (e._1 - splitNumber, e._2)))
+      // innerFixPoint has to be done in the sub clusters of this superSluster
+      val innerFixPoint = if (map1.isEmpty) SuperClusterFixPointAndThen(FixPointStrategy(Union(Identity, recursiveSuperClusterFixPointStrategy(filteredMap2, removedCurrentFixPointStrategies, maxCluster - splitNumber, superClusterName + "1"))), Identity, 1)
+      else if (map2.isEmpty) SuperClusterFixPointAndThen(FixPointStrategy(Union(Identity, recursiveSuperClusterFixPointStrategy(filteredMap1, removedCurrentFixPointStrategies, splitNumber, superClusterName + "0"))), Identity, 0)
       else {
-        SuperClusterFixPointAndThen(recursiveSuperClusterFixPointStrategy(filteredMap1, removedCurrentFixPointStrategies, splitNumber, superClusterName + "0"),
-          SuperClusterFixPointAndThen(recursiveSuperClusterFixPointStrategy(filteredMap2, removedCurrentFixPointStrategies, maxCluster - splitNumber, superClusterName + "1"), Identity, 1), 0)
+        SuperClusterFixPointAndThen(FixPointStrategy(Union(Identity, recursiveSuperClusterFixPointStrategy(filteredMap1, removedCurrentFixPointStrategies, splitNumber, superClusterName + "0"))),
+          SuperClusterFixPointAndThen(FixPointStrategy(Union(Identity, recursiveSuperClusterFixPointStrategy(filteredMap2, removedCurrentFixPointStrategies, maxCluster - splitNumber, superClusterName + "1"))), Identity, 1), 0)
       }
       if (currentFixPointStrategies.isEmpty) {
-        FixPointStrategy(innerFixPoint)
+        innerFixPoint
       } else {
-        Union(FixPointStrategy(Union(Identity, fixPointsForSuperClusterStrategies.reduce(Union(_, _)))), FixPointStrategy(innerFixPoint))
+        Union(Union(currentSuperClusterStrategies.reduce(Union(_, _)), Identity), innerFixPoint)
       }
     }
   }
 
   def createFixpointStrategieForSuperClusters(superCluster2LocalStrategies: Map[Int, Map[Int, Set[String]]], recursiveSetToSize: Map[Int, Int]): NonVariableStrategy = {
     val listOfSuperClusterFixPointStrategies = for (superClusterIndex <- superCluster2LocalStrategies.keys.toList.sortWith(_ < _)) yield {
-
-      if (recursiveSetToSize.keySet contains superClusterIndex) {
-        (FixPointStrategy(
-            recursiveSuperClusterFixPointStrategy(superCluster2LocalStrategies(superClusterIndex) - (-1),
-          if (superCluster2LocalStrategies(superClusterIndex).isDefinedAt(-1)) superCluster2LocalStrategies(superClusterIndex)(-1) else Set(), recursiveSetToSize(superClusterIndex), "")), superClusterIndex)
-      } else
-        (FixPointStrategy(superClusterFixPointStrategy(superCluster2LocalStrategies(superClusterIndex))), superClusterIndex)
+      val strat = if (recursiveSetToSize.keySet contains superClusterIndex) {
+        recursiveSuperClusterFixPointStrategy(superCluster2LocalStrategies(superClusterIndex) - (-1),
+          if (superCluster2LocalStrategies(superClusterIndex).isDefinedAt(-1)) superCluster2LocalStrategies(superClusterIndex)(-1) else Set(), recursiveSetToSize(superClusterIndex), "")
+      } else {
+        superClusterFixPointStrategy(superCluster2LocalStrategies(superClusterIndex))
+      }
+      (FixPointStrategy(Union(strat, Identity)), superClusterIndex)
     }
     chainSuperClusterFixPointStrategies(listOfSuperClusterFixPointStrategies)
   }
