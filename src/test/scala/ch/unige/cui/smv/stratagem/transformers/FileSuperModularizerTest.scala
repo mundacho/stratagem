@@ -32,7 +32,7 @@ import com.typesafe.scalalogging.slf4j.Logging
 class FileSuperModularizerTest extends FlatSpec with Logging {
 
   "FileSuperModularizer" should "find the right number of modules" in {
-    val fmod = new FileSuperModularizer(new File("resources/test/clustering-id.txt"), false)
+    val fmod = new FileSuperModularizer(new File("resources/test/clustering-id-file-mod.txt"), false)
     val net = PNML2PetriNet(new File("resources/test/model.pnml"))
     val res = fmod(net)
     println(res.size)
