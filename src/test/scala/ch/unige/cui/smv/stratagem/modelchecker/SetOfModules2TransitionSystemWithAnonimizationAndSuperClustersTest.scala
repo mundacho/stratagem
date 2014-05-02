@@ -37,22 +37,22 @@ import ch.unige.cui.smv.stratagem.ts.Identity
  */
 class SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest extends FlatSpec with Logging {
 
-  //  "A SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest" should "be able to calculate philo 500" in {
-  //    val net = PNML2PetriNet(new File("resources/test/model.pnml"))
-  //    val modularizer = new FileSuperModularizer(new File("resources/test/clustering-id.txt"), false)
-  //    val modules = modularizer(net)
-  //    val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, net)
-  //    //    println(ts.initialState)
-  //    println(ts)
-  //    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
-  //    val initialState = sigmaDDFactory.create(ts.initialState)
-  //    logger.debug("Starting translation to SigmaDD")
-  //    val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
-  //    logger.debug("Finished translation to SigmaDD")
-  //    println(rewriter(initialState).get.size)
-  //    //    assert(rewriter(initialState).get.size == 2501413200L)
-  //  }
-
+//    "A SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest" should "be able to calculate philo 500" in {
+//      val net = PNML2PetriNet(new File("resources/test/model.pnml"))
+//      val modularizer = new FileSuperModularizer(new File("resources/test/clustering-id.txt"), false)
+//      val modules = modularizer(net)
+//      val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, Set(1), net)
+//      //    println(ts.initialState)
+//      println(ts)
+//      val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
+//      val initialState = sigmaDDFactory.create(ts.initialState)
+//      logger.debug("Starting translation to SigmaDD")
+//      val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
+//      logger.debug("Finished translation to SigmaDD")
+//      println(rewriter(initialState).get.size)
+//      //    assert(rewriter(initialState).get.size == 2501413200L)
+//    }
+ // FIXME Test names!
   "A SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest" should "be able to work" in {
     val net = PNML2PetriNet(new File("resources/test/Philo-500.pnml"))
     println("Starting to modularize")
@@ -92,19 +92,19 @@ class SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest extends
     assert(true)
   }
 
-//  it should "be able to do Kanban" in {
-//    val net = PNML2PetriNet(new File("resources/test/Kanban-5.pnml"))
-//    val modularizer = new FileSuperModularizer(new File("resources/test/standard-kanban-sclustering.txt"), true)
-//    val modules = modularizer(net)
-//    val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, Set(0), net)
-//    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
-//    val initialState = sigmaDDFactory.create(ts.initialState)
-//    println(ts)
-//    logger.debug("Starting translation to SigmaDD")
-//    val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
-//    logger.debug("Finished translation to SigmaDD")
-//    println(rewriter(initialState).get.size)
-//    assert(rewriter(initialState).get.size == 2546432)
-//  }
+  it should "be able to do Kanban" in {
+    val net = PNML2PetriNet(new File("resources/test/Kanban-5.pnml"))
+    val modularizer = new FileSuperModularizer(new File("resources/test/standard-kanban-sclustering.txt"), true)
+    val modules = modularizer(net)
+    val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, Set(0), net)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
+    val initialState = sigmaDDFactory.create(ts.initialState)
+    println(ts)
+    logger.debug("Starting translation to SigmaDD")
+    val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
+    logger.debug("Finished translation to SigmaDD")
+    println(rewriter(initialState).get.size)
+    assert(rewriter(initialState).get.size == 2546432)
+  }
 
 }
