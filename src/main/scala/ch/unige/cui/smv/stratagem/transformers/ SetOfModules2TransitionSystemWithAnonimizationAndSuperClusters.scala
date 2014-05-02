@@ -161,7 +161,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     if (name.startsWith("__fixpoint_")) {
       logger.trace(s"Did redefine strategy $name in order to have it as a fixpoint")
       (name,
-        (ts.declareStrategy(name) { strategy } (isTransition),
+        (ts.declareStrategy(name) { strategy }(isTransition),
           strat2Name + (strategy -> name),
           superCluster2Strategies,
           place2Position))
@@ -410,10 +410,12 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
   def recursiveSuperClusterFixPointStrategy(cluster2localStrategies: Map[Int, Set[String]], fixPointStrategies: Set[String], maxCluster: Int, superClusterName: String): NonVariableStrategy = {
     val clusterFixPointNameStart = "__fixpoint_" + superClusterName + "_end"
     val (currentFixPointStrategies, removedCurrentFixPointStrategies) = fixPointStrategies.partition(_.startsWith(clusterFixPointNameStart))
-    // fixPointsForSuperClusterStrategies is the fixpoint for the current superCluster
-    val currentSuperClusterStrategies = currentFixPointStrategies.map(name => Try(DeclaredStrategyInstance(name)): NonVariableStrategy)
-    if (cluster2localStrategies.size == 1 && cluster2localStrategies.head._1 == 0 && maxCluster == 1) {
-      ClusterFixPointAndThen(clusterFixPointStrategy(cluster2localStrategies.head._2), Identity, 0)
+    // fixPointsForSuperClusterStrategies is the fixpoint for the current superCluster FIXME: go higher even when there is no local cluster up there
+    val currentSuperClusterStrategies = currentFixPointStrategies.map(name => FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(name)))): NonVariableStrategy)
+    if (maxCluster == 1) {
+      if (cluster2localStrategies.size == 1 && cluster2localStrategies.head._1 == 0)
+        ClusterFixPointAndThen(clusterFixPointStrategy(cluster2localStrategies.head._2), Identity, 0)
+      else Identity
     } else {
       assert(maxCluster != 0)
       val splitNumber = if (closestPowerOfTwo(maxCluster) == maxCluster) maxCluster / 2 else closestPowerOfTwo(maxCluster)
@@ -421,16 +423,14 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       val (filteredMap1, filteredMap2) = (
         map1, map2.map(e => (e._1 - splitNumber, e._2)))
       // innerFixPoint has to be done in the sub clusters of this superSluster
-      val innerFixPoint = if (map1.isEmpty) SuperClusterFixPointAndThen(FixPointStrategy(Union(Identity, recursiveSuperClusterFixPointStrategy(filteredMap2, removedCurrentFixPointStrategies, maxCluster - splitNumber, superClusterName + "1"))), Identity, 1)
-      else if (map2.isEmpty) SuperClusterFixPointAndThen(FixPointStrategy(Union(Identity, recursiveSuperClusterFixPointStrategy(filteredMap1, removedCurrentFixPointStrategies, splitNumber, superClusterName + "0"))), Identity, 0)
-      else {
+      
+      val innerFixPoint = if (fixPointStrategies.filter(_.startsWith("__fixpoint_" + superClusterName)).isEmpty && cluster2localStrategies.isEmpty) Identity else
         SuperClusterFixPointAndThen(FixPointStrategy(Union(Identity, recursiveSuperClusterFixPointStrategy(filteredMap1, removedCurrentFixPointStrategies, splitNumber, superClusterName + "0"))),
           SuperClusterFixPointAndThen(FixPointStrategy(Union(Identity, recursiveSuperClusterFixPointStrategy(filteredMap2, removedCurrentFixPointStrategies, maxCluster - splitNumber, superClusterName + "1"))), Identity, 1), 0)
-      }
       if (currentFixPointStrategies.isEmpty) {
-        innerFixPoint
+        Saturation(Union(Identity, innerFixPoint), 2)
       } else {
-        Union(Union(currentSuperClusterStrategies.reduce(Union(_, _)), Identity), innerFixPoint)
+        Union(Union(currentSuperClusterStrategies.reduce(Union(_, _)), Identity), Saturation(Union(Identity, innerFixPoint), 2))
       }
     }
   }
