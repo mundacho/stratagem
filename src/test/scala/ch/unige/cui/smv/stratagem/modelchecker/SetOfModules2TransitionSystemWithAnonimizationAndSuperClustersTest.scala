@@ -37,73 +37,44 @@ import ch.unige.cui.smv.stratagem.ts.Identity
  */
 class SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest extends FlatSpec with Logging {
 
-//    "A SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest" should "be able to calculate philo 500" in {
-//      val net = PNML2PetriNet(new File("resources/test/model.pnml"))
-//      val modularizer = new FileSuperModularizer(new File("resources/test/clustering-id.txt"), false)
-//      val modules = modularizer(net)
-//      val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, Set(1), net)
-//      //    println(ts.initialState)
-//      println(ts)
-//      val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
-//      val initialState = sigmaDDFactory.create(ts.initialState)
-//      logger.debug("Starting translation to SigmaDD")
-//      val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
-//      logger.debug("Finished translation to SigmaDD")
-//      println(rewriter(initialState).get.size)
-//      //    assert(rewriter(initialState).get.size == 2501413200L)
-//    }
- // FIXME Test names!
-  "A SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest" should "be able to work" in {
+  "A SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest" should "be able to do Philo 500" in {
     val net = PNML2PetriNet(new File("resources/test/Philo-500.pnml"))
     println("Starting to modularize")
     val modularizer = new FileSuperModularizer(new File("resources/test/clustering-philo-500.txt"), true)
-    val modules = modularizer(net)
+    val (modules, set) = modularizer(net)
     println("Modularizer finished")
     val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, Set(0), net)
-    //    println(ts.initialState)
-    println(ts)
     val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
     val initialState = sigmaDDFactory.create(ts.initialState)
     logger.debug("Starting translation to SigmaDD")
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
     logger.debug("Finished translation to SigmaDD")
-    println(rewriter(initialState).get.size)
-    //    assert(rewriter(initialState).get.size == 2501413200L)
-    assert(true)
+    assert(rewriter(initialState).get.size == BigInt("36360291795869936842385267079543319118023385026001623040346035832580600191583895484198508262979388783308179702534403855752855931517013066142992430916562025780021771247847643450125342836565813209972590371590152578728008385990139795377610001"))
   }
-  
-    "A SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest" should "be able to do philo 5" in {
+
+  it should "be able to do philo 5" in {
     val net = PNML2PetriNet(new File("resources/test/Philosophers-5.pnml"))
     println("Starting to modularize")
     val modularizer = new FileSuperModularizer(new File("resources/test/clustering-philo-5.txt"), true)
-    val modules = modularizer(net)
+    val (modules, set) = modularizer(net)
     println("Modularizer finished")
     val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, Set(0), net)
-    //    println(ts.initialState)
-    println(ts)
     val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
     val initialState = sigmaDDFactory.create(ts.initialState)
     logger.debug("Starting translation to SigmaDD")
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
     logger.debug("Finished translation to SigmaDD")
-    println(rewriter(initialState).get.size)
-//    println(rewriter(initialState).get)
-    //    assert(rewriter(initialState).get.size == 2501413200L)
-    assert(true)
+    assert(rewriter(initialState).get.size == 243)
   }
 
-  it should "be able to do Kanban" in {
+  it should "be able to do Kanban-5" in {
     val net = PNML2PetriNet(new File("resources/test/Kanban-5.pnml"))
     val modularizer = new FileSuperModularizer(new File("resources/test/standard-kanban-sclustering.txt"), true)
-    val modules = modularizer(net)
+    val (modules, set) = modularizer(net)
     val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, Set(0), net)
     val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
     val initialState = sigmaDDFactory.create(ts.initialState)
-    println(ts)
-    logger.debug("Starting translation to SigmaDD")
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
-    logger.debug("Finished translation to SigmaDD")
-    println(rewriter(initialState).get.size)
     assert(rewriter(initialState).get.size == 2546432)
   }
 

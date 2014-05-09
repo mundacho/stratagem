@@ -428,9 +428,9 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
         SuperClusterFixPointAndThen(FixPointStrategy(Union(Identity, recursiveSuperClusterFixPointStrategy(filteredMap1, removedCurrentFixPointStrategies, splitNumber, superClusterName + "0"))),
           SuperClusterFixPointAndThen(FixPointStrategy(Union(Identity, recursiveSuperClusterFixPointStrategy(filteredMap2, removedCurrentFixPointStrategies, maxCluster - splitNumber, superClusterName + "1"))), Identity, 1), 0)
       if (currentFixPointStrategies.isEmpty) {
-        Saturation(Union(Identity, innerFixPoint), 2)
+        innerFixPoint
       } else {
-        Union(Union(currentSuperClusterStrategies.reduce(Union(_, _)), Identity), Saturation(Union(Identity, innerFixPoint), 2))
+        Union(currentSuperClusterStrategies.reduce(Union(_, _)), innerFixPoint)
       }
     }
   }

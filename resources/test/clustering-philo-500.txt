@@ -1,3 +1,4 @@
+recursive:
 Catch1_1, Eat_1, Catch2_1, Think_1, Fork_1
 Catch1_2, Eat_2, Catch2_2, Think_2, Fork_2
 Catch1_3, Eat_3, Catch2_3, Think_3, Fork_3

@@ -41,6 +41,8 @@ trait OperationCache extends LatticeElement {
    */
   abstract override def v(that: LatticeElementType): LatticeElementType =
     if (that eq this) that
+    else if (that eq this.bottomElement) this.asInstanceOf[LatticeElementType]
+    else if (this eq this.bottomElement) that
     else if (this.hashCode < that.hashCode) {
       that v this.asInstanceOf[OperationCache.this.LatticeElementType]
     } else {
@@ -53,7 +55,8 @@ trait OperationCache extends LatticeElement {
    * @return the intersection of this and that.
    */
   abstract override def ^(that: LatticeElementType): LatticeElementType =
-	if (that eq this) that
+    if ((that eq that.bottomElement) || (this eq this.bottomElement)) this.bottomElement
+    else if (that eq this) that
     else if (this.hashCode < that.hashCode) {
       that ^ this.asInstanceOf[OperationCache.this.LatticeElementType]
     } else {
@@ -65,6 +68,8 @@ trait OperationCache extends LatticeElement {
    * @param that is the lattice element to subtract.
    * @return the difference of this minus that.
    */
-  abstract override def \(that: LatticeElementType): LatticeElementType = differenceOperationCache.getOrElseUpdate(that.wrapped, super.\(that))
-  
+  abstract override def \(that: LatticeElementType): LatticeElementType = {
+    if (that eq that.bottomElement) this.asInstanceOf[LatticeElementType] else
+      differenceOperationCache.getOrElseUpdate(that.wrapped, super.\(that))
+  }
 }

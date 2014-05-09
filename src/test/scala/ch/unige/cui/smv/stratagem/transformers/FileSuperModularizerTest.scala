@@ -34,7 +34,7 @@ class FileSuperModularizerTest extends FlatSpec with Logging {
   "FileSuperModularizer" should "find the right number of modules" in {
     val fmod = new FileSuperModularizer(new File("resources/test/clustering-id-file-mod.txt"), false)
     val net = PNML2PetriNet(new File("resources/test/model.pnml"))
-    val res = fmod(net)
+    val res = fmod(net)._1
     println(res.size)
     println(res.mkString("\n"))
     assert(res.size == 6)
