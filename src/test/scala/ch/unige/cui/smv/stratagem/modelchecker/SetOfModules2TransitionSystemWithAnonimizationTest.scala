@@ -17,15 +17,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.modelchecker
 
-import org.scalatest.FlatSpec
 import java.io.File
-import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
-import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
-import ch.unige.cui.smv.stratagem.ts.Identity
+import org.scalatest.FlatSpec
 import com.typesafe.scalalogging.slf4j.Logging
-import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWithAnonimization
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
 import ch.unige.cui.smv.stratagem.transformers.Modularizer
+import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters
+import ch.unige.cui.smv.stratagem.ts.Identity
 
 /**
  * Tests the SetOfModules2TransitionSystem object
@@ -37,7 +37,7 @@ class SetOfModules2TransitionSystemWithAnonimizationTest extends FlatSpec with L
   "A SetOfModules2TransitionSystem" should "be able to calculate the FMS problem for 10 instances" in {
     val net = PNML2PetriNet(new File("resources/test/FMS-10.pnml"))
     val modules = Modularizer(net)
-    val ts = SetOfModules2TransitionSystemWithAnonimization(modules, net)
+    val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(List(modules.map(_.net.places.toList).toList), Set(), net)
     val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
     val initialState = sigmaDDFactory.create(ts.initialState)
     logger.debug("Starting translation to SigmaDD")
