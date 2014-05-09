@@ -31,7 +31,6 @@ import ch.unige.cui.smv.stratagem.transformers.PetriNet2TransitionSystem
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
 import ch.unige.cui.smv.stratagem.petrinets.Place
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
-import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWithAnonimization
 import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters
 import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystem
 import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
