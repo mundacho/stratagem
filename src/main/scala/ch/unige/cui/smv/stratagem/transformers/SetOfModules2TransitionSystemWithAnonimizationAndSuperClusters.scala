@@ -59,6 +59,8 @@ import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 
 /**
+ * This object creates represents a function that takes a set of super clusters, a petri net and some sets that are to be encoded recursively and
+ * transforms them into a transition system that reflects that.
  * @author mundacho
  *
  */
@@ -350,7 +352,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
 
   /**
    * Takes a list of petri net modules and transforms it to a transition system.
-   * @param modules set of modules
+   * @param modules a list of super cluster. A super cluster is a list of clusters. A cluster is a list of places.
+   * @param recursiveSet recursive set is the set of super clusters that are going to be encoded recursively.
    * @param net the original petri net that was transformed into modules.
    * @return a transition system for stratagem that calculates the state space of in input net.
    */

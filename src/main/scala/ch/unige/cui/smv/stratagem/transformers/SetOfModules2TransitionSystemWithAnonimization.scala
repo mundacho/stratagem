@@ -53,6 +53,7 @@ import ch.unige.cui.smv.stratagem.ts.VariableStrategy
  * @author mundacho
  *
  */
+@deprecated
 object SetOfModules2TransitionSystemWithAnonimization extends Logging with ((List[PTModule], PetriNet) => TransitionSystem) {
 
   /**
