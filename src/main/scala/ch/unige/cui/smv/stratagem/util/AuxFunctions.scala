@@ -25,9 +25,9 @@ import com.typesafe.scalalogging.slf4j.Logging
  *
  */
 object AuxFunctions extends Logging {
-  
-  lazy val identifierPattern =  """([a-zA-Z_]\w+)""".r 
-  
+
+  lazy val identifierPattern = """([a-zA-Z_]\w+)""".r
+
   def timeAndSpace[R](block: => R): R = {
     val t0 = System.nanoTime()
     val result = block // call-by-name

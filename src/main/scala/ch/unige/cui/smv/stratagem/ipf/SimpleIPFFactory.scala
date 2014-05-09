@@ -66,9 +66,8 @@ class SimpleIPFFactory extends IPFAbstractFactory {
       case o: SimpleIPFImplementation => (o eq this) || this.alpha == o.alpha
       case _ => false
     }
-    
-    
-     def wrapped = createWrapped(this)
+
+    def wrapped = createWrapped(this)
 
     def v(that: SimpleIPFImplementation): SimpleIPFImplementation = create(alphaUnion(this.alpha, that.alpha))
 
@@ -76,7 +75,7 @@ class SimpleIPFFactory extends IPFAbstractFactory {
 
     def \(that: SimpleIPFImplementation): SimpleIPFImplementation = create(alphaDifference(this.alpha, that.alpha))
 
-    def bottomElement = create(Map.empty)
+    def bottomElement = create(HashMap.empty)
   }
 
 } // end of InductiveIPFFactory

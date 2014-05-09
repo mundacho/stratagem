@@ -423,7 +423,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       val (filteredMap1, filteredMap2) = (
         map1, map2.map(e => (e._1 - splitNumber, e._2)))
       // innerFixPoint has to be done in the sub clusters of this superSluster
-      
+
       val innerFixPoint = if (fixPointStrategies.filter(_.startsWith("__fixpoint_" + superClusterName)).isEmpty && cluster2localStrategies.isEmpty) Identity else
         SuperClusterFixPointAndThen(FixPointStrategy(Union(Identity, recursiveSuperClusterFixPointStrategy(filteredMap1, removedCurrentFixPointStrategies, splitNumber, superClusterName + "0"))),
           SuperClusterFixPointAndThen(FixPointStrategy(Union(Identity, recursiveSuperClusterFixPointStrategy(filteredMap2, removedCurrentFixPointStrategies, maxCluster - splitNumber, superClusterName + "1"))), Identity, 1), 0)

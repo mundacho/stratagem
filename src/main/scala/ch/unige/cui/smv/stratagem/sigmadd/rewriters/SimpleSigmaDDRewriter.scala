@@ -30,7 +30,7 @@ import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
  * This class implements a SigmaDDRewriter for simple strategies.
  * @param simpleStrategy a strategy that will be transformed to a rewriter.
  */
-private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy, override val sigmaDDFactory:SigmaDDFactoryImpl, isNotStrategy:Boolean = false) extends SigmaDDRewriter(sigmaDDFactory) {
+private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy, override val sigmaDDFactory: SigmaDDFactoryImpl, isNotStrategy: Boolean = false) extends SigmaDDRewriter(sigmaDDFactory) {
 
   override lazy val toString = (new StringBuilder("SimpleSigmaDDRewriter(") append simpleStrategy.toString append ", " append isNotStrategy.toString append ")").toString
 
@@ -99,7 +99,7 @@ private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
     val firstListOfSubstitutions = simpleStrategy.equations.collectFirst((x: Equation) => matchSigmaDD(x.leftSide)(sigmaDD)(Map.empty, Nil) match { case Some(result) => (result, x) })
     firstListOfSubstitutions match {
-      case None => 
+      case None =>
         if (isNotStrategy) Some(sigmaDD) else None // no possible substitutions, we return None to indicate failure or the SigmaDD if it is a Not strategy
       case Some((listOfSubstitutions, equation)) => {
         val (toRem, toAdd) = (for (substitution <- listOfSubstitutions) yield (sigmaDDFactory.instantiate(equation.leftSide, substitution), sigmaDDFactory.instantiate(equation.rightSide, substitution))).unzip

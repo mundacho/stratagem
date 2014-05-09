@@ -1,4 +1,4 @@
- /*
+/*
 Stratagem is a model checker for transition systems described using rewriting
 rules and strategies.
 Copyright (C) 2013 - SMV@Geneva University.
@@ -27,17 +27,17 @@ import scala.ref.WeakReference
  *
  */
 class LightWeightWrapper[T <: AnyRef] private (wrap: T) {
-  
+
   val _wrap = new WeakReference(wrap)
-  
+
   def wrapped = _wrap.get match {
     case Some(w) => w
     case None => // should never happen 
       throw new IllegalStateException
   }
-  
+
   override lazy val hashCode = wrapped.hashCode
-  
+
   override def equals(o: Any): Boolean = o match {
     case LightWeightWrapper(w) => w eq this.wrapped
     case _ => false
@@ -45,11 +45,11 @@ class LightWeightWrapper[T <: AnyRef] private (wrap: T) {
 }
 
 object LightWeightWrapper {
-  
-  def unapply[T <: AnyRef](w: LightWeightWrapper[T]):Option[T] = w._wrap.get match {
-    case Some(w) => Some(w) 
+
+  def unapply[T <: AnyRef](w: LightWeightWrapper[T]): Option[T] = w._wrap.get match {
+    case Some(w) => Some(w)
     case None => None
   }
-  
+
   def apply[T <: AnyRef](wrap: T) = new LightWeightWrapper[T](wrap)
 }

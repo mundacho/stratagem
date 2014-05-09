@@ -35,12 +35,11 @@ case class State[S, A](run: S => (A, S)) {
       val (a, t) = run(s)
       (f(a), t)
     })
-    
-  def withFilter(p: A => Boolean):  State[S, Unit] = State(s => {
+
+  def withFilter(p: A => Boolean): State[S, Unit] = State(s => {
     val (a, t) = run(s)
-    if (p(a)) ((), t) else ((), s)   
-  }
-      )
+    if (p(a)) ((), t) else ((), s)
+  })
 
   def flatMap[B](f: A => State[S, B]): State[S, B] =
     State(s => {

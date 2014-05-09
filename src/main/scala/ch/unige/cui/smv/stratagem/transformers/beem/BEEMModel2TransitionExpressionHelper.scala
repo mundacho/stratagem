@@ -264,8 +264,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
           } yield Sequence(findProcStrat(
             Sequence(One(readGlobalVar, 2),
               extractStrat) // here we extract the result 
-              ), upVariable)
-          ).eval(initialTS)
+              ), upVariable)).eval(initialTS)
         } else {
           throw new IllegalArgumentException(s"Cannot create strategy for undefined variable $name") // this should not happen
         }
@@ -330,7 +329,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
 
     val (functorEvaluationTS, fuctorEvaluationStrat) = specificFunction(proc, currenTS, testFunctor)
 
-    val evalFunctor = "eval" + testFunctor + "_"  + proc.name + "_" + n1 + "_" + n2
+    val evalFunctor = "eval" + testFunctor + "_" + proc.name + "_" + n1 + "_" + n2
     currenTS = ifNotContained(evalFunctor, functorEvaluationTS) {
       // we transform the top of the stack to a test.
       functorEvaluationTS.declareStrategy(evalFunctor) {
@@ -376,12 +375,12 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
     implicit val a = initialTS.adt
     (initialTS, SimpleStrategy(List(intVar(stackElt, $n1, intVar(stackElt, $n2, $s1)) -> intVar(stackElt, valueAndIndex($n2, $n1), $s1))))
   }
-  
-  def insertInProcessName(name:String) = "insertInProc_" + name
-  
-    def insertInProcess(name:String)(initialTS: TransitionSystem) = {
+
+  def insertInProcessName(name: String) = "insertInProc_" + name
+
+  def insertInProcess(name: String)(initialTS: TransitionSystem) = {
     implicit val a = initialTS.adt
-    val resTS= ifNotContained(insertInProcessName(name), initialTS){
+    val resTS = ifNotContained(insertInProcessName(name), initialTS) {
       initialTS.declareStrategy(insertInProcessName(name), intVar(stackElt, $i1, procVar(name, $s1, $s2)) -> procVar(name, intVar(stackElt, $i1, $s1), $s2))(false)
     }
     (resTS, DeclaredStrategyInstance(insertInProcessName(name)))
@@ -401,8 +400,8 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
             writeVar <- writeGlobalVariable(name)
           } yield DeclaredStrategyInstance("downAndThen",
             downSwapStrat, Sequence(Sequence(
-                One(DeclaredStrategyInstance(checkForProcStrategyName(proc.name)), 3),
-                insertInProcess), One(writeVar, 2)))).eval(initialTS)
+              One(DeclaredStrategyInstance(checkForProcStrategyName(proc.name)), 3),
+              insertInProcess), One(writeVar, 2)))).eval(initialTS)
         }
       case Darray(name, n) =>
         val res = for {
@@ -684,9 +683,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
                 Sequence(
                   checkForZero, // if we get to zero
                   copyArrStrat)), // we apply the strategy copyArr which gives us a term of the form readVal($i, arr($i, $a))
-              Choice(SimpleStrategy(List(readVal($i1, $a1) -> readVal($i1, $a1))), DeclaredStrategyInstance("upArr", arrUp))
-              
-            ), 2) // up array is applied on top of the array
+              Choice(SimpleStrategy(List(readVal($i1, $a1) -> readVal($i1, $a1))), DeclaredStrategyInstance("upArr", arrUp))), 2) // up array is applied on top of the array
               ,
           extractValFromArray))) // finally we extract the value into an intVar
     val (resultTS, extractVar) = intermediateState.eval(initialTS)

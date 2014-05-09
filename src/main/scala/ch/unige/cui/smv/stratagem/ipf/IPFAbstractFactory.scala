@@ -39,8 +39,6 @@ abstract class IPFAbstractFactory extends CanonicalFactory {
     override def hashCode: Int = throw new NotImplementedError("All subclasses of" + this.getClass().getName() + " should implement hashcode")
 
     override def equals(obj: Any): Boolean = throw new NotImplementedError("All subclasses of " + this.getClass().getName() + " should implement equals")
-    
-   
 
     /**
      * The number of elements encoded in this IPF.

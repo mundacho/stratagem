@@ -65,14 +65,13 @@ case class Sort(name: String) extends ASort {
 }
 
 object ASort {
-  
-  def findSuperParentSort(sort:ASort): ASort =
-    sort match {
-        case a: Sort =>a
-        case e: SubSort => findSuperParentSort(e.superSort)
-      }
 
-  
+  def findSuperParentSort(sort: ASort): ASort =
+    sort match {
+      case a: Sort => a
+      case e: SubSort => findSuperParentSort(e.superSort)
+    }
+
   /**
    * Finds the common parent of s1 and s2.
    * @param sorts a list of sorts
