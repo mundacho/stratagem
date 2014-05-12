@@ -44,8 +44,3 @@ Documentation
 =============
 
 ScalaDoc is available [here](http://alpina.unige.ch/jenkins/job/stratagem/javadoc/?#package).
-
-stratagem
-=========
-
-Stratagem - DD- and rewriting strategies- based model checker
