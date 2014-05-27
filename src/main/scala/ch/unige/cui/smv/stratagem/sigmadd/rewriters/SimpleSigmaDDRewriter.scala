@@ -18,13 +18,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
-import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDInductiveIPFFactoryImpl
+import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
+import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.smv.cui.metamodel.adt.Equation
 import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
-import ch.unige.cui.smv.stratagem.adt.Equation
-import ch.unige.cui.smv.stratagem.adt.ATerm
-import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
-import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import ch.unige.cui.smv.stratagem.adt.ATermHelper
 
 /**
  * This class implements a SigmaDDRewriter for simple strategies.
@@ -47,14 +47,14 @@ private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy
 
   private def matchSigmaDD(term: ATerm)(sigmaDD: SigmaDDImplType)(implicit workingMap: SubstitutionMap, listOpMaps: List[SubstitutionMap]): Option[List[SubstitutionMap]] = {
     if (term.isVariable) {
-      assert(!workingMap.isDefinedAt(term.symbol)) // working map does not have that variable yet
+      assert(!workingMap.isDefinedAt(term.getSymbol())) // working map does not have that variable yet
       // successful variable match, the working map is added to the list only
       // when we finish parsing the term, i.e. we get to Nil in the list of subterms.
-      val newWorkingMap = workingMap + (term.symbol -> sigmaDD)
+      val newWorkingMap = workingMap + (term.getSymbol() -> sigmaDD)
       Some(newWorkingMap :: listOpMaps)
     } else {
       // we separate the term
-      val (operationSymbol, listOfSubTerms) = ATerm.unapply(term).get
+      val (operationSymbol, listOfSubTerms) = ATermHelper.unapply(term).get
       // we find the first key in alpha s.t. the operator of the term matches
       // one of the operators in the SigmaDD, this translates to a non-empty
       // intersection. This works because the set of keys of alpha is a
@@ -97,12 +97,12 @@ private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy
   }
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
-    val firstListOfSubstitutions = simpleStrategy.equations.collectFirst((x: Equation) => matchSigmaDD(x.leftSide)(sigmaDD)(Map.empty, Nil) match { case Some(result) => (result, x) })
+    val firstListOfSubstitutions = simpleStrategy.equations.collectFirst((x: Equation) => matchSigmaDD(x.getLeftHandTerm())(sigmaDD)(Map.empty, Nil) match { case Some(result) => (result, x) })
     firstListOfSubstitutions match {
       case None =>
         if (isNotStrategy) Some(sigmaDD) else None // no possible substitutions, we return None to indicate failure or the SigmaDD if it is a Not strategy
       case Some((listOfSubstitutions, equation)) => {
-        val (toRem, toAdd) = (for (substitution <- listOfSubstitutions) yield (sigmaDDFactory.instantiate(equation.leftSide, substitution), sigmaDDFactory.instantiate(equation.rightSide, substitution))).unzip
+        val (toRem, toAdd) = (for (substitution <- listOfSubstitutions) yield (sigmaDDFactory.instantiate(equation.getLeftHandTerm(), substitution), sigmaDDFactory.instantiate(equation.getRightHandTerm(), substitution))).unzip
         if (isNotStrategy) {
           val res = sigmaDD \ toRem.reduce(_ v _)
           res match {

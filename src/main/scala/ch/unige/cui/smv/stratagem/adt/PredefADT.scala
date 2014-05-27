@@ -17,6 +17,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.adt
 
+import ch.unige.smv.cui.metamodel.adt.impl.SignatureImpl
+import ch.unige.smv.cui.metamodel.adt.AdtFactory
+import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.smv.cui.metamodel.adt.ADT
+import scala.collection.JavaConversions._
+
+
 /**
  * This object define basic adts and some useful functions.
  * @author mundacho
@@ -27,7 +34,7 @@ object PredefADT {
   val ZERO = "zero"
   val SUC = "suc"
 
-  lazy val basicNatSignature = (new Signature)
+  lazy val basicNatSignature = (AdtFactory.eINSTANCE.createSignature())
     .withSort(NAT_SORT_NAME)
     .withGenerator(ZERO, NAT_SORT_NAME)
     .withGenerator(SUC, NAT_SORT_NAME, NAT_SORT_NAME)
@@ -41,6 +48,6 @@ object PredefADT {
    */
   def define(n: Int, initialTerm: ATerm, a: ADT): ATerm = n match {
     case 0 => initialTerm
-    case _ => a.term(SUC, (define(n - 1, initialTerm, a)))
+    case _ => a.term(SUC, ((define(n - 1, initialTerm, a))::Nil).toArray:_*)
   }
 }

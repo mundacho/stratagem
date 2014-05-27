@@ -24,33 +24,33 @@ class SortTest extends FlatSpec {
   "A sort" should "not be instanciated with a null super sort" in {
     intercept[IllegalArgumentException] {
       // scalastyle:off
-      val sort = new SubSort("bool", null)
+      val sort = ASortHelper("bool", null)
       // scalastyle:on
     }
   }
 
   "Two sorts" should "be able to find their common parend" in {
-    val superParentSort = Sort("s1")
-    val someSubSort1 = SubSort("s2", superParentSort)
-    val someSubSort2 = SubSort("s3", superParentSort)
-    val someSubSort11 = SubSort("s4", someSubSort1)
-    val someSubSort12 = SubSort("s5", someSubSort1)
-    val someSubSort21 = SubSort("s6", someSubSort2)
-    val someSubSort22 = SubSort("s7", someSubSort2)
-    val someSubSort211 = SubSort("s8", someSubSort11)
-    val someSubSort212 = SubSort("s9", someSubSort11)
-    val someOtherSuperParentSort = Sort("ss1")
-    val someOtherSubSort1 = SubSort("ss1", someOtherSuperParentSort)
+    val superParentSort = ASortHelper("s1")
+    val someSubSort1 = ASortHelper("s2", superParentSort)
+    val someSubSort2 = ASortHelper("s3", superParentSort)
+    val someSubSort11 = ASortHelper("s4", someSubSort1)
+    val someSubSort12 = ASortHelper("s5", someSubSort1)
+    val someSubSort21 = ASortHelper("s6", someSubSort2)
+    val someSubSort22 = ASortHelper("s7", someSubSort2)
+    val someSubSort211 = ASortHelper("s8", someSubSort11)
+    val someSubSort212 = ASortHelper("s9", someSubSort11)
+    val someOtherSuperParentSort = ASortHelper("ss1")
+    val someOtherSubSort1 = ASortHelper("ss1", someOtherSuperParentSort)
 
-    assert(superParentSort equals ASort.findCommonParent(someSubSort211, superParentSort).get)
-    assert(someSubSort1 equals ASort.findCommonParent(someSubSort211, someSubSort12).get)
-    assert(ASort.findCommonParent(someSubSort211, someOtherSuperParentSort) == None)
+    assert(superParentSort equals ASortHelper.findCommonParent(someSubSort211, superParentSort).get)
+    assert(someSubSort1 equals ASortHelper.findCommonParent(someSubSort211, someSubSort12).get)
+    assert(ASortHelper.findCommonParent(someSubSort211, someOtherSuperParentSort) == None)
 
-    assert((superParentSort isSubsortOf (someOtherSubSort1)) == false)
-    assert(superParentSort isSubsortOf (superParentSort))
-    assert(someSubSort22 isSubsortOf (superParentSort))
-    assert(!(someOtherSuperParentSort isSubsortOf (superParentSort)))
-    assert(someSubSort212 isSubsortOf (someSubSort1))
+    assert((superParentSort isSubSortOf (someOtherSubSort1)) == false)
+    assert(superParentSort isSubSortOf (superParentSort))
+    assert(someSubSort22 isSubSortOf (superParentSort))
+    assert(!(someOtherSuperParentSort isSubSortOf (superParentSort)))
+    assert(someSubSort212 isSubSortOf (someSubSort1))
   }
 
 }

@@ -22,3 +22,4 @@ target
 .project
 /.scalastyle
 .settings
+/bin

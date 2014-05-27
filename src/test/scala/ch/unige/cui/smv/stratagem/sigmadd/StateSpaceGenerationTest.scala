@@ -17,29 +17,30 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.sigmadd
 
-import org.scalatest.FlatSpec
-import ch.unige.cui.smv.stratagem.adt.ADT
-import ch.unige.cui.smv.stratagem.adt.ATerm
-import ch.unige.cui.smv.stratagem.adt.Signature
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.Identity
-import ch.unige.cui.smv.stratagem.ts.One
-import ch.unige.cui.smv.stratagem.ts.Sequence
-import ch.unige.cui.smv.stratagem.ts.Strategy
-import ch.unige.cui.smv.stratagem.ts.TransitionSystem
-import ch.unige.cui.smv.stratagem.ts.Union
-import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
-import ch.unige.cui.smv.stratagem.ts.Try
 import org.scalatest.BeforeAndAfter
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
+import org.scalatest.FlatSpec
+import com.typesafe.scalalogging.slf4j.Logging
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats
-import ch.unige.cui.smv.stratagem.util.AuxFunctions.timeAndSpace
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats.stats
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import com.typesafe.scalalogging.slf4j.Logging
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.ts.Strategy
+import ch.unige.cui.smv.stratagem.ts.TransitionSystem
+import ch.unige.cui.smv.stratagem.ts.VariableStrategy
+import ch.unige.cui.smv.stratagem.util.AuxFunctions.timeAndSpace
+import ch.unige.smv.cui.metamodel.adt.ADT
+import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.smv.cui.metamodel.adt.AdtFactory
+import ch.unige.cui.smv.stratagem.ts.Try
+import ch.unige.cui.smv.stratagem.ts.Union
+import ch.unige.cui.smv.stratagem.ts.Choice
+import ch.unige.cui.smv.stratagem.ts.One
+import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
+import ch.unige.cui.smv.stratagem.ts.Sequence
+import ch.unige.cui.smv.stratagem.ts.Identity
+import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
+
 // scalastyle:off regex
 /**
  * Tests the generation of the state space.
@@ -48,7 +49,7 @@ import com.typesafe.scalalogging.slf4j.Logging
  */
 class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter with Logging {
 
-  val signature = (new Signature)
+  val signature = AdtFactory.eINSTANCE.createSignature()
     .withSort("ph")
     .withSort("state")
     .withSort("fork")
@@ -65,7 +66,7 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter with Logging
     .withGenerator("c", "cluster", "ph", "cluster")
     .withGenerator("emptycluster", "cluster")
 
-  val adt = new ADT("philoModel", signature)
+  val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
     .declareVariable("x", "fork")
     .declareVariable("p", "ph")
     .declareVariable("s", "state")
@@ -107,7 +108,7 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter with Logging
     auxGenerate(n)
   }
 
-  val sigmaDDFactory =  SigmaDDFactoryImpl(adt.signature)
+  val sigmaDDFactory =  SigmaDDFactoryImpl(adt.getSignature())
   before {
 	  sigmaDDFactory.cleanAllCaches
   }

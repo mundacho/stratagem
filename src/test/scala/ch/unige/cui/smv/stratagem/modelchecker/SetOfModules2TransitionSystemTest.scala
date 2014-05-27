@@ -37,7 +37,7 @@ class SetOfModules2TransitionSystemTest extends FlatSpec {
     val net = PNML2PetriNet(new File("resources/test/Kanban-5.pnml"))
     val modules = Modularizer(net)
     val ts = SetOfModules2TransitionSystem(modules, net)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
     val initialState = sigmaDDFactory.create(ts.initialState)
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
     assert(rewriter(initialState).get.size == 2546432)

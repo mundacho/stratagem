@@ -20,11 +20,27 @@ package ch.unige.cui.smv.stratagem.adt
 
 import org.scalatest.BeforeAndAfter
 import org.scalatest.FlatSpec
+import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.smv.cui.metamodel.adt.ADT
+import ch.unige.smv.cui.metamodel.adt.Signature
+import ch.unige.smv.cui.metamodel.adt.AdtFactory
+import org.eclipse.ocl.examples.pivot.OCL
+import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
+import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
 
 class TermTest extends FlatSpec with BeforeAndAfter {
+  
+    before {
+    OCL.initialize(null);
+    org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
+    org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
+    OCLinEcoreStandaloneSetup.doSetup()
+    OCLstdlibStandaloneSetup.doSetup()
+
+  }
 
   val adt = {
-    val sign = (new Signature)
+    val sign = AdtFactory.eINSTANCE.createSignature()
       .withSort("bool")
       .withSort("nat")
       .withGenerator("zero", "nat")
@@ -33,7 +49,7 @@ class TermTest extends FlatSpec with BeforeAndAfter {
       .withGenerator("false", "bool")
       .withOperation("and", "bool", "bool", "bool")
 
-    new ADT("myAdt", sign).declareVariable("b", "bool").declareVariable("x", "nat")
+    {val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(sign); a}.declareVariable("b", "bool").declareVariable("x", "nat")
   }
 
   def zero = adt.term("zero")

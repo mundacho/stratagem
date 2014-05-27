@@ -19,13 +19,9 @@ package ch.unige.cui.smv.stratagem.transformers
 
 import scala.language.implicitConversions
 import com.typesafe.scalalogging.slf4j.Logging
-import ch.unige.cui.smv.stratagem.adt.ADT
-import ch.unige.cui.smv.stratagem.adt.ATerm
-import ch.unige.cui.smv.stratagem.adt.Equation
 import ch.unige.cui.smv.stratagem.adt.PredefADT
 import ch.unige.cui.smv.stratagem.adt.PredefADT.NAT_SORT_NAME
 import ch.unige.cui.smv.stratagem.adt.PredefADT.define
-import ch.unige.cui.smv.stratagem.adt.Signature
 import ch.unige.cui.smv.stratagem.petrinets._
 import ch.unige.cui.smv.stratagem.petrinets.Arc
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
@@ -57,6 +53,13 @@ import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
+import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.smv.cui.metamodel.adt.Equation
+import ch.unige.smv.cui.metamodel.adt.ADT
+import ch.unige.cui.smv.stratagem.ts.Saturation
+import ch.unige.smv.cui.metamodel.adt.Signature
+import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
+import ch.unige.smv.cui.metamodel.adt.AdtFactory
 
 /**
  * This object creates represents a function that takes a set of super clusters, a petri net and some sets that are to be encoded recursively and
@@ -370,7 +373,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val maxPlaces = (for (cluster <- modules; places <- cluster) yield places.size).max
     // here we also create a function
     val createSignWithPlaces = ((for (i <- 0 to (maxPlaces - 1)) yield (s: Signature) => s.withGenerator(s"p$i", PLACE_SORT_NAME, NAT_SORT_NAME, PLACE_SORT_NAME)).reduce(_ compose _))
-    implicit val adt = new ADT(net.name, createSignWithClusters(createSignWithPlaces(signWithSuperClusters)))
+    implicit val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName(net.name); a.setSignature(signWithSuperClusters); a}
       .declareVariable("p", PLACE_SORT_NAME)
       .declareVariable("x", NAT_SORT_NAME)
       .declareVariable("c", CLUSTER_SORT_NAME)

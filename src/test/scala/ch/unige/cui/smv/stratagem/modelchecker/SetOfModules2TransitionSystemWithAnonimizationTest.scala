@@ -38,7 +38,7 @@ class SetOfModules2TransitionSystemWithAnonimizationTest extends FlatSpec with L
     val net = PNML2PetriNet(new File("resources/test/FMS-10.pnml"))
     val modules = Modularizer(net)
     val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(List(modules.map(_.net.places.toList).toList), Set(), net)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
     val initialState = sigmaDDFactory.create(ts.initialState)
     logger.debug("Starting translation to SigmaDD")
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)

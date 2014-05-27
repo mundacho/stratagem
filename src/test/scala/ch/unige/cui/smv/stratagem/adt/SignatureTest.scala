@@ -18,17 +18,36 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.adt
 
+import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
+import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
+import org.scalatest.BeforeAndAfter
 import org.scalatest.FlatSpec
+import ch.unige.smv.cui.metamodel.adt.AdtFactory
+import ch.unige.smv.cui.metamodel.adt.Signature
+import org.eclipse.ocl.examples.pivot.uml.UML2Pivot
+import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.ocl.examples.xtext.completeocl.CompleteOCLStandaloneSetup
+import org.eclipse.ocl.examples.pivot.OCL
 
-class SignatureTest extends FlatSpec {
+class SignatureTest extends FlatSpec with BeforeAndAfter {
+
+  before {
+    OCL.initialize(null);
+    org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
+    org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
+    OCLinEcoreStandaloneSetup.doSetup()
+    OCLstdlibStandaloneSetup.doSetup()
+
+  }
+
   "A signature" should "not allow to define the same sort twice" in {
-    intercept[IllegalArgumentException] {
-      (new Signature)
+    intercept[java.lang.IllegalArgumentException] {
+      AdtFactory.eINSTANCE.createSignature()
         .withSort("bool")
         .withSort("bool")
     }
     intercept[IllegalArgumentException] {
-      (new Signature)
+      AdtFactory.eINSTANCE.createSignature()
         .withSort("s1")
         .withSort("s2")
         .withSort("s1", "s2")
@@ -37,55 +56,55 @@ class SignatureTest extends FlatSpec {
 
   "A signature" should "not allow to define a subsort of an unknown sort" in {
     intercept[IllegalArgumentException] {
-      (new Signature)
+      AdtFactory.eINSTANCE.createSignature()
         .withSort("s1", "s2")
     }
   }
 
   "A signature" should "not allow to define operations using unknown sorts" in {
     intercept[IllegalArgumentException] {
-      (new Signature)
+      AdtFactory.eINSTANCE.createSignature()
         .withSort("s1")
         .withGenerator("op", "s2")
     }
     intercept[IllegalArgumentException] {
-      (new Signature)
+      AdtFactory.eINSTANCE.createSignature()
         .withSort("s1")
         .withGenerator("op", "s1", "s2")
     }
     intercept[IllegalArgumentException] {
-      (new Signature)
+      AdtFactory.eINSTANCE.createSignature()
         .withSort("s1")
         .withGenerator("op", "s1", "s1", "s2")
     }
     intercept[IllegalArgumentException] {
-      (new Signature)
+      AdtFactory.eINSTANCE.createSignature()
         .withSort("s1")
         .withOperation("op", "s1", "s1", "s2")
     }
   }
 
-  "An empty signature" should "not allow to define operations nor generators" in {
+  "An empty signature" should "not allow to define operations nor generators with no sorts" in {
     intercept[IllegalArgumentException] {
-      (new Signature)
+      AdtFactory.eINSTANCE.createSignature()
         .withOperation("op", "s2")
     }
     intercept[IllegalArgumentException] {
-      (new Signature)
+      AdtFactory.eINSTANCE.createSignature()
         .withGenerator("op", "s2")
     }
   }
 
   "A signature" should "not allow to redefine generators and operations" in {
     intercept[IllegalArgumentException] {
-      (new Signature)
+      AdtFactory.eINSTANCE.createSignature()
         .withSort("nat")
         .withGenerator("zero", "nat")
         .withGenerator("zero", "nat", "nat")
         .withOperation("+", "nat", "nat", "nat")
     }
     intercept[IllegalArgumentException] {
-      (new Signature)
+      AdtFactory.eINSTANCE.createSignature()
         .withSort("nat")
         .withGenerator("zero", "nat")
         .withOperation("+", "nat", "nat", "nat")
@@ -94,7 +113,7 @@ class SignatureTest extends FlatSpec {
   }
 
   "A signature" should "allow to define peano's naturals" in {
-    (new Signature)
+    AdtFactory.eINSTANCE.createSignature()
       .withSort("nat")
       .withGenerator("zero", "nat")
       .withGenerator("suc", "nat")
@@ -102,7 +121,7 @@ class SignatureTest extends FlatSpec {
   }
 
   "A signature" should "allow to define AADTs with subsorts" in {
-    (new Signature)
+    AdtFactory.eINSTANCE.createSignature()
       .withSort("nat")
       .withSort("nznat", "nat")
       .withSort("zero", "nat")
@@ -112,7 +131,7 @@ class SignatureTest extends FlatSpec {
 
   "A signature" should "not allow to define repreated sorts" in {
     intercept[IllegalArgumentException] {
-      (new Signature)
+      AdtFactory.eINSTANCE.createSignature()
         .withSort("nat")
         .withSort("nat")
     }

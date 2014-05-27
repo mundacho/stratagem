@@ -19,57 +19,37 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.adt
 
 import scala.collection.immutable.Nil
+import ch.unige.smv.cui.metamodel.adt.ASort
+import ch.unige.smv.cui.metamodel.adt.Sort
+import ch.unige.smv.cui.metamodel.adt.SubSort
+import ch.unige.smv.cui.metamodel.adt.AdtFactory
+import ch.unige.smv.cui.metamodel.adt.util.AdtValidator
 
-/**
- * Represents an abstract sort.
- */
-abstract class ASort {
-
-  val name: String
+object ASortHelper {
 
   /**
-   * @return true if s is a super sort or the same sort as this. Otherwise returns false.
+   * Creates an instance of a sort.
    */
-  def isSubsortOf(s: ASort): Boolean
-}
+  def apply(sortName: String) = {
+    val s = AdtFactory.eINSTANCE.createSort()
+    s.setName("myADT")
+    s
+  }
 
-/**
- * Represents a subsort.
- *
- * @constructor Creates a new sort.
- * @param name the name of the sort.
- * @param superSort the super sort for this sort.
- *
- * @author mundacho
- *
- */
-case class SubSort(name: String, superSort: ASort) extends ASort {
-  // scalastyle:off
-  require(superSort != null)
-  // scalastyle:on
-  override val toString: String = "(" + name + " < " + (superSort match {
-    case a: SubSort => a.toString
-    case a: Sort => a.toString
-  }) + ")"
-
-  def isSubsortOf(s: ASort) = if (s == this) true else superSort isSubsortOf s
-}
-
-/**
- * Represents a top level sort.
- * @param name the name of the sort
- */
-case class Sort(name: String) extends ASort {
-  def isSubsortOf(s: ASort) = s == this
-  override val toString = name
-}
-
-object ASort {
+  def apply(sortName: String, superSort: ASort) = {
+    val s = AdtFactory.eINSTANCE.createSubSort()
+    s.setName("myADT")
+    s.setSuperSort(superSort)
+    if (!AdtValidator.INSTANCE.validateSubSort(s, null, null)) {
+      throw new IllegalArgumentException(s"Sort $sortName cannot have null as super sort.")
+    }
+    s
+  }
 
   def findSuperParentSort(sort: ASort): ASort =
     sort match {
       case a: Sort => a
-      case e: SubSort => findSuperParentSort(e.superSort)
+      case e: SubSort => findSuperParentSort(e.getSuperSort())
     }
 
   /**
@@ -85,7 +65,7 @@ object ASort {
       // build list of sorts until root sort
       def buildList(sort: ASort): List[ASort] = sort match {
         case a: Sort => List(a)
-        case e: SubSort => e :: buildList(e.superSort)
+        case e: SubSort => e :: buildList(e.getSuperSort())
       }
 
       def buildResult(list: List[ASort], listOfReverseLists: List[List[ASort]]): List[ASort] = list match {
@@ -108,22 +88,5 @@ object ASort {
         Some(buildResult(listOfReverseLists.head, listOfReverseLists.tail.toList).reverse.head)
       }
     }
-    //    if (s1 == s2) { Some(s1) } else {
-    //      // from now on, s1 and s2 are different
-    //      var list1 = buildList(s1).reverse
-    //      var list2 = buildList(s2).reverse
-    //      // prepare for very ugly and imperative part of the code
-    //      var result = list1.head
-    //      if (list1.head != list2.head) {
-    //        None
-    //      } else {
-    //        while ((list1 != List.empty && list2 != List.empty) && list1.head == list2.head) {
-    //          result = list1.head
-    //          list1 = list1.tail
-    //          list2 = list2.tail
-    //        }
-    //        Some(result)
-    //      }
-    //    }
   }
 }

@@ -18,19 +18,38 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.adt
 
+import org.scalatest.BeforeAndAfter
 import org.scalatest.FlatSpec
+import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.smv.cui.metamodel.adt.AdtFactory
+import org.eclipse.ocl.examples.xtext.completeocl.CompleteOCLStandaloneSetup
+import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
+import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
+import org.eclipse.emf.ecore.util.EcoreUtil
 
-class ADTTest extends FlatSpec {
+class ADTTest extends FlatSpec with BeforeAndAfter {
+
+  before {
+org.eclipse.ocl.examples.pivot.OCL.initialize(null);
+//org.eclipse.ocl.examples.pivot.uml.UML2Pivot.initialize(null)
+org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
+org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
+CompleteOCLStandaloneSetup.doSetup()
+OCLinEcoreStandaloneSetup.doSetup()
+OCLstdlibStandaloneSetup.doSetup()
+//org.eclipse.ocl.examples.domain.utilities.StandaloneProjectMap.getAdapter(null);
+
+  }
 
   "An ADT" should "not allow to declare the same variable twice" in {
-    intercept[IllegalArgumentException] {
-      val sign = (new Signature)
+    intercept[java.lang.IllegalArgumentException] {
+      val sign = (AdtFactory.eINSTANCE.createSignature())
         .withSort("nat")
         .withSort("nznat", "nat")
         .withSort("zero", "nat")
         .withGenerator("0", "zero")
         .withGenerator("suc", "nznat", "nat")
-      val adt = (new ADT("myADT", sign))
+      val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(sign); a }
         .declareVariable("x", "nat")
         .declareVariable("x", "nat")
     }
@@ -38,13 +57,13 @@ class ADTTest extends FlatSpec {
 
   "An ADT" should "not allow to declare the same variable twice, even if the sorts are different" in {
     intercept[IllegalArgumentException] {
-      val sign = (new Signature)
+      val sign = (AdtFactory.eINSTANCE.createSignature())
         .withSort("nat")
         .withSort("nznat", "nat")
         .withSort("zero", "nat")
         .withGenerator("0", "zero")
         .withGenerator("suc", "nznat", "nat")
-      val adt = (new ADT("myADT", sign))
+      val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(sign); a }
         .declareVariable("x", "nat")
         .declareVariable("x", "nznat")
     }
@@ -52,20 +71,20 @@ class ADTTest extends FlatSpec {
 
   "An ADT" should "not allow to declare a variable when the sort is not in the signature" in {
     intercept[IllegalArgumentException] {
-      val sign = (new Signature)
+      val sign = AdtFactory.eINSTANCE.createSignature()
         .withSort("nat")
         .withSort("nznat", "nat")
         .withSort("zero", "nat")
         .withGenerator("0", "zero")
         .withGenerator("suc", "nznat", "nat")
-      val adt = (new ADT("myADT", sign))
+      val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(sign); a }
         .declareVariable("x", "nat")
         .declareVariable("x", "bool")
     }
   }
 
   "An ADT" should "allow to model the philosopher's problem" in {
-    val signature = (new Signature)
+    val signature = AdtFactory.eINSTANCE.createSignature()
       .withSort("ph")
       .withSort("state")
       .withSort("fork")
@@ -79,7 +98,7 @@ class ADTTest extends FlatSpec {
       .withGenerator("emptytable", "ph")
       .withGenerator("philo", "ph", "state", "fork", "ph")
 
-    val adt = new ADT("philoModel", signature)
+    val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(signature); a }
     // definitions to simplify the reading of terms.
     def eating = adt.term("eating")
     def thinking = adt.term("thinking")
@@ -98,7 +117,7 @@ class ADTTest extends FlatSpec {
   }
 
   "And ADT" should "not allow to build term that contains terms from another ADT" in {
-    val signature = (new Signature)
+    val signature = AdtFactory.eINSTANCE.createSignature()
       .withSort("ph")
       .withSort("state")
       .withSort("fork")
@@ -112,7 +131,9 @@ class ADTTest extends FlatSpec {
       .withGenerator("emptytable", "ph")
       .withGenerator("philo", "ph", "state", "fork", "ph")
 
-    val adt = new ADT("philoModel", signature)
+    val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(signature); 
+    a }
+
     // definitions to simplify the reading of terms.
     def eating = adt.term("eating")
     def thinking = adt.term("thinking")
@@ -124,11 +145,9 @@ class ADTTest extends FlatSpec {
     def emptytable = adt.term("emptytable")
     def philo(state: ATerm, fork: ATerm, ph: ATerm) = adt.term("philo", state, fork, ph)
 
-    val strangeADT = new ADT("philoModel", signature)
-
-    val thrown = intercept[IllegalArgumentException] {
+    val strangeADT = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(EcoreUtil.copy(signature)); a } 
+    intercept[IllegalArgumentException] {
       philo(thinking, forkFree, philo(thinking, forkFree, philo(thinking, forkFree, strangeADT.term("emptytable"))))
     }
-    assert(thrown.getMessage().endsWith("It is not allowed to mix adts"))
   }
 }

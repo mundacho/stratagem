@@ -17,12 +17,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.transformers
 
-import ch.unige.cui.smv.stratagem.adt.ADT
-import ch.unige.cui.smv.stratagem.adt.ATerm
+
 import ch.unige.cui.smv.stratagem.adt.PredefADT.NAT_SORT_NAME
 import ch.unige.cui.smv.stratagem.adt.PredefADT.ZERO
 import ch.unige.cui.smv.stratagem.adt.PredefADT.define
-import ch.unige.cui.smv.stratagem.adt.Signature
 import ch.unige.cui.smv.stratagem.petrinets.Arc
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
 import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT
@@ -39,6 +37,14 @@ import ch.unige.cui.smv.stratagem.ts.Sequence
 import ch.unige.cui.smv.stratagem.ts.Strategy
 import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
+import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.smv.cui.metamodel.adt.ADT
+import ch.unige.smv.cui.metamodel.adt.Signature
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.ts.Sequence
+import ch.unige.cui.smv.stratagem.ts.Choice
+import ch.unige.smv.cui.metamodel.adt.AdtFactory
+import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
 
 /**
  * Object that transforms a Petri net into a transition system.
@@ -108,7 +114,7 @@ object PetriNet2TransitionSystem  extends ((PetriNet) => TransitionSystem){
    */
   def apply(net: PetriNet) = {
     val signature = createSignature(net.places.toList, basicSignature)
-    val adt = new ADT(net.name, signature)
+    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName(net.name); a.setSignature(signature); a}
       .declareVariable("p", PLACE_SORT_NAME)
       .declareVariable("x", NAT_SORT_NAME)
     // now we create the transition system

@@ -20,14 +20,17 @@ package ch.unige.cui.smv.stratagem.ts
 
 import org.scalatest.FlatSpec
 
-import ch.unige.cui.smv.stratagem.adt.ADT
-import ch.unige.cui.smv.stratagem.adt.ATerm
-import ch.unige.cui.smv.stratagem.adt.Signature
+import ch.unige.smv.cui.metamodel.adt.AdtFactory
+import ch.unige.smv.cui.metamodel.adt.Signature
+import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.smv.cui.metamodel.adt.ADT
+import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
+
   // scalastyle:off number.of.methods
 class TransitionSystemTest extends FlatSpec {
   // scalastyle:on
   "A transition system" should "allow to declare strategies" in {
-    val signature = (new Signature)
+    val signature = AdtFactory.eINSTANCE.createSignature()
       .withSort("ph")
       .withSort("state")
       .withSort("fork")
@@ -41,7 +44,7 @@ class TransitionSystemTest extends FlatSpec {
       .withGenerator("emptytable", "ph")
       .withGenerator("philo", "ph", "state", "fork", "ph")
 
-    val adt = new ADT("philoModel", signature)
+    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
       .declareVariable("x", "fork")
       .declareVariable("p", "ph")
       .declareVariable("s", "state")
@@ -72,7 +75,7 @@ class TransitionSystemTest extends FlatSpec {
   }
 
   "A transition system" should "allow to declare the strategies for the philosopher's model" in {
-    val signature = (new Signature)
+    val signature = AdtFactory.eINSTANCE.createSignature()
       .withSort("ph")
       .withSort("state")
       .withSort("fork")
@@ -86,7 +89,7 @@ class TransitionSystemTest extends FlatSpec {
       .withGenerator("emptytable", "ph")
       .withGenerator("philo", "ph", "state", "fork", "ph")
 
-    val adt = new ADT("philoModel", signature)
+    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
       .declareVariable("x", "fork")
       .declareVariable("p", "ph")
       .declareVariable("s", "state")
@@ -137,11 +140,11 @@ class TransitionSystemTest extends FlatSpec {
   }
 
   "A transition system" should "not allow to use a strategy that has not been declared" in {
-    val signature = (new Signature)
+    val signature = AdtFactory.eINSTANCE.createSignature()
       .withSort("ph")
       .withGenerator("p0", "ph")
 
-    val adt = new ADT("philoModel", signature)
+    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
 
     val S1 = VariableStrategy("S1")
 
@@ -155,11 +158,11 @@ class TransitionSystemTest extends FlatSpec {
   }
 
   "A transition system" should "not allow to use a strategy with the wrong number of parameters" in {
-    val signature = (new Signature)
+    val signature = AdtFactory.eINSTANCE.createSignature()
       .withSort("ph")
       .withGenerator("p0", "ph")
 
-    val adt = new ADT("philoModel", signature)
+    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
 
     val S1 = VariableStrategy("S1")
 
@@ -172,11 +175,11 @@ class TransitionSystemTest extends FlatSpec {
   }
 
   "A transition system" should "not allow to define a strategy that uses a variable that is not exatly the same as that used in its definition." in {
-    val signature = (new Signature)
+    val signature = AdtFactory.eINSTANCE.createSignature()
       .withSort("ph")
       .withGenerator("p0", "ph")
 
-    val adt = new ADT("philoModel", signature)
+    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
 
     val S1 = VariableStrategy("S1")
     val S2 = VariableStrategy("S2")
@@ -190,7 +193,7 @@ class TransitionSystemTest extends FlatSpec {
   }
 
   "A transition system" should "not allow to declare twice a strategy with the same name" in {
-    val signature = (new Signature())
+    val signature = AdtFactory.eINSTANCE.createSignature()
       .withSort("ph")
       .withSort("state")
       .withSort("fork")
@@ -204,7 +207,7 @@ class TransitionSystemTest extends FlatSpec {
       .withGenerator("emptytable", "ph")
       .withGenerator("philo", "ph", "state", "fork", "ph")
 
-    val adt = new ADT("philoModel", signature)
+    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
       .declareVariable("x", "fork")
       .declareVariable("p", "ph")
       .declareVariable("s", "state")
@@ -231,12 +234,12 @@ class TransitionSystemTest extends FlatSpec {
   }
 
   "A transition system" should "not allow an initial state which is not built using the transition system's adt" in {
-    val signature = (new Signature)
+    val signature = AdtFactory.eINSTANCE.createSignature()
       .withSort("ph")
       .withGenerator("p0", "ph")
 
-    val adt1 = new ADT("philoModel", signature)
-    val adt2 = new ADT("philoModel", signature)
+    val adt1 = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
+    val adt2 = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
 
     intercept[IllegalArgumentException] {
       val ts = (new TransitionSystem(adt1, adt2.term("p0")))

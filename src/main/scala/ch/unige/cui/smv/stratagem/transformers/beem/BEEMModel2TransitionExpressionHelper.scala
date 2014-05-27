@@ -18,7 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.transformers.beem
 
 import scala.language.implicitConversions
-import ch.unige.cui.smv.stratagem.adt.ADT
 import ch.unige.cui.smv.stratagem.beem.DivineProcess
 import ch.unige.cui.smv.stratagem.beem.expressions.And
 import ch.unige.cui.smv.stratagem.beem.expressions.Assign
@@ -99,6 +98,18 @@ import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Try
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.Choice
+import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
+import ch.unige.cui.smv.stratagem.ts.IfThenElse
+import ch.unige.smv.cui.metamodel.adt.ADT
+import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
+import ch.unige.cui.smv.stratagem.ts.Union
+import ch.unige.cui.smv.stratagem.ts.IfThenElse
+import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
+import ch.unige.cui.smv.stratagem.ts.Sequence
+import ch.unige.cui.smv.stratagem.ts.Union
+import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
+import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem.int2ATerm
 
 /**
  * Helper containing all expression related operations.
@@ -239,7 +250,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
         val createConstantOnTopOfStack = "createConstantOnTopOfStack_" + n
         val resultTS = ifNotContained(createConstantOnTopOfStack, initialTS) {
           initialTS.declareStrategy(createConstantOnTopOfStack,
-            $s1 -> intVar(stackElt, n, $s1))(false)
+            string2VariableTerm($s1) -> intVar(stackElt, n, $s1))(false)
         }
         (resultTS, DeclaredStrategyInstance(createConstantOnTopOfStack))
       case Plus(n1, n2) => createEvalStrategyForBinaryIntOperation(proc, initialTS, n1, n2, PLUS_FUNCTOR)(createStrategiesForPlus)
@@ -466,7 +477,7 @@ private[beem] object BEEMModel2TransitionExpressionHelper {
   private def doubleVarStrategy(implicit a: ADT): NonVariableStrategy = {
     SimpleStrategy(List(
       suc($n1) -> doubleVar(0, 0, suc($n1)),
-      0 -> doubleVar(0, 0, 0),
+      int2ATerm(0) -> doubleVar(0, 0, 0),
       neg($nz1) -> doubleVar(0, 0, neg($nz1))))
   }
 

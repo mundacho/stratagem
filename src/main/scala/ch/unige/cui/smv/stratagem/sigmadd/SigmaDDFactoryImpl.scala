@@ -19,14 +19,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.sigmadd
 
 import scala.language.postfixOps
-import ch.unige.cui.smv.stratagem.adt.ASort
-import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.util.CanonicalFactory
 import ch.unige.cui.smv.stratagem.util.Element
 import ch.unige.cui.smv.stratagem.util.LatticeElement
 import ch.unige.cui.smv.stratagem.util.OperationCache
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
-import ch.unige.cui.smv.stratagem.adt.Signature
+import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.smv.cui.metamodel.adt.ASort
+import ch.unige.smv.cui.metamodel.adt.Signature
+import ch.unige.cui.smv.stratagem.adt.ATermHelper
+import ch.unige.cui.smv.stratagem.adt.ASortHelper
 
 /**
  * This factory creates SigmaDDs.
@@ -61,7 +63,7 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
   def create(term: ATerm): SigmaDDFactoryImpl#SigmaDDImpl = {
     require(!term.isVariable, "Cannot create a SigmaDD containing a variable.")
     term match {
-      case ATerm(opSymbol, terms) => create((term.sort, sigmaDDIPFFactory.create(opSymbol,
+      case ATermHelper(opSymbol, terms) => create((term.getSort(), sigmaDDIPFFactory.create(opSymbol,
         sigmaDDInductiveIPFFactory.create(terms))))
     }
   }
@@ -74,10 +76,10 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
    */
   def instantiate(term: ATerm, variables: Map[String, SigmaDDFactoryImpl#SigmaDDImpl]): SigmaDDFactoryImpl#SigmaDDImpl = {
     if (term.isVariable) {
-      variables(term.symbol)
+      variables(term.getSymbol())
     } else {
       term match {
-        case ATerm(opSymbol, terms) => create((term.sort, sigmaDDIPFFactory.create(
+        case ATermHelper(opSymbol, terms) => create((term.getSort(), sigmaDDIPFFactory.create(
           opSymbol, sigmaDDInductiveIPFFactory.instanciate(terms,
             variables))))
       }
@@ -107,11 +109,11 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
     lazy val size = iipf.size
 
     override def equals(that: Any) = that match {
-      case o: SigmaDDImpl => (o eq this) || (ASort.findCommonParent(this.sort, o.sort) != None && this.iipf == o.iipf)
+      case o: SigmaDDImpl => (o eq this) || (ASortHelper.findCommonParent(this.sort, o.sort) != None && this.iipf == o.iipf)
       case _ => false
     }
 
-    def asElements = Element.elem(sort.name) beside Element.elem("--") beside iipf.asElements
+    def asElements = Element.elem(sort.getName()) beside Element.elem("--") beside iipf.asElements
 
     override def toString = asElements.toString
 
@@ -122,13 +124,13 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
         val allSorts = for (
           setWrapper <- iipfUnion.alpha.keySet;
           symbol <- setWrapper.set
-        ) yield (signature.generators ++ signature.operations)(symbol).returnType
-        val newSort = ASort.findCommonParent(allSorts.toArray: _*)
+        ) yield signature.getOperationByName(symbol).getReturnType()
+        val newSort = ASortHelper.findCommonParent(allSorts.toArray: _*)
         newSort match {
           case Some(commonParent) => {
             if ((commonParent == this.sort) && (iipfUnion eq this.iipf)) this else create(commonParent, iipfUnion)
           }
-          case None => throw new IllegalStateException("Invalid sort, trying to join SigmaDD of sort %s with SigmaDD of sort %s".format(this.sort.name, that.sort.name))
+          case None => throw new IllegalStateException("Invalid sort, trying to join SigmaDD of sort %s with SigmaDD of sort %s".format(this.sort.getName(), that.sort.getName()))
         }
       } else this
     }
@@ -140,8 +142,8 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
           val allSorts = for (
             setWrapper <- iipfInter.alpha.keySet;
             symbol <- setWrapper.set
-          ) yield (signature.generators ++ signature.operations)(symbol).returnType
-          val newSort = ASort.findCommonParent(allSorts.toArray: _*)
+          ) yield signature.getOperationByName(symbol).getReturnType()
+          val newSort = ASortHelper.findCommonParent(allSorts.toArray: _*)
           newSort match {
             case Some(commonParent) => {
               if ((commonParent == this.sort) && (iipfInter eq this.iipf)) this else create(commonParent, iipfInter)
@@ -158,8 +160,8 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
           val allSorts = for (
             setWrapper <- iipfDiff.alpha.keySet;
             symbol <- setWrapper.set
-          ) yield (signature.generators ++ signature.operations)(symbol).returnType
-          val newSort = ASort.findCommonParent(allSorts.toArray: _*)
+          ) yield signature.getOperationByName(symbol).getReturnType()
+          val newSort = ASortHelper.findCommonParent(allSorts.toArray: _*)
           newSort match {
             case Some(commonParent) => {
               if ((commonParent == this.sort) && (iipfDiff eq this.iipf)) this else create(commonParent, iipfDiff)
@@ -170,7 +172,7 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
       } else this
     }
 
-    lazy val bottomElement = create(ASort.findSuperParentSort(sort), this.iipf.bottomElement)
+    lazy val bottomElement = create(ASortHelper.findSuperParentSort(sort), this.iipf.bottomElement)
 
   }
 }

@@ -19,18 +19,20 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.sigmadd
 
 import scala.collection.immutable.HashMap
+
 import org.scalatest.FlatSpec
-import ch.unige.cui.smv.stratagem.adt.ADT
-import ch.unige.cui.smv.stratagem.adt.ATerm
-import ch.unige.cui.smv.stratagem.adt.Signature
+
+import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SimpleSigmaDDRewriter
 import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
-import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SimpleSigmaDDRewriter
+import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.smv.cui.metamodel.adt.AdtFactory
 // scalastyle:off magic.number
 class TestSigmaDD extends FlatSpec {
 
   val adt = {
-    val sign = (new Signature)
+    val sign = AdtFactory.eINSTANCE.createSignature()
       .withSort("bool")
       .withSort("nat")
       .withGenerator("zero", "nat")
@@ -40,12 +42,12 @@ class TestSigmaDD extends FlatSpec {
       .withGenerator("false", "bool")
       .withOperation("and", "bool", "bool", "bool")
 
-    new ADT("myAdt", sign).declareVariable("b", "bool").declareVariable("x", "nat").declareVariable("y", "nat")
+    {val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(sign); a}.declareVariable("b", "bool").declareVariable("x", "nat").declareVariable("y", "nat")
   }
   
-  val sigmaDDFactory = SigmaDDFactoryImpl(adt.signature)
+  val sigmaDDFactory = SigmaDDFactoryImpl(adt.getSignature())
 
-  val boolSort = adt.signature.sorts("bool")
+  val boolSort = adt.getSignature().getSortByName("bool")
   val trueSigmaDD = sigmaDDFactory.create((boolSort, sigmaDDFactory.sigmaDDIPFFactory.create("true", sigmaDDFactory.sigmaDDInductiveIPFFactory.TopIPF)))
   val falseSigmaDD = sigmaDDFactory.create((boolSort, sigmaDDFactory.sigmaDDIPFFactory.create("false", sigmaDDFactory.sigmaDDInductiveIPFFactory.TopIPF)))
   val topIPF = sigmaDDFactory.sigmaDDInductiveIPFFactory.TopIPF

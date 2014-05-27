@@ -18,7 +18,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.ts
 
-import ch.unige.cui.smv.stratagem.adt.Equation
+import ch.unige.smv.cui.metamodel.adt.Equation
+
 
 /**
  * Represents the simplest possible strategy: A list of rewriting rules.

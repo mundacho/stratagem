@@ -18,9 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.transformers.beem
 
 import scala.language.implicitConversions
-
-import ch.unige.cui.smv.stratagem.adt.ADT
-import ch.unige.cui.smv.stratagem.adt.ATerm
 import ch.unige.cui.smv.stratagem.beem.DivineArrayVariable
 import ch.unige.cui.smv.stratagem.beem.DivineIntVariable
 import ch.unige.cui.smv.stratagem.beem.DivineModel
@@ -69,6 +66,16 @@ import ch.unige.cui.smv.stratagem.ts.Strategy
 import ch.unige.cui.smv.stratagem.ts.TransitionSystem
 import ch.unige.cui.smv.stratagem.ts.Union
 import ch.unige.cui.smv.stratagem.ts.VariableStrategy
+import ch.unige.cui.smv.stratagem.beem.DivineIntVariable
+import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.cui.smv.stratagem.beem.DivineArrayVariable
+import ch.unige.smv.cui.metamodel.adt.ADT
+import ch.unige.cui.smv.stratagem.ts.Not
+import ch.unige.smv.cui.metamodel.adt.AdtFactory
+import ch.unige.cui.smv.stratagem.ts.Not
+import ch.unige.cui.smv.stratagem.beem.DivineArrayVariable
+import ch.unige.cui.smv.stratagem.beem.DivineIntVariable
+import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
 
 /**
  * Translates a Beem model to a transition system.
@@ -211,7 +218,7 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
   def apply(model: DivineModel): TransitionSystem = {
 
     val sign = BEEMModel2TransitionSignatureHelper.createSignature(model.globalVariables, model.processes, basicSignature)
-    implicit val a = new ADT("BeemModel", sign) // we create a signature
+    implicit val a = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("beemmodel"); a.setSignature(sign); a} // we create a signature
       .declareVariable($n1, NAT_SORT_NAME)
       .declareVariable($n2, NAT_SORT_NAME)
       .declareVariable("n3", NAT_SORT_NAME)

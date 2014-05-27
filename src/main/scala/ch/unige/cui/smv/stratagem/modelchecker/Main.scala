@@ -82,7 +82,7 @@ object Main extends Logging {
         if (config.transitionSystem) {
           logger.info(ts.toString)
         }
-        val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.signature)
+        val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
         val initialState = sigmaDDFactory.create(ts.initialState)
         logger.debug(s"Successfully created initial state")
         val rewriter = if (config.saturation) {

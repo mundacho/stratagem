@@ -22,9 +22,9 @@ import scala.collection.immutable.HashMap
 import ch.unige.cui.smv.stratagem.ipf.IPFAbstractFactory
 import ch.unige.cui.smv.stratagem.util.OperationCache
 import ch.unige.cui.smv.stratagem.util.Element
-import ch.unige.cui.smv.stratagem.adt.ATerm
 import scala.language.postfixOps
 import ch.unige.cui.smv.stratagem.util.OperationCache
+import ch.unige.smv.cui.metamodel.adt.ATerm
 
 /**
  * This factory represents the tail of a SigmaDD.

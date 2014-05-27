@@ -17,11 +17,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.transformers.beem
 
-import ch.unige.cui.smv.stratagem.adt.Signature
+
 import ch.unige.cui.smv.stratagem.beem.DivineProcess
 import ch.unige.cui.smv.stratagem.beem.DivineVariable
-import ch.unige.cui.smv.stratagem.adt.ADT
-import ch.unige.cui.smv.stratagem.adt.ATerm
+import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.smv.cui.metamodel.adt.ADT
+import ch.unige.smv.cui.metamodel.adt.Signature
+import ch.unige.smv.cui.metamodel.adt.AdtFactory
 
 /**
  * Helper object for the creation of the signature of a BEEM model.
@@ -60,7 +62,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   def createSignature(globalVariables: Map[String, DivineVariable], processes: List[DivineProcess], sign: Signature): Signature = globalVariables.toList.sortBy(_._1) match {
     case Nil => createSignature(processes, sign)
     case head :: tail =>
-      if (!sign.generators.contains(head._2.name)) createSignature(tail.toMap, processes, sign.withGenerator(head._2.name, VARIABLE_NAME_SORT_NAME))
+      if (!sign.getGenerators().contains(head._2.name)) createSignature(tail.toMap, processes, sign.withGenerator(head._2.name, VARIABLE_NAME_SORT_NAME))
       else createSignature(tail.toMap, processes, sign) // skip the creation of the name
   }
 
@@ -73,13 +75,13 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
     def createStatesInSignature(possibleStates: List[Symbol], sign: Signature): Signature = possibleStates match {
       case Nil => sign
       case s :: tail =>
-        if (!sign.generators.contains(s.name)) createStatesInSignature(tail, sign.withGenerator(s.name, STATE_SORT_NAME))
+        if (!sign.getGenerators().contains(sign.getOperationByName(s.name))) createStatesInSignature(tail, sign.withGenerator(s.name, STATE_SORT_NAME))
         else createStatesInSignature(tail, sign)
     }
     def createVariablesInSignature(variables: List[String], sign: Signature): Signature = variables match {
       case Nil => sign
       case s :: tail =>
-        if (!sign.generators.contains(s)) createVariablesInSignature(tail, sign.withGenerator(s, VARIABLE_NAME_SORT_NAME))
+        if (!sign.getGenerators().contains(sign.getOperationByName(s))) createVariablesInSignature(tail, sign.withGenerator(s, VARIABLE_NAME_SORT_NAME))
         else createVariablesInSignature(tail, sign) // skip the creation of the name
     }
     val signWithProcesses = createStatesInSignature(proc.possibleStates.toList, sign.withGenerator(proc.name, PROCESS_NAME_SORT_NAME))
@@ -144,7 +146,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   /**
    * The basic signature. It will be enriched with the variable names and operations specific for the model.
    */
-  val basicSignature = (new Signature)
+  val basicSignature = AdtFactory.eINSTANCE.createSignature()
     .withSort(BOOL_SORT_NAME)
     .withSort(INT_SORT_NAME)
     .withSort(NAT_SORT_NAME, INT_SORT_NAME)
