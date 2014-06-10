@@ -22,7 +22,6 @@ import org.scalatest.BeforeAndAfter
 import org.scalatest.FlatSpec
 import ch.unige.smv.cui.metamodel.adt.ATerm
 import ch.unige.smv.cui.metamodel.adt.AdtFactory
-import org.eclipse.ocl.examples.xtext.completeocl.CompleteOCLStandaloneSetup
 import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
 import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
 import org.eclipse.emf.ecore.util.EcoreUtil
@@ -30,15 +29,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 class ADTTest extends FlatSpec with BeforeAndAfter {
 
   before {
-org.eclipse.ocl.examples.pivot.OCL.initialize(null);
-//org.eclipse.ocl.examples.pivot.uml.UML2Pivot.initialize(null)
-org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
-org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
-CompleteOCLStandaloneSetup.doSetup()
-OCLinEcoreStandaloneSetup.doSetup()
-OCLstdlibStandaloneSetup.doSetup()
-//org.eclipse.ocl.examples.domain.utilities.StandaloneProjectMap.getAdapter(null);
-
+    org.eclipse.ocl.examples.pivot.OCL.initialize(null);
+    org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
+    org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
+    OCLinEcoreStandaloneSetup.doSetup()
+    OCLstdlibStandaloneSetup.doSetup()
   }
 
   "An ADT" should "not allow to declare the same variable twice" in {
@@ -131,8 +126,10 @@ OCLstdlibStandaloneSetup.doSetup()
       .withGenerator("emptytable", "ph")
       .withGenerator("philo", "ph", "state", "fork", "ph")
 
-    val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(signature); 
-    a }
+    val adt = {
+      val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(signature);
+      a
+    }
 
     // definitions to simplify the reading of terms.
     def eating = adt.term("eating")
@@ -145,7 +142,7 @@ OCLstdlibStandaloneSetup.doSetup()
     def emptytable = adt.term("emptytable")
     def philo(state: ATerm, fork: ATerm, ph: ATerm) = adt.term("philo", state, fork, ph)
 
-    val strangeADT = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(EcoreUtil.copy(signature)); a } 
+    val strangeADT = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(EcoreUtil.copy(signature)); a }
     intercept[IllegalArgumentException] {
       philo(thinking, forkFree, philo(thinking, forkFree, philo(thinking, forkFree, strangeADT.term("emptytable"))))
     }

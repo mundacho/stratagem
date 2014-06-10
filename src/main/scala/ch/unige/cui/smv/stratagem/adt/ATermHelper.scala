@@ -47,7 +47,7 @@ class RichTerm(val wrappedTerm: ATerm) {
   def ->(rightHandSideTerm: ATerm) = {
     val eq = AdtFactory.eINSTANCE.createEquation()
     eq.setLeftHandTerm(wrappedTerm)
-    eq.setLeftHandTerm(rightHandSideTerm)
+    eq.setRightHandTerm(rightHandSideTerm)
     eq
   }
 }

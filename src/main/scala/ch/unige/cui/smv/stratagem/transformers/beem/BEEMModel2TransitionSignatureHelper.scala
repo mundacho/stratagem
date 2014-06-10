@@ -146,7 +146,7 @@ private[beem] object BEEMModel2TransitionSignatureHelper {
   /**
    * The basic signature. It will be enriched with the variable names and operations specific for the model.
    */
-  val basicSignature = AdtFactory.eINSTANCE.createSignature()
+  def basicSignature = AdtFactory.eINSTANCE.createSignature()
     .withSort(BOOL_SORT_NAME)
     .withSort(INT_SORT_NAME)
     .withSort(NAT_SORT_NAME, INT_SORT_NAME)

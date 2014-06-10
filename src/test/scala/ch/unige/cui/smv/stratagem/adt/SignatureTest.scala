@@ -26,7 +26,6 @@ import ch.unige.smv.cui.metamodel.adt.AdtFactory
 import ch.unige.smv.cui.metamodel.adt.Signature
 import org.eclipse.ocl.examples.pivot.uml.UML2Pivot
 import org.eclipse.emf.ecore.resource.ResourceSet
-import org.eclipse.ocl.examples.xtext.completeocl.CompleteOCLStandaloneSetup
 import org.eclipse.ocl.examples.pivot.OCL
 
 class SignatureTest extends FlatSpec with BeforeAndAfter {

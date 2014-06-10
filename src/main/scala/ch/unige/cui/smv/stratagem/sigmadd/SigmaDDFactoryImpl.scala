@@ -75,6 +75,9 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
    * @return the SigmaDD representing the term.
    */
   def instantiate(term: ATerm, variables: Map[String, SigmaDDFactoryImpl#SigmaDDImpl]): SigmaDDFactoryImpl#SigmaDDImpl = {
+    if (term == null) {
+      println("foo");//
+    }
     if (term.isVariable) {
       variables(term.getSymbol())
     } else {

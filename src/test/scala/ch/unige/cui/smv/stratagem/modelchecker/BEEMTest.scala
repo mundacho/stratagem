@@ -18,18 +18,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.modelchecker
 
 import scala.language.implicitConversions
-
 import org.scalatest.BeforeAndAfter
+import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
-
 import com.typesafe.scalalogging.slf4j.Logging
-
 import ch.unige.cui.smv.stratagem.beem.DivineModel
 import ch.unige.cui.smv.stratagem.beem.DivineProcess
 import ch.unige.cui.smv.stratagem.beem.expressions._
-
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem
+import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
+import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
 
 /**
  * Test a transformation from beem to stratagem transition system.
@@ -37,6 +36,14 @@ import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSystem
  *
  */
 class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
+
+  before {
+    org.eclipse.ocl.examples.pivot.OCL.initialize(null);
+    org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
+    org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
+    OCLinEcoreStandaloneSetup.doSetup()
+    OCLstdlibStandaloneSetup.doSetup()
+  }
 
   implicit def int2IntegerExpression(n: Int) = Value(n)
   implicit def symbol2Var(s: Symbol) = Var(s.name)
