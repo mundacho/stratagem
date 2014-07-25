@@ -26,6 +26,9 @@ import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
 import ch.unige.cui.smv.stratagem.transformers.Modularizer
 import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters
 import ch.unige.cui.smv.stratagem.ts.Identity
+import org.scalatest.BeforeAndAfter
+import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
+import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
 
 /**
  * Tests the SetOfModules2TransitionSystem object
@@ -33,7 +36,16 @@ import ch.unige.cui.smv.stratagem.ts.Identity
  * @author mundacho
  *
  */
-class SetOfModules2TransitionSystemWithAnonimizationTest extends FlatSpec with Logging {
+class SetOfModules2TransitionSystemWithAnonimizationTest extends FlatSpec with Logging with BeforeAndAfter {
+
+  before {
+    org.eclipse.ocl.examples.pivot.OCL.initialize(null);
+    org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
+    org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
+    OCLinEcoreStandaloneSetup.doSetup()
+    OCLstdlibStandaloneSetup.doSetup()
+  }
+
   "A SetOfModules2TransitionSystem" should "be able to calculate the FMS problem for 10 instances" in {
     val net = PNML2PetriNet(new File("resources/test/FMS-10.pnml"))
     val modules = Modularizer(net)

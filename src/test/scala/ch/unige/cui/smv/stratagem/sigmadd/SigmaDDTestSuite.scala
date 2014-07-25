@@ -15,20 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package ch.unige.cui.smv.stratagem.petrinets
+package ch.unige.cui.smv.stratagem.sigmadd
 
-import ch.unige.cui.smv.stratagem.adt.PredefADT
+import org.scalatest.Suites
 
 /**
- * This object defines basic adts for petri nets.
+ * The sigmaDD test suite.
  * @author mundacho
  *
  */
-object PetriNetADT {
-  val PLACE_SORT_NAME = "place"
-  val ENDPLACE = "endplace"
-
-  def basicPetriNetSignature = PredefADT.basicNatSignature
-    .withSort(PLACE_SORT_NAME)
-    .withGenerator(ENDPLACE, PLACE_SORT_NAME)
-}
+class SigmaDDTestSuite extends Suites(new StateSpaceGenerationTest, new TestSigmaDD, new TestStrategies)

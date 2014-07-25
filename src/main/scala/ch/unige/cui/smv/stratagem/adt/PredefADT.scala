@@ -34,7 +34,7 @@ object PredefADT {
   val ZERO = "zero"
   val SUC = "suc"
 
-  lazy val basicNatSignature = (AdtFactory.eINSTANCE.createSignature())
+  def basicNatSignature = (AdtFactory.eINSTANCE.createSignature())
     .withSort(NAT_SORT_NAME)
     .withGenerator(ZERO, NAT_SORT_NAME)
     .withGenerator(SUC, NAT_SORT_NAME, NAT_SORT_NAME)

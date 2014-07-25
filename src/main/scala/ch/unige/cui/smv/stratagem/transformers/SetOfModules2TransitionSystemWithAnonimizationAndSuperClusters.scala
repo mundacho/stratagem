@@ -105,7 +105,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
   /**
    * The signature we use for clustered petri nets.
    */
-  val basicSignature = PetriNetADT.basicPetriNetSignature
+  def basicSignature = PetriNetADT.basicPetriNetSignature
     .withSort(CLUSTER_SORT_NAME)
     .withSort(SUPER_CLUSTER_SORT_NAME, CLUSTER_SORT_NAME)
     .withGenerator(ENDCLUSTER, CLUSTER_SORT_NAME)
@@ -120,7 +120,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
    */
   def createSignatureSuperClusters(modules: List[List[List[Place]]], s: Signature) = {
     val modSize = if (modules.size > 1) modules.size else 2
-    (for (i <- 0 to modSize) yield (sign: Signature) => sign.withGenerator(s"sc$i", SUPER_CLUSTER_SORT_NAME, CLUSTER_SORT_NAME, SUPER_CLUSTER_SORT_NAME)).reduce(_ compose _)(s)
+    (for (i <- 0 to modSize) yield (sign: Signature) => sign.withGenerator(s"sc$i", SUPER_CLUSTER_SORT_NAME, CLUSTER_SORT_NAME, SUPER_CLUSTER_SORT_NAME)).reduceLeft(_ compose _)(s)
   }
 
   private def buildSequenceOfDependentStrategiesMonadic(l: List[State[CalculationState, NonVariableStrategy]]): State[CalculationState, NonVariableStrategy] =
@@ -220,7 +220,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
           (outputArcStrategyBody(ts, place2Position)(a), place2Position(a.place)._3)
       } else { // we have several arcs for the same place
         val (iArcs, oArcs) = groupedArcs(arcIndex).partition(inputArcs.contains)
-        (Sequence(iArcs.map(inputArcStrategyBody(ts, place2Position)).reduce(Sequence(_, _)), oArcs.map(outputArcStrategyBody(ts, place2Position)).reduce(Sequence(_, _))), arcIndex)
+        (Sequence(iArcs.map(inputArcStrategyBody(ts, place2Position)).reduceLeft(Sequence(_, _)), oArcs.map(outputArcStrategyBody(ts, place2Position)).reduceLeft(Sequence(_, _))), arcIndex)
       }
     }
   }
@@ -369,11 +369,11 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     // find max number of clusters per supercluster
     val maxClusters = modules.map(_.size).max
     // we create a function here
-    val createSignWithClusters = ((for (i <- 0 to (maxClusters - 1)) yield (s: Signature) => s.withGenerator(s"c$i", CLUSTER_SORT_NAME, PLACE_SORT_NAME, CLUSTER_SORT_NAME)).reduce(_ compose _))
+    val createSignWithClusters = ((for (i <- 0 to (maxClusters - 1)) yield (s: Signature) => s.withGenerator(s"c$i", CLUSTER_SORT_NAME, PLACE_SORT_NAME, CLUSTER_SORT_NAME)).reduceRight(_ compose _))
     val maxPlaces = (for (cluster <- modules; places <- cluster) yield places.size).max
     // here we also create a function
-    val createSignWithPlaces = ((for (i <- 0 to (maxPlaces - 1)) yield (s: Signature) => s.withGenerator(s"p$i", PLACE_SORT_NAME, NAT_SORT_NAME, PLACE_SORT_NAME)).reduce(_ compose _))
-    implicit val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName(net.name); a.setSignature(signWithSuperClusters); a}
+    val createSignWithPlaces = ((for (i <- 0 to (maxPlaces - 1)) yield (s: Signature) => s.withGenerator(s"p$i", PLACE_SORT_NAME, NAT_SORT_NAME, PLACE_SORT_NAME)).reduceRight(_ compose _))
+    implicit val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName(net.name); a.setSignature(createSignWithClusters(createSignWithPlaces(signWithSuperClusters))); a}
       .declareVariable("p", PLACE_SORT_NAME)
       .declareVariable("x", NAT_SORT_NAME)
       .declareVariable("c", CLUSTER_SORT_NAME)
@@ -436,7 +436,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       if (currentFixPointStrategies.isEmpty) {
         innerFixPoint
       } else {
-        Union(currentSuperClusterStrategies.reduce(Union(_, _)), innerFixPoint)
+        Union(currentSuperClusterStrategies.reduceLeft(Union(_, _)), innerFixPoint)
       }
     }
   }
@@ -458,13 +458,13 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     // for each cluster in the super cluster we are treating we get a fixpoint strategy that works only in that cluster
     val listOfClusterFixPointStrategies = for (clusterIndex <- cluster2localStrategies.keys.toList.sortWith(_ < _) if (clusterIndex != -1)) yield (clusterFixPointStrategy(cluster2localStrategies(clusterIndex)), clusterIndex)
     if (cluster2localStrategies.isDefinedAt(-1)) {
-      val superClusterStrategies: NonVariableStrategy = (for (stratName <- cluster2localStrategies(-1)) yield FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(stratName)))): NonVariableStrategy).reduce((a, b) => Union(a, b))
+      val superClusterStrategies: NonVariableStrategy = (for (stratName <- cluster2localStrategies(-1)) yield FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(stratName)))): NonVariableStrategy).reduceLeft((a, b) => Union(a, b))
       Saturation(Union(Identity, Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), superClusterStrategies)), 2)
     } else
       FixPointStrategy(Union(Identity, chainClusterFixPointStrategies(listOfClusterFixPointStrategies)))
   }
 
-  def clusterFixPointStrategy(strategyNames: Set[String]): NonVariableStrategy = FixPointStrategy(Union(Identity, strategyNames.map(a => FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(a)))): NonVariableStrategy).reduce((a, b) => Union(a, b))))
+  def clusterFixPointStrategy(strategyNames: Set[String]): NonVariableStrategy = FixPointStrategy(Union(Identity, strategyNames.map(a => FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(a)))): NonVariableStrategy).reduceLeft((a, b) => Union(a, b))))
 
   def chainClusterFixPointStrategies(strategies: List[(NonVariableStrategy, Int)]): NonVariableStrategy = strategies match {
     case Nil => Identity
@@ -519,8 +519,9 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val checkBiggerThanSClusterName = "checkBiggerThanPlace"
     val applyForSClusterName = "applyForPlace"
     val elementPrefix = "p"
-    val elementVariable = ts.adt.term("p")
-    val containedElementVariable = ts.adt.term("x")
+    // We use def instead of val because our variables are based on EMF, i.e. they are mutable and we cannot use them in different terms
+    def elementVariable = ts.adt.term("p")
+    def containedElementVariable = ts.adt.term("x")
     // this function adds the checks
     ((), modifyTSForApplyFor(maxPlace, checkForSClusterName, checkBiggerThanSClusterName, applyForSClusterName, elementPrefix, elementVariable, containedElementVariable)(ts))
   })
@@ -530,8 +531,9 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val checkBiggerThanSClusterName = "checkBiggerThanSCluster"
     val applyForSClusterName = "applyForSCluster"
     val elementPrefix = "sc"
-    val elementVariable = ts.adt.term("sc")
-    val containedElementVariable = ts.adt.term("c")
+    // We use def instead of val because our variables are based on EMF, i.e. they are mutable and we cannot use them in different terms
+    def elementVariable = ts.adt.term("sc")
+    def containedElementVariable = ts.adt.term("c")
     // this function adds the checks
     ((), modifyTSForApplyFor(maxSCluster, checkForSClusterName, checkBiggerThanSClusterName, applyForSClusterName, elementPrefix, elementVariable, containedElementVariable)(ts))
   })
@@ -541,8 +543,9 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val checkBiggerThanName = "checkBiggerThanCluster"
     val applyForName = "applyForCluster"
     val elementPrefix = "c"
-    val elementVariable = ts.adt.term("c")
-    val containedElementVariable = ts.adt.term("p")
+    // We use def instead of val because our variables are based on EMF, i.e. they are mutable and we cannot use them in different terms
+    def elementVariable = ts.adt.term("c")
+    def containedElementVariable = ts.adt.term("p")
     // this function adds the checks
     ((), modifyTSForApplyFor(maxCluster, checkForName, checkBiggerThanName, applyForName, elementPrefix, elementVariable, containedElementVariable)(ts))
   })
@@ -552,8 +555,9 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val checkBiggerThanSClusterName = "checkBiggerThanSCluster"
     val applyForSClusterName = "superClusterFixPointAndThen"
     val elementPrefix = "sc"
-    val elementVariable = ts.adt.term("sc")
-    val containedElementVariable = ts.adt.term("c")
+    // We use def instead of val because our variables are based on EMF, i.e. they are mutable and we cannot use them in different terms
+    def elementVariable = ts.adt.term("sc")
+    def containedElementVariable = ts.adt.term("c")
     // this function adds the checks
     ((), modifyTSForApplyFor(maxSCluster, checkForSClusterName, checkBiggerThanSClusterName, applyForSClusterName, elementPrefix, elementVariable, containedElementVariable, true)(ts))
   })
@@ -563,13 +567,14 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val checkBiggerThanName = "checkBiggerThanCluster"
     val applyForName = "clusterFixPointAndThen"
     val elementPrefix = "c"
-    val elementVariable = ts.adt.term("c")
-    val containedElementVariable = ts.adt.term("p")
+    // We use def instead of val because our variables are based on EMF, i.e. they are mutable and we cannot use them in different terms
+    def elementVariable = ts.adt.term("c")
+    def containedElementVariable = ts.adt.term("p")
     // this function adds the checks
     ((), modifyTSForApplyFor(maxCluster, checkForName, checkBiggerThanName, applyForName, elementPrefix, elementVariable, containedElementVariable, true)(ts))
   })
 
-  private def modifyTSForApplyFor(maxElt: Int, checkForName: String, checkBiggerThanName: String, applyForName: String, eltPrefix: String, eltVariable: ATerm, containedVariable: ATerm, fixpoint: Boolean = false) = (for (i <- (0 to (maxElt - 1))) yield {
+  private def modifyTSForApplyFor(maxElt: Int, checkForName: String, checkBiggerThanName: String, applyForName: String, eltPrefix: String, eltVariable: => ATerm, containedVariable: => ATerm, fixpoint: Boolean = false) = (for (i <- (0 to (maxElt - 1))) yield {
     (ts: TransitionSystem) =>
       // first we declare the checkForSCluster
       (if (fixpoint) {

@@ -17,16 +17,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.modelchecker
 
-import java.io.File
-
 import org.scalatest.FlatSpec
-
 import com.typesafe.scalalogging.slf4j.Logging
-
-import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.transformers.FileSuperModularizer
+import org.scalatest.BeforeAndAfter
 import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
+import org.eclipse.ocl.examples.pivot.OCL
+import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
+import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
+import java.io.File
 import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters
+import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.ts.Identity
 
 /**
@@ -35,7 +36,15 @@ import ch.unige.cui.smv.stratagem.ts.Identity
  * @author mundacho
  *
  */
-class SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest extends FlatSpec with Logging {
+class SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest extends FlatSpec with Logging with BeforeAndAfter {
+
+  before {
+    OCL.initialize(null);
+    org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
+    org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
+    OCLinEcoreStandaloneSetup.doSetup()
+    OCLstdlibStandaloneSetup.doSetup()
+  }
 
   "A SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest" should "be able to do Philo 500" in {
     val net = PNML2PetriNet(new File("resources/test/Philo-500.pnml"))

@@ -31,6 +31,10 @@ import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
  *
  */
 class PNML2TransitionSystemTest extends FlatSpec {
+  
+  
+  
+  
   "PNML2TransitionSystemTest" should "read the name of a PT correctly" in {
     assert(PNML2PetriNet(new File("resources/test/philo.pnml")).name == "philo")
   }
