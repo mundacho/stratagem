@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ts" nsURI="http://cui.unige.ch/smv/transitionsystem.ecore" nsPrefix="ts">
+  <eClassifiers xsi:type="ecore:EClass" name="TransitionSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adt" lowerBound="1" eType="ecore:EClass ../../ch.unige.cui.smv.metamodel.adt/model/adt.ecore#//ADT"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialState" lowerBound="1"
+        eType="ecore:EClass ../../ch.unige.cui.smv.metamodel.adt/model/adt.ecore#//ATerm"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" lowerBound="1"
+        upperBound="-1" eType="#//DeclaredStrategy" volatile="true" transient="true"
+        derived="true" containment="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="group" value="#strats"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auxiliary" upperBound="-1"
+        eType="#//DeclaredStrategy" volatile="true" transient="true" derived="true"
+        containment="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="group" value="#strats"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="strats" lowerBound="1"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFeatureMapEntry">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="group"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclaredStrategy">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//NonVariableStrategy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formalParams" upperBound="-1"
+        eType="#//VariableStrategy" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Strategy" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NonVariableStrategy" abstract="true"
+      eSuperTypes="#//Strategy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableStrategy" eSuperTypes="#//Strategy">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Identity" eSuperTypes="#//NonVariableStrategy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Fail" eSuperTypes="#//NonVariableStrategy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Choice" eSuperTypes="#//NonVariableStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S1" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S2" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclaredStrategyInstance" eSuperTypes="#//NonVariableStrategy">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actualParams" upperBound="-1"
+        eType="#//Strategy" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FixPointStrategy" eSuperTypes="#//NonVariableStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IfThenElse" eSuperTypes="#//NonVariableStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S1" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S2" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S3" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Not" eSuperTypes="#//NonVariableStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="One" eSuperTypes="#//NonVariableStrategy">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="n" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Saturation" eSuperTypes="#//NonVariableStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="n" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sequence" eSuperTypes="#//NonVariableStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S1" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S2" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Union" eSuperTypes="#//NonVariableStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S1" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S2" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleStrategy" eSuperTypes="#//NonVariableStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equations" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass ../../ch.unige.cui.smv.metamodel.adt/model/adt.ecore#//Equation"
+        containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

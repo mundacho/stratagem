@@ -9,4 +9,6 @@ libraryDependencies += "org.kamranzafar" % "jtar" % "2.2"
 
 libraryDependencies += "org.fusesource.scalate" %% "scalate-core" % "1.6.1" intransitive()
 
+libraryDependencies += "org.fusesource.scalate" %% "scalate-util" % "1.6.1" intransitive()
+
 libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.5"

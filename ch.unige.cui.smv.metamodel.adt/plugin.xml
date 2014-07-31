@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated adt -->
+      <package
+            uri="http://cui.unige.ch/smv/adt.ecore"
+            class="ch.unige.smv.cui.metamodel.adt.AdtPackage"
+            genModel="model/adt.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated adt -->
+      <parser
+            type="adt"
+            class="ch.unige.smv.cui.metamodel.adt.util.AdtResourceFactoryImpl"/>
+   </extension>
+
+</plugin>

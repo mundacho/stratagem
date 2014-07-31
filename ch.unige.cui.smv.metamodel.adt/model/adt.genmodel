@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Stratagem is a model checker for transition systems described using rewriting&#xA;rules and strategies.&#xA;Copyright (C) 2013 - SMV@Geneva University.&#xA;Program written by Edmundo Lopez Bobeda &lt;edmundo [at] lopezbobeda.net>.&#xA;This program is free software; you can redistribute it and/or modify&#xA;it under the  terms of the GNU General Public License as published by&#xA;the Free Software Foundation; either version 2 of the License, or&#xA;(at your option) any later version.&#xA;This program is distributed in the hope that it will be useful,&#xA;but WITHOUT ANY WARRANTY; without even the implied warranty of&#xA;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#xA;GNU General Public License for more details.&#xA;You should have received a copy of the GNU General Public License&#xA;along with this program; if not, write to the Free Software&#xA;Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
+    modelDirectory="/ch.unige.cui.smv.metamodel.adt/src" editDirectory="/ch.unige.cui.smv.metamodel.adt.edit/src"
+    editorDirectory="/ch.unige.cui.smv.metamodel.adt.editor/src" modelPluginID="ch.unige.cui.smv.metamodel.adt"
+    modelName="Adt" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
+    editPluginID="ch.unige.cui.smv.metamodel.adt.edit" editorPluginID="ch.unige.cui.smv.metamodel.adt.editor"
+    language="" operationReflection="true" importOrganizing="true">
+  <foreignModel>adt.ecore</foreignModel>
+  <genPackages prefix="Adt" basePackage="ch.unige.smv.cui.metamodel" resource="XML"
+      disposableProviderFactory="true" ecorePackage="adt.ecore#/">
+    <genDataTypes ecoreDataType="adt.ecore#//Object"/>
+    <genClasses ecoreClass="adt.ecore#//ADT">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute adt.ecore#//ADT/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference adt.ecore#//ADT/signature"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference adt.ecore#//ADT/variables"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference adt.ecore#//ADT/equations"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="adt.ecore#//ASort">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute adt.ecore#//ASort/name"/>
+      <genOperations ecoreOperation="adt.ecore#//ASort/isSubSortOf">
+        <genParameters ecoreParameter="adt.ecore#//ASort/isSubSortOf/sort"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="adt.ecore#//SubSort">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference adt.ecore#//SubSort/superSort"/>
+    </genClasses>
+    <genClasses ecoreClass="adt.ecore#//Sort"/>
+    <genClasses ecoreClass="adt.ecore#//Signature">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute adt.ecore#//Signature/ops"/>
+      <genFeatures property="None" notify="false" createChild="false" propertyCategory=""
+          ecoreFeature="ecore:EReference adt.ecore#//Signature/allOperations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference adt.ecore#//Signature/sorts"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference adt.ecore#//Signature/operations"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference adt.ecore#//Signature/generators"/>
+    </genClasses>
+    <genClasses ecoreClass="adt.ecore#//VariableDeclaration">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference adt.ecore#//VariableDeclaration/sort"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute adt.ecore#//VariableDeclaration/name"/>
+    </genClasses>
+    <genClasses ecoreClass="adt.ecore#//Operation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference adt.ecore#//Operation/returnType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference adt.ecore#//Operation/formalParameters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute adt.ecore#//Operation/name"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="adt.ecore#//ATerm">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference adt.ecore#//ATerm/adt"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" propertySortChoices="true"
+          ecoreFeature="ecore:EReference adt.ecore#//ATerm/sort"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute adt.ecore#//ATerm/symbol"/>
+    </genClasses>
+    <genClasses ecoreClass="adt.ecore#//Term">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference adt.ecore#//Term/operationSymbol"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference adt.ecore#//Term/subterms"/>
+    </genClasses>
+    <genClasses ecoreClass="adt.ecore#//Variable">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference adt.ecore#//Variable/declaration"/>
+    </genClasses>
+    <genClasses ecoreClass="adt.ecore#//Equation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference adt.ecore#//Equation/leftHandTerm"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference adt.ecore#//Equation/rightHandTerm"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

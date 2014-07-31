@@ -114,7 +114,7 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
       case _ => false
     }
 
-    def asElements = Element.elem(s"${System.identityHashCode(this)}-${sort.getName()}") beside Element.elem("--") beside iipf.asElements
+    def asElements = Element.elem(s"${sort.getName()}") beside Element.elem("--") beside iipf.asElements
 
     override def toString = {
       if(iipf.alpha.size > 0)

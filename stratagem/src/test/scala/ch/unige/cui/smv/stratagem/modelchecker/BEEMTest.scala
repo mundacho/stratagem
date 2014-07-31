@@ -114,11 +114,9 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM)
     val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    println(rewriter)
+
     val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
-    println(result.size)
-    println(result)
     assert(result.size == 8)
   }
 
@@ -141,8 +139,6 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
     val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
-    println(result.size)
-    println(result)
     assert(result.size == 4)
   }
 

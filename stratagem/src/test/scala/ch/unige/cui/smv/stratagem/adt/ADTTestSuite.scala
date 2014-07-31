@@ -17,11 +17,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.adt
 
+import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
+import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
+import org.scalatest.BeforeAndAfterAll
 import org.scalatest.Suites
 
 /**
- * 
+ *
  * @author mundacho
  *
  */
-class ADTTestSuite extends Suites(new ADTTest, new SignatureTest, new SortTest, new TermTest)
+class ADTTestSuite extends Suites(new ADTTest, new SignatureTest, new SortTest, new TermTest) with BeforeAndAfterAll

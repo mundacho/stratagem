@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/ch.unige.cui.smv.metamodel.ts/src" modelPluginID="ch.unige.cui.smv.metamodel.ts"
+    modelName="Transitionsystem" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
+    usedGenPackages="../../ch.unige.cui.smv.metamodel.adt/model/adt.genmodel#//adt"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>transitionsystem.ecore</foreignModel>
+  <genPackages prefix="Ts" basePackage="ch.unige.cui.smv.metamodel" resource="XML"
+      disposableProviderFactory="true" ecorePackage="transitionsystem.ecore#/">
+    <genClasses ecoreClass="transitionsystem.ecore#//TransitionSystem">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//TransitionSystem/adt"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//TransitionSystem/initialState"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference transitionsystem.ecore#//TransitionSystem/transitions"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference transitionsystem.ecore#//TransitionSystem/auxiliary"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute transitionsystem.ecore#//TransitionSystem/strats"/>
+    </genClasses>
+    <genClasses ecoreClass="transitionsystem.ecore#//DeclaredStrategy">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute transitionsystem.ecore#//DeclaredStrategy/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//DeclaredStrategy/body"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//DeclaredStrategy/formalParams"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="transitionsystem.ecore#//Strategy"/>
+    <genClasses image="false" ecoreClass="transitionsystem.ecore#//NonVariableStrategy"/>
+    <genClasses ecoreClass="transitionsystem.ecore#//VariableStrategy">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute transitionsystem.ecore#//VariableStrategy/name"/>
+    </genClasses>
+    <genClasses ecoreClass="transitionsystem.ecore#//Identity"/>
+    <genClasses ecoreClass="transitionsystem.ecore#//Fail"/>
+    <genClasses ecoreClass="transitionsystem.ecore#//Choice">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//Choice/S1"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//Choice/S2"/>
+    </genClasses>
+    <genClasses ecoreClass="transitionsystem.ecore#//DeclaredStrategyInstance">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute transitionsystem.ecore#//DeclaredStrategyInstance/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//DeclaredStrategyInstance/actualParams"/>
+    </genClasses>
+    <genClasses ecoreClass="transitionsystem.ecore#//FixPointStrategy">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//FixPointStrategy/S"/>
+    </genClasses>
+    <genClasses ecoreClass="transitionsystem.ecore#//IfThenElse">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//IfThenElse/S1"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//IfThenElse/S2"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//IfThenElse/S3"/>
+    </genClasses>
+    <genClasses ecoreClass="transitionsystem.ecore#//Not">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//Not/S"/>
+    </genClasses>
+    <genClasses ecoreClass="transitionsystem.ecore#//One">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute transitionsystem.ecore#//One/n"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//One/S"/>
+    </genClasses>
+    <genClasses ecoreClass="transitionsystem.ecore#//Saturation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//Saturation/S"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute transitionsystem.ecore#//Saturation/n"/>
+    </genClasses>
+    <genClasses ecoreClass="transitionsystem.ecore#//Sequence">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//Sequence/S1"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//Sequence/S2"/>
+    </genClasses>
+    <genClasses ecoreClass="transitionsystem.ecore#//Union">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//Union/S1"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//Union/S2"/>
+    </genClasses>
+    <genClasses ecoreClass="transitionsystem.ecore#//SimpleStrategy">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//SimpleStrategy/equations"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

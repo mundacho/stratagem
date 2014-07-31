@@ -111,6 +111,7 @@ private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy
             case _ => Some(res)
           }
         } else Some(toAdd.reduce(_ v _))
+
       }
     }
   }

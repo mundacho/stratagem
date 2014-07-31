@@ -20,7 +20,7 @@ libraryDependencies += "org.scalatest" % "scalatest_2.10" % "2.0.M8" % "test"
 
 testOptions in Test += Tests.Argument("-oD")
 
-testOptions in Test := Seq(Tests.Filter(s => s.endsWith("TestSuite")))
+testOptions in Test := Seq(Tests.Filter(s => !s.endsWith("TestSuite")))
 
 parallelExecution in Test := false
 
@@ -38,8 +38,83 @@ libraryDependencies += "com.github.scopt" %% "scopt" % "3.2.0"
 
 resolvers += "sonatype-public" at "https://oss.sonatype.org/content/groups/public"
 
+resolvers += Resolver.url("smv-shared").artifacts(
+        "http://alpina.unige.ch/ivy/[organisation]/[module]/([branch]/)[revision]/[artifact].[ext]").ivys("http://alpina.unige.ch/ivy/[organisation]/[module]/([branch]/)ivys/[module]-[revision].xml")  
+
 libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "1.0.1"
 
 libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.2"
 
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13"
+
+// emf standalone
+
+libraryDependencies += "org.eclipse" % "emf-ecore" % "2.10.0.v20140514-1158"
+
+libraryDependencies += "org.eclipse" % "emf-common" % "2.10.0.v20140514-1158"
+
+libraryDependencies += "org.eclipse" % "emf-ecore-xmi" % "2.10.0.v20140514-1158"
+
+libraryDependencies += "org.eclipse" % "ocl-examples-pivot" % "3.3.2.v20131206-1641"
+
+libraryDependencies += "org.eclipse" % "emf-edit" % "2.10.0.v20140519-0339"
+
+libraryDependencies += "org.eclipse" % "emf-ecore-change" % "2.10.0.v20140514-1158"
+
+libraryDependencies += "org.eclipse" % "uml2-uml-resources" % "4.1.0.v20140202-2055"
+
+libraryDependencies += "org.eclipse" % "uml2-uml" % "4.1.2.v20140202-2055"
+
+libraryDependencies += "org.eclipse" % "uml2-common" % "1.8.2.v20140202-2055"
+
+libraryDependencies += "org.eclipse" % "uml2-types" % "1.1.0.v20140202-2055"
+
+libraryDependencies += "org.eclipse" % "emf-mapping-ecore2xml" % "2.8.0.v20140519-0339"
+
+libraryDependencies += "org.eclipse" % "emf-validation" % "1.7.0.201306111341"
+
+libraryDependencies += "org.eclipse" % "core-resources" % "3.8.101.v20130717-0806"
+
+libraryDependencies += "org.eclipse" % "uml2-uml-profile-l2" % "1.1.0.v20140202-2055"
+
+libraryDependencies += "org.eclipse" % "uml2-uml-profile-l3" % "1.1.0.v20140202-2055"
+
+libraryDependencies += "org.eclipse" % "ocl-common" % "1.1.0.v20130531-0544"
+
+libraryDependencies += "org.eclipse" % "ocl-examples-common" % "3.2.100.v20130520-1503"
+
+libraryDependencies += "org.eclipse" % "ocl-examples-library" % "3.3.1.v20130817-0632"
+
+libraryDependencies += "org.eclipse" % "ocl-examples-domain" % "3.3.1.v20130817-0757"
+
+libraryDependencies += "org.eclipse" % "ocl-examples-xtext-oclinecore" % "3.3.0.v20130527-1543"
+
+libraryDependencies += "org.eclipse" % "ocl-examples-xtext-essentialocl" % "3.3.1.v20130817-0639"
+
+libraryDependencies += "org.eclipse" % "ocl-examples-xtext-base" % "3.3.1.v20130817-0929"
+
+libraryDependencies += "org.eclipse" % "xtext" % "2.6.2.v201407030533"
+
+libraryDependencies += "org.antlr" % "runtime" % "3.2.0.v201101311130"
+
+libraryDependencies += "com.google" % "inject" % "3.0.0.v201312141243"
+
+libraryDependencies += "org.eclipse" % "emf-mwe-core" % "1.3.3.v201406110919"
+
+libraryDependencies += "org.apache" % "commons-cli" % "1.2.0.v201404270220"
+
+libraryDependencies += "org.eclipse" % "emf-mwe2-runtime" % "2.6.1.v201406110919"
+
+libraryDependencies += "org.eclipse" % "emf-mwe-utils" % "1.3.3.v201406110919"
+
+libraryDependencies += "org.eclipse" % "xtext-util" % "2.6.2.v201407030533"
+
+libraryDependencies += "com.google" % "guava" % "15.0.0.v201403281430"
+
+libraryDependencies += "org.eclipse" % "xtext-common-types" % "2.6.2.v201407030533"
+
+libraryDependencies += "org.eclipse" % "ocl-examples-xtext-oclstdlib" % "3.3.0.v20130523-1559"
+
+libraryDependencies += "org.apache" % "log4j" % "1.2.15.v201012070815"
+
+libraryDependencies += "javax" % "inject" % "1.0.0.v20091030"
