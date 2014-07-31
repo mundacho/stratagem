@@ -56,7 +56,7 @@ import ch.unige.smv.cui.metamodel.adt.ATerm;
 public class TransitionSystemImpl extends MinimalEObjectImpl.Container
 		implements TransitionSystem {
 
-	private Map<String, DeclaredStrategy> strategyDeclarations = new HashMap<>();
+	private Map<String, DeclaredStrategy> strategyDeclarations = new HashMap<String, DeclaredStrategy>();
 
 	/**
 	 * Adapter to take note when an element has been added to the list.
