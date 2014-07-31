@@ -1,0 +1,544 @@
+<pnml xmlns="http://www.pnml.org/version-2009/grammar/pnml">
+  <net id="cId-50805201325182612691" type="http://www.pnml.org/version-2009/grammar/ptnet">
+    <page id="page0">
+      <name>
+        <text>DefaultPage</text>
+      </name>
+      <place id="cId-478803047861111902276">
+        <name>
+          <graphics>
+            <offset x="-22" y="10"/>
+          </graphics>
+          <text>P1d</text>
+        </name>
+        <graphics>
+          <position x="458" y="318"/>
+        </graphics>
+      </place>
+      <place id="cId-475663328460921870177">
+        <name>
+          <graphics>
+            <offset x="21" y="7"/>
+          </graphics>
+          <text>P1s</text>
+        </name>
+        <graphics>
+          <position x="431" y="394"/>
+        </graphics>
+      </place>
+      <place id="cId-476489570069263934278">
+        <name>
+          <graphics>
+            <offset x="35" y="11"/>
+          </graphics>
+          <text>P1wP2</text>
+        </name>
+        <graphics>
+          <position x="484" y="394"/>
+        </graphics>
+      </place>
+      <place id="cId-476489570069263934279">
+        <name>
+          <graphics>
+            <offset x="-22" y="10"/>
+          </graphics>
+          <text>P12</text>
+        </name>
+        <graphics>
+          <position x="530" y="432"/>
+        </graphics>
+      </place>
+      <place id="cId-476489570069263934272">
+        <name>
+          <graphics>
+            <offset x="-22" y="10"/>
+          </graphics>
+          <text>P1</text>
+        </name>
+        <graphics>
+          <position x="458" y="100"/>
+        </graphics>
+        <initialMarking>
+          <graphics>
+            <offset x="-189" y="-146"/>
+          </graphics>
+          <text>10</text>
+        </initialMarking>
+      </place>
+      <place id="cId-476159073855423838173">
+        <name>
+          <graphics>
+            <offset x="-22" y="10"/>
+          </graphics>
+          <text>P1wM1</text>
+        </name>
+        <graphics>
+          <position x="458" y="166"/>
+        </graphics>
+      </place>
+      <place id="cId-476159073855423838174">
+        <name>
+          <graphics>
+            <offset x="-20" y="12"/>
+          </graphics>
+          <text>P1M1</text>
+        </name>
+        <graphics>
+          <position x="458" y="242"/>
+        </graphics>
+      </place>
+      <place id="cId-476159073855423838175">
+        <name>
+          <graphics>
+            <offset x="16" y="12"/>
+          </graphics>
+          <text>M1</text>
+        </name>
+        <graphics>
+          <position x="418" y="242"/>
+        </graphics>
+        <initialMarking>
+          <graphics>
+            <offset x="-229" y="-4"/>
+          </graphics>
+          <text>3</text>
+        </initialMarking>
+      </place>
+      <place id="cId-476324321747595521485">
+        <name>
+          <graphics>
+            <offset x="-22" y="10"/>
+          </graphics>
+          <text>P2wM2</text>
+        </name>
+        <graphics>
+          <position x="604" y="166"/>
+        </graphics>
+      </place>
+      <place id="cId-476324321747595521484">
+        <name>
+          <graphics>
+            <offset x="-22" y="10"/>
+          </graphics>
+          <text>P2</text>
+        </name>
+        <graphics>
+          <position x="604" y="100"/>
+        </graphics>
+        <initialMarking>
+          <graphics>
+            <offset x="-43" y="-146"/>
+          </graphics>
+          <text>10</text>
+        </initialMarking>
+      </place>
+      <place id="cId-476324321747595521487">
+        <name>
+          <graphics>
+            <offset x="-22" y="10"/>
+          </graphics>
+          <text>M2</text>
+        </name>
+        <graphics>
+          <position x="642" y="242"/>
+        </graphics>
+        <initialMarking>
+          <graphics>
+            <offset x="-5" y="-4"/>
+          </graphics>
+          <text>1</text>
+        </initialMarking>
+      </place>
+      <place id="cId-476324321747595521486">
+        <name>
+          <graphics>
+            <offset x="31" y="11"/>
+          </graphics>
+          <text>P2M2</text>
+        </name>
+        <graphics>
+          <position x="604" y="242"/>
+        </graphics>
+      </place>
+      <place id="cId-476324321747595521481">
+        <name>
+          <graphics>
+            <offset x="-22" y="10"/>
+          </graphics>
+          <text>P12M3</text>
+        </name>
+        <graphics>
+          <position x="530" y="598"/>
+        </graphics>
+      </place>
+      <place id="cId-476324321747595521480">
+        <name>
+          <graphics>
+            <offset x="-22" y="10"/>
+          </graphics>
+          <text>P12wM3</text>
+        </name>
+        <graphics>
+          <position x="530" y="517"/>
+        </graphics>
+      </place>
+      <place id="cId-477150563785434315083">
+        <name>
+          <graphics>
+            <offset x="-22" y="10"/>
+          </graphics>
+          <text>P12s</text>
+        </name>
+        <graphics>
+          <position x="530" y="679"/>
+        </graphics>
+      </place>
+      <place id="cId-477150563785434315082">
+        <name>
+          <graphics>
+            <offset x="-22" y="10"/>
+          </graphics>
+          <text>M3</text>
+        </name>
+        <graphics>
+          <position x="575" y="598"/>
+        </graphics>
+        <initialMarking>
+          <graphics>
+            <offset x="-72" y="352"/>
+          </graphics>
+          <text>2</text>
+        </initialMarking>
+      </place>
+      <place id="cId-477150563785434315093">
+        <name>
+          <graphics>
+            <offset x="19" y="12"/>
+          </graphics>
+          <text>P3s</text>
+        </name>
+        <graphics>
+          <position x="739" y="318"/>
+        </graphics>
+      </place>
+      <place id="cId-477150563785434315092">
+        <name>
+          <graphics>
+            <offset x="32" y="9"/>
+          </graphics>
+          <text>P3M2</text>
+        </name>
+        <graphics>
+          <position x="739" y="196"/>
+        </graphics>
+      </place>
+      <place id="cId-477150563785434315089">
+        <name>
+          <graphics>
+            <offset x="-14" y="12"/>
+          </graphics>
+          <text>P2wP1</text>
+        </name>
+        <graphics>
+          <position x="577" y="394"/>
+        </graphics>
+      </place>
+      <place id="cId-477315812107102727888">
+        <name>
+          <graphics>
+            <offset x="-22" y="10"/>
+          </graphics>
+          <text>P2d</text>
+        </name>
+        <graphics>
+          <position x="604" y="318"/>
+        </graphics>
+      </place>
+      <place id="cId-477315812107102727891">
+        <name>
+          <graphics>
+            <offset x="-22" y="10"/>
+          </graphics>
+          <text>P3</text>
+        </name>
+        <graphics>
+          <position x="739" y="100"/>
+        </graphics>
+        <initialMarking>
+          <graphics>
+            <offset x="92" y="-146"/>
+          </graphics>
+          <text>10</text>
+        </initialMarking>
+      </place>
+      <place id="cId-477315812107102727890">
+        <name>
+          <graphics>
+            <offset x="-16" y="13"/>
+          </graphics>
+          <text>P2s</text>
+        </name>
+        <graphics>
+          <position x="630" y="394"/>
+        </graphics>
+      </place>
+      <transition id="cId-476820067142097489495">
+        <name>
+          <graphics>
+            <offset x="-22" y="14"/>
+          </graphics>
+          <text>tM1</text>
+        </name>
+        <graphics>
+          <position x="457" y="210"/>
+        </graphics>
+      </transition>
+      <transition id="cId-483099505942477553594">
+        <name>
+          <graphics>
+            <offset x="-22" y="14"/>
+          </graphics>
+          <text>tP1</text>
+        </name>
+        <graphics>
+          <position x="457" y="139"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4830995059424775535102">
+        <name>
+          <graphics>
+            <offset x="-22" y="14"/>
+          </graphics>
+          <text>tM3</text>
+        </name>
+        <graphics>
+          <position x="529" y="561"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4832647542641459663103">
+        <name>
+          <graphics>
+            <offset x="-22" y="14"/>
+          </graphics>
+          <text>tP12M3</text>
+        </name>
+        <graphics>
+          <position x="529" y="642"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4832647542641459663100">
+        <name>
+          <graphics>
+            <offset x="-5" y="16"/>
+          </graphics>
+          <text>tx</text>
+        </name>
+        <graphics>
+          <position x="529" y="400"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4832647542641459663101">
+        <name>
+          <graphics>
+            <offset x="-22" y="14"/>
+          </graphics>
+          <text>tP12</text>
+        </name>
+        <graphics>
+          <position x="529" y="480"/>
+        </graphics>
+      </transition>
+      <transition id="cId-483264754264145966398">
+        <name>
+          <graphics>
+            <offset x="23" y="17"/>
+          </graphics>
+          <text>tP1s</text>
+        </name>
+        <graphics>
+          <position x="430" y="438"/>
+        </graphics>
+      </transition>
+      <transition id="cId-483264754264145966399">
+        <name>
+          <graphics>
+            <offset x="-16" y="13"/>
+          </graphics>
+          <text>tP1j</text>
+        </name>
+        <graphics>
+          <position x="483" y="362"/>
+        </graphics>
+      </transition>
+      <transition id="cId-483264754264145966396">
+        <name>
+          <graphics>
+            <offset x="-33" y="5"/>
+          </graphics>
+          <text>tP1M1</text>
+        </name>
+        <graphics>
+          <position x="457" y="286"/>
+        </graphics>
+      </transition>
+      <transition id="cId-483264754264145966397">
+        <name>
+          <graphics>
+            <offset x="25" y="14"/>
+          </graphics>
+          <text>tP1e</text>
+        </name>
+        <graphics>
+          <position x="430" y="362"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4832647542641459663110">
+        <name>
+          <graphics>
+            <offset x="-18" y="15"/>
+          </graphics>
+          <text>tP2s</text>
+        </name>
+        <graphics>
+          <position x="629" y="438"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4832647542641459663111">
+        <name>
+          <graphics>
+            <offset x="18" y="14"/>
+          </graphics>
+          <text>tP3</text>
+        </name>
+        <graphics>
+          <position x="738" y="154"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4832647542641459663108">
+        <name>
+          <graphics>
+            <offset x="17" y="14"/>
+          </graphics>
+          <text>tP2j</text>
+        </name>
+        <graphics>
+          <position x="576" y="362"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4832647542641459663109">
+        <name>
+          <graphics>
+            <offset x="-15" y="14"/>
+          </graphics>
+          <text>tP2e</text>
+        </name>
+        <graphics>
+          <position x="629" y="362"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4827690092991407279106">
+        <name>
+          <graphics>
+            <offset x="-22" y="14"/>
+          </graphics>
+          <text>tM2</text>
+        </name>
+        <graphics>
+          <position x="603" y="210"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4827690092991407279107">
+        <name>
+          <graphics>
+            <offset x="-32" y="3"/>
+          </graphics>
+          <text>tP2M2</text>
+        </name>
+        <graphics>
+          <position x="603" y="286"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4827690092991407279104">
+        <name>
+          <graphics>
+            <offset x="-22" y="14"/>
+          </graphics>
+          <text>tP12s</text>
+        </name>
+        <graphics>
+          <position x="529" y="728"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4827690092991407279105">
+        <name>
+          <graphics>
+            <offset x="-22" y="14"/>
+          </graphics>
+          <text>tP2</text>
+        </name>
+        <graphics>
+          <position x="603" y="139"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4827690092991407279113">
+        <name>
+          <graphics>
+            <offset x="-22" y="14"/>
+          </graphics>
+          <text>tP3s</text>
+        </name>
+        <graphics>
+          <position x="797" y="226"/>
+        </graphics>
+      </transition>
+      <transition id="cId-4827690092991407279112">
+        <name>
+          <graphics>
+            <offset x="35" y="15"/>
+          </graphics>
+          <text>tP3M2</text>
+        </name>
+        <graphics>
+          <position x="738" y="248"/>
+        </graphics>
+      </transition>
+      <arc id="cId-4827690092991407279119" source="cId-476159073855423838174" target="cId-483264754264145966396"/>      <arc id="cId-4844214933748183151118" source="cId-476820067142097489495" target="cId-476159073855423838174"/>      <arc id="cId-4844214933748183151117" source="cId-476159073855423838175" target="cId-476820067142097489495"/>      <arc id="cId-4844214933748183151116" source="cId-476159073855423838173" target="cId-476820067142097489495"/>      <arc id="cId-4844214933748183151115" source="cId-483099505942477553594" target="cId-476159073855423838173"/>      <arc id="cId-4844214933748183151114" source="cId-476489570069263934272" target="cId-483099505942477553594"/>      <arc id="cId-4844214933748183151127" source="cId-483264754264145966399" target="cId-476489570069263934278"/>      <arc id="cId-4844214933748183151126" source="cId-478803047861111902276" target="cId-483264754264145966399"/>      <arc id="cId-4844214933748183151125" source="cId-483264754264145966398" target="cId-476489570069263934272">
+        <graphics>
+          <position x="390" y="438"/>
+          <position x="390" y="106"/>
+        </graphics>
+      </arc>
+      <arc id="cId-4842562450531499023124" source="cId-475663328460921870177" target="cId-483264754264145966398"/>      <arc id="cId-4842562450531499023123" source="cId-483264754264145966397" target="cId-475663328460921870177"/>      <arc id="cId-4842562450531499023122" source="cId-478803047861111902276" target="cId-483264754264145966397"/>      <arc id="cId-4842562450531499023121" source="cId-483264754264145966396" target="cId-478803047861111902276"/>      <arc id="cId-4842562450531499023120" source="cId-483264754264145966396" target="cId-476159073855423838175"/>      <arc id="cId-4842562450531499023137" source="cId-4832647542641459663103" target="cId-477150563785434315083"/>      <arc id="cId-4842562450531499023136" source="cId-476324321747595521481" target="cId-4832647542641459663103"/>      <arc id="cId-4842562450531499023139" source="cId-477150563785434315083" target="cId-4827690092991407279104"/>      <arc id="cId-4842562450531499023138" source="cId-4832647542641459663103" target="cId-477150563785434315082"/>      <arc id="cId-4842562450531499023141" source="cId-4827690092991407279104" target="cId-476324321747595521484">
+        <graphics>
+          <position x="689" y="728"/>
+          <position x="689" y="106"/>
+        </graphics>
+      </arc>
+      <arc id="cId-4842562450531499023140" source="cId-4827690092991407279104" target="cId-476489570069263934272">
+        <graphics>
+          <position x="390" y="728"/>
+          <position x="390" y="106"/>
+        </graphics>
+      </arc>
+      <arc id="cId-4842562450531499023143" source="cId-4827690092991407279105" target="cId-476324321747595521485"/>      <arc id="cId-4842562450531499023142" source="cId-476324321747595521484" target="cId-4827690092991407279105"/>      <arc id="cId-4842562450531499023129" source="cId-477150563785434315089" target="cId-4832647542641459663100"/>      <arc id="cId-4842562450531499023128" source="cId-476489570069263934278" target="cId-4832647542641459663100"/>      <arc id="cId-4842562450531499023131" source="cId-476489570069263934279" target="cId-4832647542641459663101"/>      <arc id="cId-4842562450531499023130" source="cId-4832647542641459663100" target="cId-476489570069263934279"/>      <arc id="cId-4850824866614919664133" source="cId-476324321747595521480" target="cId-4830995059424775535102"/>      <arc id="cId-4850824866614919664132" source="cId-4832647542641459663101" target="cId-476324321747595521480"/>      <arc id="cId-4850824866614919664135" source="cId-4830995059424775535102" target="cId-476324321747595521481"/>      <arc id="cId-4850824866614919664134" source="cId-477150563785434315082" target="cId-4830995059424775535102"/>      <arc id="cId-4850824866614919664152" source="cId-477315812107102727888" target="cId-4832647542641459663109"/>      <arc id="cId-4850824866614919664153" source="cId-4832647542641459663109" target="cId-477315812107102727890"/>      <arc id="cId-4850824866614919664154" source="cId-477315812107102727890" target="cId-4832647542641459663110"/>      <arc id="cId-4850824866614919664155" source="cId-4832647542641459663110" target="cId-476324321747595521484">
+        <graphics>
+          <position x="689" y="106"/>
+          <position x="689" y="438"/>
+        </graphics>
+      </arc>
+      <arc id="cId-4850824866614919664156" source="cId-477315812107102727891" target="cId-4832647542641459663111"/>      <arc id="cId-4850824866614919664157" source="cId-4832647542641459663111" target="cId-477150563785434315092"/>      <arc id="cId-4850824866614919664158" source="cId-477150563785434315092" target="cId-4827690092991407279112"/>      <arc id="cId-4850824866614919664159" source="cId-476324321747595521487" target="cId-4827690092991407279112"/>      <arc id="cId-4850824866614919664144" source="cId-476324321747595521485" target="cId-4827690092991407279106"/>      <arc id="cId-4850824866614919664145" source="cId-476324321747595521487" target="cId-4827690092991407279106"/>      <arc id="cId-4850824866614919664146" source="cId-4827690092991407279106" target="cId-476324321747595521486"/>      <arc id="cId-4850824866614919664147" source="cId-476324321747595521486" target="cId-4827690092991407279107"/>      <arc id="cId-4850824866614919664148" source="cId-4827690092991407279107" target="cId-477315812107102727888"/>      <arc id="cId-4850824866614919664149" source="cId-4827690092991407279107" target="cId-476324321747595521487"/>      <arc id="cId-4850824866614919664150" source="cId-477315812107102727888" target="cId-4832647542641459663108"/>      <arc id="cId-4852477349831603792151" source="cId-4832647542641459663108" target="cId-477150563785434315089"/>      <arc id="cId-4852477349831603792163" source="cId-4827690092991407279113" target="cId-477315812107102727891">
+        <graphics>
+          <position x="804" y="106"/>
+        </graphics>
+      </arc>
+      <arc id="cId-4852477349831603792162" source="cId-477150563785434315093" target="cId-4827690092991407279113">
+        <graphics>
+          <position x="804" y="324"/>
+        </graphics>
+      </arc>
+      <arc id="cId-4852477349831603792161" source="cId-4827690092991407279112" target="cId-476324321747595521487"/>      <arc id="cId-4852477349831603792160" source="cId-4827690092991407279112" target="cId-477150563785434315093"/>    </page>
+    <name>
+      <text>FMS 10</text>
+    </name>
+  </net>
+</pnml>
