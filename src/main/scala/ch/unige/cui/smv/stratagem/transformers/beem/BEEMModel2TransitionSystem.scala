@@ -55,27 +55,19 @@ import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatur
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.VARIABLE_NAME_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.ZERO_CONSTANT_NAME
 import ch.unige.cui.smv.stratagem.transformers.beem.BEEMModel2TransitionSignatureHelper.basicSignature
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.IfThenElse
-import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
-import ch.unige.cui.smv.stratagem.ts.Not
-import ch.unige.cui.smv.stratagem.ts.One
-import ch.unige.cui.smv.stratagem.ts.Sequence
-import ch.unige.cui.smv.stratagem.ts.Strategy
-import ch.unige.cui.smv.stratagem.ts.TransitionSystem
-import ch.unige.cui.smv.stratagem.ts.Union
-import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 import ch.unige.cui.smv.stratagem.beem.DivineIntVariable
 import ch.unige.smv.cui.metamodel.adt.ATerm
 import ch.unige.cui.smv.stratagem.beem.DivineArrayVariable
 import ch.unige.smv.cui.metamodel.adt.ADT
-import ch.unige.cui.smv.stratagem.ts.Not
 import ch.unige.smv.cui.metamodel.adt.AdtFactory
-import ch.unige.cui.smv.stratagem.ts.Not
+import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 import ch.unige.cui.smv.stratagem.beem.DivineArrayVariable
 import ch.unige.cui.smv.stratagem.beem.DivineIntVariable
 import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
+import ch.unige.cui.smv.metamodel.ts.TransitionSystem
+import ch.unige.cui.smv.metamodel.ts.Strategy
+import ch.unige.cui.smv.metamodel.ts.NonVariableStrategy
+import ch.unige.cui.smv.metamodel.ts.TsFactory
 
 /**
  * Translates a Beem model to a transition system.
@@ -142,11 +134,11 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
   }
 
   def RewriteSetWith(s: Strategy) = DeclaredStrategyInstance("rewriteSetWith", s)
-  val V1 = VariableStrategy("V1")
-  val V2 = VariableStrategy("V2")
+  def V1 = VariableStrategy("V1")
+  def V2 = VariableStrategy("V2")
 
   private[beem] def ifNotContained(name: String, initialTS: TransitionSystem)(ts: => TransitionSystem) =
-    if (initialTS.strategyDeclarations.isDefinedAt(name)) initialTS else ts
+    if (initialTS.getDeclaredStrategyByName(name) != null) initialTS else ts
 
   def createTransitionSystemForProcesses(processes: List[DivineProcess], initialTS: TransitionSystem)(implicit a: ADT): TransitionSystem =
     processes.foldLeft(initialTS)(createTransitionSystemForProc)
@@ -218,7 +210,7 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
   def apply(model: DivineModel): TransitionSystem = {
 
     val sign = BEEMModel2TransitionSignatureHelper.createSignature(model.globalVariables, model.processes, basicSignature)
-    implicit val a = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("beemmodel"); a.setSignature(sign); a} // we create a signature
+    implicit val a = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("beemmodel"); a.setSignature(sign); a } // we create a signature
       .declareVariable($n1, NAT_SORT_NAME)
       .declareVariable($n2, NAT_SORT_NAME)
       .declareVariable("n3", NAT_SORT_NAME)
@@ -239,8 +231,12 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
     val swapRuleName = "swap"
     val endUpRuleName = "endUp"
 
-    val basicTransitionSystem = new TransitionSystem(a, createInitialState(model)(a))
-      .declareStrategy("rewriteSetWith", V1) { Choice(Choice(Union(Choice(V1, Not(V1)), Choice(Not(V1), V1)), V1), Not(V1)) }(false)
+    val basicTransitionSystem = {
+      val myTS = TsFactory.eINSTANCE.createTransitionSystem()
+      myTS.setAdt(a)
+      myTS.setInitialState(createInitialState(model)(a))
+      myTS
+    }.declareStrategy("rewriteSetWith", V1) { Choice(Choice(Union(Choice(V1, Not(V1)), Choice(Not(V1), V1)), V1), Not(V1)) }(false)
       .declareStrategy("up", V1) {
         Choice(V1,
           Sequence(One(DeclaredStrategyInstance("up", V1), 3), V1))
@@ -270,14 +266,14 @@ object BEEMModel2TransitionSystem extends ((DivineModel) => TransitionSystem) {
           One(DeclaredStrategyInstance("arrayDownAndThen", V1, V2), 2)))
       }(false)
       .declareStrategy("bottomUp", V1) {
-        Choice(One(DeclaredStrategyInstance("bottomUp", V1)), V1)
+        Choice(One(DeclaredStrategyInstance("bottomUp", V1), 0), V1)
       }(false)
       .declareStrategy("upArr", V1) {
         Choice(V1,
           Sequence(One(DeclaredStrategyInstance("upArr", V1), 2), V1))
       }(false)
 
-    createTransitionSystemForProcesses(model.processes, basicTransitionSystem)(a)
+    createTransitionSystemForProcesses(model.processes, basicTransitionSystem)(basicTransitionSystem.getAdt())
   }
 
 }

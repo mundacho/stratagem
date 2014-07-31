@@ -18,8 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.transformers
 
 import java.io.File
-
-import ch.unige.cui.smv.stratagem.ts.TransitionSystem
+import ch.unige.cui.smv.metamodel.ts.TransitionSystem
 
 /**
  * All classes inheritinig from this one transform some model into a transition system.

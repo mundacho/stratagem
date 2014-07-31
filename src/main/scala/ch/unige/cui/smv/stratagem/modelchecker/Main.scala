@@ -25,7 +25,7 @@ import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 import ch.unige.cui.smv.stratagem.util.AuxFunctions.timeAndSpace
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats.stats
-import ch.unige.cui.smv.stratagem.ts.Identity
+import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 import ch.unige.cui.smv.stratagem.transformers.Model2TransitionSystem
 import ch.unige.cui.smv.stratagem.transformers.PetriNet2TransitionSystem
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
@@ -82,8 +82,8 @@ object Main extends Logging {
         if (config.transitionSystem) {
           logger.info(ts.toString)
         }
-        val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-        val initialState = sigmaDDFactory.create(ts.initialState)
+        val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
+        val initialState = sigmaDDFactory.create(ts.getInitialState())
         logger.debug(s"Successfully created initial state")
         val rewriter = if (config.saturation) {
           sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)

@@ -28,7 +28,7 @@ import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
 import java.io.File
 import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
-import ch.unige.cui.smv.stratagem.ts.Identity
+import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 
 /**
  * Tests the SetOfModules2TransitionSystem object
@@ -53,8 +53,8 @@ class SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest extends
     val (modules, set) = modularizer(net)
     println("Modularizer finished")
     val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, Set(0), net)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     logger.debug("Starting translation to SigmaDD")
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
     logger.debug("Finished translation to SigmaDD")
@@ -68,8 +68,8 @@ class SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest extends
     val (modules, set) = modularizer(net)
     println("Modularizer finished")
     val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, Set(0), net)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     logger.debug("Starting translation to SigmaDD")
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
     logger.debug("Finished translation to SigmaDD")
@@ -81,8 +81,8 @@ class SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest extends
     val modularizer = new FileSuperModularizer(new File("resources/test/standard-kanban-sclustering.txt"), true)
     val (modules, set) = modularizer(net)
     val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, Set(0), net)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
     assert(rewriter(initialState).get.size == 2546432)
   }

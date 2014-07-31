@@ -24,7 +24,7 @@ import org.scalatest.FlatSpec
 
 import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SimpleSigmaDDRewriter
-import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
+import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
 import ch.unige.smv.cui.metamodel.adt.ATerm
 import ch.unige.smv.cui.metamodel.adt.AdtFactory

@@ -22,24 +22,13 @@ import org.scalatest.FlatSpec
 import com.typesafe.scalalogging.slf4j.Logging
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats.stats
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.Strategy
-import ch.unige.cui.smv.stratagem.ts.TransitionSystem
-import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 import ch.unige.cui.smv.stratagem.util.AuxFunctions.timeAndSpace
 import ch.unige.smv.cui.metamodel.adt.ADT
 import ch.unige.smv.cui.metamodel.adt.ATerm
 import ch.unige.smv.cui.metamodel.adt.AdtFactory
-import ch.unige.cui.smv.stratagem.ts.Try
-import ch.unige.cui.smv.stratagem.ts.Union
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.One
 import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
-import ch.unige.cui.smv.stratagem.ts.Sequence
-import ch.unige.cui.smv.stratagem.ts.Identity
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
+import ch.unige.cui.smv.metamodel.ts.Strategy
+import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 
 // scalastyle:off regex
 /**
@@ -49,7 +38,7 @@ import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
  */
 class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter with Logging {
 
-  val signature = AdtFactory.eINSTANCE.createSignature()
+  def signature = AdtFactory.eINSTANCE.createSignature()
     .withSort("ph")
     .withSort("state")
     .withSort("fork")
@@ -95,7 +84,7 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter with Logging
   def DoForAllPhils(s: Strategy) = DeclaredStrategyInstance("doForAllPhil", s)
   def DoForLastPhil(s: Strategy) = DeclaredStrategyInstance("doForLastPhil", s)
 
-  val V = VariableStrategy("V")
+  def V = VariableStrategy("V")
 
   def generateInitialState(n: Int): ATerm = {
     require(n > 1)
@@ -115,7 +104,7 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter with Logging
 
   val numberOfPhilosophersTest1 = 3
 
-  val ts = (new TransitionSystem(adt, generateInitialState(numberOfPhilosophersTest1)))
+  def ts = (TransitionSystem(adt, generateInitialState(numberOfPhilosophersTest1)))
     .declareStrategy("doForAllPhil", V) { Union(Try(V), Choice(One(DoForAllPhils(V), 3), Try(V))) }(false)
     .declareStrategy("doForLastPhil", V) { Choice(One(DoForLastPhil(V)), V) }(false)
     .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
@@ -139,13 +128,13 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter with Logging
   "DeclaredStrategies" should s"allow to generate the state space for the philosophers problem with $numberOfPhilosophersTest1 philosophers" in {
 
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    stats(timeAndSpace(logger.debug("Total number of states: " + rewriter(sigmaDDFactory.create(ts.initialState)).get.size)))
-    assert(rewriter(sigmaDDFactory.create(ts.initialState)).get.size == 76)
+    stats(timeAndSpace(logger.debug("Total number of states: " + rewriter(sigmaDDFactory.create(ts.getInitialState())).get.size)))
+    assert(rewriter(sigmaDDFactory.create(ts.getInitialState())).get.size == 76)
   }
 
   val numberOfPhilosophersTest2 = 9
 
-  val ts1 = (new TransitionSystem(adt, generateInitialState(numberOfPhilosophersTest2)))
+  val ts1 = (TransitionSystem(adt, generateInitialState(numberOfPhilosophersTest2)))
     .declareStrategy("doForAllPhil", V) { Union(Try(V), Choice(One(DoForAllPhils(V), 3), Try(V))) }(false)
     .declareStrategy("doForLastPhil", V) { Choice(One(DoForLastPhil(V)), V) }(false)
     .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
@@ -166,12 +155,12 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter with Logging
 
   it should "allow to generate the state space for the philosophers problem with 9 philosophers" in {
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts1)
-    stats(timeAndSpace(logger.debug("Total number of states: " + rewriter(sigmaDDFactory.create(ts1.initialState)).get.size)))
-    assert(rewriter(sigmaDDFactory.create(ts1.initialState)).get.size == 439204)
+    stats(timeAndSpace(logger.debug("Total number of states: " + rewriter(sigmaDDFactory.create(ts1.getInitialState())).get.size)))
+    assert(rewriter(sigmaDDFactory.create(ts1.getInitialState())).get.size == 439204)
   }
   val satTestPhilosophers = 9
 
-  val tssat = (new TransitionSystem(adt, generateInitialState(satTestPhilosophers)))
+  val tssat = (TransitionSystem(adt, generateInitialState(satTestPhilosophers)))
     .declareStrategy("doForAllPhil", V) { Union(Try(V), Choice(One(DoForAllPhils(V), 3), Try(V))) }(false)
     .declareStrategy("doForLastPhil", V) { Choice(One(DoForLastPhil(V)), V) }(false)
     .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
@@ -193,8 +182,8 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter with Logging
   it should "allow to generate the state space for the philosophers problem with 9 philosophers with saturation" in {
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(tssat,
       Try(DeclaredStrategyInstance("takeLeftForkFromWaitingPhilo1")), 3)
-    stats(timeAndSpace(logger.debug("Total number of states: " + rewriter(sigmaDDFactory.create(tssat.initialState)).get.size)))
-    assert(rewriter(sigmaDDFactory.create(tssat.initialState)).get.size == 439204)
+    stats(timeAndSpace(logger.debug("Total number of states: " + rewriter(sigmaDDFactory.create(tssat.getInitialState())).get.size)))
+    assert(rewriter(sigmaDDFactory.create(tssat.getInitialState())).get.size == 439204)
   }
 
   val numberOfPhilosophersTest3 = 9
@@ -218,7 +207,7 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter with Logging
   def DoForAllClusters(s: Strategy) = DeclaredStrategyInstance("doForAllClusters", s)
   def DoForLastCluster(s: Strategy) = DeclaredStrategyInstance("doForLastCluster", s)
 
-  val ts2 = (new TransitionSystem(adt, generateInitialCluteredState(numberOfPhilosophersTest3, numberOfClustersTest3)))
+  val ts2 = (TransitionSystem(adt, generateInitialCluteredState(numberOfPhilosophersTest3, numberOfClustersTest3)))
     .declareStrategy("doForAllPhil", V) { Union(Try(V), Choice(One(DoForAllPhils(V), 3), Try(V))) }(false)
     .declareStrategy("doForLastPhil", V) { Choice(One(DoForLastPhil(V), 3), V) }(false)
     .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
@@ -257,14 +246,14 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter with Logging
 
   it should "allow to generate the state space for the clustered philosophers problem with 9 philosophers" in {
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts2)
-    stats(timeAndSpace(logger.debug("Total number of states: " + rewriter(sigmaDDFactory.create(ts2.initialState)).get.size)))
-    assert(rewriter(sigmaDDFactory.create(ts2.initialState)).get.size == 439204)
+    stats(timeAndSpace(logger.debug("Total number of states: " + rewriter(sigmaDDFactory.create(ts2.getInitialState())).get.size)))
+    assert(rewriter(sigmaDDFactory.create(ts2.getInitialState())).get.size == 439204)
   }
 
   val numberOfPhilosophersTest4 = 20
   val numberOfClustersTest4 = 4
 
-  val ts3 = (new TransitionSystem(adt, generateInitialCluteredState(numberOfPhilosophersTest4, numberOfClustersTest4)))
+  val ts3 = (TransitionSystem(adt, generateInitialCluteredState(numberOfPhilosophersTest4, numberOfClustersTest4)))
     .declareStrategy("doForAllPhil", V) { Union(Try(V), Choice(One(DoForAllPhils(V), 3), Try(V))) }(false)
     .declareStrategy("doForLastPhil", V) { Choice(One(DoForLastPhil(V), 3), V) }(false)
     .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
@@ -303,14 +292,14 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter with Logging
 
   it should s"allow to generate the state space for the clustered philosophers problem with $numberOfPhilosophersTest4 philosophers and $numberOfClustersTest4" in {
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts3)
-    stats(timeAndSpace(println("Total number of states: " + rewriter(sigmaDDFactory.create(ts3.initialState)).get.size)))
-    //    assert(rewriter(sigmaDDFactory.create(ts3.initialState)).get.size == 3461452808002L)
+    stats(timeAndSpace(println("Total number of states: " + rewriter(sigmaDDFactory.create(ts3.getInitialState())).get.size)))
+    //    assert(rewriter(sigmaDDFactory.create(ts3.getInitialState())).get.size == 3461452808002L)
   }
 
   val numberOfPhilosophersTest5 = 100
   val numberOfClustersTest5 = 10
 
-  val ts4 = (new TransitionSystem(adt, generateInitialCluteredState(numberOfPhilosophersTest5, numberOfClustersTest5)))
+  val ts4 = (TransitionSystem(adt, generateInitialCluteredState(numberOfPhilosophersTest5, numberOfClustersTest5)))
     .declareStrategy("doForAllPhil", V) { Union(Try(V), Choice(One(DoForAllPhils(V), 3), Try(V))) }(false)
     .declareStrategy("doForLastPhil", V) { Choice(One(DoForLastPhil(V), 3), V) }(false)
     .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
@@ -346,7 +335,7 @@ class StateSpaceGenerationTest extends FlatSpec with BeforeAndAfter with Logging
 
   it should s"allow to generate the state space for the clustered philosophers problem with $numberOfPhilosophersTest5 philosophers, $numberOfClustersTest5 clusters and saturation" in {
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts4)
-    stats(timeAndSpace(logger.debug("Total number of states: " + rewriter(sigmaDDFactory.create(ts4.initialState)).get.size)))
-    assert(rewriter(sigmaDDFactory.create(ts4.initialState)).get.size == BigInt("496926405783746676393791436882468230898067489522034699520200002"))
+    stats(timeAndSpace(logger.debug("Total number of states: " + rewriter(sigmaDDFactory.create(ts4.getInitialState())).get.size)))
+    assert(rewriter(sigmaDDFactory.create(ts4.getInitialState())).get.size == BigInt("496926405783746676393791436882468230898067489522034699520200002"))
   }
 }

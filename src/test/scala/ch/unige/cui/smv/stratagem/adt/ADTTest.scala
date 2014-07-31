@@ -106,6 +106,7 @@ class ADTTest extends FlatSpec with BeforeAndAfter {
     def philo(state: ATerm, fork: ATerm, ph: ATerm) = adt.term("philo", state, fork, ph)
 
     // scalastyle:off
+    println(philo(thinking, forkFree, philo(thinking, forkFree, philo(thinking, forkFree, emptytable))).toString)
     assert(philo(thinking, forkFree, philo(thinking, forkFree, philo(thinking, forkFree, emptytable))).toString == "philo(thinking, forkFree, philo(thinking, forkFree, philo(thinking, forkFree, emptytable)))")
     // scalastyle:on
 

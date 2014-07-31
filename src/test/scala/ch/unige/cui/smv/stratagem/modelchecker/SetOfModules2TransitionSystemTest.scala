@@ -21,7 +21,7 @@ import org.scalatest.FlatSpec
 import java.io.File
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
-import ch.unige.cui.smv.stratagem.ts.Identity
+import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystem
 import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
 import ch.unige.cui.smv.stratagem.transformers.Modularizer
@@ -37,8 +37,8 @@ class SetOfModules2TransitionSystemTest extends FlatSpec {
     val net = PNML2PetriNet(new File("resources/test/Kanban-5.pnml"))
     val modules = Modularizer(net)
     val ts = SetOfModules2TransitionSystem(modules, net)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
     assert(rewriter(initialState).get.size == 2546432)
   }

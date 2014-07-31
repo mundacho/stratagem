@@ -26,25 +26,16 @@ import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT
 import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT.PLACE_SORT_NAME
 import ch.unige.cui.smv.stratagem.petrinets.Place
 import ch.unige.cui.smv.stratagem.petrinets.Transition
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.Fail
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
-import ch.unige.cui.smv.stratagem.ts.Identity
-import ch.unige.cui.smv.stratagem.ts.IfThenElse
-import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
-import ch.unige.cui.smv.stratagem.ts.One
-import ch.unige.cui.smv.stratagem.ts.Sequence
-import ch.unige.cui.smv.stratagem.ts.Strategy
-import ch.unige.cui.smv.stratagem.ts.TransitionSystem
-import ch.unige.cui.smv.stratagem.ts.Try
-import ch.unige.cui.smv.stratagem.ts.Union
-import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 import ch.unige.smv.cui.metamodel.adt.ATerm
 import ch.unige.smv.cui.metamodel.adt.ADT
 import ch.unige.smv.cui.metamodel.adt.Signature
 import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
 import ch.unige.smv.cui.metamodel.adt.AdtFactory
+import ch.unige.cui.smv.metamodel.ts.TsFactory
+import ch.unige.cui.smv.metamodel.ts.TransitionSystem
+import ch.unige.cui.smv.metamodel.ts.Strategy
+import ch.unige.cui.smv.metamodel.ts.NonVariableStrategy
+import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 
 /**
  * Takes a set of modules and transforms it to a transition system.
@@ -65,14 +56,18 @@ object SetOfModules2TransitionSystem extends ((List[PTModule], PetriNet) => Tran
   /**
    * The signature we use for clustered petri nets.
    */
-  val basicSignature = PetriNetADT.basicPetriNetSignature
+  def basicSignature = PetriNetADT.basicPetriNetSignature
     .withSort(CLUSTER_SORT_NAME)
     .withGenerator(ENDCLUSTER, CLUSTER_SORT_NAME)
 
   /**
    * A variable strategy to be used later.
    */
-  val S = VariableStrategy("S")
+  def S = {
+    val strat = TsFactory.eINSTANCE.createVariableStrategy()
+    strat.setName("S")
+    strat
+  }
 
   /**
    * A convenience method.
@@ -155,7 +150,7 @@ object SetOfModules2TransitionSystem extends ((List[PTModule], PetriNet) => Tran
   private def addStrategies(ts: TransitionSystem, n: Int, maxCluster: Int) = {
     val checkNotBiggerThanCluster = (for (i <- (n + 1) to maxCluster) yield DeclaredStrategyInstance(s"checkForCluster$i"): NonVariableStrategy)
     ts
-      .declareStrategy(s"checkForCluster$n", ts.adt.term(s"c$n", ts.adt.term("p"), ts.adt.term("c")) -> ts.adt.term(s"c$n", ts.adt.term("p"), ts.adt.term("c")))(false)
+      .declareStrategy(s"checkForCluster$n", ts.getAdt().term(s"c$n", ts.getAdt().term("p"), ts.getAdt().term("c")) -> ts.getAdt().term(s"c$n", ts.getAdt().term("p"), ts.getAdt().term("c")))(false)
       .declareStrategy(s"applyForCluster$n", S) {
         IfThenElse(
           DeclaredStrategyInstance(s"checkForCluster$n"),
@@ -188,8 +183,10 @@ object SetOfModules2TransitionSystem extends ((List[PTModule], PetriNet) => Tran
       .declareVariable("p", PLACE_SORT_NAME)
       .declareVariable("x", NAT_SORT_NAME)
       .declareVariable("c", CLUSTER_SORT_NAME)
-    val initialTransitionSystem = new TransitionSystem(adt, createInitialState(sortedListOfModules, adt, adt.term(ENDCLUSTER), initialModuleNumber))
-      .declareStrategy("applyOnce", S)(Choice(S, One(ApplyOnce(S), 2)))(false)
+    val initialTransitionSystem = TsFactory.eINSTANCE.createTransitionSystem()
+    initialTransitionSystem.setAdt(adt)
+    initialTransitionSystem.setInitialState(createInitialState(sortedListOfModules, adt, adt.term(ENDCLUSTER), initialModuleNumber))
+    initialTransitionSystem.declareStrategy("applyOnce", S)(Choice(S, One(ApplyOnce(S), 2)))(false)
     createTransitionSystem(net.transitions.toList, adt, addApplytoCluster(initialTransitionSystem, modules.size - 1, modules.size - 2), placeToModule, Map())
   }
 

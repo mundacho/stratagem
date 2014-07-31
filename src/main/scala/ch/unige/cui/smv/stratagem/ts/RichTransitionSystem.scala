@@ -18,39 +18,22 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package ch.unige.cui.smv.stratagem.ts
 
-import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.cui.smv.metamodel.ts.DeclaredStrategy
+import ch.unige.cui.smv.metamodel.ts.NonVariableStrategy
+import ch.unige.cui.smv.metamodel.ts.TransitionSystem
+import ch.unige.cui.smv.metamodel.ts.TsFactory
+import ch.unige.cui.smv.metamodel.ts.VariableStrategy
 import ch.unige.smv.cui.metamodel.adt.Equation
-import ch.unige.smv.cui.metamodel.adt.ADT
-
-
 
 /**
- * Represents a transition system.
+ * Adds a rich and more scala-idiomtic interface to the standard transition system.
  *
- * @param adt the adt from where the terms of this transition system are created.
- * @param initialState the initial state of this transition system.
- * @param strategyDeclarations the declared strategies of this transition system.
  * @author mundacho
  *
  */
-class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strategyDeclarations: Map[String, StrategyDeclaration]) {
-  require(initialState.getAdt() eq adt)
+class RichTransitionSystem(val ts: TransitionSystem) {
 
-  override def toString =
-    s"Transition System\n${adt.toString}\n" +
-      s"Initial State = $initialState\n" +
-      s"Strategy Declarations\n" +
-      strategyDeclarations.map(e => s"${e._1} = ${e._2.declaredStrategy.body} [${e._2.isTransition}]").mkString("   ", "\n   ", "\n")
-
-  /**
-   * Constructor creates transition system with no global transitions.
-   * @param adt cf. main constructor.
-   * @param initialState cf. main constructor.
-   *
-   */
-  def this(adt: ADT, initialState: ATerm) {
-    this(adt, initialState, Map.empty)
-  }
+  implicit def declaredStrategy2RichDeclaredStrategy(declaredStrat: DeclaredStrategy) = new RichDeclaredStrategy(declaredStrat)
 
   /**
    * Returns a transition system with a declared strategy that uses this
@@ -71,15 +54,20 @@ class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strat
    * @param isTransition true if the declared strategy is going to be used as a transition.
    */
   def declareStrategy(label: String, equations: List[Equation])(isTransition: Boolean): TransitionSystem = {
-    addDeclaredStrategy(DeclaredStrategy(label, SimpleStrategy(equations)))(isTransition)
+    val st = TsFactory.eINSTANCE.createSimpleStrategy()
+    for (eq <- equations) st.getEquations().add(eq)
+    val declaredStrat = TsFactory.eINSTANCE.createDeclaredStrategy()
+    declaredStrat.setName(label)
+    declaredStrat.setBody(st)
+    addDeclaredStrategy(declaredStrat)(isTransition)
   }
 
   private def addDeclaredStrategy(declaredStrategy: DeclaredStrategy)(isTransition: Boolean) = {
-    require(!strategyDeclarations.contains(declaredStrategy.label), s"A strategy with the name ${declaredStrategy.label} is already defined in this transition system")
-    require(!isTransition || declaredStrategy.formalParameters.isEmpty) // being a transition implies that there are no formal parameters.
-    val ts = new TransitionSystem(adt, initialState, strategyDeclarations + (declaredStrategy.label -> StrategyDeclaration(declaredStrategy, isTransition)))
+    require(ts.getDeclaredStrategyByName(declaredStrategy.getName()) == null, s"A strategy with the name ${declaredStrategy.getName()} is already defined in this transition system")
+    require(!isTransition || declaredStrategy.getFormalParams().isEmpty) // being a transition implies that there are no formal parameters.
+    if (isTransition) ts.getTransitions().add(declaredStrategy) else ts.getAuxiliary().add(declaredStrategy)
     val (result, message) = declaredStrategy.syntaxCheck(ts)
-    require(result, s"There is a syntax error in the declaration of strategy ${declaredStrategy.label}: $message")
+    require(result, s"There is a syntax error in the declaration of strategy ${declaredStrategy.getName()}: $message")
     ts
   }
 
@@ -91,7 +79,11 @@ class TransitionSystem private (val adt: ADT, val initialState: ATerm, val strat
    * @param body the body of the declared strategy.
    */
   def declareStrategy(label: String, params: VariableStrategy*)(body: NonVariableStrategy)(isTransition: Boolean): TransitionSystem = {
-    addDeclaredStrategy(DeclaredStrategy(label, body, params: _*))(isTransition)
+    val declaredStrat = TsFactory.eINSTANCE.createDeclaredStrategy()
+    declaredStrat.setName(label)
+    for (param <- params) declaredStrat.getFormalParams().add(param)
+    declaredStrat.setBody(body)
+    addDeclaredStrategy(declaredStrat)(isTransition)
   }
 
 }

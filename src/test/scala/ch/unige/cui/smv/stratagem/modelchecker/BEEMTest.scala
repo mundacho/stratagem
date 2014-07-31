@@ -21,6 +21,7 @@ import scala.language.implicitConversions
 import org.scalatest.BeforeAndAfter
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FlatSpec
+import scala.collection.JavaConversions._
 import com.typesafe.scalalogging.slf4j.Logging
 import ch.unige.cui.smv.stratagem.beem.DivineModel
 import ch.unige.cui.smv.stratagem.beem.DivineProcess
@@ -111,13 +112,10 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
   "SimpleModel" should "have eight different states" in {
 
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    println(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
-    println(result.size)
-    println(result)
     assert(result.size == 8)
   }
 
@@ -136,10 +134,9 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
 
   "SimpleModel2" should "have 4 different states" in {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM2)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    println(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
     println(result.size)
     println(result)
@@ -161,13 +158,10 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
 
   "SimpleModel3" should "have 8 different states" in {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM3)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    println(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
-    println(result.size)
-    println(result)
     assert(result.size == 8)
   }
 
@@ -186,13 +180,10 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
 
   "SimpleModel4" should "have 4 different states" in {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM4)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    println(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
-    println(result.size)
-    println(result)
     assert(result.size == 4)
   }
 
@@ -212,13 +203,10 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
 
   "SimpleModel5" should "have 8 different states" in {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM5)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    println(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
-    println(result.size)
-    println(result)
     assert(result.size == 8)
   }
 
@@ -239,13 +227,10 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
 
   "SimpleModel6" should "have 8 different states" in {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM6)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    println(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
-    println(result.size)
-    println(result)
     assert(result.size == 8)
   }
 
@@ -266,13 +251,10 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
 
   "SimpleModel7" should "have 4 different states" in {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM7)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    println(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
-    println(result.size)
-    println(result)
     assert(result.size == 4)
   }
 
@@ -292,13 +274,12 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
 
   "SimpleModel8" should "have 4 different states" in {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM8)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    println(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
+
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    val initialState = sigmaDDFactory.create(ts.initialState)
+
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
-    println(result.size)
-    println(result)
     assert(result.size == 4)
   }
 
@@ -318,12 +299,10 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
 
   "SimpleModel9" should "have 11 different states" in {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM9)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
-    println(result.size)
-    println(result)
     assert(result.size == 11)
   }
 
@@ -344,13 +323,10 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
 
   "SimpleModel10" should "have 1 different states" in {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM10)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    println(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
-    println(result.size)
-    println(result)
     assert(result.size == 2)
   }
 
@@ -371,13 +347,10 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
 
   "SimpleModel11" should "have 10 different states" in {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM11)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    println(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
-    println(result.size)
-    //    println(result)
     assert(result.size == 10)
   }
 
@@ -400,21 +373,18 @@ class BEEMTest extends FlatSpec with BeforeAndAfter with Logging {
 
   "SimpleModel12" should "have 64 different states" in {
     val ts = BEEMModel2TransitionSystem(simpleModelBEEM12)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    println(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
-    println(result.size)
     assert(result.size == 64)
   }
 
   "Peterson" should "have 12498 different states" in {
     val ts = BEEMModel2TransitionSystem(petersonBEEM)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    println(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     val result = rewriter(initialState).get
     println(result.size)
     assert(result.size == 12498)

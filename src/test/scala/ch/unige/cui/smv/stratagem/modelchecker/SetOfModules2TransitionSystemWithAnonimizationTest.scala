@@ -25,7 +25,7 @@ import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
 import ch.unige.cui.smv.stratagem.transformers.Modularizer
 import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters
-import ch.unige.cui.smv.stratagem.ts.Identity
+import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 import org.scalatest.BeforeAndAfter
 import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
 import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
@@ -50,8 +50,8 @@ class SetOfModules2TransitionSystemWithAnonimizationTest extends FlatSpec with L
     val net = PNML2PetriNet(new File("resources/test/FMS-10.pnml"))
     val modules = Modularizer(net)
     val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(List(modules.map(_.net.places.toList).toList), Set(), net)
-    val sigmaDDFactory = SigmaDDFactoryImpl(ts.adt.getSignature())
-    val initialState = sigmaDDFactory.create(ts.initialState)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
     logger.debug("Starting translation to SigmaDD")
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
     logger.debug("Finished translation to SigmaDD")

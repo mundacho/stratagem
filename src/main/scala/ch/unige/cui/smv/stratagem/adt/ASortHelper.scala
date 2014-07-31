@@ -84,9 +84,7 @@ object ASortHelper {
       val listOfFirstElements = listOfReverseLists.map(_.head)
       if (!listOfFirstElements.filter(listOfFirstElements.head != _).isEmpty) { // there is at least one element that is not equal to the first one
         None
-      } else {
-        Some(buildResult(listOfReverseLists.head, listOfReverseLists.tail.toList).reverse.head)
-      }
+      } else Some(buildResult(listOfReverseLists.head, listOfReverseLists.tail.toList).reverse.head)
     }
   }
 }

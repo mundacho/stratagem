@@ -75,9 +75,7 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
    * @return the SigmaDD representing the term.
    */
   def instantiate(term: ATerm, variables: Map[String, SigmaDDFactoryImpl#SigmaDDImpl]): SigmaDDFactoryImpl#SigmaDDImpl = {
-    if (term == null) {
-      println("foo");//
-    }
+    assert(term != null)
     if (term.isVariable) {
       variables(term.getSymbol())
     } else {
@@ -116,9 +114,14 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
       case _ => false
     }
 
-    def asElements = Element.elem(sort.getName()) beside Element.elem("--") beside iipf.asElements
+    def asElements = Element.elem(s"${System.identityHashCode(this)}-${sort.getName()}") beside Element.elem("--") beside iipf.asElements
 
-    override def toString = asElements.toString
+    override def toString = {
+      if(iipf.alpha.size > 0)
+      asElements.toString
+      else
+        s"Empty DD of sort ${sort}"
+    }
 
     def v(that: SigmaDDImpl): SigmaDDImpl = {
       if (that != that.bottomElement) {

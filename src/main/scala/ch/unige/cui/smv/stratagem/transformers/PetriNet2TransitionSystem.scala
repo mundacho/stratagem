@@ -17,7 +17,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.transformers
 
-
 import ch.unige.cui.smv.stratagem.adt.PredefADT.NAT_SORT_NAME
 import ch.unige.cui.smv.stratagem.adt.PredefADT.ZERO
 import ch.unige.cui.smv.stratagem.adt.PredefADT.define
@@ -28,43 +27,47 @@ import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT.ENDPLACE
 import ch.unige.cui.smv.stratagem.petrinets.PetriNetADT.PLACE_SORT_NAME
 import ch.unige.cui.smv.stratagem.petrinets.Place
 import ch.unige.cui.smv.stratagem.petrinets.Transition
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.Identity
-import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
-import ch.unige.cui.smv.stratagem.ts.One
-import ch.unige.cui.smv.stratagem.ts.Sequence
-import ch.unige.cui.smv.stratagem.ts.Strategy
-import ch.unige.cui.smv.stratagem.ts.TransitionSystem
-import ch.unige.cui.smv.stratagem.ts.VariableStrategy
 import ch.unige.smv.cui.metamodel.adt.ATerm
 import ch.unige.smv.cui.metamodel.adt.ADT
 import ch.unige.smv.cui.metamodel.adt.Signature
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.Sequence
-import ch.unige.cui.smv.stratagem.ts.Choice
 import ch.unige.smv.cui.metamodel.adt.AdtFactory
 import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
+import ch.unige.cui.smv.metamodel.ts.VariableStrategy
+import ch.unige.cui.smv.metamodel.ts.TransitionSystem
+import ch.unige.cui.smv.metamodel.ts.Strategy
+import ch.unige.cui.smv.metamodel.ts.TsFactory
+import ch.unige.cui.smv.stratagem.ts.RichTransitionSystem
+import ch.unige.cui.smv.metamodel.ts.NonVariableStrategy
 
 /**
  * Object that transforms a Petri net into a transition system.
  * @author mundacho
  *
  */
-object PetriNet2TransitionSystem  extends ((PetriNet) => TransitionSystem){
+object PetriNet2TransitionSystem extends ((PetriNet) => TransitionSystem) {
 
+  import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 
   /**
    * A variable strategy to be used later.
    */
-  val S = VariableStrategy("S")
+  def S = {
+    val res = TsFactory.eINSTANCE.createVariableStrategy()
+    res.setName("S")
+    res
+  }
 
   /**
    * A convenience method.
    */
-  def ApplyOnce(s: Strategy) = DeclaredStrategyInstance("applyOnce", s)
+  def ApplyOnce(s: => Strategy) = {
+    val strat = (TsFactory.eINSTANCE.createDeclaredStrategyInstance())
+    strat.setName("applyOnce")
+    strat.getActualParams().add(s)
+    strat
+  }
 
-  val basicSignature = PetriNetADT.basicPetriNetSignature
+  def basicSignature = PetriNetADT.basicPetriNetSignature
 
   def createSignature(places: List[Place], sign: Signature): Signature = places match {
     case Nil => sign
@@ -72,7 +75,13 @@ object PetriNet2TransitionSystem  extends ((PetriNet) => TransitionSystem){
   }
 
   def createTransitionSystem(transitions: List[Transition], adt: ADT, initialState: ATerm): TransitionSystem = transitions match {
-    case Nil => new TransitionSystem(adt, initialState).declareStrategy("applyOnce", S)(Choice(S, One(ApplyOnce(S), 2)))(false)
+    case Nil => {
+      val ts = TsFactory.eINSTANCE.createTransitionSystem()
+      ts.setAdt(adt)
+      ts.setInitialState(initialState)
+      ts.declareStrategy("applyOnce", S)(Choice(S, One(ApplyOnce(S), 2)))(false)
+      ts
+    }
     case transition :: tail =>
       val res = createTransitionSystem(tail, adt, initialState)
       createStrategyFor(transition, adt, res)
@@ -96,14 +105,14 @@ object PetriNet2TransitionSystem  extends ((PetriNet) => TransitionSystem){
   def createOutputArcEquations(arcs: List[Arc], ts: TransitionSystem): TransitionSystem = arcs match {
     case Nil => ts
     case arc :: tail => createOutputArcEquations(tail, ts).declareStrategy(arc.id,
-      ts.adt.term(arc.place.id, ts.adt.term("x"), ts.adt.term("p")) -> ts.adt.term(arc.place.id, define(arc.annotation, ts.adt.term("x"), ts.adt), ts.adt.term("p")))(false)
+      ts.getAdt().term(arc.place.id, ts.getAdt().term("x"), ts.getAdt().term("p")) -> ts.getAdt().term(arc.place.id, define(arc.annotation, ts.getAdt().term("x"), ts.getAdt()), ts.getAdt().term("p")))(false)
   }
 
   def createInputArcEquations(arcs: List[Arc], ts: TransitionSystem): TransitionSystem = arcs match {
     case Nil => ts
     case arc :: tail =>
       createInputArcEquations(tail, ts).declareStrategy(arc.id,
-        ts.adt.term(arc.place.id, define(arc.annotation, ts.adt.term("x"), ts.adt), ts.adt.term("p")) -> ts.adt.term(arc.place.id, ts.adt.term("x"), ts.adt.term("p")))(false)
+        ts.getAdt().term(arc.place.id, define(arc.annotation, ts.getAdt().term("x"), ts.getAdt()), ts.getAdt().term("p")) -> ts.getAdt().term(arc.place.id, ts.getAdt().term("x"), ts.getAdt().term("p")))(false)
   }
 
   /**
@@ -114,7 +123,7 @@ object PetriNet2TransitionSystem  extends ((PetriNet) => TransitionSystem){
    */
   def apply(net: PetriNet) = {
     val signature = createSignature(net.places.toList, basicSignature)
-    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName(net.name); a.setSignature(signature); a}
+    val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName(net.name); a.setSignature(signature); a }
       .declareVariable("p", PLACE_SORT_NAME)
       .declareVariable("x", NAT_SORT_NAME)
     // now we create the transition system

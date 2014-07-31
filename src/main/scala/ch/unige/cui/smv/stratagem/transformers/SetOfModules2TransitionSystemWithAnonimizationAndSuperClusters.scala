@@ -32,34 +32,17 @@ import ch.unige.cui.smv.stratagem.petrinets.Transition
 import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystem.CLUSTER_SORT_NAME
 import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystem.ENDCLUSTER
 import ch.unige.cui.smv.stratagem.transformers.beem.State
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.Fail
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
-import ch.unige.cui.smv.stratagem.ts.Identity
-import ch.unige.cui.smv.stratagem.ts.IfThenElse
-import ch.unige.cui.smv.stratagem.ts.NonVariableStrategy
-import ch.unige.cui.smv.stratagem.ts.One
-import ch.unige.cui.smv.stratagem.ts.Saturation
-import ch.unige.cui.smv.stratagem.ts.Sequence
-import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
-import ch.unige.cui.smv.stratagem.ts.Strategy
-import ch.unige.cui.smv.stratagem.ts.TransitionSystem
-import ch.unige.cui.smv.stratagem.ts.Try
-import ch.unige.cui.smv.stratagem.ts.Union
-import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
 import ch.unige.smv.cui.metamodel.adt.ATerm
 import ch.unige.smv.cui.metamodel.adt.Equation
 import ch.unige.smv.cui.metamodel.adt.ADT
-import ch.unige.cui.smv.stratagem.ts.Saturation
+import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 import ch.unige.smv.cui.metamodel.adt.Signature
 import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
 import ch.unige.smv.cui.metamodel.adt.AdtFactory
+import ch.unige.cui.smv.metamodel.ts.TsFactory
+import ch.unige.cui.smv.metamodel.ts.TransitionSystem
+import ch.unige.cui.smv.metamodel.ts.Strategy
+import ch.unige.cui.smv.metamodel.ts.NonVariableStrategy
 
 /**
  * This object creates represents a function that takes a set of super clusters, a petri net and some sets that are to be encoded recursively and
@@ -81,12 +64,19 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
   /**
    * A variable strategy to be used later.
    */
-  val S = VariableStrategy("S")
-
+  def S = {
+    val strat = TsFactory.eINSTANCE.createVariableStrategy()
+    strat.setName("S")
+    strat
+  }
   /**
    * A variable strategy to be used later.
    */
-  val Q = VariableStrategy("Q")
+  def Q = {
+    val strat = TsFactory.eINSTANCE.createVariableStrategy()
+    strat.setName("Q")
+    strat
+  }
 
   val SUPER_CLUSTER_SORT_NAME = "scluster"
   val END_SUPERCLUSTER = "endscluster"
@@ -135,8 +125,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       val (ts, strat2Name, superCluster2Strategies, place2Position) = cs
       val placeId = s"p${place2Position(arc.place)._3}"
       val res = SimpleStrategy(
-        (ts.adt.term(placeId, define(arc.annotation, ts.adt.term("x"), ts.adt), ts.adt.term("p")) ->
-          ts.adt.term(placeId, ts.adt.term("x"), ts.adt.term("p")) :: Nil))
+        (ts.getAdt().term(placeId, define(arc.annotation, ts.getAdt().term("x"), ts.getAdt()), ts.getAdt().term("p")) ->
+          ts.getAdt().term(placeId, ts.getAdt().term("x"), ts.getAdt().term("p")) :: Nil))
       (res, cs)
     })
 
@@ -145,8 +135,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       val (ts, strat2Name, superCluster2Strategies, place2Position) = cs
       val placeId = s"p${place2Position(arc.place)._3}"
       val res = SimpleStrategy(
-        (ts.adt.term(placeId, ts.adt.term("x"), ts.adt.term("p")) ->
-          ts.adt.term(placeId, define(arc.annotation, ts.adt.term("x"), ts.adt), ts.adt.term("p")) :: Nil))
+        (ts.getAdt().term(placeId, ts.getAdt().term("x"), ts.getAdt().term("p")) ->
+          ts.getAdt().term(placeId, define(arc.annotation, ts.getAdt().term("x"), ts.getAdt()), ts.getAdt().term("p")) :: Nil))
       (res, cs)
     })
 
@@ -200,15 +190,15 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
   private def inputArcStrategyBody(ts: TransitionSystem, placeToModuleAndPosition: Map[Place, (Int, Int, Int)])(arc: Arc): NonVariableStrategy = {
     val placeId = s"p${placeToModuleAndPosition(arc.place)._3}"
     SimpleStrategy(
-      (ts.adt.term(placeId, define(arc.annotation, ts.adt.term("x"), ts.adt), ts.adt.term("p")) ->
-        ts.adt.term(placeId, ts.adt.term("x"), ts.adt.term("p")) :: Nil))
+      (ts.getAdt().term(placeId, define(arc.annotation, ts.getAdt().term("x"), ts.getAdt()), ts.getAdt().term("p")) ->
+        ts.getAdt().term(placeId, ts.getAdt().term("x"), ts.getAdt().term("p")) :: Nil))
   }
 
   private def outputArcStrategyBody(ts: TransitionSystem, placeToModuleAndPosition: Map[Place, (Int, Int, Int)])(arc: Arc): NonVariableStrategy = {
     val placeId = s"p${placeToModuleAndPosition(arc.place)._3}"
     SimpleStrategy(
-      (ts.adt.term(placeId, ts.adt.term("x"), ts.adt.term("p")) ->
-        ts.adt.term(placeId, define(arc.annotation, ts.adt.term("x"), ts.adt), ts.adt.term("p")) :: Nil))
+      (ts.getAdt().term(placeId, ts.getAdt().term("x"), ts.getAdt().term("p")) ->
+        ts.getAdt().term(placeId, define(arc.annotation, ts.getAdt().term("x"), ts.getAdt()), ts.getAdt().term("p")) :: Nil))
   }
 
   def arc2Strategies(inputArcs: Set[Arc], outputArcs: Set[Arc], ts: TransitionSystem, place2Position: Map[Place, (Int, Int, Int)]) = {
@@ -373,13 +363,16 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val maxPlaces = (for (cluster <- modules; places <- cluster) yield places.size).max
     // here we also create a function
     val createSignWithPlaces = ((for (i <- 0 to (maxPlaces - 1)) yield (s: Signature) => s.withGenerator(s"p$i", PLACE_SORT_NAME, NAT_SORT_NAME, PLACE_SORT_NAME)).reduceRight(_ compose _))
-    implicit val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName(net.name); a.setSignature(createSignWithClusters(createSignWithPlaces(signWithSuperClusters))); a}
+    implicit val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName(net.name); a.setSignature(createSignWithClusters(createSignWithPlaces(signWithSuperClusters))); a }
       .declareVariable("p", PLACE_SORT_NAME)
       .declareVariable("x", NAT_SORT_NAME)
       .declareVariable("c", CLUSTER_SORT_NAME)
       .declareVariable("sc", SUPER_CLUSTER_SORT_NAME)
 
-    val initialTransitionSystem = new TransitionSystem(adt, createInitialState(modules, recursiveSet)(adt.term(END_SUPERCLUSTER)))
+    val initialTransitionSystem = TsFactory.eINSTANCE.createTransitionSystem() // new TransitionSystem(adt, createInitialState(modules, recursiveSet)(adt.term(END_SUPERCLUSTER)))
+    initialTransitionSystem.setAdt(adt)
+    initialTransitionSystem.setInitialState(createInitialState(modules, recursiveSet)(adt.term(END_SUPERCLUSTER)))
+    initialTransitionSystem
       .declareStrategy("applyOnce", S)(Choice(S, One(ApplyOnce(S), 2)))(false)
       .declareStrategy("applyOnceAndThen", S, Q)(IfThenElse(S, One(Q, 2), One(ApplyOnceAndThen(S, Q), 2)))(false)
 
@@ -520,8 +513,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val applyForSClusterName = "applyForPlace"
     val elementPrefix = "p"
     // We use def instead of val because our variables are based on EMF, i.e. they are mutable and we cannot use them in different terms
-    def elementVariable = ts.adt.term("p")
-    def containedElementVariable = ts.adt.term("x")
+    def elementVariable = ts.getAdt().term("p")
+    def containedElementVariable = ts.getAdt().term("x")
     // this function adds the checks
     ((), modifyTSForApplyFor(maxPlace, checkForSClusterName, checkBiggerThanSClusterName, applyForSClusterName, elementPrefix, elementVariable, containedElementVariable)(ts))
   })
@@ -532,8 +525,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val applyForSClusterName = "applyForSCluster"
     val elementPrefix = "sc"
     // We use def instead of val because our variables are based on EMF, i.e. they are mutable and we cannot use them in different terms
-    def elementVariable = ts.adt.term("sc")
-    def containedElementVariable = ts.adt.term("c")
+    def elementVariable = ts.getAdt().term("sc")
+    def containedElementVariable = ts.getAdt().term("c")
     // this function adds the checks
     ((), modifyTSForApplyFor(maxSCluster, checkForSClusterName, checkBiggerThanSClusterName, applyForSClusterName, elementPrefix, elementVariable, containedElementVariable)(ts))
   })
@@ -544,8 +537,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val applyForName = "applyForCluster"
     val elementPrefix = "c"
     // We use def instead of val because our variables are based on EMF, i.e. they are mutable and we cannot use them in different terms
-    def elementVariable = ts.adt.term("c")
-    def containedElementVariable = ts.adt.term("p")
+    def elementVariable = ts.getAdt().term("c")
+    def containedElementVariable = ts.getAdt().term("p")
     // this function adds the checks
     ((), modifyTSForApplyFor(maxCluster, checkForName, checkBiggerThanName, applyForName, elementPrefix, elementVariable, containedElementVariable)(ts))
   })
@@ -556,8 +549,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val applyForSClusterName = "superClusterFixPointAndThen"
     val elementPrefix = "sc"
     // We use def instead of val because our variables are based on EMF, i.e. they are mutable and we cannot use them in different terms
-    def elementVariable = ts.adt.term("sc")
-    def containedElementVariable = ts.adt.term("c")
+    def elementVariable = ts.getAdt().term("sc")
+    def containedElementVariable = ts.getAdt().term("c")
     // this function adds the checks
     ((), modifyTSForApplyFor(maxSCluster, checkForSClusterName, checkBiggerThanSClusterName, applyForSClusterName, elementPrefix, elementVariable, containedElementVariable, true)(ts))
   })
@@ -568,8 +561,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val applyForName = "clusterFixPointAndThen"
     val elementPrefix = "c"
     // We use def instead of val because our variables are based on EMF, i.e. they are mutable and we cannot use them in different terms
-    def elementVariable = ts.adt.term("c")
-    def containedElementVariable = ts.adt.term("p")
+    def elementVariable = ts.getAdt().term("c")
+    def containedElementVariable = ts.getAdt().term("p")
     // this function adds the checks
     ((), modifyTSForApplyFor(maxCluster, checkForName, checkBiggerThanName, applyForName, elementPrefix, elementVariable, containedElementVariable, true)(ts))
   })
@@ -580,7 +573,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       (if (fixpoint) {
         ts
       } else { // we declare it only when we are not declare the fixpoint strategies, because the are supposed to be defined before
-        ts.declareStrategy(checkForName + i, ts.adt.term(s"$eltPrefix$i", containedVariable, eltVariable) -> ts.adt.term(s"$eltPrefix$i", containedVariable, eltVariable))(false)
+        ts.declareStrategy(checkForName + i, ts.getAdt().term(s"$eltPrefix$i", containedVariable, eltVariable) -> ts.getAdt().term(s"$eltPrefix$i", containedVariable, eltVariable))(false)
           // We declare the strategy to check if we are bigger that some cluster
           .declareStrategy(checkBiggerThanName + i) {
             if (i == (maxElt - 1)) Fail else

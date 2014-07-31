@@ -19,24 +19,26 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
 import com.typesafe.scalalogging.slf4j.Logging
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.DeclaredStrategyInstance
-import ch.unige.cui.smv.stratagem.ts.Fail
-import ch.unige.cui.smv.stratagem.ts.FixPointStrategy
-import ch.unige.cui.smv.stratagem.ts.Identity
-import ch.unige.cui.smv.stratagem.ts.IfThenElse
-import ch.unige.cui.smv.stratagem.ts.One
-import ch.unige.cui.smv.stratagem.ts.Sequence
-import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
-import ch.unige.cui.smv.stratagem.ts.Strategy
-import ch.unige.cui.smv.stratagem.ts.TransitionSystem
-import ch.unige.cui.smv.stratagem.ts.Try
-import ch.unige.cui.smv.stratagem.ts.Union
-import ch.unige.cui.smv.stratagem.ts.VariableStrategy
-import ch.unige.cui.smv.stratagem.ts.Choice
-import ch.unige.cui.smv.stratagem.ts.Not
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
-import ch.unige.cui.smv.stratagem.ts.Saturation
+import ch.unige.cui.smv.metamodel.ts.VariableStrategy
+import ch.unige.cui.smv.metamodel.ts.Fail
+import ch.unige.cui.smv.metamodel.ts.FixPointStrategy
+import ch.unige.cui.smv.metamodel.ts.IfThenElse
+import ch.unige.cui.smv.metamodel.ts.Choice
+import ch.unige.cui.smv.metamodel.ts.Sequence
+import ch.unige.cui.smv.metamodel.ts.Union
+import ch.unige.cui.smv.metamodel.ts.TransitionSystem
+import ch.unige.cui.smv.metamodel.ts.Strategy
+import ch.unige.cui.smv.metamodel.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.metamodel.ts.Not
+import ch.unige.cui.smv.metamodel.ts.Saturation
+import ch.unige.cui.smv.metamodel.ts.SimpleStrategy
+import ch.unige.cui.smv.metamodel.ts.util.TsSwitch
+import ch.unige.cui.smv.stratagem.util.StrategyDSL
+import ch.unige.cui.smv.metamodel.ts.One
+import ch.unige.cui.smv.metamodel.ts.Identity
+import scala.collection.JavaConversions._
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 /**
  * Implements a rewriter for a declared strategy.
@@ -58,49 +60,69 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
   /**
    * A map containing the values of the parameters.
    */
-  lazy val formalToActualParameterMap = Map((ts.strategyDeclarations(declaredStrategy.name).declaredStrategy.formalParameters zip declaredStrategy.actualParams).toArray: _*)
+  lazy val formalToActualParameterMap = {
+    val initialList = ts.getDeclaredStrategyByName(declaredStrategy.getName()).getFormalParams().map(_.getName()) zip declaredStrategy.getActualParams()
+    Map(initialList.toArray: _*)
+  }
 
   /**
    * The actual rewriter that this strategy uses.
    */
-  lazy val rewriter = sigmaDDFactory.rewriterFactory.strategyToRewriter(instanciate(ts.strategyDeclarations(declaredStrategy.name).declaredStrategy.body))(ts)
+  lazy val rewriter = sigmaDDFactory.rewriterFactory.strategyToRewriter(
+      instanciate(
+        ts.getDeclaredStrategyByName(declaredStrategy.getName()).getBody()))(ts)
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
-    //    logger.trace(s"Entering strategy ${declaredStrategy.name}")
-    //            if(declaredStrategy.name == "swap"){
-    //      logger.trace(s"${sigmaDD.iipf.alpha.keySet.head}")
-    //    }
+    logger.trace(s"Entering strategy ${declaredStrategy.toString}")
+                    if(declaredStrategy.getName() == "insert_i"){
+    logger.trace(s"${sigmaDD}")
+            }
     rewriter(sigmaDD) match {
       case Some(r) =>
-        //        logger.trace(s"Strategy ${declaredStrategy.name} succeeded")
+        logger.trace(s"Strategy ${declaredStrategy.getName()} succeeded")
         Some(r)
       case None =>
-        //        logger.trace(s"Strategy ${declaredStrategy.name} failed")
+        logger.trace(s"Strategy ${declaredStrategy.getName()} failed")
         None
     }
   }
+
   /**
    * We instanciate the variables of a strategy with variables.
    * @oaram strategy the strategy that we are intanciating.
    * @return strategy with a concrete strategy in each parameter.
    */
-  private def instanciate(strategy: Strategy): Strategy = strategy match {
-    case Saturation(s, n) => Saturation(instanciate(s), n)
-    case Choice(s1, s2) => Choice(instanciate(s1), instanciate(s2))
-    case Try(s) => instanciate(Choice(s, Identity))
-    case Fail => Fail
-    case Identity => Identity
-    case One(s, n) => One(instanciate(s), n)
-    case Not(s @ SimpleStrategy(List(_, _*))) => Not(s)
-    case Not(s @ DeclaredStrategyInstance(_)) => Not(s)
-    case Not(v: VariableStrategy) => Not(formalToActualParameterMap(v))
-    case FixPointStrategy(s) => FixPointStrategy(instanciate(s))
-    case Sequence(s1, s2) => Sequence(instanciate(s1), instanciate(s2))
-    case Union(s1, s2) => Union(instanciate(s1), instanciate(s2))
-    case IfThenElse(s1, s2, s3) => IfThenElse(instanciate(s1), instanciate(s2), instanciate(s3))
-    case v: VariableStrategy => formalToActualParameterMap(v)
-    case s @ SimpleStrategy(List(_, _*)) => s
-    case strategyInstance @ DeclaredStrategyInstance(name, actualParams @ _*) => DeclaredStrategyInstance(name, actualParams.map(instanciate(_)).toArray: _*)
-  }
+  private def instanciate(strategy: Strategy): Strategy = (new TsSwitch[Strategy] {
+
+    override def caseSaturation(strat: Saturation) = StrategyDSL.Saturation(doSwitch(strat.getS()), strat.getN())
+
+    override def caseChoice(strat: Choice) = StrategyDSL.Choice(doSwitch(strat.getS1()), doSwitch(strat.getS2()))
+
+    override def caseFail(strat: Fail) = StrategyDSL.Fail
+
+    override def caseIdentity(strat: Identity) = StrategyDSL.Identity
+
+    override def caseOne(strat: One) = StrategyDSL.One(doSwitch(strat.getS()), strat.getN())
+
+    override def caseNot(strat: Not) = (new TsSwitch[Strategy] {
+      override def caseSimpleStrategy(s: SimpleStrategy) = StrategyDSL.Not(s)
+      override def caseDeclaredStrategyInstance(s: DeclaredStrategyInstance) = StrategyDSL.Not(s)
+      override def caseVariableStrategy(v: VariableStrategy) = StrategyDSL.Not(EcoreUtil.copy(formalToActualParameterMap(v.getName())))
+    }).doSwitch(strat.getS())
+
+    override def caseFixPointStrategy(strat: FixPointStrategy) = StrategyDSL.FixPointStrategy(doSwitch(strat.getS()))
+
+    override def caseSequence(strat: Sequence) = StrategyDSL.Sequence(doSwitch(strat.getS1()), doSwitch(strat.getS2()))
+
+    override def caseUnion(strat: Union) = StrategyDSL.Union(doSwitch(strat.getS1()), doSwitch(strat.getS2()))
+
+    override def caseIfThenElse(strat: IfThenElse) = StrategyDSL.IfThenElse(doSwitch(strat.getS1()), doSwitch(strat.getS2()), doSwitch(strat.getS3()))
+
+    override def caseVariableStrategy(v: VariableStrategy) = EcoreUtil.copy(formalToActualParameterMap(v.getName()))
+
+    override def caseSimpleStrategy(strat: SimpleStrategy) = strat
+
+    override def caseDeclaredStrategyInstance(strat: DeclaredStrategyInstance) = StrategyDSL.DeclaredStrategyInstance(strat.getName(), strat.getActualParams().map(instanciate(_)).toArray: _*)
+  }).doSwitch(EcoreUtil.copy(strategy)) // we use EcoreUtil.copy because otherwise we would create side effects.
 
 }

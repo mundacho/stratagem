@@ -19,12 +19,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.sigmadd.rewriters
 
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
+import scala.collection.JavaConversions._
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDInductiveIPFFactoryImpl
-import ch.unige.cui.smv.stratagem.ts.SimpleStrategy
 import ch.unige.smv.cui.metamodel.adt.ATerm
 import ch.unige.smv.cui.metamodel.adt.Equation
 import ch.unige.cui.smv.stratagem.util.StringSetWrapperFactory
 import ch.unige.cui.smv.stratagem.adt.ATermHelper
+import ch.unige.cui.smv.metamodel.ts.SimpleStrategy
 
 /**
  * This class implements a SigmaDDRewriter for simple strategies.
@@ -97,7 +98,7 @@ private[sigmadd] case class SimpleSigmaDDRewriter(simpleStrategy: SimpleStrategy
   }
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
-    val firstListOfSubstitutions = simpleStrategy.equations.collectFirst((x: Equation) => matchSigmaDD(x.getLeftHandTerm())(sigmaDD)(Map.empty, Nil) match { case Some(result) => (result, x) })
+    val firstListOfSubstitutions = simpleStrategy.getEquations().collectFirst((x: Equation) => matchSigmaDD(x.getLeftHandTerm())(sigmaDD)(Map.empty, Nil) match { case Some(result) => (result, x) })
     firstListOfSubstitutions match {
       case None =>
         if (isNotStrategy) Some(sigmaDD) else None // no possible substitutions, we return None to indicate failure or the SigmaDD if it is a Not strategy
