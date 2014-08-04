@@ -47,6 +47,7 @@ import org.eclipse.emf.common.util.URI
 import ch.unige.smv.cui.metamodel.adt.AdtPackage
 import ch.unige.cui.smv.metamodel.ts.TransitionSystem
 import ch.unige.cui.smv.metamodel.ts.TsPackage
+import scala.collection.JavaConversions._
 
 /**
  * The main class of stratagem. It is used to launch the model checker.
@@ -56,7 +57,7 @@ import ch.unige.cui.smv.metamodel.ts.TsPackage
 object Main extends Logging {
 
   val programName = "stratagem"
-  val sversion = "0.3"
+  val sversion = "0.4"
   val quietMode = "activate quiet mode. Only errors are printed."
   val fileComment = "the model in pnml format (using extension PNML) or native representation (extension ts)"
   val debugMode = "activate debug mode. Lots of output."
@@ -80,7 +81,7 @@ object Main extends Logging {
         OCLinEcoreStandaloneSetup.doSetup()
         OCLstdlibStandaloneSetup.doSetup()
         logger.trace("Finished OCL registration")
-        
+
         // register ADT
         AdtPackage.eINSTANCE.eClass()
         TsPackage.eINSTANCE.eClass()
@@ -92,17 +93,22 @@ object Main extends Logging {
         val resource = resourceSet.getResource(URI.createURI(uri), true);
         logger.trace(s"Starting to load model from url: $uri")
         val ts = resource.getContents().get(0).asInstanceOf[TransitionSystem];
-        logger.trace(s"Finished loading")
-        val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
-        val initialState = sigmaDDFactory.create(ts.getInitialState())
-        logger.debug(s"Successfully created initial state")
-        val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-        logger.debug(s"Successfully created state space rewriter")
-        logger.debug("Starting calculation of state space")
-        val stateSpace = stats(timeAndSpace(rewriter(initialState).get))
-        val stateSpaceSize = stateSpace.size
-        logger.debug("State space size:")
-        logger.info(s"$stateSpaceSize")
+        if (resource.getErrors().isEmpty()) {
+          logger.trace(s"Finished loading")
+          val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
+          val initialState = sigmaDDFactory.create(ts.getInitialState())
+          logger.debug(s"Successfully created initial state")
+          val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+          logger.debug(s"Successfully created state space rewriter")
+          logger.debug("Starting calculation of state space")
+          val stateSpace = stats(timeAndSpace(rewriter(initialState).get))
+          val stateSpaceSize = stateSpace.size
+          logger.debug("State space size:")
+          logger.info(s"$stateSpaceSize")
+        } else {
+          for (error <- resource.getErrors()) logger.error(s"${error.getLocation()}: ${error.getMessage()}")
+        }
+
       } else { // pnml file
         val model2ts: Model2TransitionSystem = createModelToTransitionSystemTransformation(config.transformation, config.clustering, config.names)
         logger.debug("Successfully processed input file")
