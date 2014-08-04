@@ -133,11 +133,11 @@
       <details key="constraints" value="CorrectNumberOfParameters CorrectTypeOfParameters RightAdtSubterms"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="CorrectNumberOfParameters" value="subterms->size() = operationSymbol.formalParameters->size()"/>
+      <details key="CorrectNumberOfParameters" value="(operationSymbol &lt;> null) implies  subterms->size() = operationSymbol.formalParameters->size()"/>
       <details key="CorrectNumberOfParameters$message" value="'Invalid number of parameters for term: ' + self.toString() + '. Required ' + operationSymbol.formalParameters->size()->toString() + ', found ' + subterms->size()->toString()"/>
-      <details key="CorrectTypeOfParameters" value="subterms&#xA;&#x9;&#x9;&#x9;->forAll(p | p.sort.isSubSortOf(operationSymbol.formalParameters&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->at(subterms&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;->indexOf(p))))"/>
+      <details key="CorrectTypeOfParameters" value="subterms&#xA;&#x9;&#x9;&#x9;->forAll(p | ((p.sort &lt;> null) and (operationSymbol &lt;> null)) implies p.sort.isSubSortOf(operationSymbol.formalParameters&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->at(subterms&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;->indexOf(p))))"/>
       <details key="CorrectTypeOfParameters$message" value="'Invalid type of parameters for term: ' + self.toString()"/>
-      <details key="RightAdtSubterms" value="subterms->forAll(t | t.adt = self.adt)"/>
+      <details key="RightAdtSubterms" value="(subterms &lt;> null) implies subterms->forAll(t | t.adt = self.adt)"/>
       <details key="RightAdtSubterms$message" value="'Some subterms do not have the same adt as the parent term: ' + self.toString()"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operationSymbol" lowerBound="1"

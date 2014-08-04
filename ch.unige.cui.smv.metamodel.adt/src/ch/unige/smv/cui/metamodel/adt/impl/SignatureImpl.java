@@ -33,20 +33,14 @@ import ch.unige.smv.cui.metamodel.adt.util.AdtValidator;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link ch.unige.smv.cui.metamodel.adt.impl.SignatureImpl#getOps <em>Ops
- * </em>}</li>
- * <li>
- * {@link ch.unige.smv.cui.metamodel.adt.impl.SignatureImpl#getAllOperations
- * <em>All Operations</em>}</li>
- * <li>{@link ch.unige.smv.cui.metamodel.adt.impl.SignatureImpl#getSorts <em>
- * Sorts</em>}</li>
- * <li>{@link ch.unige.smv.cui.metamodel.adt.impl.SignatureImpl#getOperations
- * <em>Operations</em>}</li>
- * <li>{@link ch.unige.smv.cui.metamodel.adt.impl.SignatureImpl#getGenerators
- * <em>Generators</em>}</li>
+ *   <li>{@link ch.unige.smv.cui.metamodel.adt.impl.SignatureImpl#getOps <em>Ops</em>}</li>
+ *   <li>{@link ch.unige.smv.cui.metamodel.adt.impl.SignatureImpl#getAllOperations <em>All Operations</em>}</li>
+ *   <li>{@link ch.unige.smv.cui.metamodel.adt.impl.SignatureImpl#getSorts <em>Sorts</em>}</li>
+ *   <li>{@link ch.unige.smv.cui.metamodel.adt.impl.SignatureImpl#getOperations <em>Operations</em>}</li>
+ *   <li>{@link ch.unige.smv.cui.metamodel.adt.impl.SignatureImpl#getGenerators <em>Generators</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class SignatureImpl extends MinimalEObjectImpl.Container implements
@@ -54,7 +48,6 @@ public class SignatureImpl extends MinimalEObjectImpl.Container implements
 	/**
 	 * The cached value of the '{@link #getOps() <em>Ops</em>}' attribute list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getOps()
 	 * @generated
 	 * @ordered
@@ -62,9 +55,8 @@ public class SignatureImpl extends MinimalEObjectImpl.Container implements
 	protected FeatureMap ops;
 
 	/**
-	 * The cached value of the '{@link #getSorts() <em>Sorts</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSorts() <em>Sorts</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSorts()
 	 * @generated
 	 * @ordered
@@ -73,7 +65,6 @@ public class SignatureImpl extends MinimalEObjectImpl.Container implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected SignatureImpl() {
@@ -82,7 +73,6 @@ public class SignatureImpl extends MinimalEObjectImpl.Container implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -92,13 +82,11 @@ public class SignatureImpl extends MinimalEObjectImpl.Container implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<ASort> getSorts() {
 		if (sorts == null) {
-			sorts = new EObjectContainmentEList<ASort>(ASort.class, this,
-					AdtPackage.SIGNATURE__SORTS);
+			sorts = new EObjectContainmentEList<ASort>(ASort.class, this, AdtPackage.SIGNATURE__SORTS);
 		}
 		return sorts;
 	}
@@ -120,7 +108,6 @@ public class SignatureImpl extends MinimalEObjectImpl.Container implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<Operation> getOperations() {
@@ -129,7 +116,6 @@ public class SignatureImpl extends MinimalEObjectImpl.Container implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<Operation> getGenerators() {
@@ -138,7 +124,6 @@ public class SignatureImpl extends MinimalEObjectImpl.Container implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public FeatureMap getOps() {
@@ -150,121 +135,113 @@ public class SignatureImpl extends MinimalEObjectImpl.Container implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case AdtPackage.SIGNATURE__OPS:
-			return ((InternalEList<?>) getOps()).basicRemove(otherEnd, msgs);
-		case AdtPackage.SIGNATURE__SORTS:
-			return ((InternalEList<?>) getSorts()).basicRemove(otherEnd, msgs);
-		case AdtPackage.SIGNATURE__OPERATIONS:
-			return ((InternalEList<?>) getOperations()).basicRemove(otherEnd,
-					msgs);
-		case AdtPackage.SIGNATURE__GENERATORS:
-			return ((InternalEList<?>) getGenerators()).basicRemove(otherEnd,
-					msgs);
+			case AdtPackage.SIGNATURE__OPS:
+				return ((InternalEList<?>)getOps()).basicRemove(otherEnd, msgs);
+			case AdtPackage.SIGNATURE__SORTS:
+				return ((InternalEList<?>)getSorts()).basicRemove(otherEnd, msgs);
+			case AdtPackage.SIGNATURE__OPERATIONS:
+				return ((InternalEList<?>)getOperations()).basicRemove(otherEnd, msgs);
+			case AdtPackage.SIGNATURE__GENERATORS:
+				return ((InternalEList<?>)getGenerators()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case AdtPackage.SIGNATURE__OPS:
-			if (coreType)
-				return getOps();
-			return ((FeatureMap.Internal) getOps()).getWrapper();
-		case AdtPackage.SIGNATURE__ALL_OPERATIONS:
-			return getAllOperations();
-		case AdtPackage.SIGNATURE__SORTS:
-			return getSorts();
-		case AdtPackage.SIGNATURE__OPERATIONS:
-			return getOperations();
-		case AdtPackage.SIGNATURE__GENERATORS:
-			return getGenerators();
+			case AdtPackage.SIGNATURE__OPS:
+				if (coreType) return getOps();
+				return ((FeatureMap.Internal)getOps()).getWrapper();
+			case AdtPackage.SIGNATURE__ALL_OPERATIONS:
+				return getAllOperations();
+			case AdtPackage.SIGNATURE__SORTS:
+				return getSorts();
+			case AdtPackage.SIGNATURE__OPERATIONS:
+				return getOperations();
+			case AdtPackage.SIGNATURE__GENERATORS:
+				return getGenerators();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case AdtPackage.SIGNATURE__OPS:
-			((FeatureMap.Internal) getOps()).set(newValue);
-			return;
-		case AdtPackage.SIGNATURE__SORTS:
-			getSorts().clear();
-			getSorts().addAll((Collection<? extends ASort>) newValue);
-			return;
-		case AdtPackage.SIGNATURE__OPERATIONS:
-			getOperations().clear();
-			getOperations().addAll((Collection<? extends Operation>) newValue);
-			return;
-		case AdtPackage.SIGNATURE__GENERATORS:
-			getGenerators().clear();
-			getGenerators().addAll((Collection<? extends Operation>) newValue);
-			return;
+			case AdtPackage.SIGNATURE__OPS:
+				((FeatureMap.Internal)getOps()).set(newValue);
+				return;
+			case AdtPackage.SIGNATURE__SORTS:
+				getSorts().clear();
+				getSorts().addAll((Collection<? extends ASort>)newValue);
+				return;
+			case AdtPackage.SIGNATURE__OPERATIONS:
+				getOperations().clear();
+				getOperations().addAll((Collection<? extends Operation>)newValue);
+				return;
+			case AdtPackage.SIGNATURE__GENERATORS:
+				getGenerators().clear();
+				getGenerators().addAll((Collection<? extends Operation>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case AdtPackage.SIGNATURE__OPS:
-			getOps().clear();
-			return;
-		case AdtPackage.SIGNATURE__SORTS:
-			getSorts().clear();
-			return;
-		case AdtPackage.SIGNATURE__OPERATIONS:
-			getOperations().clear();
-			return;
-		case AdtPackage.SIGNATURE__GENERATORS:
-			getGenerators().clear();
-			return;
+			case AdtPackage.SIGNATURE__OPS:
+				getOps().clear();
+				return;
+			case AdtPackage.SIGNATURE__SORTS:
+				getSorts().clear();
+				return;
+			case AdtPackage.SIGNATURE__OPERATIONS:
+				getOperations().clear();
+				return;
+			case AdtPackage.SIGNATURE__GENERATORS:
+				getGenerators().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case AdtPackage.SIGNATURE__OPS:
-			return ops != null && !ops.isEmpty();
-		case AdtPackage.SIGNATURE__ALL_OPERATIONS:
-			return !getAllOperations().isEmpty();
-		case AdtPackage.SIGNATURE__SORTS:
-			return sorts != null && !sorts.isEmpty();
-		case AdtPackage.SIGNATURE__OPERATIONS:
-			return !getOperations().isEmpty();
-		case AdtPackage.SIGNATURE__GENERATORS:
-			return !getGenerators().isEmpty();
+			case AdtPackage.SIGNATURE__OPS:
+				return ops != null && !ops.isEmpty();
+			case AdtPackage.SIGNATURE__ALL_OPERATIONS:
+				return !getAllOperations().isEmpty();
+			case AdtPackage.SIGNATURE__SORTS:
+				return sorts != null && !sorts.isEmpty();
+			case AdtPackage.SIGNATURE__OPERATIONS:
+				return !getOperations().isEmpty();
+			case AdtPackage.SIGNATURE__GENERATORS:
+				return !getGenerators().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -501,7 +501,7 @@ public class AdtValidator extends EObjectValidator {
 	 * 
 	 * @generated
 	 */
-	protected static final String TERM__CORRECT_NUMBER_OF_PARAMETERS__EEXPRESSION = "subterms->size() = operationSymbol.formalParameters->size()";
+	protected static final String TERM__CORRECT_NUMBER_OF_PARAMETERS__EEXPRESSION = "(operationSymbol <> null) implies  subterms->size() = operationSymbol.formalParameters->size()";
 
 	/**
 	 * Validates the CorrectNumberOfParameters constraint of '<em>Term</em>'.
@@ -532,7 +532,7 @@ public class AdtValidator extends EObjectValidator {
 	 * @generated
 	 */
 	protected static final String TERM__CORRECT_TYPE_OF_PARAMETERS__EEXPRESSION = "subterms\n" +
-		"\t\t\t->forAll(p | p.sort.isSubSortOf(operationSymbol.formalParameters\n" +
+		"\t\t\t->forAll(p | ((p.sort <> null) and (operationSymbol <> null)) implies p.sort.isSubSortOf(operationSymbol.formalParameters\n" +
 		"\t\t\t\t\t->at(subterms\n" +
 		"\t\t\t\t\t\t->indexOf(p))))";
 
@@ -564,7 +564,7 @@ public class AdtValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String TERM__RIGHT_ADT_SUBTERMS__EEXPRESSION = "subterms->forAll(t | t.adt = self.adt)";
+	protected static final String TERM__RIGHT_ADT_SUBTERMS__EEXPRESSION = "(subterms <> null) implies subterms->forAll(t | t.adt = self.adt)";
 
 	/**
 	 * Validates the RightAdtSubterms constraint of '<em>Term</em>'.
