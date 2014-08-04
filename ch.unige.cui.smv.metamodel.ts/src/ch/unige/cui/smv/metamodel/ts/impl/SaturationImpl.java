@@ -233,10 +233,9 @@ public class SaturationImpl extends NonVariableStrategyImpl implements Saturatio
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer("Saturation(");
-		result.append(getS());
-		result.append(", ");
-		result.append(getN());
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (n: ");
+		result.append(n);
 		result.append(')');
 		return result.toString();
 	}

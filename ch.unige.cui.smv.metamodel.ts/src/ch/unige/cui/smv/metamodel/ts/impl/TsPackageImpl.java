@@ -22,6 +22,7 @@ import ch.unige.cui.smv.metamodel.ts.TsPackage;
 import ch.unige.cui.smv.metamodel.ts.Union;
 import ch.unige.cui.smv.metamodel.ts.VariableStrategy;
 
+import ch.unige.cui.smv.metamodel.ts.util.TsValidator;
 import ch.unige.smv.cui.metamodel.adt.AdtPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -29,6 +30,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -211,6 +213,15 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 
 		// Initialize created meta-data
 		theTsPackage.initializePackageContents();
+
+		// Register package validator
+		EValidator.Registry.INSTANCE.put
+			(theTsPackage, 
+			 new EValidator.Descriptor() {
+				 public EValidator getEValidator() {
+					 return TsValidator.INSTANCE;
+				 }
+			 });
 
 		// Mark meta-data to indicate it can't be changed
 		theTsPackage.freeze();
@@ -415,8 +426,17 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDeclaredStrategyInstance_ActualParams() {
+	public EReference getDeclaredStrategyInstance_Declaration() {
 		return (EReference)declaredStrategyInstanceEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDeclaredStrategyInstance_ActualParams() {
+		return (EReference)declaredStrategyInstanceEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -674,6 +694,7 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 
 		declaredStrategyInstanceEClass = createEClass(DECLARED_STRATEGY_INSTANCE);
 		createEAttribute(declaredStrategyInstanceEClass, DECLARED_STRATEGY_INSTANCE__NAME);
+		createEReference(declaredStrategyInstanceEClass, DECLARED_STRATEGY_INSTANCE__DECLARATION);
 		createEReference(declaredStrategyInstanceEClass, DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS);
 
 		fixPointStrategyEClass = createEClass(FIX_POINT_STRATEGY);
@@ -782,7 +803,8 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 		initEReference(getChoice_S2(), this.getStrategy(), null, "S2", null, 1, 1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(declaredStrategyInstanceEClass, DeclaredStrategyInstance.class, "DeclaredStrategyInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDeclaredStrategyInstance_Name(), ecorePackage.getEString(), "name", null, 1, 1, DeclaredStrategyInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDeclaredStrategyInstance_Name(), ecorePackage.getEString(), "name", null, 0, 1, DeclaredStrategyInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDeclaredStrategyInstance_Declaration(), this.getDeclaredStrategy(), null, "declaration", null, 1, 1, DeclaredStrategyInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDeclaredStrategyInstance_ActualParams(), this.getStrategy(), null, "actualParams", null, 0, -1, DeclaredStrategyInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(fixPointStrategyEClass, FixPointStrategy.class, "FixPointStrategy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -819,8 +841,55 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 		createResource(eNS_URI);
 
 		// Create annotations
+		// http://www.eclipse.org/OCL/Import
+		createImportAnnotations();
+		// http://www.eclipse.org/emf/2002/Ecore
+		createEcoreAnnotations();
 		// http:///org/eclipse/emf/ecore/util/ExtendedMetaData
 		createExtendedMetaDataAnnotations();
+		// http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot
+		createPivotAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://www.eclipse.org/OCL/Import</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createImportAnnotations() {
+		String source = "http://www.eclipse.org/OCL/Import";	
+		addAnnotation
+		  (this, 
+		   source, 
+		   new String[] {
+			 "adt_0", "/resource/ch.unige.cui.smv.metamodel.adt/model/adt.ecore#/",
+			 "ecore", "http://www.eclipse.org/emf/2002/Ecore#/"
+		   });
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createEcoreAnnotations() {
+		String source = "http://www.eclipse.org/emf/2002/Ecore";	
+		addAnnotation
+		  (this, 
+		   source, 
+		   new String[] {
+			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
+			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
+			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"
+		   });	
+		addAnnotation
+		  (declaredStrategyInstanceEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "RightNumberOfParams"
+		   });
 	}
 
 	/**
@@ -830,24 +899,41 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 	 * @generated
 	 */
 	protected void createExtendedMetaDataAnnotations() {
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
 		addAnnotation
 		  (getTransitionSystem_Transitions(), 
 		   source, 
 		   new String[] {
 			 "group", "#strats"
-		   });		
+		   });	
 		addAnnotation
 		  (getTransitionSystem_Auxiliary(), 
 		   source, 
 		   new String[] {
 			 "group", "#strats"
-		   });		
+		   });	
 		addAnnotation
 		  (getTransitionSystem_Strats(), 
 		   source, 
 		   new String[] {
 			 "kind", "group"
+		   });
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createPivotAnnotations() {
+		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot";	
+		addAnnotation
+		  (declaredStrategyInstanceEClass, 
+		   source, 
+		   new String[] {
+			 "RightNumberOfParams", "declaration <> null implies declaration.formalParams\n\t\t\t->size() = actualParams\n\t\t\t->size()",
+			 "RightNumberOfParams$message", "\'Invalid number of parameters\'"
 		   });
 	}
 

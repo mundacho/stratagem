@@ -37,6 +37,16 @@ import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
 import ch.unige.cui.smv.stratagem.transformers.Modularizer
 import ch.unige.cui.smv.stratagem.transformers.FileModularizer
 import ch.unige.cui.smv.stratagem.transformers.FileSuperModularizer
+import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
+import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
+import org.eclipse.xtext.parser.IParser
+import ch.unige.cui.smv.stratagem.xtext.TransitionSystemDslStandaloneSetup
+import org.eclipse.xtext.resource.XtextResourceSet
+import org.eclipse.xtext.resource.XtextResource
+import org.eclipse.emf.common.util.URI
+import ch.unige.smv.cui.metamodel.adt.AdtPackage
+import ch.unige.cui.smv.metamodel.ts.TransitionSystem
+import ch.unige.cui.smv.metamodel.ts.TsPackage
 
 /**
  * The main class of stratagem. It is used to launch the model checker.
@@ -48,7 +58,7 @@ object Main extends Logging {
   val programName = "stratagem"
   val sversion = "0.3"
   val quietMode = "activate quiet mode. Only errors are printed."
-  val fileComment = "the model in pnml format."
+  val fileComment = "the model in pnml format (using extension PNML) or native representation (extension ts)"
   val debugMode = "activate debug mode. Lots of output."
   val saturationComment = "Disable saturation."
 
@@ -62,41 +72,76 @@ object Main extends Logging {
       if (config.verbose) root.setLevel(Level.TRACE)
       if (config.verbose && config.quiet) logger.warn("Set quiet and verbose flag at the same time")
 
-      val model2ts: Model2TransitionSystem = createModelToTransitionSystemTransformation(config.transformation, config.clustering, config.names)
-      logger.debug("Successfully processed input file")
-      if (config.mode == "analyzer") {
-        // check config
-        val petrinet = PNML2PetriNet(config.model)
-        val listOfModules = Modularizer(petrinet)
-        logger.debug(s"The number of modules that were detected is ${listOfModules.size}")
-        logger.debug("Printing detected modules, each line represents a module:")
-        logger.info(listOfModules.map(_.net.places.toList.sortBy(p => (p.id, p.name)).map { p =>
-          if (config.names && config.ids) s"${p.name} (${p.id})" else if (config.ids) p.id else p.name
-        }.mkString(", ")).mkString("\n"))
-        if (config.transitionSystem) {
-          val ts = model2ts(config.model)
-          logger.info(ts.toString)
-        }
-      } else {
-        val ts = model2ts(config.model)
-        if (config.transitionSystem) {
-          logger.info(ts.toString)
-        }
+      if (config.mode == "transition-system") {
+        // ocl registration
+        org.eclipse.ocl.examples.pivot.OCL.initialize(null);
+        org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
+        org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
+        OCLinEcoreStandaloneSetup.doSetup()
+        OCLstdlibStandaloneSetup.doSetup()
+        logger.trace("Finished OCL registration")
+        
+        // register ADT
+        AdtPackage.eINSTANCE.eClass()
+        TsPackage.eINSTANCE.eClass()
+        // create injector
+        val injector = (new TransitionSystemDslStandaloneSetup()).createInjectorAndDoEMFRegistration();
+        val resourceSet: XtextResourceSet = injector.getInstance(classOf[XtextResourceSet]);
+        resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, true);
+        val uri = config.model.toURI().toString()
+        val resource = resourceSet.getResource(URI.createURI(uri), true);
+        logger.trace(s"Starting to load model from url: $uri")
+        val ts = resource.getContents().get(0).asInstanceOf[TransitionSystem];
+        logger.trace(s"Finished loading")
         val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
         val initialState = sigmaDDFactory.create(ts.getInitialState())
         logger.debug(s"Successfully created initial state")
-        val rewriter = if (config.saturation) {
-          sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
-        } else {
-          sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
-        }
+        val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
         logger.debug(s"Successfully created state space rewriter")
         logger.debug("Starting calculation of state space")
         val stateSpace = stats(timeAndSpace(rewriter(initialState).get))
         val stateSpaceSize = stateSpace.size
         logger.debug("State space size:")
         logger.info(s"$stateSpaceSize")
+      } else { // pnml file
+        val model2ts: Model2TransitionSystem = createModelToTransitionSystemTransformation(config.transformation, config.clustering, config.names)
+        logger.debug("Successfully processed input file")
+        if (config.mode == "pn-analyzer") {
+          // check config
+          val petrinet = PNML2PetriNet(config.model)
+          val listOfModules = Modularizer(petrinet)
+          logger.debug(s"The number of modules that were detected is ${listOfModules.size}")
+          logger.debug("Printing detected modules, each line represents a module:")
+          logger.info(listOfModules.map(_.net.places.toList.sortBy(p => (p.id, p.name)).map { p =>
+            if (config.names && config.ids) s"${p.name} (${p.id})" else if (config.ids) p.id else p.name
+          }.mkString(", ")).mkString("\n"))
+          if (config.transitionSystem) {
+            val ts = model2ts(config.model)
+            logger.info(ts.toString)
+          }
+        } else {
+          val ts = model2ts(config.model)
+          if (config.transitionSystem) {
+            logger.info(ts.toString)
+          }
+          val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
+          val initialState = sigmaDDFactory.create(ts.getInitialState())
+          logger.debug(s"Successfully created initial state")
+          val rewriter = if (config.saturation) {
+            sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
+          } else {
+            sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriter(ts)
+          }
+          logger.debug(s"Successfully created state space rewriter")
+          logger.debug("Starting calculation of state space")
+          val stateSpace = stats(timeAndSpace(rewriter(initialState).get))
+          val stateSpaceSize = stateSpace.size
+          logger.debug("State space size:")
+          logger.info(s"$stateSpaceSize")
+        }
+
       }
+
     } getOrElse {
       logger.error("Unable to parse the parameters")
     }
@@ -117,9 +162,9 @@ object Main extends Logging {
     opt[String]("transformation") abbr ("t") action { (x, c) =>
       c.copy(transformation = x)
     } text ("Choose the transformation for the model. Available transformations are:" +
-      "\nnaive:              transforms the model naively" +
-      "\nnaive-modular:      transforms the model trying to reduce its complexity by dividing it into submodules" +
-      "\nanonymized-modular: transforms the model trying to reduce its complexity by dividing it into submodules. " +
+      "\nnaive-pnml             : transforms the model naively" +
+      "\nnaive-modular-pnml     : transforms the model trying to reduce its complexity by dividing it into submodules" +
+      "\nanonymized-modular-pnml: transforms the model trying to reduce its complexity by dividing it into submodules. " +
       "It also will rename the places in the modules")
     opt[Unit]("debug") action { (_, c) =>
       c.copy(verbose = true)
@@ -131,8 +176,11 @@ object Main extends Logging {
       c.copy(model = x)
     } text (fileComment)
     //    checkConfig { c => if ((c.clustering.isEmpty) && c.transformation != "anonymized-modular") failure("Clustering only works on anonymized-modular transformation") else success }
-    cmd("analyzer") action { (_, c) =>
-      c.copy(mode = "analyzer")
+    cmd("transition-system") action { (_, c) =>
+      c.copy(mode = "transition-system")
+    } text ("transition-system mode allows to analyze a transition system")
+    cmd("pn-analyzer") action { (_, c) =>
+      c.copy(mode = "pn-analyzer")
     } text ("Analyzer mode allows to analyze the petri net without performing the state space calculation") children (
       opt[Unit]("modules") action { (_, c) =>
         c.copy(modules = true)

@@ -310,7 +310,7 @@ public class AdtValidator extends EObjectValidator {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String SIGNATURE__UNIQUE_SORTS__EEXPRESSION = "sorts\n" +
+	protected static final String SIGNATURE__UNIQUE_SORTS__EEXPRESSION = "sorts <> null implies sorts\n" +
 		"\t\t\t->isUnique(name)";
 
 	/**
@@ -531,7 +531,7 @@ public class AdtValidator extends EObjectValidator {
 	 * 
 	 * @generated
 	 */
-	protected static final String TERM__CORRECT_TYPE_OF_PARAMETERS__EEXPRESSION = "subterms\n" +
+	protected static final String TERM__CORRECT_TYPE_OF_PARAMETERS__EEXPRESSION = "subterms <> null implies subterms\n" +
 		"\t\t\t->forAll(p | ((p.sort <> null) and (operationSymbol <> null)) implies p.sort.isSubSortOf(operationSymbol.formalParameters\n" +
 		"\t\t\t\t\t->at(subterms\n" +
 		"\t\t\t\t\t\t->indexOf(p))))";

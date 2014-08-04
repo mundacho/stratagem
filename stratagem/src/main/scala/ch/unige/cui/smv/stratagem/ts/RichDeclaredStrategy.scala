@@ -133,6 +133,7 @@ case class RichDeclaredStrategy(ds: DeclaredStrategy) {
     // check if the strategy is already defined
     if (ts.getDeclaredStrategyByName(name) != null) {
       val theDeclaredStrategy = ts.getDeclaredStrategyByName(name)
+      strategyInstance.setDeclaration(theDeclaredStrategy)
       // first check that the number of formal parameters is correct
       if (theDeclaredStrategy.getFormalParams().size == strategyInstance.getActualParams().size) {
         var (res, mes) = (true, "")

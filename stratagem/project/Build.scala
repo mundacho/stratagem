@@ -37,10 +37,12 @@ object Build extends sbt.Build {
       packJvmOpts := Map("stratagem" -> Seq("-Xms256M", "-Xmx4G", "-Xss1G", "-XX:+UseParallelGC")) 
       // [Optional] Extra class paths to look when launching a program
 //      packExtraClasspath := Map("hello" -> Seq("${PROG_HOME}/etc")) 
-    )) dependsOn(adt, ts)
+    )) dependsOn(adt, ts, xtextts)
 
      lazy val adt = RootProject(base = file("../ch.unige.cui.smv.metamodel.adt"))
 
      lazy val ts = RootProject(base = file("../ch.unige.cui.smv.metamodel.ts"))  
+     
+     lazy val xtextts = RootProject(base = file("../ch.unige.cui.smv.stratagem.xtext.ts"))  
 
 }

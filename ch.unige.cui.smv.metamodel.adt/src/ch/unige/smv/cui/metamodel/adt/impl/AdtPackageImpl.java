@@ -678,8 +678,8 @@ public class AdtPackageImpl extends EPackageImpl implements AdtPackage {
 		initEReference(getVariable_Declaration(), this.getVariableDeclaration(), null, "declaration", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(equationEClass, Equation.class, "Equation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getEquation_LeftHandTerm(), this.getATerm(), null, "leftHandTerm", null, 1, 1, Equation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEquation_RightHandTerm(), this.getATerm(), null, "rightHandTerm", null, 1, 1, Equation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEquation_LeftHandTerm(), this.getATerm(), null, "leftHandTerm", null, 1, 1, Equation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEquation_RightHandTerm(), this.getATerm(), null, "rightHandTerm", null, 1, 1, Equation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(objectEDataType, Object.class, "Object", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -807,7 +807,7 @@ public class AdtPackageImpl extends EPackageImpl implements AdtPackage {
 		  (signatureEClass, 
 		   source, 
 		   new String[] {
-			 "UniqueSorts", "sorts\n\t\t\t->isUnique(name)",
+			 "UniqueSorts", "sorts <> null implies sorts\n\t\t\t->isUnique(name)",
 			 "UniqueSorts$message", "\'There are some sorts in the adt that appear more than once: \' + sorts->select(s1 | (sorts->select(s2 | (s2.name = s1.name))->size() > 1))->collect(name)->toString()",
 			 "UniqueOperations", "allOperations\n\t\t\t->isUnique(name)",
 			 "UniqueOperations$message", "\'There are some operations in the adt that appear more than once: \' + allOperations->select(op1 | (allOperations->select(op2 | (op2.name = op1.name))->size() > 1))->collect(name)->toString()"
@@ -831,7 +831,7 @@ public class AdtPackageImpl extends EPackageImpl implements AdtPackage {
 		   new String[] {
 			 "CorrectNumberOfParameters", "(operationSymbol <> null) implies  subterms->size() = operationSymbol.formalParameters->size()",
 			 "CorrectNumberOfParameters$message", "\'Invalid number of parameters for term: \' + self.toString() + \'. Required \' + operationSymbol.formalParameters->size()->toString() + \', found \' + subterms->size()->toString()",
-			 "CorrectTypeOfParameters", "subterms\n\t\t\t->forAll(p | ((p.sort <> null) and (operationSymbol <> null)) implies p.sort.isSubSortOf(operationSymbol.formalParameters\n\t\t\t\t\t->at(subterms\n\t\t\t\t\t\t->indexOf(p))))",
+			 "CorrectTypeOfParameters", "subterms <> null implies subterms\n\t\t\t->forAll(p | ((p.sort <> null) and (operationSymbol <> null)) implies p.sort.isSubSortOf(operationSymbol.formalParameters\n\t\t\t\t\t->at(subterms\n\t\t\t\t\t\t->indexOf(p))))",
 			 "CorrectTypeOfParameters$message", "\'Invalid type of parameters for term: \' + self.toString()",
 			 "RightAdtSubterms", "(subterms <> null) implies subterms->forAll(t | t.adt = self.adt)",
 			 "RightAdtSubterms$message", "\'Some subterms do not have the same adt as the parent term: \' + self.toString()"

@@ -33,6 +33,7 @@
     </genClasses>
     <genClasses ecoreClass="transitionsystem.ecore#//DeclaredStrategyInstance">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute transitionsystem.ecore#//DeclaredStrategyInstance/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//DeclaredStrategyInstance/declaration"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference transitionsystem.ecore#//DeclaredStrategyInstance/actualParams"/>
     </genClasses>
     <genClasses ecoreClass="transitionsystem.ecore#//FixPointStrategy">

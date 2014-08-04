@@ -7,6 +7,7 @@ import ch.unige.smv.cui.metamodel.adt.AdtPackage;
 import ch.unige.smv.cui.metamodel.adt.Equation;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -28,7 +29,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  */
 public class EquationImpl extends MinimalEObjectImpl.Container implements Equation {
 	/**
-	 * The cached value of the '{@link #getLeftHandTerm() <em>Left Hand Term</em>}' reference.
+	 * The cached value of the '{@link #getLeftHandTerm() <em>Left Hand Term</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getLeftHandTerm()
@@ -38,7 +39,7 @@ public class EquationImpl extends MinimalEObjectImpl.Container implements Equati
 	protected ATerm leftHandTerm;
 
 	/**
-	 * The cached value of the '{@link #getRightHandTerm() <em>Right Hand Term</em>}' reference.
+	 * The cached value of the '{@link #getRightHandTerm() <em>Right Hand Term</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getRightHandTerm()
@@ -72,14 +73,6 @@ public class EquationImpl extends MinimalEObjectImpl.Container implements Equati
 	 * @generated
 	 */
 	public ATerm getLeftHandTerm() {
-		if (leftHandTerm != null && leftHandTerm.eIsProxy()) {
-			InternalEObject oldLeftHandTerm = (InternalEObject)leftHandTerm;
-			leftHandTerm = (ATerm)eResolveProxy(oldLeftHandTerm);
-			if (leftHandTerm != oldLeftHandTerm) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AdtPackage.EQUATION__LEFT_HAND_TERM, oldLeftHandTerm, leftHandTerm));
-			}
-		}
 		return leftHandTerm;
 	}
 
@@ -88,8 +81,14 @@ public class EquationImpl extends MinimalEObjectImpl.Container implements Equati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ATerm basicGetLeftHandTerm() {
-		return leftHandTerm;
+	public NotificationChain basicSetLeftHandTerm(ATerm newLeftHandTerm, NotificationChain msgs) {
+		ATerm oldLeftHandTerm = leftHandTerm;
+		leftHandTerm = newLeftHandTerm;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AdtPackage.EQUATION__LEFT_HAND_TERM, oldLeftHandTerm, newLeftHandTerm);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -98,10 +97,17 @@ public class EquationImpl extends MinimalEObjectImpl.Container implements Equati
 	 * @generated
 	 */
 	public void setLeftHandTerm(ATerm newLeftHandTerm) {
-		ATerm oldLeftHandTerm = leftHandTerm;
-		leftHandTerm = newLeftHandTerm;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AdtPackage.EQUATION__LEFT_HAND_TERM, oldLeftHandTerm, leftHandTerm));
+		if (newLeftHandTerm != leftHandTerm) {
+			NotificationChain msgs = null;
+			if (leftHandTerm != null)
+				msgs = ((InternalEObject)leftHandTerm).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AdtPackage.EQUATION__LEFT_HAND_TERM, null, msgs);
+			if (newLeftHandTerm != null)
+				msgs = ((InternalEObject)newLeftHandTerm).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AdtPackage.EQUATION__LEFT_HAND_TERM, null, msgs);
+			msgs = basicSetLeftHandTerm(newLeftHandTerm, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AdtPackage.EQUATION__LEFT_HAND_TERM, newLeftHandTerm, newLeftHandTerm));
 	}
 
 	/**
@@ -110,14 +116,6 @@ public class EquationImpl extends MinimalEObjectImpl.Container implements Equati
 	 * @generated
 	 */
 	public ATerm getRightHandTerm() {
-		if (rightHandTerm != null && rightHandTerm.eIsProxy()) {
-			InternalEObject oldRightHandTerm = (InternalEObject)rightHandTerm;
-			rightHandTerm = (ATerm)eResolveProxy(oldRightHandTerm);
-			if (rightHandTerm != oldRightHandTerm) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AdtPackage.EQUATION__RIGHT_HAND_TERM, oldRightHandTerm, rightHandTerm));
-			}
-		}
 		return rightHandTerm;
 	}
 
@@ -126,8 +124,14 @@ public class EquationImpl extends MinimalEObjectImpl.Container implements Equati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ATerm basicGetRightHandTerm() {
-		return rightHandTerm;
+	public NotificationChain basicSetRightHandTerm(ATerm newRightHandTerm, NotificationChain msgs) {
+		ATerm oldRightHandTerm = rightHandTerm;
+		rightHandTerm = newRightHandTerm;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AdtPackage.EQUATION__RIGHT_HAND_TERM, oldRightHandTerm, newRightHandTerm);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -136,10 +140,33 @@ public class EquationImpl extends MinimalEObjectImpl.Container implements Equati
 	 * @generated
 	 */
 	public void setRightHandTerm(ATerm newRightHandTerm) {
-		ATerm oldRightHandTerm = rightHandTerm;
-		rightHandTerm = newRightHandTerm;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AdtPackage.EQUATION__RIGHT_HAND_TERM, oldRightHandTerm, rightHandTerm));
+		if (newRightHandTerm != rightHandTerm) {
+			NotificationChain msgs = null;
+			if (rightHandTerm != null)
+				msgs = ((InternalEObject)rightHandTerm).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AdtPackage.EQUATION__RIGHT_HAND_TERM, null, msgs);
+			if (newRightHandTerm != null)
+				msgs = ((InternalEObject)newRightHandTerm).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AdtPackage.EQUATION__RIGHT_HAND_TERM, null, msgs);
+			msgs = basicSetRightHandTerm(newRightHandTerm, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AdtPackage.EQUATION__RIGHT_HAND_TERM, newRightHandTerm, newRightHandTerm));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case AdtPackage.EQUATION__LEFT_HAND_TERM:
+				return basicSetLeftHandTerm(null, msgs);
+			case AdtPackage.EQUATION__RIGHT_HAND_TERM:
+				return basicSetRightHandTerm(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -151,11 +178,9 @@ public class EquationImpl extends MinimalEObjectImpl.Container implements Equati
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case AdtPackage.EQUATION__LEFT_HAND_TERM:
-				if (resolve) return getLeftHandTerm();
-				return basicGetLeftHandTerm();
+				return getLeftHandTerm();
 			case AdtPackage.EQUATION__RIGHT_HAND_TERM:
-				if (resolve) return getRightHandTerm();
-				return basicGetRightHandTerm();
+				return getRightHandTerm();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}

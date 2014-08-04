@@ -648,7 +648,7 @@ public interface AdtPackage extends EPackage {
 	int EQUATION = 10;
 
 	/**
-	 * The feature id for the '<em><b>Left Hand Term</b></em>' reference.
+	 * The feature id for the '<em><b>Left Hand Term</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -657,7 +657,7 @@ public interface AdtPackage extends EPackage {
 	int EQUATION__LEFT_HAND_TERM = 0;
 
 	/**
-	 * The feature id for the '<em><b>Right Hand Term</b></em>' reference.
+	 * The feature id for the '<em><b>Right Hand Term</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1057,10 +1057,10 @@ public interface AdtPackage extends EPackage {
 	EClass getEquation();
 
 	/**
-	 * Returns the meta object for the reference '{@link ch.unige.smv.cui.metamodel.adt.Equation#getLeftHandTerm <em>Left Hand Term</em>}'.
+	 * Returns the meta object for the containment reference '{@link ch.unige.smv.cui.metamodel.adt.Equation#getLeftHandTerm <em>Left Hand Term</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Left Hand Term</em>'.
+	 * @return the meta object for the containment reference '<em>Left Hand Term</em>'.
 	 * @see ch.unige.smv.cui.metamodel.adt.Equation#getLeftHandTerm()
 	 * @see #getEquation()
 	 * @generated
@@ -1068,10 +1068,10 @@ public interface AdtPackage extends EPackage {
 	EReference getEquation_LeftHandTerm();
 
 	/**
-	 * Returns the meta object for the reference '{@link ch.unige.smv.cui.metamodel.adt.Equation#getRightHandTerm <em>Right Hand Term</em>}'.
+	 * Returns the meta object for the containment reference '{@link ch.unige.smv.cui.metamodel.adt.Equation#getRightHandTerm <em>Right Hand Term</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Right Hand Term</em>'.
+	 * @return the meta object for the containment reference '<em>Right Hand Term</em>'.
 	 * @see ch.unige.smv.cui.metamodel.adt.Equation#getRightHandTerm()
 	 * @see #getEquation()
 	 * @generated
@@ -1407,7 +1407,7 @@ public interface AdtPackage extends EPackage {
 		EClass EQUATION = eINSTANCE.getEquation();
 
 		/**
-		 * The meta object literal for the '<em><b>Left Hand Term</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Left Hand Term</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1415,7 +1415,7 @@ public interface AdtPackage extends EPackage {
 		EReference EQUATION__LEFT_HAND_TERM = eINSTANCE.getEquation_LeftHandTerm();
 
 		/**
-		 * The meta object literal for the '<em><b>Right Hand Term</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Right Hand Term</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

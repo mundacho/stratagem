@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.EReference;
  * <!-- end-user-doc -->
  * @see ch.unige.cui.smv.metamodel.ts.TsFactory
  * @model kind="package"
+ *        annotation="http://www.eclipse.org/OCL/Import adt_0='/resource/ch.unige.cui.smv.metamodel.adt/model/adt.ecore#/' ecore='http://www.eclipse.org/emf/2002/Ecore#/'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore invocationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot' settingDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot' validationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot'"
  * @generated
  */
 public interface TsPackage extends EPackage {
@@ -399,13 +401,22 @@ public interface TsPackage extends EPackage {
 	int DECLARED_STRATEGY_INSTANCE__NAME = NON_VARIABLE_STRATEGY_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Declaration</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECLARED_STRATEGY_INSTANCE__DECLARATION = NON_VARIABLE_STRATEGY_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Actual Params</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS = NON_VARIABLE_STRATEGY_FEATURE_COUNT + 1;
+	int DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS = NON_VARIABLE_STRATEGY_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Declared Strategy Instance</em>' class.
@@ -414,7 +425,7 @@ public interface TsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DECLARED_STRATEGY_INSTANCE_FEATURE_COUNT = NON_VARIABLE_STRATEGY_FEATURE_COUNT + 2;
+	int DECLARED_STRATEGY_INSTANCE_FEATURE_COUNT = NON_VARIABLE_STRATEGY_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Declared Strategy Instance</em>' class.
@@ -999,6 +1010,17 @@ public interface TsPackage extends EPackage {
 	EAttribute getDeclaredStrategyInstance_Name();
 
 	/**
+	 * Returns the meta object for the reference '{@link ch.unige.cui.smv.metamodel.ts.DeclaredStrategyInstance#getDeclaration <em>Declaration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Declaration</em>'.
+	 * @see ch.unige.cui.smv.metamodel.ts.DeclaredStrategyInstance#getDeclaration()
+	 * @see #getDeclaredStrategyInstance()
+	 * @generated
+	 */
+	EReference getDeclaredStrategyInstance_Declaration();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link ch.unige.cui.smv.metamodel.ts.DeclaredStrategyInstance#getActualParams <em>Actual Params</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1451,6 +1473,14 @@ public interface TsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute DECLARED_STRATEGY_INSTANCE__NAME = eINSTANCE.getDeclaredStrategyInstance_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Declaration</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DECLARED_STRATEGY_INSTANCE__DECLARATION = eINSTANCE.getDeclaredStrategyInstance_Declaration();
 
 		/**
 		 * The meta object literal for the '<em><b>Actual Params</b></em>' containment reference list feature.

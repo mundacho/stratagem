@@ -2,22 +2,17 @@
  */
 package ch.unige.cui.smv.metamodel.ts.impl;
 
+import ch.unige.cui.smv.metamodel.ts.DeclaredStrategy;
 import ch.unige.cui.smv.metamodel.ts.DeclaredStrategyInstance;
 import ch.unige.cui.smv.metamodel.ts.Strategy;
 import ch.unige.cui.smv.metamodel.ts.TsPackage;
-
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -27,15 +22,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link ch.unige.cui.smv.metamodel.ts.impl.DeclaredStrategyInstanceImpl#getName
- * <em>Name</em>}</li>
- * <li>
- * {@link ch.unige.cui.smv.metamodel.ts.impl.DeclaredStrategyInstanceImpl#getActualParams
- * <em>Actual Params</em>}</li>
+ *   <li>{@link ch.unige.cui.smv.metamodel.ts.impl.DeclaredStrategyInstanceImpl#getName <em>Name</em>}</li>
+ *   <li>{@link ch.unige.cui.smv.metamodel.ts.impl.DeclaredStrategyInstanceImpl#getDeclaration <em>Declaration</em>}</li>
+ *   <li>{@link ch.unige.cui.smv.metamodel.ts.impl.DeclaredStrategyInstanceImpl#getActualParams <em>Actual Params</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class DeclaredStrategyInstanceImpl extends NonVariableStrategyImpl
@@ -43,7 +35,6 @@ public class DeclaredStrategyInstanceImpl extends NonVariableStrategyImpl
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -53,7 +44,6 @@ public class DeclaredStrategyInstanceImpl extends NonVariableStrategyImpl
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -61,10 +51,18 @@ public class DeclaredStrategyInstanceImpl extends NonVariableStrategyImpl
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getActualParams()
-	 * <em>Actual Params</em>}' containment reference list. <!-- begin-user-doc
+	 * The cached value of the '{@link #getDeclaration() <em>Declaration</em>}' reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #getDeclaration()
+	 * @generated
+	 * @ordered
+	 */
+	protected DeclaredStrategy declaration;
+
+	/**
+	 * The cached value of the '{@link #getActualParams() <em>Actual Params</em>}' containment reference list.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #getActualParams()
 	 * @generated
 	 * @ordered
@@ -73,7 +71,6 @@ public class DeclaredStrategyInstanceImpl extends NonVariableStrategyImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected DeclaredStrategyInstanceImpl() {
@@ -82,7 +79,6 @@ public class DeclaredStrategyInstanceImpl extends NonVariableStrategyImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -93,122 +89,157 @@ public class DeclaredStrategyInstanceImpl extends NonVariableStrategyImpl
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	public String getName() {
+		if (declaration != null) return declaration.getName();
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TsPackage.DECLARED_STRATEGY_INSTANCE__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, TsPackage.DECLARED_STRATEGY_INSTANCE__NAME, oldName, name));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * @generated
+	 */
+	public DeclaredStrategy getDeclaration() {
+		if (declaration != null && declaration.eIsProxy()) {
+			InternalEObject oldDeclaration = (InternalEObject)declaration;
+			declaration = (DeclaredStrategy)eResolveProxy(oldDeclaration);
+			if (declaration != oldDeclaration) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TsPackage.DECLARED_STRATEGY_INSTANCE__DECLARATION, oldDeclaration, declaration));
+			}
+		}
+		return declaration;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DeclaredStrategy basicGetDeclaration() {
+		return declaration;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDeclaration(DeclaredStrategy newDeclaration) {
+		DeclaredStrategy oldDeclaration = declaration;
+		declaration = newDeclaration;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TsPackage.DECLARED_STRATEGY_INSTANCE__DECLARATION, oldDeclaration, declaration));
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<Strategy> getActualParams() {
 		if (actualParams == null) {
-			actualParams = new EObjectContainmentEList<Strategy>(
-					Strategy.class, this,
-					TsPackage.DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS);
+			actualParams = new EObjectContainmentEList<Strategy>(Strategy.class, this, TsPackage.DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS);
 		}
 		return actualParams;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case TsPackage.DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS:
-			return ((InternalEList<?>) getActualParams()).basicRemove(otherEnd,
-					msgs);
+			case TsPackage.DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS:
+				return ((InternalEList<?>)getActualParams()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case TsPackage.DECLARED_STRATEGY_INSTANCE__NAME:
-			return getName();
-		case TsPackage.DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS:
-			return getActualParams();
+			case TsPackage.DECLARED_STRATEGY_INSTANCE__NAME:
+				return getName();
+			case TsPackage.DECLARED_STRATEGY_INSTANCE__DECLARATION:
+				if (resolve) return getDeclaration();
+				return basicGetDeclaration();
+			case TsPackage.DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS:
+				return getActualParams();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case TsPackage.DECLARED_STRATEGY_INSTANCE__NAME:
-			setName((String) newValue);
-			return;
-		case TsPackage.DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS:
-			getActualParams().clear();
-			getActualParams().addAll((Collection<? extends Strategy>) newValue);
-			return;
+			case TsPackage.DECLARED_STRATEGY_INSTANCE__NAME:
+				setName((String)newValue);
+				return;
+			case TsPackage.DECLARED_STRATEGY_INSTANCE__DECLARATION:
+				setDeclaration((DeclaredStrategy)newValue);
+				return;
+			case TsPackage.DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS:
+				getActualParams().clear();
+				getActualParams().addAll((Collection<? extends Strategy>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case TsPackage.DECLARED_STRATEGY_INSTANCE__NAME:
-			setName(NAME_EDEFAULT);
-			return;
-		case TsPackage.DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS:
-			getActualParams().clear();
-			return;
+			case TsPackage.DECLARED_STRATEGY_INSTANCE__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case TsPackage.DECLARED_STRATEGY_INSTANCE__DECLARATION:
+				setDeclaration((DeclaredStrategy)null);
+				return;
+			case TsPackage.DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS:
+				getActualParams().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case TsPackage.DECLARED_STRATEGY_INSTANCE__NAME:
-			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
-					.equals(name);
-		case TsPackage.DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS:
-			return actualParams != null && !actualParams.isEmpty();
+			case TsPackage.DECLARED_STRATEGY_INSTANCE__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case TsPackage.DECLARED_STRATEGY_INSTANCE__DECLARATION:
+				return declaration != null;
+			case TsPackage.DECLARED_STRATEGY_INSTANCE__ACTUAL_PARAMS:
+				return actualParams != null && !actualParams.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -225,9 +256,9 @@ public class DeclaredStrategyInstanceImpl extends NonVariableStrategyImpl
 
 		StringBuffer result = new StringBuffer();
 		int paramsSize = getActualParams().size();
-		result.append(name);
+		result.append(getName());
 		if (paramsSize == 0)
-			return name.toString();
+			return getName().toString();
 		result.append('(');
 		Object[] paramsAsArray = getActualParams().toArray();
 		result.append(paramsAsArray[0]);
