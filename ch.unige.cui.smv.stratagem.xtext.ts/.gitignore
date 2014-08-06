@@ -1,2 +1,9 @@
 /bin
 /target
+/xtend-bin
+/xtend-gen
+/dependencies.txt
+/dependencies_WOPath.txt
+/project/project
+/.antlr-generator-3.2.0-patch.jar
+/.cache
