@@ -2,9 +2,9 @@
 <html>
 
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Stratagem : Stratagem - DD- and rewriting strategies- based model checker" />
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Stratagem : Stratagem - DD- and rewriting strategies- based model checker">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -44,12 +44,14 @@
 <h1>
 <a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h1>
 
-<p>Stratagem v0.3 can perform the following tasks:</p>
+<p>Stratagem v0.4 can perform the following tasks:</p>
 
 <ul>
+<li>Read transition systems in its own langauge (.ts) directly from the a text file and perform its state space calculation. You can see an example of a transition system file <a href="https://github.com/mundacho/stratagem/blob/master/stratagem/resources/philo.ts">here</a>
+</li>
 <li>Read a Place/Transition Petri net and calculate its state space.</li>
-<li>Automatically decompose a P/T Petri net in modules</li>
-<li>Transform a P/T Petri net into a rewriting based transition system</li>
+<li>Automatically decompose a P/T Petri net in modules.</li>
+<li>Transform a P/T Petri net into a rewriting based transition system.</li>
 <li>Use different strategies to speed up the calculation of the state space. In particular it can use anonymization and saturation.</li>
 <li>Read a clustering file to optimize the state space generation.</li>
 </ul><h1>
@@ -58,6 +60,7 @@
 <p>The following input formats are supported:</p>
 
 <ul>
+<li>Transition system (.ts) can be read from a text file. Represents a transition system.</li>
 <li>
 <a href="http://www.pnml.org">PNML</a> for P/T nets</li>
 <li>DiViNe. In the current version the divine formalism can only be used via API.</li>
@@ -71,17 +74,12 @@
 </ul><p>To compile stratagem you need:</p>
 
 <ul>
-<li>sbt 0.13</li>
+<li>sbt 0.13.5</li>
 <li>Java 1.6 or later</li>
 </ul><h1>
 <a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h1>
 
 <p>ScalaDoc is available <a href="http://alpina.unige.ch/jenkins/job/stratagem/javadoc/?#package">here</a>.</p>
-
-<h1>
-<a name="stratagem" class="anchor" href="#stratagem"><span class="octicon octicon-link"></span></a>stratagem</h1>
-
-<p>Stratagem - DD- and rewriting strategies- based model checker</p>
       </section>
     </div>
 
