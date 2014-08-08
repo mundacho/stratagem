@@ -73,8 +73,8 @@ class TermTest extends FlatSpec with BeforeAndAfter {
   "A term" should "write itself pretty" in {
     assert(adt.term("and", trueOp, falseOp).toString == "and(true, false)")
     assert(suc(suc(zero)).toString == "suc(suc(zero))")
-    assert(adt.term("and", trueOp, adt.term("b")).toString == "and(true, b)")
-    assert(suc(suc(adt.term("x"))).toString == "suc(suc(x))")
+    assert(adt.term("and", trueOp, adt.term("b")).toString == "and(true, $b)")
+    assert(suc(suc(adt.term("x"))).toString == "suc(suc($x))")
   }
 
   "A term" should "allow to build well formed ground terms" in {
