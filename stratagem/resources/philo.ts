@@ -1,5 +1,12 @@
 /**
 * This transition system represents the well known philosopher problem.
+* to launch this, just do:
+* 
+* $ stratagem  transition-system philo.ts
+* 
+* If you want to have lots of details of what's happening, do:
+* 
+* $ stratagem  transition-system --debug philo.ts
 */
 
 TransitionSystem
