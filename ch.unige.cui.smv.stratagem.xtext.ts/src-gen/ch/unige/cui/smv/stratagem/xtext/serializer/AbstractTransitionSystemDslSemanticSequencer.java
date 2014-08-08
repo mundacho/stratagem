@@ -533,7 +533,7 @@ public abstract class AbstractTransitionSystemDslSemanticSequencer extends Abstr
 	
 	/**
 	 * Constraint:
-	 *     (adt=ADT initialState=Term auxiliary+=Auxiliary* transitions+=Transition transitions+=Transition*)
+	 *     (adt=ADT initialState=Term auxiliary+=Auxiliary* transitions+=Transition*)
 	 */
 	protected void sequence_TransitionSystem(EObject context, TransitionSystem semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

@@ -17,7 +17,7 @@ package ch.unige.smv.cui.metamodel.adt;
  *
  * @see ch.unige.smv.cui.metamodel.adt.AdtPackage#getSubSort()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='SuperSortNotNull'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot SuperSortNotNull='superSort <> null' SuperSortNotNull$message='\'The super sort of sort \' + name + \'cannot be null\''"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot SuperSortNotNull='Tuple {\n\tmessage : String = \'The super sort of sort \' + name + \'cannot be null\',\n\tstatus : Boolean = superSort <> null\n}.status'"
  * @generated
  */
 public interface SubSort extends ASort {

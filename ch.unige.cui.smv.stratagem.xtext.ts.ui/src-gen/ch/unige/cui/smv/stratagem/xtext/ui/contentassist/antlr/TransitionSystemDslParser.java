@@ -85,7 +85,6 @@ public class TransitionSystemDslParser extends AbstractContentAssistParser {
 					put(grammarAccess.getTransitionSystemAccess().getInitialStateAssignment_4(), "rule__TransitionSystem__InitialStateAssignment_4");
 					put(grammarAccess.getTransitionSystemAccess().getAuxiliaryAssignment_6(), "rule__TransitionSystem__AuxiliaryAssignment_6");
 					put(grammarAccess.getTransitionSystemAccess().getTransitionsAssignment_8(), "rule__TransitionSystem__TransitionsAssignment_8");
-					put(grammarAccess.getTransitionSystemAccess().getTransitionsAssignment_9(), "rule__TransitionSystem__TransitionsAssignment_9");
 					put(grammarAccess.getTransitionAccess().getNameAssignment_0(), "rule__Transition__NameAssignment_0");
 					put(grammarAccess.getTransitionAccess().getBodyAssignment_2(), "rule__Transition__BodyAssignment_2");
 					put(grammarAccess.getAuxiliaryAccess().getNameAssignment_0(), "rule__Auxiliary__NameAssignment_0");

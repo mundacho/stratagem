@@ -2,17 +2,32 @@
  */
 package ch.unige.cui.smv.metamodel.ts.util;
 
-import ch.unige.cui.smv.metamodel.ts.*;
-
 import java.util.Map;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.ocl.examples.xtext.oclinecore.validation.OCLinEcoreEObjectValidator;
 
-import org.eclipse.emf.ecore.util.EObjectValidator;
+import ch.unige.cui.smv.metamodel.ts.Choice;
+import ch.unige.cui.smv.metamodel.ts.DeclaredStrategy;
+import ch.unige.cui.smv.metamodel.ts.DeclaredStrategyInstance;
+import ch.unige.cui.smv.metamodel.ts.Fail;
+import ch.unige.cui.smv.metamodel.ts.FixPointStrategy;
+import ch.unige.cui.smv.metamodel.ts.Identity;
+import ch.unige.cui.smv.metamodel.ts.IfThenElse;
+import ch.unige.cui.smv.metamodel.ts.NonVariableStrategy;
+import ch.unige.cui.smv.metamodel.ts.Not;
+import ch.unige.cui.smv.metamodel.ts.One;
+import ch.unige.cui.smv.metamodel.ts.Saturation;
+import ch.unige.cui.smv.metamodel.ts.Sequence;
+import ch.unige.cui.smv.metamodel.ts.SimpleStrategy;
+import ch.unige.cui.smv.metamodel.ts.Strategy;
+import ch.unige.cui.smv.metamodel.ts.TransitionSystem;
+import ch.unige.cui.smv.metamodel.ts.TsPackage;
+import ch.unige.cui.smv.metamodel.ts.Union;
+import ch.unige.cui.smv.metamodel.ts.VariableStrategy;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,7 +36,7 @@ import org.eclipse.emf.ecore.util.EObjectValidator;
  * @see ch.unige.cui.smv.metamodel.ts.TsPackage
  * @generated
  */
-public class TsValidator extends EObjectValidator {
+public class TsValidator extends OCLinEcoreEObjectValidator {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -140,7 +155,49 @@ public class TsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateDeclaredStrategy(DeclaredStrategy declaredStrategy, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(declaredStrategy, diagnostics, context);
+		if (!validate_NoCircularContainment(declaredStrategy, diagnostics, context)) return false;
+		boolean result = validate_EveryMultiplicityConforms(declaredStrategy, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(declaredStrategy, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(declaredStrategy, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(declaredStrategy, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(declaredStrategy, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(declaredStrategy, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(declaredStrategy, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(declaredStrategy, diagnostics, context);
+		if (result || diagnostics != null) result &= validateDeclaredStrategy_UniqueVariableParameters(declaredStrategy, diagnostics, context);
+		return result;
+	}
+
+	/**
+	 * The cached validation expression for the UniqueVariableParameters constraint of '<em>Declared Strategy</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected static final String DECLARED_STRATEGY__UNIQUE_VARIABLE_PARAMETERS__EEXPRESSION = "Tuple {\n" +
+		"\tmessage : String = 'The parameter names are not unique for declared strategy: ' + name,\n" +
+		"\tstatus : Boolean = formalParams <> null implies formalParams->isUnique(name)\n" +
+		"}.status";
+
+	/**
+	 * Validates the UniqueVariableParameters constraint of '<em>Declared Strategy</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateDeclaredStrategy_UniqueVariableParameters(DeclaredStrategy declaredStrategy, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return
+			validate
+				(TsPackage.Literals.DECLARED_STRATEGY,
+				 declaredStrategy,
+				 diagnostics,
+				 context,
+				 "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
+				 "UniqueVariableParameters",
+				 DECLARED_STRATEGY__UNIQUE_VARIABLE_PARAMETERS__EEXPRESSION,
+				 Diagnostic.ERROR,
+				 DIAGNOSTIC_SOURCE,
+				 0);
 	}
 
 	/**
@@ -222,9 +279,12 @@ public class TsValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String DECLARED_STRATEGY_INSTANCE__RIGHT_NUMBER_OF_PARAMS__EEXPRESSION = "declaration <> null implies declaration.formalParams\n" +
+	protected static final String DECLARED_STRATEGY_INSTANCE__RIGHT_NUMBER_OF_PARAMS__EEXPRESSION = "Tuple {\n" +
+		"\tmessage : String = 'Invalid number of parameters for strategy ' + name + '. Required ' + declaration.formalParams->size()->toString() + ', found ' + actualParams->size()->toString(),\n" +
+		"\tstatus : Boolean = declaration <> null implies declaration.formalParams\n" +
 		"\t\t\t->size() = actualParams\n" +
-		"\t\t\t->size()";
+		"\t\t\t->size()\n" +
+		"}.status";
 
 	/**
 	 * Validates the RightNumberOfParams constraint of '<em>Declared Strategy Instance</em>'.

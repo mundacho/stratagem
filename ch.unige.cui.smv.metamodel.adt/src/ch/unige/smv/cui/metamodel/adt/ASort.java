@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see ch.unige.smv.cui.metamodel.adt.AdtPackage#getASort()
  * @model abstract="true"
  *        annotation="http://www.eclipse.org/emf/2002/Ecore constraints='NameNotEmpty'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot NameNotEmpty='name <> \'\'' NameNotEmpty$message='\'Cannot assign empty name to sort\''"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot NameNotEmpty='Tuple {\n\tmessage : String = \'Cannot assign empty name to sort\',\n\tstatus : Boolean = name <> \'\'\n}.status'"
  * @generated
  */
 public interface ASort extends EObject {

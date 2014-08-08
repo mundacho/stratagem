@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see ch.unige.smv.cui.metamodel.adt.AdtPackage#getADT()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='UniqueVariableNames'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot UniqueVariableNames='variables\n\t\t\t->isUnique(name)' UniqueVariableNames$message='\'The following variables are defined more than once: \' + variables->select(v | (variables->select(v1 | (v1.name = v.name))->size() > 1))->collect(name)->toString()'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot UniqueVariableNames='Tuple {\n\tmessage : String = \'The following variables are defined more than once: \' + variables->select(v | (variables->select(v1 | (v1.name = v.name))->size() > 1))->collect(name)->toString(),\n\tstatus : Boolean = variables\n\t\t\t->isUnique(name)\n}.status'"
  * @generated
  */
 public interface ADT extends EObject {

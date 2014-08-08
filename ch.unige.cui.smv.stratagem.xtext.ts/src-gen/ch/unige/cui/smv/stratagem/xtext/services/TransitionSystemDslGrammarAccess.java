@@ -34,16 +34,14 @@ public class TransitionSystemDslGrammarAccess extends AbstractGrammarElementFind
 		private final Keyword cTransitionsKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		private final Assignment cTransitionsAssignment_8 = (Assignment)cGroup.eContents().get(8);
 		private final RuleCall cTransitionsTransitionParserRuleCall_8_0 = (RuleCall)cTransitionsAssignment_8.eContents().get(0);
-		private final Assignment cTransitionsAssignment_9 = (Assignment)cGroup.eContents().get(9);
-		private final RuleCall cTransitionsTransitionParserRuleCall_9_0 = (RuleCall)cTransitionsAssignment_9.eContents().get(0);
 		
 		//TransitionSystem returns ts::TransitionSystem:
 		//	"TransitionSystem" adt=ADT "initialState" "=" initialState=Term "Strategies" auxiliary+=Auxiliary* "Transitions"
-		//	transitions+=Transition transitions+=Transition*;
+		//	transitions+=Transition*;
 		public ParserRule getRule() { return rule; }
 
 		//"TransitionSystem" adt=ADT "initialState" "=" initialState=Term "Strategies" auxiliary+=Auxiliary* "Transitions"
-		//transitions+=Transition transitions+=Transition*
+		//transitions+=Transition*
 		public Group getGroup() { return cGroup; }
 
 		//"TransitionSystem"
@@ -79,17 +77,11 @@ public class TransitionSystemDslGrammarAccess extends AbstractGrammarElementFind
 		//"Transitions"
 		public Keyword getTransitionsKeyword_7() { return cTransitionsKeyword_7; }
 
-		//transitions+=Transition
+		//transitions+=Transition*
 		public Assignment getTransitionsAssignment_8() { return cTransitionsAssignment_8; }
 
 		//Transition
 		public RuleCall getTransitionsTransitionParserRuleCall_8_0() { return cTransitionsTransitionParserRuleCall_8_0; }
-
-		//transitions+=Transition*
-		public Assignment getTransitionsAssignment_9() { return cTransitionsAssignment_9; }
-
-		//Transition
-		public RuleCall getTransitionsTransitionParserRuleCall_9_0() { return cTransitionsTransitionParserRuleCall_9_0; }
 	}
 
 	public class TransitionElements extends AbstractParserRuleElementFinder {
@@ -1412,7 +1404,7 @@ public class TransitionSystemDslGrammarAccess extends AbstractGrammarElementFind
 	
 	//TransitionSystem returns ts::TransitionSystem:
 	//	"TransitionSystem" adt=ADT "initialState" "=" initialState=Term "Strategies" auxiliary+=Auxiliary* "Transitions"
-	//	transitions+=Transition transitions+=Transition*;
+	//	transitions+=Transition*;
 	public TransitionSystemElements getTransitionSystemAccess() {
 		return (pTransitionSystem != null) ? pTransitionSystem : (pTransitionSystem = new TransitionSystemElements());
 	}

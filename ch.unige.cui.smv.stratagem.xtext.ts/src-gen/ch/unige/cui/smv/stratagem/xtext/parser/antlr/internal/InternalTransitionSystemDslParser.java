@@ -143,7 +143,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleTransitionSystem"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:76:1: ruleTransitionSystem returns [EObject current=null] : (otherlv_0= 'TransitionSystem' ( (lv_adt_1_0= ruleADT ) ) otherlv_2= 'initialState' otherlv_3= '=' ( (lv_initialState_4_0= ruleTerm ) ) otherlv_5= 'Strategies' ( (lv_auxiliary_6_0= ruleAuxiliary ) )* otherlv_7= 'Transitions' ( (lv_transitions_8_0= ruleTransition ) ) ( (lv_transitions_9_0= ruleTransition ) )* ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:76:1: ruleTransitionSystem returns [EObject current=null] : (otherlv_0= 'TransitionSystem' ( (lv_adt_1_0= ruleADT ) ) otherlv_2= 'initialState' otherlv_3= '=' ( (lv_initialState_4_0= ruleTerm ) ) otherlv_5= 'Strategies' ( (lv_auxiliary_6_0= ruleAuxiliary ) )* otherlv_7= 'Transitions' ( (lv_transitions_8_0= ruleTransition ) )* ) ;
     public final EObject ruleTransitionSystem() throws RecognitionException {
         EObject current = null;
 
@@ -160,17 +160,15 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
         EObject lv_transitions_8_0 = null;
 
-        EObject lv_transitions_9_0 = null;
-
 
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:79:28: ( (otherlv_0= 'TransitionSystem' ( (lv_adt_1_0= ruleADT ) ) otherlv_2= 'initialState' otherlv_3= '=' ( (lv_initialState_4_0= ruleTerm ) ) otherlv_5= 'Strategies' ( (lv_auxiliary_6_0= ruleAuxiliary ) )* otherlv_7= 'Transitions' ( (lv_transitions_8_0= ruleTransition ) ) ( (lv_transitions_9_0= ruleTransition ) )* ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:80:1: (otherlv_0= 'TransitionSystem' ( (lv_adt_1_0= ruleADT ) ) otherlv_2= 'initialState' otherlv_3= '=' ( (lv_initialState_4_0= ruleTerm ) ) otherlv_5= 'Strategies' ( (lv_auxiliary_6_0= ruleAuxiliary ) )* otherlv_7= 'Transitions' ( (lv_transitions_8_0= ruleTransition ) ) ( (lv_transitions_9_0= ruleTransition ) )* )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:79:28: ( (otherlv_0= 'TransitionSystem' ( (lv_adt_1_0= ruleADT ) ) otherlv_2= 'initialState' otherlv_3= '=' ( (lv_initialState_4_0= ruleTerm ) ) otherlv_5= 'Strategies' ( (lv_auxiliary_6_0= ruleAuxiliary ) )* otherlv_7= 'Transitions' ( (lv_transitions_8_0= ruleTransition ) )* ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:80:1: (otherlv_0= 'TransitionSystem' ( (lv_adt_1_0= ruleADT ) ) otherlv_2= 'initialState' otherlv_3= '=' ( (lv_initialState_4_0= ruleTerm ) ) otherlv_5= 'Strategies' ( (lv_auxiliary_6_0= ruleAuxiliary ) )* otherlv_7= 'Transitions' ( (lv_transitions_8_0= ruleTransition ) )* )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:80:1: (otherlv_0= 'TransitionSystem' ( (lv_adt_1_0= ruleADT ) ) otherlv_2= 'initialState' otherlv_3= '=' ( (lv_initialState_4_0= ruleTerm ) ) otherlv_5= 'Strategies' ( (lv_auxiliary_6_0= ruleAuxiliary ) )* otherlv_7= 'Transitions' ( (lv_transitions_8_0= ruleTransition ) ) ( (lv_transitions_9_0= ruleTransition ) )* )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:80:3: otherlv_0= 'TransitionSystem' ( (lv_adt_1_0= ruleADT ) ) otherlv_2= 'initialState' otherlv_3= '=' ( (lv_initialState_4_0= ruleTerm ) ) otherlv_5= 'Strategies' ( (lv_auxiliary_6_0= ruleAuxiliary ) )* otherlv_7= 'Transitions' ( (lv_transitions_8_0= ruleTransition ) ) ( (lv_transitions_9_0= ruleTransition ) )*
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:80:1: (otherlv_0= 'TransitionSystem' ( (lv_adt_1_0= ruleADT ) ) otherlv_2= 'initialState' otherlv_3= '=' ( (lv_initialState_4_0= ruleTerm ) ) otherlv_5= 'Strategies' ( (lv_auxiliary_6_0= ruleAuxiliary ) )* otherlv_7= 'Transitions' ( (lv_transitions_8_0= ruleTransition ) )* )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:80:3: otherlv_0= 'TransitionSystem' ( (lv_adt_1_0= ruleADT ) ) otherlv_2= 'initialState' otherlv_3= '=' ( (lv_initialState_4_0= ruleTerm ) ) otherlv_5= 'Strategies' ( (lv_auxiliary_6_0= ruleAuxiliary ) )* otherlv_7= 'Transitions' ( (lv_transitions_8_0= ruleTransition ) )*
             {
             otherlv_0=(Token)match(input,12,FollowSets000.FOLLOW_12_in_ruleTransitionSystem122); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -325,42 +323,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                   	newLeafNode(otherlv_7, grammarAccess.getTransitionSystemAccess().getTransitionsKeyword_7());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:154:1: ( (lv_transitions_8_0= ruleTransition ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:155:1: (lv_transitions_8_0= ruleTransition )
-            {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:155:1: (lv_transitions_8_0= ruleTransition )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:156:3: lv_transitions_8_0= ruleTransition
-            {
-            if ( state.backtracking==0 ) {
-               
-              	        newCompositeNode(grammarAccess.getTransitionSystemAccess().getTransitionsTransitionParserRuleCall_8_0()); 
-              	    
-            }
-            pushFollow(FollowSets000.FOLLOW_ruleTransition_in_ruleTransitionSystem255);
-            lv_transitions_8_0=ruleTransition();
-
-            state._fsp--;
-            if (state.failed) return current;
-            if ( state.backtracking==0 ) {
-
-              	        if (current==null) {
-              	            current = createModelElementForParent(grammarAccess.getTransitionSystemRule());
-              	        }
-                     		add(
-                     			current, 
-                     			"transitions",
-                      		lv_transitions_8_0, 
-                      		"Transition");
-              	        afterParserOrEnumRuleCall();
-              	    
-            }
-
-            }
-
-
-            }
-
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:172:2: ( (lv_transitions_9_0= ruleTransition ) )*
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:154:1: ( (lv_transitions_8_0= ruleTransition ) )*
             loop2:
             do {
                 int alt2=2;
@@ -373,18 +336,18 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                 switch (alt2) {
             	case 1 :
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:173:1: (lv_transitions_9_0= ruleTransition )
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:155:1: (lv_transitions_8_0= ruleTransition )
             	    {
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:173:1: (lv_transitions_9_0= ruleTransition )
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:174:3: lv_transitions_9_0= ruleTransition
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:155:1: (lv_transitions_8_0= ruleTransition )
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:156:3: lv_transitions_8_0= ruleTransition
             	    {
             	    if ( state.backtracking==0 ) {
             	       
-            	      	        newCompositeNode(grammarAccess.getTransitionSystemAccess().getTransitionsTransitionParserRuleCall_9_0()); 
+            	      	        newCompositeNode(grammarAccess.getTransitionSystemAccess().getTransitionsTransitionParserRuleCall_8_0()); 
             	      	    
             	    }
-            	    pushFollow(FollowSets000.FOLLOW_ruleTransition_in_ruleTransitionSystem276);
-            	    lv_transitions_9_0=ruleTransition();
+            	    pushFollow(FollowSets000.FOLLOW_ruleTransition_in_ruleTransitionSystem255);
+            	    lv_transitions_8_0=ruleTransition();
 
             	    state._fsp--;
             	    if (state.failed) return current;
@@ -396,7 +359,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             	             		add(
             	             			current, 
             	             			"transitions",
-            	              		lv_transitions_9_0, 
+            	              		lv_transitions_8_0, 
             	              		"Transition");
             	      	        afterParserOrEnumRuleCall();
             	      	    
@@ -436,7 +399,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleTransition"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:198:1: entryRuleTransition returns [EObject current=null] : iv_ruleTransition= ruleTransition EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:180:1: entryRuleTransition returns [EObject current=null] : iv_ruleTransition= ruleTransition EOF ;
     public final EObject entryRuleTransition() throws RecognitionException {
         EObject current = null;
 
@@ -444,13 +407,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:199:2: (iv_ruleTransition= ruleTransition EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:200:2: iv_ruleTransition= ruleTransition EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:181:2: (iv_ruleTransition= ruleTransition EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:182:2: iv_ruleTransition= ruleTransition EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getTransitionRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleTransition_in_entryRuleTransition313);
+            pushFollow(FollowSets000.FOLLOW_ruleTransition_in_entryRuleTransition292);
             iv_ruleTransition=ruleTransition();
 
             state._fsp--;
@@ -458,7 +421,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleTransition; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleTransition323); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleTransition302); if (state.failed) return current;
 
             }
 
@@ -476,7 +439,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleTransition"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:207:1: ruleTransition returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' ( (lv_body_2_0= ruleNonVariableStrategy ) ) ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:189:1: ruleTransition returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' ( (lv_body_2_0= ruleNonVariableStrategy ) ) ) ;
     public final EObject ruleTransition() throws RecognitionException {
         EObject current = null;
 
@@ -488,19 +451,19 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:210:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' ( (lv_body_2_0= ruleNonVariableStrategy ) ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:211:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' ( (lv_body_2_0= ruleNonVariableStrategy ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:192:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' ( (lv_body_2_0= ruleNonVariableStrategy ) ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:193:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' ( (lv_body_2_0= ruleNonVariableStrategy ) ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:211:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' ( (lv_body_2_0= ruleNonVariableStrategy ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:211:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' ( (lv_body_2_0= ruleNonVariableStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:193:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' ( (lv_body_2_0= ruleNonVariableStrategy ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:193:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '=' ( (lv_body_2_0= ruleNonVariableStrategy ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:211:2: ( (lv_name_0_0= RULE_ID ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:212:1: (lv_name_0_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:193:2: ( (lv_name_0_0= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:194:1: (lv_name_0_0= RULE_ID )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:212:1: (lv_name_0_0= RULE_ID )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:213:3: lv_name_0_0= RULE_ID
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:194:1: (lv_name_0_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:195:3: lv_name_0_0= RULE_ID
             {
-            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleTransition365); if (state.failed) return current;
+            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleTransition344); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_name_0_0, grammarAccess.getTransitionAccess().getNameIDTerminalRuleCall_0_0()); 
@@ -524,24 +487,24 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_1=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleTransition382); if (state.failed) return current;
+            otherlv_1=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleTransition361); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getTransitionAccess().getEqualsSignKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:233:1: ( (lv_body_2_0= ruleNonVariableStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:234:1: (lv_body_2_0= ruleNonVariableStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:215:1: ( (lv_body_2_0= ruleNonVariableStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:216:1: (lv_body_2_0= ruleNonVariableStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:234:1: (lv_body_2_0= ruleNonVariableStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:235:3: lv_body_2_0= ruleNonVariableStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:216:1: (lv_body_2_0= ruleNonVariableStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:217:3: lv_body_2_0= ruleNonVariableStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getTransitionAccess().getBodyNonVariableStrategyParserRuleCall_2_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleNonVariableStrategy_in_ruleTransition403);
+            pushFollow(FollowSets000.FOLLOW_ruleNonVariableStrategy_in_ruleTransition382);
             lv_body_2_0=ruleNonVariableStrategy();
 
             state._fsp--;
@@ -588,7 +551,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleAuxiliary"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:259:1: entryRuleAuxiliary returns [EObject current=null] : iv_ruleAuxiliary= ruleAuxiliary EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:241:1: entryRuleAuxiliary returns [EObject current=null] : iv_ruleAuxiliary= ruleAuxiliary EOF ;
     public final EObject entryRuleAuxiliary() throws RecognitionException {
         EObject current = null;
 
@@ -596,13 +559,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:260:2: (iv_ruleAuxiliary= ruleAuxiliary EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:261:2: iv_ruleAuxiliary= ruleAuxiliary EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:242:2: (iv_ruleAuxiliary= ruleAuxiliary EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:243:2: iv_ruleAuxiliary= ruleAuxiliary EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getAuxiliaryRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleAuxiliary_in_entryRuleAuxiliary439);
+            pushFollow(FollowSets000.FOLLOW_ruleAuxiliary_in_entryRuleAuxiliary418);
             iv_ruleAuxiliary=ruleAuxiliary();
 
             state._fsp--;
@@ -610,7 +573,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleAuxiliary; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAuxiliary449); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleAuxiliary428); if (state.failed) return current;
 
             }
 
@@ -628,7 +591,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleAuxiliary"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:268:1: ruleAuxiliary returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')' )? otherlv_6= '=' ( (lv_body_7_0= ruleNonVariableStrategy ) ) ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:250:1: ruleAuxiliary returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')' )? otherlv_6= '=' ( (lv_body_7_0= ruleNonVariableStrategy ) ) ) ;
     public final EObject ruleAuxiliary() throws RecognitionException {
         EObject current = null;
 
@@ -647,19 +610,19 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:271:28: ( ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')' )? otherlv_6= '=' ( (lv_body_7_0= ruleNonVariableStrategy ) ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:272:1: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')' )? otherlv_6= '=' ( (lv_body_7_0= ruleNonVariableStrategy ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:253:28: ( ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')' )? otherlv_6= '=' ( (lv_body_7_0= ruleNonVariableStrategy ) ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:254:1: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')' )? otherlv_6= '=' ( (lv_body_7_0= ruleNonVariableStrategy ) ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:272:1: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')' )? otherlv_6= '=' ( (lv_body_7_0= ruleNonVariableStrategy ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:272:2: ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')' )? otherlv_6= '=' ( (lv_body_7_0= ruleNonVariableStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:254:1: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')' )? otherlv_6= '=' ( (lv_body_7_0= ruleNonVariableStrategy ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:254:2: ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')' )? otherlv_6= '=' ( (lv_body_7_0= ruleNonVariableStrategy ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:272:2: ( (lv_name_0_0= RULE_ID ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:273:1: (lv_name_0_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:254:2: ( (lv_name_0_0= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:255:1: (lv_name_0_0= RULE_ID )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:273:1: (lv_name_0_0= RULE_ID )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:274:3: lv_name_0_0= RULE_ID
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:255:1: (lv_name_0_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:256:3: lv_name_0_0= RULE_ID
             {
-            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAuxiliary491); if (state.failed) return current;
+            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleAuxiliary470); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_name_0_0, grammarAccess.getAuxiliaryAccess().getNameIDTerminalRuleCall_0_0()); 
@@ -683,7 +646,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:290:2: (otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')' )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:272:2: (otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')' )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -692,26 +655,26 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             }
             switch (alt4) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:290:4: otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')'
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:272:4: otherlv_1= '(' ( (lv_formalParams_2_0= ruleVariableStrategy ) ) (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )* otherlv_5= ')'
                     {
-                    otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleAuxiliary509); if (state.failed) return current;
+                    otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleAuxiliary488); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_1, grammarAccess.getAuxiliaryAccess().getLeftParenthesisKeyword_1_0());
                           
                     }
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:294:1: ( (lv_formalParams_2_0= ruleVariableStrategy ) )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:295:1: (lv_formalParams_2_0= ruleVariableStrategy )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:276:1: ( (lv_formalParams_2_0= ruleVariableStrategy ) )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:277:1: (lv_formalParams_2_0= ruleVariableStrategy )
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:295:1: (lv_formalParams_2_0= ruleVariableStrategy )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:296:3: lv_formalParams_2_0= ruleVariableStrategy
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:277:1: (lv_formalParams_2_0= ruleVariableStrategy )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:278:3: lv_formalParams_2_0= ruleVariableStrategy
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getAuxiliaryAccess().getFormalParamsVariableStrategyParserRuleCall_1_1_0()); 
                       	    
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleVariableStrategy_in_ruleAuxiliary530);
+                    pushFollow(FollowSets000.FOLLOW_ruleVariableStrategy_in_ruleAuxiliary509);
                     lv_formalParams_2_0=ruleVariableStrategy();
 
                     state._fsp--;
@@ -735,7 +698,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                     }
 
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:312:2: (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )*
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:294:2: (otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) ) )*
                     loop3:
                     do {
                         int alt3=2;
@@ -748,26 +711,26 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                         switch (alt3) {
                     	case 1 :
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:312:4: otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:294:4: otherlv_3= ',' ( (lv_formalParams_4_0= ruleVariableStrategy ) )
                     	    {
-                    	    otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleAuxiliary543); if (state.failed) return current;
+                    	    otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleAuxiliary522); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
 
                     	          	newLeafNode(otherlv_3, grammarAccess.getAuxiliaryAccess().getCommaKeyword_1_2_0());
                     	          
                     	    }
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:316:1: ( (lv_formalParams_4_0= ruleVariableStrategy ) )
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:317:1: (lv_formalParams_4_0= ruleVariableStrategy )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:298:1: ( (lv_formalParams_4_0= ruleVariableStrategy ) )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:299:1: (lv_formalParams_4_0= ruleVariableStrategy )
                     	    {
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:317:1: (lv_formalParams_4_0= ruleVariableStrategy )
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:318:3: lv_formalParams_4_0= ruleVariableStrategy
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:299:1: (lv_formalParams_4_0= ruleVariableStrategy )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:300:3: lv_formalParams_4_0= ruleVariableStrategy
                     	    {
                     	    if ( state.backtracking==0 ) {
                     	       
                     	      	        newCompositeNode(grammarAccess.getAuxiliaryAccess().getFormalParamsVariableStrategyParserRuleCall_1_2_1_0()); 
                     	      	    
                     	    }
-                    	    pushFollow(FollowSets000.FOLLOW_ruleVariableStrategy_in_ruleAuxiliary564);
+                    	    pushFollow(FollowSets000.FOLLOW_ruleVariableStrategy_in_ruleAuxiliary543);
                     	    lv_formalParams_4_0=ruleVariableStrategy();
 
                     	    state._fsp--;
@@ -800,7 +763,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                         }
                     } while (true);
 
-                    otherlv_5=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleAuxiliary578); if (state.failed) return current;
+                    otherlv_5=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleAuxiliary557); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_5, grammarAccess.getAuxiliaryAccess().getRightParenthesisKeyword_1_3());
@@ -812,24 +775,24 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_6=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleAuxiliary592); if (state.failed) return current;
+            otherlv_6=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleAuxiliary571); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_6, grammarAccess.getAuxiliaryAccess().getEqualsSignKeyword_2());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:342:1: ( (lv_body_7_0= ruleNonVariableStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:343:1: (lv_body_7_0= ruleNonVariableStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:324:1: ( (lv_body_7_0= ruleNonVariableStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:325:1: (lv_body_7_0= ruleNonVariableStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:343:1: (lv_body_7_0= ruleNonVariableStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:344:3: lv_body_7_0= ruleNonVariableStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:325:1: (lv_body_7_0= ruleNonVariableStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:326:3: lv_body_7_0= ruleNonVariableStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getAuxiliaryAccess().getBodyNonVariableStrategyParserRuleCall_3_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleNonVariableStrategy_in_ruleAuxiliary613);
+            pushFollow(FollowSets000.FOLLOW_ruleNonVariableStrategy_in_ruleAuxiliary592);
             lv_body_7_0=ruleNonVariableStrategy();
 
             state._fsp--;
@@ -876,7 +839,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleStrategy"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:368:1: entryRuleStrategy returns [EObject current=null] : iv_ruleStrategy= ruleStrategy EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:350:1: entryRuleStrategy returns [EObject current=null] : iv_ruleStrategy= ruleStrategy EOF ;
     public final EObject entryRuleStrategy() throws RecognitionException {
         EObject current = null;
 
@@ -884,13 +847,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:369:2: (iv_ruleStrategy= ruleStrategy EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:370:2: iv_ruleStrategy= ruleStrategy EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:351:2: (iv_ruleStrategy= ruleStrategy EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:352:2: iv_ruleStrategy= ruleStrategy EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getStrategyRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_entryRuleStrategy649);
+            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_entryRuleStrategy628);
             iv_ruleStrategy=ruleStrategy();
 
             state._fsp--;
@@ -898,7 +861,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleStrategy; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleStrategy659); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleStrategy638); if (state.failed) return current;
 
             }
 
@@ -916,7 +879,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleStrategy"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:377:1: ruleStrategy returns [EObject current=null] : (this_NonVariableStrategy_0= ruleNonVariableStrategy | this_VariableStrategy_1= ruleVariableStrategy ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:359:1: ruleStrategy returns [EObject current=null] : (this_NonVariableStrategy_0= ruleNonVariableStrategy | this_VariableStrategy_1= ruleVariableStrategy ) ;
     public final EObject ruleStrategy() throws RecognitionException {
         EObject current = null;
 
@@ -928,10 +891,10 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:380:28: ( (this_NonVariableStrategy_0= ruleNonVariableStrategy | this_VariableStrategy_1= ruleVariableStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:381:1: (this_NonVariableStrategy_0= ruleNonVariableStrategy | this_VariableStrategy_1= ruleVariableStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:362:28: ( (this_NonVariableStrategy_0= ruleNonVariableStrategy | this_VariableStrategy_1= ruleVariableStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:363:1: (this_NonVariableStrategy_0= ruleNonVariableStrategy | this_VariableStrategy_1= ruleVariableStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:381:1: (this_NonVariableStrategy_0= ruleNonVariableStrategy | this_VariableStrategy_1= ruleVariableStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:363:1: (this_NonVariableStrategy_0= ruleNonVariableStrategy | this_VariableStrategy_1= ruleVariableStrategy )
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -964,14 +927,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             }
             switch (alt5) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:382:5: this_NonVariableStrategy_0= ruleNonVariableStrategy
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:364:5: this_NonVariableStrategy_0= ruleNonVariableStrategy
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getStrategyAccess().getNonVariableStrategyParserRuleCall_0()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleNonVariableStrategy_in_ruleStrategy706);
+                    pushFollow(FollowSets000.FOLLOW_ruleNonVariableStrategy_in_ruleStrategy685);
                     this_NonVariableStrategy_0=ruleNonVariableStrategy();
 
                     state._fsp--;
@@ -986,14 +949,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 2 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:392:5: this_VariableStrategy_1= ruleVariableStrategy
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:374:5: this_VariableStrategy_1= ruleVariableStrategy
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getStrategyAccess().getVariableStrategyParserRuleCall_1()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleVariableStrategy_in_ruleStrategy733);
+                    pushFollow(FollowSets000.FOLLOW_ruleVariableStrategy_in_ruleStrategy712);
                     this_VariableStrategy_1=ruleVariableStrategy();
 
                     state._fsp--;
@@ -1030,7 +993,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleNonVariableStrategy"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:408:1: entryRuleNonVariableStrategy returns [EObject current=null] : iv_ruleNonVariableStrategy= ruleNonVariableStrategy EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:390:1: entryRuleNonVariableStrategy returns [EObject current=null] : iv_ruleNonVariableStrategy= ruleNonVariableStrategy EOF ;
     public final EObject entryRuleNonVariableStrategy() throws RecognitionException {
         EObject current = null;
 
@@ -1038,13 +1001,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:409:2: (iv_ruleNonVariableStrategy= ruleNonVariableStrategy EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:410:2: iv_ruleNonVariableStrategy= ruleNonVariableStrategy EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:391:2: (iv_ruleNonVariableStrategy= ruleNonVariableStrategy EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:392:2: iv_ruleNonVariableStrategy= ruleNonVariableStrategy EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getNonVariableStrategyRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleNonVariableStrategy_in_entryRuleNonVariableStrategy768);
+            pushFollow(FollowSets000.FOLLOW_ruleNonVariableStrategy_in_entryRuleNonVariableStrategy747);
             iv_ruleNonVariableStrategy=ruleNonVariableStrategy();
 
             state._fsp--;
@@ -1052,7 +1015,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleNonVariableStrategy; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleNonVariableStrategy778); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleNonVariableStrategy757); if (state.failed) return current;
 
             }
 
@@ -1070,7 +1033,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleNonVariableStrategy"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:417:1: ruleNonVariableStrategy returns [EObject current=null] : ( ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats ) | this_DeclaredStrategyInstance_1= ruleDeclaredStrategyInstance ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:399:1: ruleNonVariableStrategy returns [EObject current=null] : ( ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats ) | this_DeclaredStrategyInstance_1= ruleDeclaredStrategyInstance ) ;
     public final EObject ruleNonVariableStrategy() throws RecognitionException {
         EObject current = null;
 
@@ -1082,25 +1045,25 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:420:28: ( ( ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats ) | this_DeclaredStrategyInstance_1= ruleDeclaredStrategyInstance ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:421:1: ( ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats ) | this_DeclaredStrategyInstance_1= ruleDeclaredStrategyInstance )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:402:28: ( ( ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats ) | this_DeclaredStrategyInstance_1= ruleDeclaredStrategyInstance ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:403:1: ( ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats ) | this_DeclaredStrategyInstance_1= ruleDeclaredStrategyInstance )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:421:1: ( ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats ) | this_DeclaredStrategyInstance_1= ruleDeclaredStrategyInstance )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:403:1: ( ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats ) | this_DeclaredStrategyInstance_1= ruleDeclaredStrategyInstance )
             int alt6=2;
             alt6 = dfa6.predict(input);
             switch (alt6) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:421:2: ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:403:2: ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats )
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:421:2: ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:421:3: ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:403:2: ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:403:3: ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getNonVariableStrategyAccess().getPredefStratsParserRuleCall_0()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_rulePredefStrats_in_ruleNonVariableStrategy831);
+                    pushFollow(FollowSets000.FOLLOW_rulePredefStrats_in_ruleNonVariableStrategy810);
                     this_PredefStrats_0=rulePredefStrats();
 
                     state._fsp--;
@@ -1118,14 +1081,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 2 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:432:5: this_DeclaredStrategyInstance_1= ruleDeclaredStrategyInstance
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:414:5: this_DeclaredStrategyInstance_1= ruleDeclaredStrategyInstance
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getNonVariableStrategyAccess().getDeclaredStrategyInstanceParserRuleCall_1()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleDeclaredStrategyInstance_in_ruleNonVariableStrategy859);
+                    pushFollow(FollowSets000.FOLLOW_ruleDeclaredStrategyInstance_in_ruleNonVariableStrategy838);
                     this_DeclaredStrategyInstance_1=ruleDeclaredStrategyInstance();
 
                     state._fsp--;
@@ -1162,7 +1125,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRulePredefStrats"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:448:1: entryRulePredefStrats returns [EObject current=null] : iv_rulePredefStrats= rulePredefStrats EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:430:1: entryRulePredefStrats returns [EObject current=null] : iv_rulePredefStrats= rulePredefStrats EOF ;
     public final EObject entryRulePredefStrats() throws RecognitionException {
         EObject current = null;
 
@@ -1170,13 +1133,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:449:2: (iv_rulePredefStrats= rulePredefStrats EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:450:2: iv_rulePredefStrats= rulePredefStrats EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:431:2: (iv_rulePredefStrats= rulePredefStrats EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:432:2: iv_rulePredefStrats= rulePredefStrats EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getPredefStratsRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_rulePredefStrats_in_entryRulePredefStrats894);
+            pushFollow(FollowSets000.FOLLOW_rulePredefStrats_in_entryRulePredefStrats873);
             iv_rulePredefStrats=rulePredefStrats();
 
             state._fsp--;
@@ -1184,7 +1147,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_rulePredefStrats; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRulePredefStrats904); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRulePredefStrats883); if (state.failed) return current;
 
             }
 
@@ -1202,7 +1165,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "rulePredefStrats"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:457:1: rulePredefStrats returns [EObject current=null] : (this_Identity_0= ruleIdentity | this_Fail_1= ruleFail | this_Choice_2= ruleChoice | this_Sequence_3= ruleSequence | this_Fixpoint_4= ruleFixpoint | this_IfThenElse_5= ruleIfThenElse | this_Not_6= ruleNot | this_SimpleStrategy_7= ruleSimpleStrategy | this_One_8= ruleOne | this_Saturation_9= ruleSaturation | this_Union_10= ruleUnion ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:439:1: rulePredefStrats returns [EObject current=null] : (this_Identity_0= ruleIdentity | this_Fail_1= ruleFail | this_Choice_2= ruleChoice | this_Sequence_3= ruleSequence | this_Fixpoint_4= ruleFixpoint | this_IfThenElse_5= ruleIfThenElse | this_Not_6= ruleNot | this_SimpleStrategy_7= ruleSimpleStrategy | this_One_8= ruleOne | this_Saturation_9= ruleSaturation | this_Union_10= ruleUnion ) ;
     public final EObject rulePredefStrats() throws RecognitionException {
         EObject current = null;
 
@@ -1232,10 +1195,10 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:460:28: ( (this_Identity_0= ruleIdentity | this_Fail_1= ruleFail | this_Choice_2= ruleChoice | this_Sequence_3= ruleSequence | this_Fixpoint_4= ruleFixpoint | this_IfThenElse_5= ruleIfThenElse | this_Not_6= ruleNot | this_SimpleStrategy_7= ruleSimpleStrategy | this_One_8= ruleOne | this_Saturation_9= ruleSaturation | this_Union_10= ruleUnion ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:461:1: (this_Identity_0= ruleIdentity | this_Fail_1= ruleFail | this_Choice_2= ruleChoice | this_Sequence_3= ruleSequence | this_Fixpoint_4= ruleFixpoint | this_IfThenElse_5= ruleIfThenElse | this_Not_6= ruleNot | this_SimpleStrategy_7= ruleSimpleStrategy | this_One_8= ruleOne | this_Saturation_9= ruleSaturation | this_Union_10= ruleUnion )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:442:28: ( (this_Identity_0= ruleIdentity | this_Fail_1= ruleFail | this_Choice_2= ruleChoice | this_Sequence_3= ruleSequence | this_Fixpoint_4= ruleFixpoint | this_IfThenElse_5= ruleIfThenElse | this_Not_6= ruleNot | this_SimpleStrategy_7= ruleSimpleStrategy | this_One_8= ruleOne | this_Saturation_9= ruleSaturation | this_Union_10= ruleUnion ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:443:1: (this_Identity_0= ruleIdentity | this_Fail_1= ruleFail | this_Choice_2= ruleChoice | this_Sequence_3= ruleSequence | this_Fixpoint_4= ruleFixpoint | this_IfThenElse_5= ruleIfThenElse | this_Not_6= ruleNot | this_SimpleStrategy_7= ruleSimpleStrategy | this_One_8= ruleOne | this_Saturation_9= ruleSaturation | this_Union_10= ruleUnion )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:461:1: (this_Identity_0= ruleIdentity | this_Fail_1= ruleFail | this_Choice_2= ruleChoice | this_Sequence_3= ruleSequence | this_Fixpoint_4= ruleFixpoint | this_IfThenElse_5= ruleIfThenElse | this_Not_6= ruleNot | this_SimpleStrategy_7= ruleSimpleStrategy | this_One_8= ruleOne | this_Saturation_9= ruleSaturation | this_Union_10= ruleUnion )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:443:1: (this_Identity_0= ruleIdentity | this_Fail_1= ruleFail | this_Choice_2= ruleChoice | this_Sequence_3= ruleSequence | this_Fixpoint_4= ruleFixpoint | this_IfThenElse_5= ruleIfThenElse | this_Not_6= ruleNot | this_SimpleStrategy_7= ruleSimpleStrategy | this_One_8= ruleOne | this_Saturation_9= ruleSaturation | this_Union_10= ruleUnion )
             int alt7=11;
             switch ( input.LA(1) ) {
             case 30:
@@ -1303,14 +1266,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             switch (alt7) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:462:5: this_Identity_0= ruleIdentity
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:444:5: this_Identity_0= ruleIdentity
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getPredefStratsAccess().getIdentityParserRuleCall_0()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleIdentity_in_rulePredefStrats951);
+                    pushFollow(FollowSets000.FOLLOW_ruleIdentity_in_rulePredefStrats930);
                     this_Identity_0=ruleIdentity();
 
                     state._fsp--;
@@ -1325,14 +1288,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 2 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:472:5: this_Fail_1= ruleFail
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:454:5: this_Fail_1= ruleFail
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getPredefStratsAccess().getFailParserRuleCall_1()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleFail_in_rulePredefStrats978);
+                    pushFollow(FollowSets000.FOLLOW_ruleFail_in_rulePredefStrats957);
                     this_Fail_1=ruleFail();
 
                     state._fsp--;
@@ -1347,14 +1310,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 3 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:482:5: this_Choice_2= ruleChoice
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:464:5: this_Choice_2= ruleChoice
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getPredefStratsAccess().getChoiceParserRuleCall_2()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleChoice_in_rulePredefStrats1005);
+                    pushFollow(FollowSets000.FOLLOW_ruleChoice_in_rulePredefStrats984);
                     this_Choice_2=ruleChoice();
 
                     state._fsp--;
@@ -1369,14 +1332,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 4 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:492:5: this_Sequence_3= ruleSequence
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:474:5: this_Sequence_3= ruleSequence
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getPredefStratsAccess().getSequenceParserRuleCall_3()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleSequence_in_rulePredefStrats1032);
+                    pushFollow(FollowSets000.FOLLOW_ruleSequence_in_rulePredefStrats1011);
                     this_Sequence_3=ruleSequence();
 
                     state._fsp--;
@@ -1391,14 +1354,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 5 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:502:5: this_Fixpoint_4= ruleFixpoint
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:484:5: this_Fixpoint_4= ruleFixpoint
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getPredefStratsAccess().getFixpointParserRuleCall_4()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleFixpoint_in_rulePredefStrats1059);
+                    pushFollow(FollowSets000.FOLLOW_ruleFixpoint_in_rulePredefStrats1038);
                     this_Fixpoint_4=ruleFixpoint();
 
                     state._fsp--;
@@ -1413,14 +1376,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 6 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:512:5: this_IfThenElse_5= ruleIfThenElse
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:494:5: this_IfThenElse_5= ruleIfThenElse
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getPredefStratsAccess().getIfThenElseParserRuleCall_5()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleIfThenElse_in_rulePredefStrats1086);
+                    pushFollow(FollowSets000.FOLLOW_ruleIfThenElse_in_rulePredefStrats1065);
                     this_IfThenElse_5=ruleIfThenElse();
 
                     state._fsp--;
@@ -1435,14 +1398,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 7 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:522:5: this_Not_6= ruleNot
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:504:5: this_Not_6= ruleNot
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getPredefStratsAccess().getNotParserRuleCall_6()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleNot_in_rulePredefStrats1113);
+                    pushFollow(FollowSets000.FOLLOW_ruleNot_in_rulePredefStrats1092);
                     this_Not_6=ruleNot();
 
                     state._fsp--;
@@ -1457,14 +1420,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 8 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:532:5: this_SimpleStrategy_7= ruleSimpleStrategy
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:514:5: this_SimpleStrategy_7= ruleSimpleStrategy
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getPredefStratsAccess().getSimpleStrategyParserRuleCall_7()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleSimpleStrategy_in_rulePredefStrats1140);
+                    pushFollow(FollowSets000.FOLLOW_ruleSimpleStrategy_in_rulePredefStrats1119);
                     this_SimpleStrategy_7=ruleSimpleStrategy();
 
                     state._fsp--;
@@ -1479,14 +1442,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 9 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:542:5: this_One_8= ruleOne
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:524:5: this_One_8= ruleOne
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getPredefStratsAccess().getOneParserRuleCall_8()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleOne_in_rulePredefStrats1167);
+                    pushFollow(FollowSets000.FOLLOW_ruleOne_in_rulePredefStrats1146);
                     this_One_8=ruleOne();
 
                     state._fsp--;
@@ -1501,14 +1464,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 10 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:552:5: this_Saturation_9= ruleSaturation
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:534:5: this_Saturation_9= ruleSaturation
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getPredefStratsAccess().getSaturationParserRuleCall_9()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleSaturation_in_rulePredefStrats1194);
+                    pushFollow(FollowSets000.FOLLOW_ruleSaturation_in_rulePredefStrats1173);
                     this_Saturation_9=ruleSaturation();
 
                     state._fsp--;
@@ -1523,14 +1486,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 11 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:562:5: this_Union_10= ruleUnion
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:544:5: this_Union_10= ruleUnion
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getPredefStratsAccess().getUnionParserRuleCall_10()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleUnion_in_rulePredefStrats1221);
+                    pushFollow(FollowSets000.FOLLOW_ruleUnion_in_rulePredefStrats1200);
                     this_Union_10=ruleUnion();
 
                     state._fsp--;
@@ -1567,7 +1530,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleOne"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:578:1: entryRuleOne returns [EObject current=null] : iv_ruleOne= ruleOne EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:560:1: entryRuleOne returns [EObject current=null] : iv_ruleOne= ruleOne EOF ;
     public final EObject entryRuleOne() throws RecognitionException {
         EObject current = null;
 
@@ -1575,13 +1538,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:579:2: (iv_ruleOne= ruleOne EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:580:2: iv_ruleOne= ruleOne EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:561:2: (iv_ruleOne= ruleOne EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:562:2: iv_ruleOne= ruleOne EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getOneRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleOne_in_entryRuleOne1256);
+            pushFollow(FollowSets000.FOLLOW_ruleOne_in_entryRuleOne1235);
             iv_ruleOne=ruleOne();
 
             state._fsp--;
@@ -1589,7 +1552,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleOne; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleOne1266); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleOne1245); if (state.failed) return current;
 
             }
 
@@ -1607,7 +1570,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleOne"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:587:1: ruleOne returns [EObject current=null] : (otherlv_0= 'One' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:569:1: ruleOne returns [EObject current=null] : (otherlv_0= 'One' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' ) ;
     public final EObject ruleOne() throws RecognitionException {
         EObject current = null;
 
@@ -1622,36 +1585,36 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:590:28: ( (otherlv_0= 'One' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:591:1: (otherlv_0= 'One' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:572:28: ( (otherlv_0= 'One' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:573:1: (otherlv_0= 'One' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:591:1: (otherlv_0= 'One' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:591:3: otherlv_0= 'One' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:573:1: (otherlv_0= 'One' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:573:3: otherlv_0= 'One' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')'
             {
-            otherlv_0=(Token)match(input,20,FollowSets000.FOLLOW_20_in_ruleOne1303); if (state.failed) return current;
+            otherlv_0=(Token)match(input,20,FollowSets000.FOLLOW_20_in_ruleOne1282); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getOneAccess().getOneKeyword_0());
                   
             }
-            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleOne1315); if (state.failed) return current;
+            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleOne1294); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getOneAccess().getLeftParenthesisKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:599:1: ( (lv_S_2_0= ruleStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:600:1: (lv_S_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:581:1: ( (lv_S_2_0= ruleStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:582:1: (lv_S_2_0= ruleStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:600:1: (lv_S_2_0= ruleStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:601:3: lv_S_2_0= ruleStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:582:1: (lv_S_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:583:3: lv_S_2_0= ruleStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getOneAccess().getSStrategyParserRuleCall_2_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleOne1336);
+            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleOne1315);
             lv_S_2_0=ruleStrategy();
 
             state._fsp--;
@@ -1675,19 +1638,19 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleOne1348); if (state.failed) return current;
+            otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleOne1327); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getOneAccess().getCommaKeyword_3());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:621:1: ( (lv_n_4_0= RULE_INT ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:622:1: (lv_n_4_0= RULE_INT )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:603:1: ( (lv_n_4_0= RULE_INT ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:604:1: (lv_n_4_0= RULE_INT )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:622:1: (lv_n_4_0= RULE_INT )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:623:3: lv_n_4_0= RULE_INT
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:604:1: (lv_n_4_0= RULE_INT )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:605:3: lv_n_4_0= RULE_INT
             {
-            lv_n_4_0=(Token)match(input,RULE_INT,FollowSets000.FOLLOW_RULE_INT_in_ruleOne1365); if (state.failed) return current;
+            lv_n_4_0=(Token)match(input,RULE_INT,FollowSets000.FOLLOW_RULE_INT_in_ruleOne1344); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_n_4_0, grammarAccess.getOneAccess().getNINTTerminalRuleCall_4_0()); 
@@ -1711,7 +1674,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_5=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleOne1382); if (state.failed) return current;
+            otherlv_5=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleOne1361); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_5, grammarAccess.getOneAccess().getRightParenthesisKeyword_5());
@@ -1740,7 +1703,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleDeclaredStrategyInstance"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:651:1: entryRuleDeclaredStrategyInstance returns [EObject current=null] : iv_ruleDeclaredStrategyInstance= ruleDeclaredStrategyInstance EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:633:1: entryRuleDeclaredStrategyInstance returns [EObject current=null] : iv_ruleDeclaredStrategyInstance= ruleDeclaredStrategyInstance EOF ;
     public final EObject entryRuleDeclaredStrategyInstance() throws RecognitionException {
         EObject current = null;
 
@@ -1748,13 +1711,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:652:2: (iv_ruleDeclaredStrategyInstance= ruleDeclaredStrategyInstance EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:653:2: iv_ruleDeclaredStrategyInstance= ruleDeclaredStrategyInstance EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:634:2: (iv_ruleDeclaredStrategyInstance= ruleDeclaredStrategyInstance EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:635:2: iv_ruleDeclaredStrategyInstance= ruleDeclaredStrategyInstance EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getDeclaredStrategyInstanceRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleDeclaredStrategyInstance_in_entryRuleDeclaredStrategyInstance1418);
+            pushFollow(FollowSets000.FOLLOW_ruleDeclaredStrategyInstance_in_entryRuleDeclaredStrategyInstance1397);
             iv_ruleDeclaredStrategyInstance=ruleDeclaredStrategyInstance();
 
             state._fsp--;
@@ -1762,7 +1725,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleDeclaredStrategyInstance; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleDeclaredStrategyInstance1428); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleDeclaredStrategyInstance1407); if (state.failed) return current;
 
             }
 
@@ -1780,7 +1743,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleDeclaredStrategyInstance"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:660:1: ruleDeclaredStrategyInstance returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )* )? otherlv_6= ')' ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:642:1: ruleDeclaredStrategyInstance returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )* )? otherlv_6= ')' ) ;
     public final EObject ruleDeclaredStrategyInstance() throws RecognitionException {
         EObject current = null;
 
@@ -1796,14 +1759,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:663:28: ( ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )* )? otherlv_6= ')' ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:664:1: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )* )? otherlv_6= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:645:28: ( ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )* )? otherlv_6= ')' ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:646:1: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )* )? otherlv_6= ')' )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:664:1: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )* )? otherlv_6= ')' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:664:2: () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )* )? otherlv_6= ')'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:646:1: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )* )? otherlv_6= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:646:2: () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )* )? otherlv_6= ')'
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:664:2: ()
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:665:5: 
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:646:2: ()
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:647:5: 
             {
             if ( state.backtracking==0 ) {
 
@@ -1815,11 +1778,11 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:670:2: ( (otherlv_1= RULE_ID ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:671:1: (otherlv_1= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:652:2: ( (otherlv_1= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:653:1: (otherlv_1= RULE_ID )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:671:1: (otherlv_1= RULE_ID )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:672:3: otherlv_1= RULE_ID
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:653:1: (otherlv_1= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:654:3: otherlv_1= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -1828,7 +1791,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
               	        }
                       
             }
-            otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleDeclaredStrategyInstance1482); if (state.failed) return current;
+            otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleDeclaredStrategyInstance1461); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               		newLeafNode(otherlv_1, grammarAccess.getDeclaredStrategyInstanceAccess().getDeclarationDeclaredStrategyCrossReference_1_0()); 
@@ -1840,13 +1803,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_2=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleDeclaredStrategyInstance1494); if (state.failed) return current;
+            otherlv_2=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleDeclaredStrategyInstance1473); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_2, grammarAccess.getDeclaredStrategyInstanceAccess().getLeftParenthesisKeyword_2());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:687:1: ( ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )* )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:669:1: ( ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )* )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -1855,20 +1818,20 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             }
             switch (alt9) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:687:2: ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )*
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:669:2: ( (lv_actualParams_3_0= ruleStrategy ) ) (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )*
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:687:2: ( (lv_actualParams_3_0= ruleStrategy ) )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:688:1: (lv_actualParams_3_0= ruleStrategy )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:669:2: ( (lv_actualParams_3_0= ruleStrategy ) )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:670:1: (lv_actualParams_3_0= ruleStrategy )
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:688:1: (lv_actualParams_3_0= ruleStrategy )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:689:3: lv_actualParams_3_0= ruleStrategy
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:670:1: (lv_actualParams_3_0= ruleStrategy )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:671:3: lv_actualParams_3_0= ruleStrategy
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getDeclaredStrategyInstanceAccess().getActualParamsStrategyParserRuleCall_3_0_0()); 
                       	    
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleDeclaredStrategyInstance1516);
+                    pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleDeclaredStrategyInstance1495);
                     lv_actualParams_3_0=ruleStrategy();
 
                     state._fsp--;
@@ -1892,7 +1855,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                     }
 
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:705:2: (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )*
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:687:2: (otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) ) )*
                     loop8:
                     do {
                         int alt8=2;
@@ -1905,26 +1868,26 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                         switch (alt8) {
                     	case 1 :
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:705:4: otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:687:4: otherlv_4= ',' ( (lv_actualParams_5_0= ruleStrategy ) )
                     	    {
-                    	    otherlv_4=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleDeclaredStrategyInstance1529); if (state.failed) return current;
+                    	    otherlv_4=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleDeclaredStrategyInstance1508); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
 
                     	          	newLeafNode(otherlv_4, grammarAccess.getDeclaredStrategyInstanceAccess().getCommaKeyword_3_1_0());
                     	          
                     	    }
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:709:1: ( (lv_actualParams_5_0= ruleStrategy ) )
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:710:1: (lv_actualParams_5_0= ruleStrategy )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:691:1: ( (lv_actualParams_5_0= ruleStrategy ) )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:692:1: (lv_actualParams_5_0= ruleStrategy )
                     	    {
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:710:1: (lv_actualParams_5_0= ruleStrategy )
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:711:3: lv_actualParams_5_0= ruleStrategy
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:692:1: (lv_actualParams_5_0= ruleStrategy )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:693:3: lv_actualParams_5_0= ruleStrategy
                     	    {
                     	    if ( state.backtracking==0 ) {
                     	       
                     	      	        newCompositeNode(grammarAccess.getDeclaredStrategyInstanceAccess().getActualParamsStrategyParserRuleCall_3_1_1_0()); 
                     	      	    
                     	    }
-                    	    pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleDeclaredStrategyInstance1550);
+                    	    pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleDeclaredStrategyInstance1529);
                     	    lv_actualParams_5_0=ruleStrategy();
 
                     	    state._fsp--;
@@ -1963,7 +1926,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_6=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleDeclaredStrategyInstance1566); if (state.failed) return current;
+            otherlv_6=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleDeclaredStrategyInstance1545); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_6, grammarAccess.getDeclaredStrategyInstanceAccess().getRightParenthesisKeyword_4());
@@ -1992,7 +1955,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleSaturation"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:739:1: entryRuleSaturation returns [EObject current=null] : iv_ruleSaturation= ruleSaturation EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:721:1: entryRuleSaturation returns [EObject current=null] : iv_ruleSaturation= ruleSaturation EOF ;
     public final EObject entryRuleSaturation() throws RecognitionException {
         EObject current = null;
 
@@ -2000,13 +1963,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:740:2: (iv_ruleSaturation= ruleSaturation EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:741:2: iv_ruleSaturation= ruleSaturation EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:722:2: (iv_ruleSaturation= ruleSaturation EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:723:2: iv_ruleSaturation= ruleSaturation EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSaturationRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleSaturation_in_entryRuleSaturation1602);
+            pushFollow(FollowSets000.FOLLOW_ruleSaturation_in_entryRuleSaturation1581);
             iv_ruleSaturation=ruleSaturation();
 
             state._fsp--;
@@ -2014,7 +1977,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleSaturation; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSaturation1612); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSaturation1591); if (state.failed) return current;
 
             }
 
@@ -2032,7 +1995,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleSaturation"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:748:1: ruleSaturation returns [EObject current=null] : (otherlv_0= 'Saturation' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:730:1: ruleSaturation returns [EObject current=null] : (otherlv_0= 'Saturation' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' ) ;
     public final EObject ruleSaturation() throws RecognitionException {
         EObject current = null;
 
@@ -2047,36 +2010,36 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:751:28: ( (otherlv_0= 'Saturation' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:752:1: (otherlv_0= 'Saturation' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:733:28: ( (otherlv_0= 'Saturation' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:734:1: (otherlv_0= 'Saturation' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:752:1: (otherlv_0= 'Saturation' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:752:3: otherlv_0= 'Saturation' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:734:1: (otherlv_0= 'Saturation' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:734:3: otherlv_0= 'Saturation' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_n_4_0= RULE_INT ) ) otherlv_5= ')'
             {
-            otherlv_0=(Token)match(input,21,FollowSets000.FOLLOW_21_in_ruleSaturation1649); if (state.failed) return current;
+            otherlv_0=(Token)match(input,21,FollowSets000.FOLLOW_21_in_ruleSaturation1628); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getSaturationAccess().getSaturationKeyword_0());
                   
             }
-            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleSaturation1661); if (state.failed) return current;
+            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleSaturation1640); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getSaturationAccess().getLeftParenthesisKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:760:1: ( (lv_S_2_0= ruleStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:761:1: (lv_S_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:742:1: ( (lv_S_2_0= ruleStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:743:1: (lv_S_2_0= ruleStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:761:1: (lv_S_2_0= ruleStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:762:3: lv_S_2_0= ruleStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:743:1: (lv_S_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:744:3: lv_S_2_0= ruleStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getSaturationAccess().getSStrategyParserRuleCall_2_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleSaturation1682);
+            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleSaturation1661);
             lv_S_2_0=ruleStrategy();
 
             state._fsp--;
@@ -2100,19 +2063,19 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleSaturation1694); if (state.failed) return current;
+            otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleSaturation1673); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getSaturationAccess().getCommaKeyword_3());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:782:1: ( (lv_n_4_0= RULE_INT ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:783:1: (lv_n_4_0= RULE_INT )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:764:1: ( (lv_n_4_0= RULE_INT ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:765:1: (lv_n_4_0= RULE_INT )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:783:1: (lv_n_4_0= RULE_INT )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:784:3: lv_n_4_0= RULE_INT
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:765:1: (lv_n_4_0= RULE_INT )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:766:3: lv_n_4_0= RULE_INT
             {
-            lv_n_4_0=(Token)match(input,RULE_INT,FollowSets000.FOLLOW_RULE_INT_in_ruleSaturation1711); if (state.failed) return current;
+            lv_n_4_0=(Token)match(input,RULE_INT,FollowSets000.FOLLOW_RULE_INT_in_ruleSaturation1690); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_n_4_0, grammarAccess.getSaturationAccess().getNINTTerminalRuleCall_4_0()); 
@@ -2136,7 +2099,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_5=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleSaturation1728); if (state.failed) return current;
+            otherlv_5=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleSaturation1707); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_5, grammarAccess.getSaturationAccess().getRightParenthesisKeyword_5());
@@ -2165,7 +2128,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleIfThenElse"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:812:1: entryRuleIfThenElse returns [EObject current=null] : iv_ruleIfThenElse= ruleIfThenElse EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:794:1: entryRuleIfThenElse returns [EObject current=null] : iv_ruleIfThenElse= ruleIfThenElse EOF ;
     public final EObject entryRuleIfThenElse() throws RecognitionException {
         EObject current = null;
 
@@ -2173,13 +2136,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:813:2: (iv_ruleIfThenElse= ruleIfThenElse EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:814:2: iv_ruleIfThenElse= ruleIfThenElse EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:795:2: (iv_ruleIfThenElse= ruleIfThenElse EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:796:2: iv_ruleIfThenElse= ruleIfThenElse EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getIfThenElseRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleIfThenElse_in_entryRuleIfThenElse1764);
+            pushFollow(FollowSets000.FOLLOW_ruleIfThenElse_in_entryRuleIfThenElse1743);
             iv_ruleIfThenElse=ruleIfThenElse();
 
             state._fsp--;
@@ -2187,7 +2150,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleIfThenElse; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleIfThenElse1774); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleIfThenElse1753); if (state.failed) return current;
 
             }
 
@@ -2205,7 +2168,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleIfThenElse"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:821:1: ruleIfThenElse returns [EObject current=null] : (otherlv_0= 'IfThenElse' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ',' ( (lv_S3_6_0= ruleStrategy ) ) otherlv_7= ')' ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:803:1: ruleIfThenElse returns [EObject current=null] : (otherlv_0= 'IfThenElse' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ',' ( (lv_S3_6_0= ruleStrategy ) ) otherlv_7= ')' ) ;
     public final EObject ruleIfThenElse() throws RecognitionException {
         EObject current = null;
 
@@ -2224,36 +2187,36 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:824:28: ( (otherlv_0= 'IfThenElse' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ',' ( (lv_S3_6_0= ruleStrategy ) ) otherlv_7= ')' ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:825:1: (otherlv_0= 'IfThenElse' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ',' ( (lv_S3_6_0= ruleStrategy ) ) otherlv_7= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:806:28: ( (otherlv_0= 'IfThenElse' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ',' ( (lv_S3_6_0= ruleStrategy ) ) otherlv_7= ')' ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:807:1: (otherlv_0= 'IfThenElse' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ',' ( (lv_S3_6_0= ruleStrategy ) ) otherlv_7= ')' )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:825:1: (otherlv_0= 'IfThenElse' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ',' ( (lv_S3_6_0= ruleStrategy ) ) otherlv_7= ')' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:825:3: otherlv_0= 'IfThenElse' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ',' ( (lv_S3_6_0= ruleStrategy ) ) otherlv_7= ')'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:807:1: (otherlv_0= 'IfThenElse' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ',' ( (lv_S3_6_0= ruleStrategy ) ) otherlv_7= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:807:3: otherlv_0= 'IfThenElse' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ',' ( (lv_S3_6_0= ruleStrategy ) ) otherlv_7= ')'
             {
-            otherlv_0=(Token)match(input,22,FollowSets000.FOLLOW_22_in_ruleIfThenElse1811); if (state.failed) return current;
+            otherlv_0=(Token)match(input,22,FollowSets000.FOLLOW_22_in_ruleIfThenElse1790); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getIfThenElseAccess().getIfThenElseKeyword_0());
                   
             }
-            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleIfThenElse1823); if (state.failed) return current;
+            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleIfThenElse1802); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getIfThenElseAccess().getLeftParenthesisKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:833:1: ( (lv_S1_2_0= ruleStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:834:1: (lv_S1_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:815:1: ( (lv_S1_2_0= ruleStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:816:1: (lv_S1_2_0= ruleStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:834:1: (lv_S1_2_0= ruleStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:835:3: lv_S1_2_0= ruleStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:816:1: (lv_S1_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:817:3: lv_S1_2_0= ruleStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getIfThenElseAccess().getS1StrategyParserRuleCall_2_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleIfThenElse1844);
+            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleIfThenElse1823);
             lv_S1_2_0=ruleStrategy();
 
             state._fsp--;
@@ -2277,24 +2240,24 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleIfThenElse1856); if (state.failed) return current;
+            otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleIfThenElse1835); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getIfThenElseAccess().getCommaKeyword_3());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:855:1: ( (lv_S2_4_0= ruleStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:856:1: (lv_S2_4_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:837:1: ( (lv_S2_4_0= ruleStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:838:1: (lv_S2_4_0= ruleStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:856:1: (lv_S2_4_0= ruleStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:857:3: lv_S2_4_0= ruleStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:838:1: (lv_S2_4_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:839:3: lv_S2_4_0= ruleStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getIfThenElseAccess().getS2StrategyParserRuleCall_4_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleIfThenElse1877);
+            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleIfThenElse1856);
             lv_S2_4_0=ruleStrategy();
 
             state._fsp--;
@@ -2318,24 +2281,24 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_5=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleIfThenElse1889); if (state.failed) return current;
+            otherlv_5=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleIfThenElse1868); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_5, grammarAccess.getIfThenElseAccess().getCommaKeyword_5());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:877:1: ( (lv_S3_6_0= ruleStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:878:1: (lv_S3_6_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:859:1: ( (lv_S3_6_0= ruleStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:860:1: (lv_S3_6_0= ruleStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:878:1: (lv_S3_6_0= ruleStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:879:3: lv_S3_6_0= ruleStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:860:1: (lv_S3_6_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:861:3: lv_S3_6_0= ruleStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getIfThenElseAccess().getS3StrategyParserRuleCall_6_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleIfThenElse1910);
+            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleIfThenElse1889);
             lv_S3_6_0=ruleStrategy();
 
             state._fsp--;
@@ -2359,7 +2322,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_7=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleIfThenElse1922); if (state.failed) return current;
+            otherlv_7=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleIfThenElse1901); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_7, grammarAccess.getIfThenElseAccess().getRightParenthesisKeyword_7());
@@ -2388,7 +2351,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleSimpleStrategy"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:907:1: entryRuleSimpleStrategy returns [EObject current=null] : iv_ruleSimpleStrategy= ruleSimpleStrategy EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:889:1: entryRuleSimpleStrategy returns [EObject current=null] : iv_ruleSimpleStrategy= ruleSimpleStrategy EOF ;
     public final EObject entryRuleSimpleStrategy() throws RecognitionException {
         EObject current = null;
 
@@ -2396,13 +2359,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:908:2: (iv_ruleSimpleStrategy= ruleSimpleStrategy EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:909:2: iv_ruleSimpleStrategy= ruleSimpleStrategy EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:890:2: (iv_ruleSimpleStrategy= ruleSimpleStrategy EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:891:2: iv_ruleSimpleStrategy= ruleSimpleStrategy EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSimpleStrategyRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleSimpleStrategy_in_entryRuleSimpleStrategy1958);
+            pushFollow(FollowSets000.FOLLOW_ruleSimpleStrategy_in_entryRuleSimpleStrategy1937);
             iv_ruleSimpleStrategy=ruleSimpleStrategy();
 
             state._fsp--;
@@ -2410,7 +2373,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleSimpleStrategy; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSimpleStrategy1968); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSimpleStrategy1947); if (state.failed) return current;
 
             }
 
@@ -2428,7 +2391,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleSimpleStrategy"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:916:1: ruleSimpleStrategy returns [EObject current=null] : (otherlv_0= '{' ( (lv_equations_1_0= ruleRewriteRule ) ) (otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) ) )* otherlv_4= '}' ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:898:1: ruleSimpleStrategy returns [EObject current=null] : (otherlv_0= '{' ( (lv_equations_1_0= ruleRewriteRule ) ) (otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) ) )* otherlv_4= '}' ) ;
     public final EObject ruleSimpleStrategy() throws RecognitionException {
         EObject current = null;
 
@@ -2443,30 +2406,30 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:919:28: ( (otherlv_0= '{' ( (lv_equations_1_0= ruleRewriteRule ) ) (otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) ) )* otherlv_4= '}' ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:920:1: (otherlv_0= '{' ( (lv_equations_1_0= ruleRewriteRule ) ) (otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) ) )* otherlv_4= '}' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:901:28: ( (otherlv_0= '{' ( (lv_equations_1_0= ruleRewriteRule ) ) (otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) ) )* otherlv_4= '}' ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:902:1: (otherlv_0= '{' ( (lv_equations_1_0= ruleRewriteRule ) ) (otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) ) )* otherlv_4= '}' )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:920:1: (otherlv_0= '{' ( (lv_equations_1_0= ruleRewriteRule ) ) (otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) ) )* otherlv_4= '}' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:920:3: otherlv_0= '{' ( (lv_equations_1_0= ruleRewriteRule ) ) (otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) ) )* otherlv_4= '}'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:902:1: (otherlv_0= '{' ( (lv_equations_1_0= ruleRewriteRule ) ) (otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) ) )* otherlv_4= '}' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:902:3: otherlv_0= '{' ( (lv_equations_1_0= ruleRewriteRule ) ) (otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) ) )* otherlv_4= '}'
             {
-            otherlv_0=(Token)match(input,23,FollowSets000.FOLLOW_23_in_ruleSimpleStrategy2005); if (state.failed) return current;
+            otherlv_0=(Token)match(input,23,FollowSets000.FOLLOW_23_in_ruleSimpleStrategy1984); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getSimpleStrategyAccess().getLeftCurlyBracketKeyword_0());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:924:1: ( (lv_equations_1_0= ruleRewriteRule ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:925:1: (lv_equations_1_0= ruleRewriteRule )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:906:1: ( (lv_equations_1_0= ruleRewriteRule ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:907:1: (lv_equations_1_0= ruleRewriteRule )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:925:1: (lv_equations_1_0= ruleRewriteRule )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:926:3: lv_equations_1_0= ruleRewriteRule
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:907:1: (lv_equations_1_0= ruleRewriteRule )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:908:3: lv_equations_1_0= ruleRewriteRule
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getSimpleStrategyAccess().getEquationsRewriteRuleParserRuleCall_1_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleRewriteRule_in_ruleSimpleStrategy2026);
+            pushFollow(FollowSets000.FOLLOW_ruleRewriteRule_in_ruleSimpleStrategy2005);
             lv_equations_1_0=ruleRewriteRule();
 
             state._fsp--;
@@ -2490,7 +2453,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:942:2: (otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) ) )*
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:924:2: (otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) ) )*
             loop10:
             do {
                 int alt10=2;
@@ -2503,26 +2466,26 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                 switch (alt10) {
             	case 1 :
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:942:4: otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) )
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:924:4: otherlv_2= ',' ( (lv_equations_3_0= ruleRewriteRule ) )
             	    {
-            	    otherlv_2=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleSimpleStrategy2039); if (state.failed) return current;
+            	    otherlv_2=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleSimpleStrategy2018); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
 
             	          	newLeafNode(otherlv_2, grammarAccess.getSimpleStrategyAccess().getCommaKeyword_2_0());
             	          
             	    }
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:946:1: ( (lv_equations_3_0= ruleRewriteRule ) )
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:947:1: (lv_equations_3_0= ruleRewriteRule )
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:928:1: ( (lv_equations_3_0= ruleRewriteRule ) )
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:929:1: (lv_equations_3_0= ruleRewriteRule )
             	    {
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:947:1: (lv_equations_3_0= ruleRewriteRule )
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:948:3: lv_equations_3_0= ruleRewriteRule
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:929:1: (lv_equations_3_0= ruleRewriteRule )
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:930:3: lv_equations_3_0= ruleRewriteRule
             	    {
             	    if ( state.backtracking==0 ) {
             	       
             	      	        newCompositeNode(grammarAccess.getSimpleStrategyAccess().getEquationsRewriteRuleParserRuleCall_2_1_0()); 
             	      	    
             	    }
-            	    pushFollow(FollowSets000.FOLLOW_ruleRewriteRule_in_ruleSimpleStrategy2060);
+            	    pushFollow(FollowSets000.FOLLOW_ruleRewriteRule_in_ruleSimpleStrategy2039);
             	    lv_equations_3_0=ruleRewriteRule();
 
             	    state._fsp--;
@@ -2555,7 +2518,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                 }
             } while (true);
 
-            otherlv_4=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleSimpleStrategy2074); if (state.failed) return current;
+            otherlv_4=(Token)match(input,24,FollowSets000.FOLLOW_24_in_ruleSimpleStrategy2053); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_4, grammarAccess.getSimpleStrategyAccess().getRightCurlyBracketKeyword_3());
@@ -2584,7 +2547,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleNot"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:976:1: entryRuleNot returns [EObject current=null] : iv_ruleNot= ruleNot EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:958:1: entryRuleNot returns [EObject current=null] : iv_ruleNot= ruleNot EOF ;
     public final EObject entryRuleNot() throws RecognitionException {
         EObject current = null;
 
@@ -2592,13 +2555,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:977:2: (iv_ruleNot= ruleNot EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:978:2: iv_ruleNot= ruleNot EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:959:2: (iv_ruleNot= ruleNot EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:960:2: iv_ruleNot= ruleNot EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getNotRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleNot_in_entryRuleNot2110);
+            pushFollow(FollowSets000.FOLLOW_ruleNot_in_entryRuleNot2089);
             iv_ruleNot=ruleNot();
 
             state._fsp--;
@@ -2606,7 +2569,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleNot; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleNot2120); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleNot2099); if (state.failed) return current;
 
             }
 
@@ -2624,7 +2587,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleNot"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:985:1: ruleNot returns [EObject current=null] : (otherlv_0= 'Not' otherlv_1= '(' ( (lv_S_2_0= ruleSimpleStrategy ) ) otherlv_3= ')' ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:967:1: ruleNot returns [EObject current=null] : (otherlv_0= 'Not' otherlv_1= '(' ( (lv_S_2_0= ruleSimpleStrategy ) ) otherlv_3= ')' ) ;
     public final EObject ruleNot() throws RecognitionException {
         EObject current = null;
 
@@ -2637,36 +2600,36 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:988:28: ( (otherlv_0= 'Not' otherlv_1= '(' ( (lv_S_2_0= ruleSimpleStrategy ) ) otherlv_3= ')' ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:989:1: (otherlv_0= 'Not' otherlv_1= '(' ( (lv_S_2_0= ruleSimpleStrategy ) ) otherlv_3= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:970:28: ( (otherlv_0= 'Not' otherlv_1= '(' ( (lv_S_2_0= ruleSimpleStrategy ) ) otherlv_3= ')' ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:971:1: (otherlv_0= 'Not' otherlv_1= '(' ( (lv_S_2_0= ruleSimpleStrategy ) ) otherlv_3= ')' )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:989:1: (otherlv_0= 'Not' otherlv_1= '(' ( (lv_S_2_0= ruleSimpleStrategy ) ) otherlv_3= ')' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:989:3: otherlv_0= 'Not' otherlv_1= '(' ( (lv_S_2_0= ruleSimpleStrategy ) ) otherlv_3= ')'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:971:1: (otherlv_0= 'Not' otherlv_1= '(' ( (lv_S_2_0= ruleSimpleStrategy ) ) otherlv_3= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:971:3: otherlv_0= 'Not' otherlv_1= '(' ( (lv_S_2_0= ruleSimpleStrategy ) ) otherlv_3= ')'
             {
-            otherlv_0=(Token)match(input,25,FollowSets000.FOLLOW_25_in_ruleNot2157); if (state.failed) return current;
+            otherlv_0=(Token)match(input,25,FollowSets000.FOLLOW_25_in_ruleNot2136); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getNotAccess().getNotKeyword_0());
                   
             }
-            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleNot2169); if (state.failed) return current;
+            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleNot2148); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getNotAccess().getLeftParenthesisKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:997:1: ( (lv_S_2_0= ruleSimpleStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:998:1: (lv_S_2_0= ruleSimpleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:979:1: ( (lv_S_2_0= ruleSimpleStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:980:1: (lv_S_2_0= ruleSimpleStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:998:1: (lv_S_2_0= ruleSimpleStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:999:3: lv_S_2_0= ruleSimpleStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:980:1: (lv_S_2_0= ruleSimpleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:981:3: lv_S_2_0= ruleSimpleStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getNotAccess().getSSimpleStrategyParserRuleCall_2_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleSimpleStrategy_in_ruleNot2190);
+            pushFollow(FollowSets000.FOLLOW_ruleSimpleStrategy_in_ruleNot2169);
             lv_S_2_0=ruleSimpleStrategy();
 
             state._fsp--;
@@ -2690,7 +2653,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_3=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleNot2202); if (state.failed) return current;
+            otherlv_3=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleNot2181); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getNotAccess().getRightParenthesisKeyword_3());
@@ -2719,7 +2682,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleFixpoint"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1027:1: entryRuleFixpoint returns [EObject current=null] : iv_ruleFixpoint= ruleFixpoint EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1009:1: entryRuleFixpoint returns [EObject current=null] : iv_ruleFixpoint= ruleFixpoint EOF ;
     public final EObject entryRuleFixpoint() throws RecognitionException {
         EObject current = null;
 
@@ -2727,13 +2690,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1028:2: (iv_ruleFixpoint= ruleFixpoint EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1029:2: iv_ruleFixpoint= ruleFixpoint EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1010:2: (iv_ruleFixpoint= ruleFixpoint EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1011:2: iv_ruleFixpoint= ruleFixpoint EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getFixpointRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleFixpoint_in_entryRuleFixpoint2238);
+            pushFollow(FollowSets000.FOLLOW_ruleFixpoint_in_entryRuleFixpoint2217);
             iv_ruleFixpoint=ruleFixpoint();
 
             state._fsp--;
@@ -2741,7 +2704,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleFixpoint; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleFixpoint2248); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleFixpoint2227); if (state.failed) return current;
 
             }
 
@@ -2759,7 +2722,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleFixpoint"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1036:1: ruleFixpoint returns [EObject current=null] : (otherlv_0= 'Fixpoint' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ')' ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1018:1: ruleFixpoint returns [EObject current=null] : (otherlv_0= 'Fixpoint' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ')' ) ;
     public final EObject ruleFixpoint() throws RecognitionException {
         EObject current = null;
 
@@ -2772,36 +2735,36 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1039:28: ( (otherlv_0= 'Fixpoint' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ')' ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1040:1: (otherlv_0= 'Fixpoint' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1021:28: ( (otherlv_0= 'Fixpoint' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ')' ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1022:1: (otherlv_0= 'Fixpoint' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ')' )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1040:1: (otherlv_0= 'Fixpoint' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ')' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1040:3: otherlv_0= 'Fixpoint' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ')'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1022:1: (otherlv_0= 'Fixpoint' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1022:3: otherlv_0= 'Fixpoint' otherlv_1= '(' ( (lv_S_2_0= ruleStrategy ) ) otherlv_3= ')'
             {
-            otherlv_0=(Token)match(input,26,FollowSets000.FOLLOW_26_in_ruleFixpoint2285); if (state.failed) return current;
+            otherlv_0=(Token)match(input,26,FollowSets000.FOLLOW_26_in_ruleFixpoint2264); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getFixpointAccess().getFixpointKeyword_0());
                   
             }
-            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleFixpoint2297); if (state.failed) return current;
+            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleFixpoint2276); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getFixpointAccess().getLeftParenthesisKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1048:1: ( (lv_S_2_0= ruleStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1049:1: (lv_S_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1030:1: ( (lv_S_2_0= ruleStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1031:1: (lv_S_2_0= ruleStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1049:1: (lv_S_2_0= ruleStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1050:3: lv_S_2_0= ruleStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1031:1: (lv_S_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1032:3: lv_S_2_0= ruleStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getFixpointAccess().getSStrategyParserRuleCall_2_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleFixpoint2318);
+            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleFixpoint2297);
             lv_S_2_0=ruleStrategy();
 
             state._fsp--;
@@ -2825,7 +2788,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_3=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleFixpoint2330); if (state.failed) return current;
+            otherlv_3=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleFixpoint2309); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getFixpointAccess().getRightParenthesisKeyword_3());
@@ -2854,7 +2817,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleChoice"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1078:1: entryRuleChoice returns [EObject current=null] : iv_ruleChoice= ruleChoice EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1060:1: entryRuleChoice returns [EObject current=null] : iv_ruleChoice= ruleChoice EOF ;
     public final EObject entryRuleChoice() throws RecognitionException {
         EObject current = null;
 
@@ -2862,13 +2825,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1079:2: (iv_ruleChoice= ruleChoice EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1080:2: iv_ruleChoice= ruleChoice EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1061:2: (iv_ruleChoice= ruleChoice EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1062:2: iv_ruleChoice= ruleChoice EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getChoiceRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleChoice_in_entryRuleChoice2366);
+            pushFollow(FollowSets000.FOLLOW_ruleChoice_in_entryRuleChoice2345);
             iv_ruleChoice=ruleChoice();
 
             state._fsp--;
@@ -2876,7 +2839,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleChoice; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleChoice2376); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleChoice2355); if (state.failed) return current;
 
             }
 
@@ -2894,7 +2857,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleChoice"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1087:1: ruleChoice returns [EObject current=null] : (otherlv_0= 'Choice' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1069:1: ruleChoice returns [EObject current=null] : (otherlv_0= 'Choice' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' ) ;
     public final EObject ruleChoice() throws RecognitionException {
         EObject current = null;
 
@@ -2910,36 +2873,36 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1090:28: ( (otherlv_0= 'Choice' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1091:1: (otherlv_0= 'Choice' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1072:28: ( (otherlv_0= 'Choice' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1073:1: (otherlv_0= 'Choice' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1091:1: (otherlv_0= 'Choice' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1091:3: otherlv_0= 'Choice' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1073:1: (otherlv_0= 'Choice' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1073:3: otherlv_0= 'Choice' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')'
             {
-            otherlv_0=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleChoice2413); if (state.failed) return current;
+            otherlv_0=(Token)match(input,27,FollowSets000.FOLLOW_27_in_ruleChoice2392); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getChoiceAccess().getChoiceKeyword_0());
                   
             }
-            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleChoice2425); if (state.failed) return current;
+            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleChoice2404); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getChoiceAccess().getLeftParenthesisKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1099:1: ( (lv_S1_2_0= ruleStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1100:1: (lv_S1_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1081:1: ( (lv_S1_2_0= ruleStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1082:1: (lv_S1_2_0= ruleStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1100:1: (lv_S1_2_0= ruleStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1101:3: lv_S1_2_0= ruleStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1082:1: (lv_S1_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1083:3: lv_S1_2_0= ruleStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getChoiceAccess().getS1StrategyParserRuleCall_2_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleChoice2446);
+            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleChoice2425);
             lv_S1_2_0=ruleStrategy();
 
             state._fsp--;
@@ -2963,24 +2926,24 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleChoice2458); if (state.failed) return current;
+            otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleChoice2437); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getChoiceAccess().getCommaKeyword_3());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1121:1: ( (lv_S2_4_0= ruleStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1122:1: (lv_S2_4_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1103:1: ( (lv_S2_4_0= ruleStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1104:1: (lv_S2_4_0= ruleStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1122:1: (lv_S2_4_0= ruleStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1123:3: lv_S2_4_0= ruleStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1104:1: (lv_S2_4_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1105:3: lv_S2_4_0= ruleStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getChoiceAccess().getS2StrategyParserRuleCall_4_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleChoice2479);
+            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleChoice2458);
             lv_S2_4_0=ruleStrategy();
 
             state._fsp--;
@@ -3004,7 +2967,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_5=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleChoice2491); if (state.failed) return current;
+            otherlv_5=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleChoice2470); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_5, grammarAccess.getChoiceAccess().getRightParenthesisKeyword_5());
@@ -3033,7 +2996,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleUnion"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1151:1: entryRuleUnion returns [EObject current=null] : iv_ruleUnion= ruleUnion EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1133:1: entryRuleUnion returns [EObject current=null] : iv_ruleUnion= ruleUnion EOF ;
     public final EObject entryRuleUnion() throws RecognitionException {
         EObject current = null;
 
@@ -3041,13 +3004,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1152:2: (iv_ruleUnion= ruleUnion EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1153:2: iv_ruleUnion= ruleUnion EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1134:2: (iv_ruleUnion= ruleUnion EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1135:2: iv_ruleUnion= ruleUnion EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getUnionRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleUnion_in_entryRuleUnion2527);
+            pushFollow(FollowSets000.FOLLOW_ruleUnion_in_entryRuleUnion2506);
             iv_ruleUnion=ruleUnion();
 
             state._fsp--;
@@ -3055,7 +3018,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleUnion; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleUnion2537); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleUnion2516); if (state.failed) return current;
 
             }
 
@@ -3073,7 +3036,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleUnion"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1160:1: ruleUnion returns [EObject current=null] : (otherlv_0= 'Union' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1142:1: ruleUnion returns [EObject current=null] : (otherlv_0= 'Union' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' ) ;
     public final EObject ruleUnion() throws RecognitionException {
         EObject current = null;
 
@@ -3089,36 +3052,36 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1163:28: ( (otherlv_0= 'Union' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1164:1: (otherlv_0= 'Union' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1145:28: ( (otherlv_0= 'Union' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1146:1: (otherlv_0= 'Union' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1164:1: (otherlv_0= 'Union' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1164:3: otherlv_0= 'Union' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1146:1: (otherlv_0= 'Union' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1146:3: otherlv_0= 'Union' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')'
             {
-            otherlv_0=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleUnion2574); if (state.failed) return current;
+            otherlv_0=(Token)match(input,28,FollowSets000.FOLLOW_28_in_ruleUnion2553); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getUnionAccess().getUnionKeyword_0());
                   
             }
-            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleUnion2586); if (state.failed) return current;
+            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleUnion2565); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getUnionAccess().getLeftParenthesisKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1172:1: ( (lv_S1_2_0= ruleStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1173:1: (lv_S1_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1154:1: ( (lv_S1_2_0= ruleStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1155:1: (lv_S1_2_0= ruleStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1173:1: (lv_S1_2_0= ruleStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1174:3: lv_S1_2_0= ruleStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1155:1: (lv_S1_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1156:3: lv_S1_2_0= ruleStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getUnionAccess().getS1StrategyParserRuleCall_2_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleUnion2607);
+            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleUnion2586);
             lv_S1_2_0=ruleStrategy();
 
             state._fsp--;
@@ -3142,24 +3105,24 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleUnion2619); if (state.failed) return current;
+            otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleUnion2598); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getUnionAccess().getCommaKeyword_3());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1194:1: ( (lv_S2_4_0= ruleStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1195:1: (lv_S2_4_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1176:1: ( (lv_S2_4_0= ruleStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1177:1: (lv_S2_4_0= ruleStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1195:1: (lv_S2_4_0= ruleStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1196:3: lv_S2_4_0= ruleStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1177:1: (lv_S2_4_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1178:3: lv_S2_4_0= ruleStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getUnionAccess().getS2StrategyParserRuleCall_4_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleUnion2640);
+            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleUnion2619);
             lv_S2_4_0=ruleStrategy();
 
             state._fsp--;
@@ -3183,7 +3146,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_5=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleUnion2652); if (state.failed) return current;
+            otherlv_5=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleUnion2631); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_5, grammarAccess.getUnionAccess().getRightParenthesisKeyword_5());
@@ -3212,7 +3175,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleSequence"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1224:1: entryRuleSequence returns [EObject current=null] : iv_ruleSequence= ruleSequence EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1206:1: entryRuleSequence returns [EObject current=null] : iv_ruleSequence= ruleSequence EOF ;
     public final EObject entryRuleSequence() throws RecognitionException {
         EObject current = null;
 
@@ -3220,13 +3183,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1225:2: (iv_ruleSequence= ruleSequence EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1226:2: iv_ruleSequence= ruleSequence EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1207:2: (iv_ruleSequence= ruleSequence EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1208:2: iv_ruleSequence= ruleSequence EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSequenceRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleSequence_in_entryRuleSequence2688);
+            pushFollow(FollowSets000.FOLLOW_ruleSequence_in_entryRuleSequence2667);
             iv_ruleSequence=ruleSequence();
 
             state._fsp--;
@@ -3234,7 +3197,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleSequence; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSequence2698); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSequence2677); if (state.failed) return current;
 
             }
 
@@ -3252,7 +3215,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleSequence"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1233:1: ruleSequence returns [EObject current=null] : (otherlv_0= 'Sequence' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1215:1: ruleSequence returns [EObject current=null] : (otherlv_0= 'Sequence' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' ) ;
     public final EObject ruleSequence() throws RecognitionException {
         EObject current = null;
 
@@ -3268,36 +3231,36 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1236:28: ( (otherlv_0= 'Sequence' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1237:1: (otherlv_0= 'Sequence' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1218:28: ( (otherlv_0= 'Sequence' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1219:1: (otherlv_0= 'Sequence' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1237:1: (otherlv_0= 'Sequence' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1237:3: otherlv_0= 'Sequence' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1219:1: (otherlv_0= 'Sequence' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1219:3: otherlv_0= 'Sequence' otherlv_1= '(' ( (lv_S1_2_0= ruleStrategy ) ) otherlv_3= ',' ( (lv_S2_4_0= ruleStrategy ) ) otherlv_5= ')'
             {
-            otherlv_0=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleSequence2735); if (state.failed) return current;
+            otherlv_0=(Token)match(input,29,FollowSets000.FOLLOW_29_in_ruleSequence2714); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getSequenceAccess().getSequenceKeyword_0());
                   
             }
-            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleSequence2747); if (state.failed) return current;
+            otherlv_1=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleSequence2726); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getSequenceAccess().getLeftParenthesisKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1245:1: ( (lv_S1_2_0= ruleStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1246:1: (lv_S1_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1227:1: ( (lv_S1_2_0= ruleStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1228:1: (lv_S1_2_0= ruleStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1246:1: (lv_S1_2_0= ruleStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1247:3: lv_S1_2_0= ruleStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1228:1: (lv_S1_2_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1229:3: lv_S1_2_0= ruleStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getSequenceAccess().getS1StrategyParserRuleCall_2_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleSequence2768);
+            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleSequence2747);
             lv_S1_2_0=ruleStrategy();
 
             state._fsp--;
@@ -3321,24 +3284,24 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleSequence2780); if (state.failed) return current;
+            otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleSequence2759); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_3, grammarAccess.getSequenceAccess().getCommaKeyword_3());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1267:1: ( (lv_S2_4_0= ruleStrategy ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1268:1: (lv_S2_4_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1249:1: ( (lv_S2_4_0= ruleStrategy ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1250:1: (lv_S2_4_0= ruleStrategy )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1268:1: (lv_S2_4_0= ruleStrategy )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1269:3: lv_S2_4_0= ruleStrategy
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1250:1: (lv_S2_4_0= ruleStrategy )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1251:3: lv_S2_4_0= ruleStrategy
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getSequenceAccess().getS2StrategyParserRuleCall_4_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleSequence2801);
+            pushFollow(FollowSets000.FOLLOW_ruleStrategy_in_ruleSequence2780);
             lv_S2_4_0=ruleStrategy();
 
             state._fsp--;
@@ -3362,7 +3325,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_5=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleSequence2813); if (state.failed) return current;
+            otherlv_5=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleSequence2792); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_5, grammarAccess.getSequenceAccess().getRightParenthesisKeyword_5());
@@ -3391,7 +3354,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleIdentity"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1297:1: entryRuleIdentity returns [EObject current=null] : iv_ruleIdentity= ruleIdentity EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1279:1: entryRuleIdentity returns [EObject current=null] : iv_ruleIdentity= ruleIdentity EOF ;
     public final EObject entryRuleIdentity() throws RecognitionException {
         EObject current = null;
 
@@ -3399,13 +3362,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1298:2: (iv_ruleIdentity= ruleIdentity EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1299:2: iv_ruleIdentity= ruleIdentity EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1280:2: (iv_ruleIdentity= ruleIdentity EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1281:2: iv_ruleIdentity= ruleIdentity EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getIdentityRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleIdentity_in_entryRuleIdentity2849);
+            pushFollow(FollowSets000.FOLLOW_ruleIdentity_in_entryRuleIdentity2828);
             iv_ruleIdentity=ruleIdentity();
 
             state._fsp--;
@@ -3413,7 +3376,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleIdentity; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleIdentity2859); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleIdentity2838); if (state.failed) return current;
 
             }
 
@@ -3431,7 +3394,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleIdentity"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1306:1: ruleIdentity returns [EObject current=null] : (otherlv_0= 'Identity' () ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1288:1: ruleIdentity returns [EObject current=null] : (otherlv_0= 'Identity' () ) ;
     public final EObject ruleIdentity() throws RecognitionException {
         EObject current = null;
 
@@ -3440,20 +3403,20 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1309:28: ( (otherlv_0= 'Identity' () ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1310:1: (otherlv_0= 'Identity' () )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1291:28: ( (otherlv_0= 'Identity' () ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1292:1: (otherlv_0= 'Identity' () )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1310:1: (otherlv_0= 'Identity' () )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1310:3: otherlv_0= 'Identity' ()
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1292:1: (otherlv_0= 'Identity' () )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1292:3: otherlv_0= 'Identity' ()
             {
-            otherlv_0=(Token)match(input,30,FollowSets000.FOLLOW_30_in_ruleIdentity2896); if (state.failed) return current;
+            otherlv_0=(Token)match(input,30,FollowSets000.FOLLOW_30_in_ruleIdentity2875); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getIdentityAccess().getIdentityKeyword_0());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1314:1: ()
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1315:5: 
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1296:1: ()
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1297:5: 
             {
             if ( state.backtracking==0 ) {
 
@@ -3488,7 +3451,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleFail"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1328:1: entryRuleFail returns [EObject current=null] : iv_ruleFail= ruleFail EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1310:1: entryRuleFail returns [EObject current=null] : iv_ruleFail= ruleFail EOF ;
     public final EObject entryRuleFail() throws RecognitionException {
         EObject current = null;
 
@@ -3496,13 +3459,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1329:2: (iv_ruleFail= ruleFail EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1330:2: iv_ruleFail= ruleFail EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1311:2: (iv_ruleFail= ruleFail EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1312:2: iv_ruleFail= ruleFail EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getFailRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleFail_in_entryRuleFail2941);
+            pushFollow(FollowSets000.FOLLOW_ruleFail_in_entryRuleFail2920);
             iv_ruleFail=ruleFail();
 
             state._fsp--;
@@ -3510,7 +3473,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleFail; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleFail2951); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleFail2930); if (state.failed) return current;
 
             }
 
@@ -3528,7 +3491,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleFail"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1337:1: ruleFail returns [EObject current=null] : (otherlv_0= 'Fail' () ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1319:1: ruleFail returns [EObject current=null] : (otherlv_0= 'Fail' () ) ;
     public final EObject ruleFail() throws RecognitionException {
         EObject current = null;
 
@@ -3537,20 +3500,20 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1340:28: ( (otherlv_0= 'Fail' () ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1341:1: (otherlv_0= 'Fail' () )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1322:28: ( (otherlv_0= 'Fail' () ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1323:1: (otherlv_0= 'Fail' () )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1341:1: (otherlv_0= 'Fail' () )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1341:3: otherlv_0= 'Fail' ()
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1323:1: (otherlv_0= 'Fail' () )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1323:3: otherlv_0= 'Fail' ()
             {
-            otherlv_0=(Token)match(input,31,FollowSets000.FOLLOW_31_in_ruleFail2988); if (state.failed) return current;
+            otherlv_0=(Token)match(input,31,FollowSets000.FOLLOW_31_in_ruleFail2967); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getFailAccess().getFailKeyword_0());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1345:1: ()
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1346:5: 
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1327:1: ()
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1328:5: 
             {
             if ( state.backtracking==0 ) {
 
@@ -3585,7 +3548,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleVariableStrategy"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1359:1: entryRuleVariableStrategy returns [EObject current=null] : iv_ruleVariableStrategy= ruleVariableStrategy EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1341:1: entryRuleVariableStrategy returns [EObject current=null] : iv_ruleVariableStrategy= ruleVariableStrategy EOF ;
     public final EObject entryRuleVariableStrategy() throws RecognitionException {
         EObject current = null;
 
@@ -3593,13 +3556,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1360:2: (iv_ruleVariableStrategy= ruleVariableStrategy EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1361:2: iv_ruleVariableStrategy= ruleVariableStrategy EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1342:2: (iv_ruleVariableStrategy= ruleVariableStrategy EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1343:2: iv_ruleVariableStrategy= ruleVariableStrategy EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getVariableStrategyRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleVariableStrategy_in_entryRuleVariableStrategy3033);
+            pushFollow(FollowSets000.FOLLOW_ruleVariableStrategy_in_entryRuleVariableStrategy3012);
             iv_ruleVariableStrategy=ruleVariableStrategy();
 
             state._fsp--;
@@ -3607,7 +3570,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleVariableStrategy; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleVariableStrategy3043); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleVariableStrategy3022); if (state.failed) return current;
 
             }
 
@@ -3625,7 +3588,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleVariableStrategy"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1368:1: ruleVariableStrategy returns [EObject current=null] : ( (lv_name_0_0= RULE_ID ) ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1350:1: ruleVariableStrategy returns [EObject current=null] : ( (lv_name_0_0= RULE_ID ) ) ;
     public final EObject ruleVariableStrategy() throws RecognitionException {
         EObject current = null;
 
@@ -3634,16 +3597,16 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1371:28: ( ( (lv_name_0_0= RULE_ID ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1372:1: ( (lv_name_0_0= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1353:28: ( ( (lv_name_0_0= RULE_ID ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1354:1: ( (lv_name_0_0= RULE_ID ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1372:1: ( (lv_name_0_0= RULE_ID ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1373:1: (lv_name_0_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1354:1: ( (lv_name_0_0= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1355:1: (lv_name_0_0= RULE_ID )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1373:1: (lv_name_0_0= RULE_ID )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1374:3: lv_name_0_0= RULE_ID
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1355:1: (lv_name_0_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1356:3: lv_name_0_0= RULE_ID
             {
-            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleVariableStrategy3084); if (state.failed) return current;
+            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleVariableStrategy3063); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_name_0_0, grammarAccess.getVariableStrategyAccess().getNameIDTerminalRuleCall_0()); 
@@ -3687,7 +3650,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleATerm"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1398:1: entryRuleATerm returns [EObject current=null] : iv_ruleATerm= ruleATerm EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1380:1: entryRuleATerm returns [EObject current=null] : iv_ruleATerm= ruleATerm EOF ;
     public final EObject entryRuleATerm() throws RecognitionException {
         EObject current = null;
 
@@ -3695,13 +3658,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1399:2: (iv_ruleATerm= ruleATerm EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1400:2: iv_ruleATerm= ruleATerm EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1381:2: (iv_ruleATerm= ruleATerm EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1382:2: iv_ruleATerm= ruleATerm EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getATermRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleATerm_in_entryRuleATerm3124);
+            pushFollow(FollowSets000.FOLLOW_ruleATerm_in_entryRuleATerm3103);
             iv_ruleATerm=ruleATerm();
 
             state._fsp--;
@@ -3709,7 +3672,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleATerm; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleATerm3134); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleATerm3113); if (state.failed) return current;
 
             }
 
@@ -3727,7 +3690,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleATerm"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1407:1: ruleATerm returns [EObject current=null] : (this_Term_0= ruleTerm | this_Variable_1= ruleVariable ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1389:1: ruleATerm returns [EObject current=null] : (this_Term_0= ruleTerm | this_Variable_1= ruleVariable ) ;
     public final EObject ruleATerm() throws RecognitionException {
         EObject current = null;
 
@@ -3739,10 +3702,10 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1410:28: ( (this_Term_0= ruleTerm | this_Variable_1= ruleVariable ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1411:1: (this_Term_0= ruleTerm | this_Variable_1= ruleVariable )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1392:28: ( (this_Term_0= ruleTerm | this_Variable_1= ruleVariable ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1393:1: (this_Term_0= ruleTerm | this_Variable_1= ruleVariable )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1411:1: (this_Term_0= ruleTerm | this_Variable_1= ruleVariable )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1393:1: (this_Term_0= ruleTerm | this_Variable_1= ruleVariable )
             int alt11=2;
             int LA11_0 = input.LA(1);
 
@@ -3761,14 +3724,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             }
             switch (alt11) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1412:5: this_Term_0= ruleTerm
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1394:5: this_Term_0= ruleTerm
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getATermAccess().getTermParserRuleCall_0()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleTerm_in_ruleATerm3181);
+                    pushFollow(FollowSets000.FOLLOW_ruleTerm_in_ruleATerm3160);
                     this_Term_0=ruleTerm();
 
                     state._fsp--;
@@ -3783,14 +3746,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 2 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1422:5: this_Variable_1= ruleVariable
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1404:5: this_Variable_1= ruleVariable
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getATermAccess().getVariableParserRuleCall_1()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleVariable_in_ruleATerm3208);
+                    pushFollow(FollowSets000.FOLLOW_ruleVariable_in_ruleATerm3187);
                     this_Variable_1=ruleVariable();
 
                     state._fsp--;
@@ -3827,7 +3790,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleASort"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1438:1: entryRuleASort returns [EObject current=null] : iv_ruleASort= ruleASort EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1420:1: entryRuleASort returns [EObject current=null] : iv_ruleASort= ruleASort EOF ;
     public final EObject entryRuleASort() throws RecognitionException {
         EObject current = null;
 
@@ -3835,13 +3798,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1439:2: (iv_ruleASort= ruleASort EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1440:2: iv_ruleASort= ruleASort EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1421:2: (iv_ruleASort= ruleASort EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1422:2: iv_ruleASort= ruleASort EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getASortRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleASort_in_entryRuleASort3243);
+            pushFollow(FollowSets000.FOLLOW_ruleASort_in_entryRuleASort3222);
             iv_ruleASort=ruleASort();
 
             state._fsp--;
@@ -3849,7 +3812,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleASort; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleASort3253); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleASort3232); if (state.failed) return current;
 
             }
 
@@ -3867,7 +3830,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleASort"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1447:1: ruleASort returns [EObject current=null] : (this_SubSort_0= ruleSubSort | this_Sort_1= ruleSort ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1429:1: ruleASort returns [EObject current=null] : (this_SubSort_0= ruleSubSort | this_Sort_1= ruleSort ) ;
     public final EObject ruleASort() throws RecognitionException {
         EObject current = null;
 
@@ -3879,10 +3842,10 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1450:28: ( (this_SubSort_0= ruleSubSort | this_Sort_1= ruleSort ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1451:1: (this_SubSort_0= ruleSubSort | this_Sort_1= ruleSort )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1432:28: ( (this_SubSort_0= ruleSubSort | this_Sort_1= ruleSort ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1433:1: (this_SubSort_0= ruleSubSort | this_Sort_1= ruleSort )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1451:1: (this_SubSort_0= ruleSubSort | this_Sort_1= ruleSort )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1433:1: (this_SubSort_0= ruleSubSort | this_Sort_1= ruleSort )
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -3912,14 +3875,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             }
             switch (alt12) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1452:5: this_SubSort_0= ruleSubSort
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1434:5: this_SubSort_0= ruleSubSort
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getASortAccess().getSubSortParserRuleCall_0()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleSubSort_in_ruleASort3300);
+                    pushFollow(FollowSets000.FOLLOW_ruleSubSort_in_ruleASort3279);
                     this_SubSort_0=ruleSubSort();
 
                     state._fsp--;
@@ -3934,14 +3897,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     }
                     break;
                 case 2 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1462:5: this_Sort_1= ruleSort
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1444:5: this_Sort_1= ruleSort
                     {
                     if ( state.backtracking==0 ) {
                        
                               newCompositeNode(grammarAccess.getASortAccess().getSortParserRuleCall_1()); 
                           
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleSort_in_ruleASort3327);
+                    pushFollow(FollowSets000.FOLLOW_ruleSort_in_ruleASort3306);
                     this_Sort_1=ruleSort();
 
                     state._fsp--;
@@ -3978,7 +3941,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleADT"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1478:1: entryRuleADT returns [EObject current=null] : iv_ruleADT= ruleADT EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1460:1: entryRuleADT returns [EObject current=null] : iv_ruleADT= ruleADT EOF ;
     public final EObject entryRuleADT() throws RecognitionException {
         EObject current = null;
 
@@ -3986,13 +3949,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1479:2: (iv_ruleADT= ruleADT EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1480:2: iv_ruleADT= ruleADT EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1461:2: (iv_ruleADT= ruleADT EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1462:2: iv_ruleADT= ruleADT EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getADTRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleADT_in_entryRuleADT3362);
+            pushFollow(FollowSets000.FOLLOW_ruleADT_in_entryRuleADT3341);
             iv_ruleADT=ruleADT();
 
             state._fsp--;
@@ -4000,7 +3963,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleADT; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleADT3372); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleADT3351); if (state.failed) return current;
 
             }
 
@@ -4018,7 +3981,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleADT"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1487:1: ruleADT returns [EObject current=null] : (otherlv_0= 'ADT' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= 'Signature' ( (lv_signature_3_0= ruleSignature ) ) ( ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )* )? ( ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )* )? ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1469:1: ruleADT returns [EObject current=null] : (otherlv_0= 'ADT' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= 'Signature' ( (lv_signature_3_0= ruleSignature ) ) ( ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )* )? ( ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )* )? ) ;
     public final EObject ruleADT() throws RecognitionException {
         EObject current = null;
 
@@ -4041,25 +4004,25 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1490:28: ( (otherlv_0= 'ADT' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= 'Signature' ( (lv_signature_3_0= ruleSignature ) ) ( ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )* )? ( ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )* )? ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1491:1: (otherlv_0= 'ADT' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= 'Signature' ( (lv_signature_3_0= ruleSignature ) ) ( ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )* )? ( ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )* )? )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1472:28: ( (otherlv_0= 'ADT' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= 'Signature' ( (lv_signature_3_0= ruleSignature ) ) ( ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )* )? ( ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )* )? ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1473:1: (otherlv_0= 'ADT' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= 'Signature' ( (lv_signature_3_0= ruleSignature ) ) ( ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )* )? ( ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )* )? )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1491:1: (otherlv_0= 'ADT' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= 'Signature' ( (lv_signature_3_0= ruleSignature ) ) ( ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )* )? ( ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )* )? )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1491:3: otherlv_0= 'ADT' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= 'Signature' ( (lv_signature_3_0= ruleSignature ) ) ( ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )* )? ( ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )* )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1473:1: (otherlv_0= 'ADT' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= 'Signature' ( (lv_signature_3_0= ruleSignature ) ) ( ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )* )? ( ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )* )? )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1473:3: otherlv_0= 'ADT' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= 'Signature' ( (lv_signature_3_0= ruleSignature ) ) ( ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )* )? ( ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )* )?
             {
-            otherlv_0=(Token)match(input,32,FollowSets000.FOLLOW_32_in_ruleADT3409); if (state.failed) return current;
+            otherlv_0=(Token)match(input,32,FollowSets000.FOLLOW_32_in_ruleADT3388); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getADTAccess().getADTKeyword_0());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1495:1: ( (lv_name_1_0= RULE_ID ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1496:1: (lv_name_1_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1477:1: ( (lv_name_1_0= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1478:1: (lv_name_1_0= RULE_ID )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1496:1: (lv_name_1_0= RULE_ID )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1497:3: lv_name_1_0= RULE_ID
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1478:1: (lv_name_1_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1479:3: lv_name_1_0= RULE_ID
             {
-            lv_name_1_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleADT3426); if (state.failed) return current;
+            lv_name_1_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleADT3405); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_name_1_0, grammarAccess.getADTAccess().getNameIDTerminalRuleCall_1_0()); 
@@ -4083,24 +4046,24 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_2=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleADT3443); if (state.failed) return current;
+            otherlv_2=(Token)match(input,33,FollowSets000.FOLLOW_33_in_ruleADT3422); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_2, grammarAccess.getADTAccess().getSignatureKeyword_2());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1517:1: ( (lv_signature_3_0= ruleSignature ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1518:1: (lv_signature_3_0= ruleSignature )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1499:1: ( (lv_signature_3_0= ruleSignature ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1500:1: (lv_signature_3_0= ruleSignature )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1518:1: (lv_signature_3_0= ruleSignature )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1519:3: lv_signature_3_0= ruleSignature
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1500:1: (lv_signature_3_0= ruleSignature )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1501:3: lv_signature_3_0= ruleSignature
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getADTAccess().getSignatureSignatureParserRuleCall_3_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleSignature_in_ruleADT3464);
+            pushFollow(FollowSets000.FOLLOW_ruleSignature_in_ruleADT3443);
             lv_signature_3_0=ruleSignature();
 
             state._fsp--;
@@ -4124,7 +4087,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1535:2: ( ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )* )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1517:2: ( ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )* )?
             int alt14=2;
             int LA14_0 = input.LA(1);
 
@@ -4133,12 +4096,12 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             }
             switch (alt14) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1535:3: ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )*
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1517:3: ( ( 'Axioms' )=>otherlv_4= 'Axioms' ) ( (lv_equations_5_0= ruleEquation ) ) ( (lv_equations_6_0= ruleEquation ) )*
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1535:3: ( ( 'Axioms' )=>otherlv_4= 'Axioms' )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1535:4: ( 'Axioms' )=>otherlv_4= 'Axioms'
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1517:3: ( ( 'Axioms' )=>otherlv_4= 'Axioms' )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1517:4: ( 'Axioms' )=>otherlv_4= 'Axioms'
                     {
-                    otherlv_4=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleADT3485); if (state.failed) return current;
+                    otherlv_4=(Token)match(input,34,FollowSets000.FOLLOW_34_in_ruleADT3464); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_4, grammarAccess.getADTAccess().getAxiomsKeyword_4_0());
@@ -4147,18 +4110,18 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                     }
 
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1540:2: ( (lv_equations_5_0= ruleEquation ) )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1541:1: (lv_equations_5_0= ruleEquation )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1522:2: ( (lv_equations_5_0= ruleEquation ) )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1523:1: (lv_equations_5_0= ruleEquation )
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1541:1: (lv_equations_5_0= ruleEquation )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1542:3: lv_equations_5_0= ruleEquation
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1523:1: (lv_equations_5_0= ruleEquation )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1524:3: lv_equations_5_0= ruleEquation
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getADTAccess().getEquationsEquationParserRuleCall_4_1_0()); 
                       	    
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleEquation_in_ruleADT3507);
+                    pushFollow(FollowSets000.FOLLOW_ruleEquation_in_ruleADT3486);
                     lv_equations_5_0=ruleEquation();
 
                     state._fsp--;
@@ -4182,7 +4145,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                     }
 
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1558:2: ( (lv_equations_6_0= ruleEquation ) )*
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1540:2: ( (lv_equations_6_0= ruleEquation ) )*
                     loop13:
                     do {
                         int alt13=2;
@@ -4195,17 +4158,17 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                         switch (alt13) {
                     	case 1 :
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1559:1: (lv_equations_6_0= ruleEquation )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1541:1: (lv_equations_6_0= ruleEquation )
                     	    {
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1559:1: (lv_equations_6_0= ruleEquation )
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1560:3: lv_equations_6_0= ruleEquation
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1541:1: (lv_equations_6_0= ruleEquation )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1542:3: lv_equations_6_0= ruleEquation
                     	    {
                     	    if ( state.backtracking==0 ) {
                     	       
                     	      	        newCompositeNode(grammarAccess.getADTAccess().getEquationsEquationParserRuleCall_4_2_0()); 
                     	      	    
                     	    }
-                    	    pushFollow(FollowSets000.FOLLOW_ruleEquation_in_ruleADT3528);
+                    	    pushFollow(FollowSets000.FOLLOW_ruleEquation_in_ruleADT3507);
                     	    lv_equations_6_0=ruleEquation();
 
                     	    state._fsp--;
@@ -4241,7 +4204,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1576:5: ( ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )* )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1558:5: ( ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )* )?
             int alt16=2;
             int LA16_0 = input.LA(1);
 
@@ -4250,12 +4213,12 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             }
             switch (alt16) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1576:6: ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )*
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1558:6: ( ( 'Variables' )=>otherlv_7= 'Variables' ) ( (lv_variables_8_0= ruleVariableDeclaration ) ) ( (lv_variables_9_0= ruleVariableDeclaration ) )*
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1576:6: ( ( 'Variables' )=>otherlv_7= 'Variables' )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1576:7: ( 'Variables' )=>otherlv_7= 'Variables'
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1558:6: ( ( 'Variables' )=>otherlv_7= 'Variables' )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1558:7: ( 'Variables' )=>otherlv_7= 'Variables'
                     {
-                    otherlv_7=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleADT3552); if (state.failed) return current;
+                    otherlv_7=(Token)match(input,35,FollowSets000.FOLLOW_35_in_ruleADT3531); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_7, grammarAccess.getADTAccess().getVariablesKeyword_5_0());
@@ -4264,18 +4227,18 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                     }
 
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1581:2: ( (lv_variables_8_0= ruleVariableDeclaration ) )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1582:1: (lv_variables_8_0= ruleVariableDeclaration )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1563:2: ( (lv_variables_8_0= ruleVariableDeclaration ) )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1564:1: (lv_variables_8_0= ruleVariableDeclaration )
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1582:1: (lv_variables_8_0= ruleVariableDeclaration )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1583:3: lv_variables_8_0= ruleVariableDeclaration
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1564:1: (lv_variables_8_0= ruleVariableDeclaration )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1565:3: lv_variables_8_0= ruleVariableDeclaration
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getADTAccess().getVariablesVariableDeclarationParserRuleCall_5_1_0()); 
                       	    
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleVariableDeclaration_in_ruleADT3574);
+                    pushFollow(FollowSets000.FOLLOW_ruleVariableDeclaration_in_ruleADT3553);
                     lv_variables_8_0=ruleVariableDeclaration();
 
                     state._fsp--;
@@ -4299,7 +4262,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                     }
 
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1599:2: ( (lv_variables_9_0= ruleVariableDeclaration ) )*
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1581:2: ( (lv_variables_9_0= ruleVariableDeclaration ) )*
                     loop15:
                     do {
                         int alt15=2;
@@ -4312,17 +4275,17 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                         switch (alt15) {
                     	case 1 :
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1600:1: (lv_variables_9_0= ruleVariableDeclaration )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1582:1: (lv_variables_9_0= ruleVariableDeclaration )
                     	    {
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1600:1: (lv_variables_9_0= ruleVariableDeclaration )
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1601:3: lv_variables_9_0= ruleVariableDeclaration
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1582:1: (lv_variables_9_0= ruleVariableDeclaration )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1583:3: lv_variables_9_0= ruleVariableDeclaration
                     	    {
                     	    if ( state.backtracking==0 ) {
                     	       
                     	      	        newCompositeNode(grammarAccess.getADTAccess().getVariablesVariableDeclarationParserRuleCall_5_2_0()); 
                     	      	    
                     	    }
-                    	    pushFollow(FollowSets000.FOLLOW_ruleVariableDeclaration_in_ruleADT3595);
+                    	    pushFollow(FollowSets000.FOLLOW_ruleVariableDeclaration_in_ruleADT3574);
                     	    lv_variables_9_0=ruleVariableDeclaration();
 
                     	    state._fsp--;
@@ -4381,7 +4344,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleSignature"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1625:1: entryRuleSignature returns [EObject current=null] : iv_ruleSignature= ruleSignature EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1607:1: entryRuleSignature returns [EObject current=null] : iv_ruleSignature= ruleSignature EOF ;
     public final EObject entryRuleSignature() throws RecognitionException {
         EObject current = null;
 
@@ -4389,13 +4352,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1626:2: (iv_ruleSignature= ruleSignature EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1627:2: iv_ruleSignature= ruleSignature EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1608:2: (iv_ruleSignature= ruleSignature EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1609:2: iv_ruleSignature= ruleSignature EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSignatureRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleSignature_in_entryRuleSignature3634);
+            pushFollow(FollowSets000.FOLLOW_ruleSignature_in_entryRuleSignature3613);
             iv_ruleSignature=ruleSignature();
 
             state._fsp--;
@@ -4403,7 +4366,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleSignature; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSignature3644); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSignature3623); if (state.failed) return current;
 
             }
 
@@ -4421,7 +4384,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleSignature"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1634:1: ruleSignature returns [EObject current=null] : (otherlv_0= 'Sorts' ( (lv_sorts_1_0= ruleASort ) ) (otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) ) )* ( ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )* ) ( ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )* )? ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1616:1: ruleSignature returns [EObject current=null] : (otherlv_0= 'Sorts' ( (lv_sorts_1_0= ruleASort ) ) (otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) ) )* ( ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )* ) ( ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )* )? ) ;
     public final EObject ruleSignature() throws RecognitionException {
         EObject current = null;
 
@@ -4445,30 +4408,30 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1637:28: ( (otherlv_0= 'Sorts' ( (lv_sorts_1_0= ruleASort ) ) (otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) ) )* ( ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )* ) ( ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )* )? ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1638:1: (otherlv_0= 'Sorts' ( (lv_sorts_1_0= ruleASort ) ) (otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) ) )* ( ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )* ) ( ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )* )? )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1619:28: ( (otherlv_0= 'Sorts' ( (lv_sorts_1_0= ruleASort ) ) (otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) ) )* ( ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )* ) ( ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )* )? ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1620:1: (otherlv_0= 'Sorts' ( (lv_sorts_1_0= ruleASort ) ) (otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) ) )* ( ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )* ) ( ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )* )? )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1638:1: (otherlv_0= 'Sorts' ( (lv_sorts_1_0= ruleASort ) ) (otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) ) )* ( ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )* ) ( ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )* )? )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1638:3: otherlv_0= 'Sorts' ( (lv_sorts_1_0= ruleASort ) ) (otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) ) )* ( ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )* ) ( ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )* )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1620:1: (otherlv_0= 'Sorts' ( (lv_sorts_1_0= ruleASort ) ) (otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) ) )* ( ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )* ) ( ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )* )? )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1620:3: otherlv_0= 'Sorts' ( (lv_sorts_1_0= ruleASort ) ) (otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) ) )* ( ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )* ) ( ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )* )?
             {
-            otherlv_0=(Token)match(input,36,FollowSets000.FOLLOW_36_in_ruleSignature3681); if (state.failed) return current;
+            otherlv_0=(Token)match(input,36,FollowSets000.FOLLOW_36_in_ruleSignature3660); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_0, grammarAccess.getSignatureAccess().getSortsKeyword_0());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1642:1: ( (lv_sorts_1_0= ruleASort ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1643:1: (lv_sorts_1_0= ruleASort )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1624:1: ( (lv_sorts_1_0= ruleASort ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1625:1: (lv_sorts_1_0= ruleASort )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1643:1: (lv_sorts_1_0= ruleASort )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1644:3: lv_sorts_1_0= ruleASort
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1625:1: (lv_sorts_1_0= ruleASort )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1626:3: lv_sorts_1_0= ruleASort
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getSignatureAccess().getSortsASortParserRuleCall_1_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleASort_in_ruleSignature3702);
+            pushFollow(FollowSets000.FOLLOW_ruleASort_in_ruleSignature3681);
             lv_sorts_1_0=ruleASort();
 
             state._fsp--;
@@ -4492,7 +4455,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1660:2: (otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) ) )*
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1642:2: (otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) ) )*
             loop17:
             do {
                 int alt17=2;
@@ -4505,26 +4468,26 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                 switch (alt17) {
             	case 1 :
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1660:4: otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) )
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1642:4: otherlv_2= ',' ( (lv_sorts_3_0= ruleASort ) )
             	    {
-            	    otherlv_2=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleSignature3715); if (state.failed) return current;
+            	    otherlv_2=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleSignature3694); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
 
             	          	newLeafNode(otherlv_2, grammarAccess.getSignatureAccess().getCommaKeyword_2_0());
             	          
             	    }
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1664:1: ( (lv_sorts_3_0= ruleASort ) )
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1665:1: (lv_sorts_3_0= ruleASort )
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1646:1: ( (lv_sorts_3_0= ruleASort ) )
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1647:1: (lv_sorts_3_0= ruleASort )
             	    {
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1665:1: (lv_sorts_3_0= ruleASort )
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1666:3: lv_sorts_3_0= ruleASort
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1647:1: (lv_sorts_3_0= ruleASort )
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1648:3: lv_sorts_3_0= ruleASort
             	    {
             	    if ( state.backtracking==0 ) {
             	       
             	      	        newCompositeNode(grammarAccess.getSignatureAccess().getSortsASortParserRuleCall_2_1_0()); 
             	      	    
             	    }
-            	    pushFollow(FollowSets000.FOLLOW_ruleASort_in_ruleSignature3736);
+            	    pushFollow(FollowSets000.FOLLOW_ruleASort_in_ruleSignature3715);
             	    lv_sorts_3_0=ruleASort();
 
             	    state._fsp--;
@@ -4557,13 +4520,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                 }
             } while (true);
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1682:4: ( ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )* )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1682:5: ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )*
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1664:4: ( ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )* )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1664:5: ( ( 'Generators' )=>otherlv_4= 'Generators' ) ( (lv_generators_5_0= ruleOperation ) ) ( (lv_generators_6_0= ruleOperation ) )*
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1682:5: ( ( 'Generators' )=>otherlv_4= 'Generators' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1682:6: ( 'Generators' )=>otherlv_4= 'Generators'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1664:5: ( ( 'Generators' )=>otherlv_4= 'Generators' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1664:6: ( 'Generators' )=>otherlv_4= 'Generators'
             {
-            otherlv_4=(Token)match(input,37,FollowSets000.FOLLOW_37_in_ruleSignature3759); if (state.failed) return current;
+            otherlv_4=(Token)match(input,37,FollowSets000.FOLLOW_37_in_ruleSignature3738); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_4, grammarAccess.getSignatureAccess().getGeneratorsKeyword_3_0());
@@ -4572,18 +4535,18 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1687:2: ( (lv_generators_5_0= ruleOperation ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1688:1: (lv_generators_5_0= ruleOperation )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1669:2: ( (lv_generators_5_0= ruleOperation ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1670:1: (lv_generators_5_0= ruleOperation )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1688:1: (lv_generators_5_0= ruleOperation )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1689:3: lv_generators_5_0= ruleOperation
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1670:1: (lv_generators_5_0= ruleOperation )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1671:3: lv_generators_5_0= ruleOperation
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getSignatureAccess().getGeneratorsOperationParserRuleCall_3_1_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleOperation_in_ruleSignature3781);
+            pushFollow(FollowSets000.FOLLOW_ruleOperation_in_ruleSignature3760);
             lv_generators_5_0=ruleOperation();
 
             state._fsp--;
@@ -4607,7 +4570,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1705:2: ( (lv_generators_6_0= ruleOperation ) )*
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1687:2: ( (lv_generators_6_0= ruleOperation ) )*
             loop18:
             do {
                 int alt18=2;
@@ -4620,17 +4583,17 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                 switch (alt18) {
             	case 1 :
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1706:1: (lv_generators_6_0= ruleOperation )
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1688:1: (lv_generators_6_0= ruleOperation )
             	    {
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1706:1: (lv_generators_6_0= ruleOperation )
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1707:3: lv_generators_6_0= ruleOperation
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1688:1: (lv_generators_6_0= ruleOperation )
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1689:3: lv_generators_6_0= ruleOperation
             	    {
             	    if ( state.backtracking==0 ) {
             	       
             	      	        newCompositeNode(grammarAccess.getSignatureAccess().getGeneratorsOperationParserRuleCall_3_2_0()); 
             	      	    
             	    }
-            	    pushFollow(FollowSets000.FOLLOW_ruleOperation_in_ruleSignature3802);
+            	    pushFollow(FollowSets000.FOLLOW_ruleOperation_in_ruleSignature3781);
             	    lv_generators_6_0=ruleOperation();
 
             	    state._fsp--;
@@ -4663,7 +4626,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1723:4: ( ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )* )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1705:4: ( ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )* )?
             int alt20=2;
             int LA20_0 = input.LA(1);
 
@@ -4672,12 +4635,12 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             }
             switch (alt20) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1723:5: ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )*
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1705:5: ( ( 'Operations' )=>otherlv_7= 'Operations' ) ( (lv_operations_8_0= ruleOperation ) ) ( (lv_operations_9_0= ruleOperation ) )*
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1723:5: ( ( 'Operations' )=>otherlv_7= 'Operations' )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1723:6: ( 'Operations' )=>otherlv_7= 'Operations'
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1705:5: ( ( 'Operations' )=>otherlv_7= 'Operations' )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1705:6: ( 'Operations' )=>otherlv_7= 'Operations'
                     {
-                    otherlv_7=(Token)match(input,38,FollowSets000.FOLLOW_38_in_ruleSignature3825); if (state.failed) return current;
+                    otherlv_7=(Token)match(input,38,FollowSets000.FOLLOW_38_in_ruleSignature3804); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_7, grammarAccess.getSignatureAccess().getOperationsKeyword_4_0());
@@ -4686,18 +4649,18 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                     }
 
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1728:2: ( (lv_operations_8_0= ruleOperation ) )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1729:1: (lv_operations_8_0= ruleOperation )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1710:2: ( (lv_operations_8_0= ruleOperation ) )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1711:1: (lv_operations_8_0= ruleOperation )
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1729:1: (lv_operations_8_0= ruleOperation )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1730:3: lv_operations_8_0= ruleOperation
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1711:1: (lv_operations_8_0= ruleOperation )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1712:3: lv_operations_8_0= ruleOperation
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getSignatureAccess().getOperationsOperationParserRuleCall_4_1_0()); 
                       	    
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleOperation_in_ruleSignature3847);
+                    pushFollow(FollowSets000.FOLLOW_ruleOperation_in_ruleSignature3826);
                     lv_operations_8_0=ruleOperation();
 
                     state._fsp--;
@@ -4721,7 +4684,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                     }
 
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1746:2: ( (lv_operations_9_0= ruleOperation ) )*
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1728:2: ( (lv_operations_9_0= ruleOperation ) )*
                     loop19:
                     do {
                         int alt19=2;
@@ -4734,17 +4697,17 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                         switch (alt19) {
                     	case 1 :
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1747:1: (lv_operations_9_0= ruleOperation )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1729:1: (lv_operations_9_0= ruleOperation )
                     	    {
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1747:1: (lv_operations_9_0= ruleOperation )
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1748:3: lv_operations_9_0= ruleOperation
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1729:1: (lv_operations_9_0= ruleOperation )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1730:3: lv_operations_9_0= ruleOperation
                     	    {
                     	    if ( state.backtracking==0 ) {
                     	       
                     	      	        newCompositeNode(grammarAccess.getSignatureAccess().getOperationsOperationParserRuleCall_4_2_0()); 
                     	      	    
                     	    }
-                    	    pushFollow(FollowSets000.FOLLOW_ruleOperation_in_ruleSignature3868);
+                    	    pushFollow(FollowSets000.FOLLOW_ruleOperation_in_ruleSignature3847);
                     	    lv_operations_9_0=ruleOperation();
 
                     	    state._fsp--;
@@ -4803,7 +4766,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleVariableDeclaration"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1772:1: entryRuleVariableDeclaration returns [EObject current=null] : iv_ruleVariableDeclaration= ruleVariableDeclaration EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1754:1: entryRuleVariableDeclaration returns [EObject current=null] : iv_ruleVariableDeclaration= ruleVariableDeclaration EOF ;
     public final EObject entryRuleVariableDeclaration() throws RecognitionException {
         EObject current = null;
 
@@ -4811,13 +4774,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1773:2: (iv_ruleVariableDeclaration= ruleVariableDeclaration EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1774:2: iv_ruleVariableDeclaration= ruleVariableDeclaration EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1755:2: (iv_ruleVariableDeclaration= ruleVariableDeclaration EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1756:2: iv_ruleVariableDeclaration= ruleVariableDeclaration EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getVariableDeclarationRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleVariableDeclaration_in_entryRuleVariableDeclaration3907);
+            pushFollow(FollowSets000.FOLLOW_ruleVariableDeclaration_in_entryRuleVariableDeclaration3886);
             iv_ruleVariableDeclaration=ruleVariableDeclaration();
 
             state._fsp--;
@@ -4825,7 +4788,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleVariableDeclaration; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleVariableDeclaration3917); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleVariableDeclaration3896); if (state.failed) return current;
 
             }
 
@@ -4843,7 +4806,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleVariableDeclaration"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1781:1: ruleVariableDeclaration returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (otherlv_2= RULE_ID ) ) ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1763:1: ruleVariableDeclaration returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (otherlv_2= RULE_ID ) ) ) ;
     public final EObject ruleVariableDeclaration() throws RecognitionException {
         EObject current = null;
 
@@ -4854,19 +4817,19 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1784:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (otherlv_2= RULE_ID ) ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1785:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (otherlv_2= RULE_ID ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1766:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (otherlv_2= RULE_ID ) ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1767:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (otherlv_2= RULE_ID ) ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1785:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (otherlv_2= RULE_ID ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1785:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (otherlv_2= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1767:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (otherlv_2= RULE_ID ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1767:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (otherlv_2= RULE_ID ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1785:2: ( (lv_name_0_0= RULE_ID ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1786:1: (lv_name_0_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1767:2: ( (lv_name_0_0= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1768:1: (lv_name_0_0= RULE_ID )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1786:1: (lv_name_0_0= RULE_ID )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1787:3: lv_name_0_0= RULE_ID
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1768:1: (lv_name_0_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1769:3: lv_name_0_0= RULE_ID
             {
-            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleVariableDeclaration3959); if (state.failed) return current;
+            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleVariableDeclaration3938); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_name_0_0, grammarAccess.getVariableDeclarationAccess().getNameIDTerminalRuleCall_0_0()); 
@@ -4890,17 +4853,17 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_1=(Token)match(input,39,FollowSets000.FOLLOW_39_in_ruleVariableDeclaration3976); if (state.failed) return current;
+            otherlv_1=(Token)match(input,39,FollowSets000.FOLLOW_39_in_ruleVariableDeclaration3955); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getVariableDeclarationAccess().getColonKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1807:1: ( (otherlv_2= RULE_ID ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1808:1: (otherlv_2= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1789:1: ( (otherlv_2= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1790:1: (otherlv_2= RULE_ID )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1808:1: (otherlv_2= RULE_ID )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1809:3: otherlv_2= RULE_ID
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1790:1: (otherlv_2= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1791:3: otherlv_2= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -4909,7 +4872,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
               	        }
                       
             }
-            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleVariableDeclaration3996); if (state.failed) return current;
+            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleVariableDeclaration3975); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               		newLeafNode(otherlv_2, grammarAccess.getVariableDeclarationAccess().getSortASortCrossReference_2_0()); 
@@ -4944,7 +4907,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleEquation"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1828:1: entryRuleEquation returns [EObject current=null] : iv_ruleEquation= ruleEquation EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1810:1: entryRuleEquation returns [EObject current=null] : iv_ruleEquation= ruleEquation EOF ;
     public final EObject entryRuleEquation() throws RecognitionException {
         EObject current = null;
 
@@ -4952,13 +4915,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1829:2: (iv_ruleEquation= ruleEquation EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1830:2: iv_ruleEquation= ruleEquation EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1811:2: (iv_ruleEquation= ruleEquation EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1812:2: iv_ruleEquation= ruleEquation EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getEquationRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleEquation_in_entryRuleEquation4032);
+            pushFollow(FollowSets000.FOLLOW_ruleEquation_in_entryRuleEquation4011);
             iv_ruleEquation=ruleEquation();
 
             state._fsp--;
@@ -4966,7 +4929,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleEquation; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEquation4042); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleEquation4021); if (state.failed) return current;
 
             }
 
@@ -4984,7 +4947,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleEquation"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1837:1: ruleEquation returns [EObject current=null] : ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '=' ( (lv_rightHandTerm_2_0= ruleATerm ) ) ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1819:1: ruleEquation returns [EObject current=null] : ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '=' ( (lv_rightHandTerm_2_0= ruleATerm ) ) ) ;
     public final EObject ruleEquation() throws RecognitionException {
         EObject current = null;
 
@@ -4997,24 +4960,24 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1840:28: ( ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '=' ( (lv_rightHandTerm_2_0= ruleATerm ) ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1841:1: ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '=' ( (lv_rightHandTerm_2_0= ruleATerm ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1822:28: ( ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '=' ( (lv_rightHandTerm_2_0= ruleATerm ) ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1823:1: ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '=' ( (lv_rightHandTerm_2_0= ruleATerm ) ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1841:1: ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '=' ( (lv_rightHandTerm_2_0= ruleATerm ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1841:2: ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '=' ( (lv_rightHandTerm_2_0= ruleATerm ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1823:1: ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '=' ( (lv_rightHandTerm_2_0= ruleATerm ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1823:2: ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '=' ( (lv_rightHandTerm_2_0= ruleATerm ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1841:2: ( (lv_leftHandTerm_0_0= ruleATerm ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1842:1: (lv_leftHandTerm_0_0= ruleATerm )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1823:2: ( (lv_leftHandTerm_0_0= ruleATerm ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1824:1: (lv_leftHandTerm_0_0= ruleATerm )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1842:1: (lv_leftHandTerm_0_0= ruleATerm )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1843:3: lv_leftHandTerm_0_0= ruleATerm
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1824:1: (lv_leftHandTerm_0_0= ruleATerm )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1825:3: lv_leftHandTerm_0_0= ruleATerm
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getEquationAccess().getLeftHandTermATermParserRuleCall_0_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleATerm_in_ruleEquation4088);
+            pushFollow(FollowSets000.FOLLOW_ruleATerm_in_ruleEquation4067);
             lv_leftHandTerm_0_0=ruleATerm();
 
             state._fsp--;
@@ -5038,24 +5001,24 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_1=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleEquation4100); if (state.failed) return current;
+            otherlv_1=(Token)match(input,14,FollowSets000.FOLLOW_14_in_ruleEquation4079); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getEquationAccess().getEqualsSignKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1863:1: ( (lv_rightHandTerm_2_0= ruleATerm ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1864:1: (lv_rightHandTerm_2_0= ruleATerm )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1845:1: ( (lv_rightHandTerm_2_0= ruleATerm ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1846:1: (lv_rightHandTerm_2_0= ruleATerm )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1864:1: (lv_rightHandTerm_2_0= ruleATerm )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1865:3: lv_rightHandTerm_2_0= ruleATerm
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1846:1: (lv_rightHandTerm_2_0= ruleATerm )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1847:3: lv_rightHandTerm_2_0= ruleATerm
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getEquationAccess().getRightHandTermATermParserRuleCall_2_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleATerm_in_ruleEquation4121);
+            pushFollow(FollowSets000.FOLLOW_ruleATerm_in_ruleEquation4100);
             lv_rightHandTerm_2_0=ruleATerm();
 
             state._fsp--;
@@ -5102,7 +5065,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleRewriteRule"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1889:1: entryRuleRewriteRule returns [EObject current=null] : iv_ruleRewriteRule= ruleRewriteRule EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1871:1: entryRuleRewriteRule returns [EObject current=null] : iv_ruleRewriteRule= ruleRewriteRule EOF ;
     public final EObject entryRuleRewriteRule() throws RecognitionException {
         EObject current = null;
 
@@ -5110,13 +5073,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1890:2: (iv_ruleRewriteRule= ruleRewriteRule EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1891:2: iv_ruleRewriteRule= ruleRewriteRule EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1872:2: (iv_ruleRewriteRule= ruleRewriteRule EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1873:2: iv_ruleRewriteRule= ruleRewriteRule EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getRewriteRuleRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleRewriteRule_in_entryRuleRewriteRule4157);
+            pushFollow(FollowSets000.FOLLOW_ruleRewriteRule_in_entryRuleRewriteRule4136);
             iv_ruleRewriteRule=ruleRewriteRule();
 
             state._fsp--;
@@ -5124,7 +5087,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleRewriteRule; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRewriteRule4167); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleRewriteRule4146); if (state.failed) return current;
 
             }
 
@@ -5142,7 +5105,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleRewriteRule"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1898:1: ruleRewriteRule returns [EObject current=null] : ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '->' ( (lv_rightHandTerm_2_0= ruleATerm ) ) ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1880:1: ruleRewriteRule returns [EObject current=null] : ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '->' ( (lv_rightHandTerm_2_0= ruleATerm ) ) ) ;
     public final EObject ruleRewriteRule() throws RecognitionException {
         EObject current = null;
 
@@ -5155,24 +5118,24 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1901:28: ( ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '->' ( (lv_rightHandTerm_2_0= ruleATerm ) ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1902:1: ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '->' ( (lv_rightHandTerm_2_0= ruleATerm ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1883:28: ( ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '->' ( (lv_rightHandTerm_2_0= ruleATerm ) ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1884:1: ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '->' ( (lv_rightHandTerm_2_0= ruleATerm ) ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1902:1: ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '->' ( (lv_rightHandTerm_2_0= ruleATerm ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1902:2: ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '->' ( (lv_rightHandTerm_2_0= ruleATerm ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1884:1: ( ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '->' ( (lv_rightHandTerm_2_0= ruleATerm ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1884:2: ( (lv_leftHandTerm_0_0= ruleATerm ) ) otherlv_1= '->' ( (lv_rightHandTerm_2_0= ruleATerm ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1902:2: ( (lv_leftHandTerm_0_0= ruleATerm ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1903:1: (lv_leftHandTerm_0_0= ruleATerm )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1884:2: ( (lv_leftHandTerm_0_0= ruleATerm ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1885:1: (lv_leftHandTerm_0_0= ruleATerm )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1903:1: (lv_leftHandTerm_0_0= ruleATerm )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1904:3: lv_leftHandTerm_0_0= ruleATerm
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1885:1: (lv_leftHandTerm_0_0= ruleATerm )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1886:3: lv_leftHandTerm_0_0= ruleATerm
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getRewriteRuleAccess().getLeftHandTermATermParserRuleCall_0_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleATerm_in_ruleRewriteRule4213);
+            pushFollow(FollowSets000.FOLLOW_ruleATerm_in_ruleRewriteRule4192);
             lv_leftHandTerm_0_0=ruleATerm();
 
             state._fsp--;
@@ -5196,24 +5159,24 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_1=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleRewriteRule4225); if (state.failed) return current;
+            otherlv_1=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleRewriteRule4204); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getRewriteRuleAccess().getHyphenMinusGreaterThanSignKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1924:1: ( (lv_rightHandTerm_2_0= ruleATerm ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1925:1: (lv_rightHandTerm_2_0= ruleATerm )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1906:1: ( (lv_rightHandTerm_2_0= ruleATerm ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1907:1: (lv_rightHandTerm_2_0= ruleATerm )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1925:1: (lv_rightHandTerm_2_0= ruleATerm )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1926:3: lv_rightHandTerm_2_0= ruleATerm
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1907:1: (lv_rightHandTerm_2_0= ruleATerm )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1908:3: lv_rightHandTerm_2_0= ruleATerm
             {
             if ( state.backtracking==0 ) {
                
               	        newCompositeNode(grammarAccess.getRewriteRuleAccess().getRightHandTermATermParserRuleCall_2_0()); 
               	    
             }
-            pushFollow(FollowSets000.FOLLOW_ruleATerm_in_ruleRewriteRule4246);
+            pushFollow(FollowSets000.FOLLOW_ruleATerm_in_ruleRewriteRule4225);
             lv_rightHandTerm_2_0=ruleATerm();
 
             state._fsp--;
@@ -5260,7 +5223,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleSubSort"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1950:1: entryRuleSubSort returns [EObject current=null] : iv_ruleSubSort= ruleSubSort EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1932:1: entryRuleSubSort returns [EObject current=null] : iv_ruleSubSort= ruleSubSort EOF ;
     public final EObject entryRuleSubSort() throws RecognitionException {
         EObject current = null;
 
@@ -5268,13 +5231,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1951:2: (iv_ruleSubSort= ruleSubSort EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1952:2: iv_ruleSubSort= ruleSubSort EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1933:2: (iv_ruleSubSort= ruleSubSort EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1934:2: iv_ruleSubSort= ruleSubSort EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSubSortRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleSubSort_in_entryRuleSubSort4282);
+            pushFollow(FollowSets000.FOLLOW_ruleSubSort_in_entryRuleSubSort4261);
             iv_ruleSubSort=ruleSubSort();
 
             state._fsp--;
@@ -5282,7 +5245,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleSubSort; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSubSort4292); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSubSort4271); if (state.failed) return current;
 
             }
 
@@ -5300,7 +5263,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleSubSort"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1959:1: ruleSubSort returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (otherlv_2= RULE_ID ) ) ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1941:1: ruleSubSort returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (otherlv_2= RULE_ID ) ) ) ;
     public final EObject ruleSubSort() throws RecognitionException {
         EObject current = null;
 
@@ -5311,19 +5274,19 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1962:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (otherlv_2= RULE_ID ) ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1963:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (otherlv_2= RULE_ID ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1944:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (otherlv_2= RULE_ID ) ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1945:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (otherlv_2= RULE_ID ) ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1963:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (otherlv_2= RULE_ID ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1963:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (otherlv_2= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1945:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (otherlv_2= RULE_ID ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1945:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (otherlv_2= RULE_ID ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1963:2: ( (lv_name_0_0= RULE_ID ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1964:1: (lv_name_0_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1945:2: ( (lv_name_0_0= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1946:1: (lv_name_0_0= RULE_ID )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1964:1: (lv_name_0_0= RULE_ID )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1965:3: lv_name_0_0= RULE_ID
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1946:1: (lv_name_0_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1947:3: lv_name_0_0= RULE_ID
             {
-            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleSubSort4334); if (state.failed) return current;
+            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleSubSort4313); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_name_0_0, grammarAccess.getSubSortAccess().getNameIDTerminalRuleCall_0_0()); 
@@ -5347,17 +5310,17 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_1=(Token)match(input,41,FollowSets000.FOLLOW_41_in_ruleSubSort4351); if (state.failed) return current;
+            otherlv_1=(Token)match(input,41,FollowSets000.FOLLOW_41_in_ruleSubSort4330); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getSubSortAccess().getLessThanSignKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1985:1: ( (otherlv_2= RULE_ID ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1986:1: (otherlv_2= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1967:1: ( (otherlv_2= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1968:1: (otherlv_2= RULE_ID )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1986:1: (otherlv_2= RULE_ID )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1987:3: otherlv_2= RULE_ID
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1968:1: (otherlv_2= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1969:3: otherlv_2= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -5366,7 +5329,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
               	        }
                       
             }
-            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleSubSort4371); if (state.failed) return current;
+            otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleSubSort4350); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               		newLeafNode(otherlv_2, grammarAccess.getSubSortAccess().getSuperSortASortCrossReference_2_0()); 
@@ -5401,7 +5364,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleSort"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2006:1: entryRuleSort returns [EObject current=null] : iv_ruleSort= ruleSort EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1988:1: entryRuleSort returns [EObject current=null] : iv_ruleSort= ruleSort EOF ;
     public final EObject entryRuleSort() throws RecognitionException {
         EObject current = null;
 
@@ -5409,13 +5372,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2007:2: (iv_ruleSort= ruleSort EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2008:2: iv_ruleSort= ruleSort EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1989:2: (iv_ruleSort= ruleSort EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1990:2: iv_ruleSort= ruleSort EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getSortRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleSort_in_entryRuleSort4407);
+            pushFollow(FollowSets000.FOLLOW_ruleSort_in_entryRuleSort4386);
             iv_ruleSort=ruleSort();
 
             state._fsp--;
@@ -5423,7 +5386,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleSort; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSort4417); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleSort4396); if (state.failed) return current;
 
             }
 
@@ -5441,7 +5404,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleSort"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2015:1: ruleSort returns [EObject current=null] : ( () ( (lv_name_1_0= RULE_ID ) ) ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1997:1: ruleSort returns [EObject current=null] : ( () ( (lv_name_1_0= RULE_ID ) ) ) ;
     public final EObject ruleSort() throws RecognitionException {
         EObject current = null;
 
@@ -5450,14 +5413,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2018:28: ( ( () ( (lv_name_1_0= RULE_ID ) ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2019:1: ( () ( (lv_name_1_0= RULE_ID ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2000:28: ( ( () ( (lv_name_1_0= RULE_ID ) ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2001:1: ( () ( (lv_name_1_0= RULE_ID ) ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2019:1: ( () ( (lv_name_1_0= RULE_ID ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2019:2: () ( (lv_name_1_0= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2001:1: ( () ( (lv_name_1_0= RULE_ID ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2001:2: () ( (lv_name_1_0= RULE_ID ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2019:2: ()
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2020:5: 
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2001:2: ()
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2002:5: 
             {
             if ( state.backtracking==0 ) {
 
@@ -5469,13 +5432,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2025:2: ( (lv_name_1_0= RULE_ID ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2026:1: (lv_name_1_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2007:2: ( (lv_name_1_0= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2008:1: (lv_name_1_0= RULE_ID )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2026:1: (lv_name_1_0= RULE_ID )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2027:3: lv_name_1_0= RULE_ID
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2008:1: (lv_name_1_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2009:3: lv_name_1_0= RULE_ID
             {
-            lv_name_1_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleSort4468); if (state.failed) return current;
+            lv_name_1_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleSort4447); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_name_1_0, grammarAccess.getSortAccess().getNameIDTerminalRuleCall_1_0()); 
@@ -5522,7 +5485,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleTerm"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2051:1: entryRuleTerm returns [EObject current=null] : iv_ruleTerm= ruleTerm EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2033:1: entryRuleTerm returns [EObject current=null] : iv_ruleTerm= ruleTerm EOF ;
     public final EObject entryRuleTerm() throws RecognitionException {
         EObject current = null;
 
@@ -5530,13 +5493,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2052:2: (iv_ruleTerm= ruleTerm EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2053:2: iv_ruleTerm= ruleTerm EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2034:2: (iv_ruleTerm= ruleTerm EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2035:2: iv_ruleTerm= ruleTerm EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getTermRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleTerm_in_entryRuleTerm4509);
+            pushFollow(FollowSets000.FOLLOW_ruleTerm_in_entryRuleTerm4488);
             iv_ruleTerm=ruleTerm();
 
             state._fsp--;
@@ -5544,7 +5507,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleTerm; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleTerm4519); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleTerm4498); if (state.failed) return current;
 
             }
 
@@ -5562,7 +5525,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleTerm"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2060:1: ruleTerm returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')' )? ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2042:1: ruleTerm returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')' )? ) ;
     public final EObject ruleTerm() throws RecognitionException {
         EObject current = null;
 
@@ -5578,14 +5541,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2063:28: ( ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')' )? ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2064:1: ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')' )? )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2045:28: ( ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')' )? ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2046:1: ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')' )? )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2064:1: ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')' )? )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2064:2: () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')' )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2046:1: ( () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')' )? )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2046:2: () ( (otherlv_1= RULE_ID ) ) (otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')' )?
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2064:2: ()
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2065:5: 
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2046:2: ()
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2047:5: 
             {
             if ( state.backtracking==0 ) {
 
@@ -5597,11 +5560,11 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2070:2: ( (otherlv_1= RULE_ID ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2071:1: (otherlv_1= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2052:2: ( (otherlv_1= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2053:1: (otherlv_1= RULE_ID )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2071:1: (otherlv_1= RULE_ID )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2072:3: otherlv_1= RULE_ID
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2053:1: (otherlv_1= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2054:3: otherlv_1= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -5610,7 +5573,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
               	        }
                       
             }
-            otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleTerm4573); if (state.failed) return current;
+            otherlv_1=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleTerm4552); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               		newLeafNode(otherlv_1, grammarAccess.getTermAccess().getOperationSymbolOperationCrossReference_1_0()); 
@@ -5622,7 +5585,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2083:2: (otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')' )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2065:2: (otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')' )?
             int alt22=2;
             int LA22_0 = input.LA(1);
 
@@ -5631,26 +5594,26 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             }
             switch (alt22) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2083:4: otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')'
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2065:4: otherlv_2= '(' ( (lv_subterms_3_0= ruleATerm ) ) (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )* otherlv_6= ')'
                     {
-                    otherlv_2=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleTerm4586); if (state.failed) return current;
+                    otherlv_2=(Token)match(input,17,FollowSets000.FOLLOW_17_in_ruleTerm4565); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_2, grammarAccess.getTermAccess().getLeftParenthesisKeyword_2_0());
                           
                     }
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2087:1: ( (lv_subterms_3_0= ruleATerm ) )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2088:1: (lv_subterms_3_0= ruleATerm )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2069:1: ( (lv_subterms_3_0= ruleATerm ) )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2070:1: (lv_subterms_3_0= ruleATerm )
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2088:1: (lv_subterms_3_0= ruleATerm )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2089:3: lv_subterms_3_0= ruleATerm
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2070:1: (lv_subterms_3_0= ruleATerm )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2071:3: lv_subterms_3_0= ruleATerm
                     {
                     if ( state.backtracking==0 ) {
                        
                       	        newCompositeNode(grammarAccess.getTermAccess().getSubtermsATermParserRuleCall_2_1_0()); 
                       	    
                     }
-                    pushFollow(FollowSets000.FOLLOW_ruleATerm_in_ruleTerm4607);
+                    pushFollow(FollowSets000.FOLLOW_ruleATerm_in_ruleTerm4586);
                     lv_subterms_3_0=ruleATerm();
 
                     state._fsp--;
@@ -5674,7 +5637,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                     }
 
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2105:2: (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )*
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2087:2: (otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) ) )*
                     loop21:
                     do {
                         int alt21=2;
@@ -5687,26 +5650,26 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                         switch (alt21) {
                     	case 1 :
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2105:4: otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2087:4: otherlv_4= ',' ( (lv_subterms_5_0= ruleATerm ) )
                     	    {
-                    	    otherlv_4=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleTerm4620); if (state.failed) return current;
+                    	    otherlv_4=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleTerm4599); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
 
                     	          	newLeafNode(otherlv_4, grammarAccess.getTermAccess().getCommaKeyword_2_2_0());
                     	          
                     	    }
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2109:1: ( (lv_subterms_5_0= ruleATerm ) )
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2110:1: (lv_subterms_5_0= ruleATerm )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2091:1: ( (lv_subterms_5_0= ruleATerm ) )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2092:1: (lv_subterms_5_0= ruleATerm )
                     	    {
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2110:1: (lv_subterms_5_0= ruleATerm )
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2111:3: lv_subterms_5_0= ruleATerm
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2092:1: (lv_subterms_5_0= ruleATerm )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2093:3: lv_subterms_5_0= ruleATerm
                     	    {
                     	    if ( state.backtracking==0 ) {
                     	       
                     	      	        newCompositeNode(grammarAccess.getTermAccess().getSubtermsATermParserRuleCall_2_2_1_0()); 
                     	      	    
                     	    }
-                    	    pushFollow(FollowSets000.FOLLOW_ruleATerm_in_ruleTerm4641);
+                    	    pushFollow(FollowSets000.FOLLOW_ruleATerm_in_ruleTerm4620);
                     	    lv_subterms_5_0=ruleATerm();
 
                     	    state._fsp--;
@@ -5739,7 +5702,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                         }
                     } while (true);
 
-                    otherlv_6=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleTerm4655); if (state.failed) return current;
+                    otherlv_6=(Token)match(input,19,FollowSets000.FOLLOW_19_in_ruleTerm4634); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_6, grammarAccess.getTermAccess().getRightParenthesisKeyword_2_3());
@@ -5774,7 +5737,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleVariable"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2139:1: entryRuleVariable returns [EObject current=null] : iv_ruleVariable= ruleVariable EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2121:1: entryRuleVariable returns [EObject current=null] : iv_ruleVariable= ruleVariable EOF ;
     public final EObject entryRuleVariable() throws RecognitionException {
         EObject current = null;
 
@@ -5782,13 +5745,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2140:2: (iv_ruleVariable= ruleVariable EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2141:2: iv_ruleVariable= ruleVariable EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2122:2: (iv_ruleVariable= ruleVariable EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2123:2: iv_ruleVariable= ruleVariable EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getVariableRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleVariable_in_entryRuleVariable4693);
+            pushFollow(FollowSets000.FOLLOW_ruleVariable_in_entryRuleVariable4672);
             iv_ruleVariable=ruleVariable();
 
             state._fsp--;
@@ -5796,7 +5759,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleVariable; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleVariable4703); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleVariable4682); if (state.failed) return current;
 
             }
 
@@ -5814,7 +5777,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleVariable"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2148:1: ruleVariable returns [EObject current=null] : ( () ( (otherlv_1= RULE_TERMVAR ) ) ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2130:1: ruleVariable returns [EObject current=null] : ( () ( (otherlv_1= RULE_TERMVAR ) ) ) ;
     public final EObject ruleVariable() throws RecognitionException {
         EObject current = null;
 
@@ -5823,14 +5786,14 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2151:28: ( ( () ( (otherlv_1= RULE_TERMVAR ) ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2152:1: ( () ( (otherlv_1= RULE_TERMVAR ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2133:28: ( ( () ( (otherlv_1= RULE_TERMVAR ) ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2134:1: ( () ( (otherlv_1= RULE_TERMVAR ) ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2152:1: ( () ( (otherlv_1= RULE_TERMVAR ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2152:2: () ( (otherlv_1= RULE_TERMVAR ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2134:1: ( () ( (otherlv_1= RULE_TERMVAR ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2134:2: () ( (otherlv_1= RULE_TERMVAR ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2152:2: ()
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2153:5: 
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2134:2: ()
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2135:5: 
             {
             if ( state.backtracking==0 ) {
 
@@ -5842,11 +5805,11 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2158:2: ( (otherlv_1= RULE_TERMVAR ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2159:1: (otherlv_1= RULE_TERMVAR )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2140:2: ( (otherlv_1= RULE_TERMVAR ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2141:1: (otherlv_1= RULE_TERMVAR )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2159:1: (otherlv_1= RULE_TERMVAR )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2160:3: otherlv_1= RULE_TERMVAR
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2141:1: (otherlv_1= RULE_TERMVAR )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2142:3: otherlv_1= RULE_TERMVAR
             {
             if ( state.backtracking==0 ) {
 
@@ -5855,7 +5818,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
               	        }
                       
             }
-            otherlv_1=(Token)match(input,RULE_TERMVAR,FollowSets000.FOLLOW_RULE_TERMVAR_in_ruleVariable4757); if (state.failed) return current;
+            otherlv_1=(Token)match(input,RULE_TERMVAR,FollowSets000.FOLLOW_RULE_TERMVAR_in_ruleVariable4736); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               		newLeafNode(otherlv_1, grammarAccess.getVariableAccess().getDeclarationVariableDeclarationCrossReference_1_0()); 
@@ -5890,7 +5853,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "entryRuleOperation"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2179:1: entryRuleOperation returns [EObject current=null] : iv_ruleOperation= ruleOperation EOF ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2161:1: entryRuleOperation returns [EObject current=null] : iv_ruleOperation= ruleOperation EOF ;
     public final EObject entryRuleOperation() throws RecognitionException {
         EObject current = null;
 
@@ -5898,13 +5861,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2180:2: (iv_ruleOperation= ruleOperation EOF )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2181:2: iv_ruleOperation= ruleOperation EOF
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2162:2: (iv_ruleOperation= ruleOperation EOF )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2163:2: iv_ruleOperation= ruleOperation EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getOperationRule()); 
             }
-            pushFollow(FollowSets000.FOLLOW_ruleOperation_in_entryRuleOperation4793);
+            pushFollow(FollowSets000.FOLLOW_ruleOperation_in_entryRuleOperation4772);
             iv_ruleOperation=ruleOperation();
 
             state._fsp--;
@@ -5912,7 +5875,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             if ( state.backtracking==0 ) {
                current =iv_ruleOperation; 
             }
-            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleOperation4803); if (state.failed) return current;
+            match(input,EOF,FollowSets000.FOLLOW_EOF_in_entryRuleOperation4782); if (state.failed) return current;
 
             }
 
@@ -5930,7 +5893,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
 
     // $ANTLR start "ruleOperation"
-    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2188:1: ruleOperation returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) ) ;
+    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2170:1: ruleOperation returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) ) ;
     public final EObject ruleOperation() throws RecognitionException {
         EObject current = null;
 
@@ -5945,19 +5908,19 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
          enterRule(); 
             
         try {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2191:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2192:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2173:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2174:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2192:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2192:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2174:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2174:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->' )? ( (otherlv_6= RULE_ID ) )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2192:2: ( (lv_name_0_0= RULE_ID ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2193:1: (lv_name_0_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2174:2: ( (lv_name_0_0= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2175:1: (lv_name_0_0= RULE_ID )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2193:1: (lv_name_0_0= RULE_ID )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2194:3: lv_name_0_0= RULE_ID
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2175:1: (lv_name_0_0= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2176:3: lv_name_0_0= RULE_ID
             {
-            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleOperation4845); if (state.failed) return current;
+            lv_name_0_0=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleOperation4824); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(lv_name_0_0, grammarAccess.getOperationAccess().getNameIDTerminalRuleCall_0_0()); 
@@ -5981,13 +5944,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            otherlv_1=(Token)match(input,39,FollowSets000.FOLLOW_39_in_ruleOperation4862); if (state.failed) return current;
+            otherlv_1=(Token)match(input,39,FollowSets000.FOLLOW_39_in_ruleOperation4841); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
                   	newLeafNode(otherlv_1, grammarAccess.getOperationAccess().getColonKeyword_1());
                   
             }
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2214:1: ( ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->' )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2196:1: ( ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->' )?
             int alt24=2;
             int LA24_0 = input.LA(1);
 
@@ -6000,13 +5963,13 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             }
             switch (alt24) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2214:2: ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->'
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2196:2: ( (otherlv_2= RULE_ID ) ) (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )* otherlv_5= '->'
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2214:2: ( (otherlv_2= RULE_ID ) )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2215:1: (otherlv_2= RULE_ID )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2196:2: ( (otherlv_2= RULE_ID ) )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2197:1: (otherlv_2= RULE_ID )
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2215:1: (otherlv_2= RULE_ID )
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2216:3: otherlv_2= RULE_ID
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2197:1: (otherlv_2= RULE_ID )
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2198:3: otherlv_2= RULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
@@ -6015,7 +5978,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                       	        }
                               
                     }
-                    otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleOperation4883); if (state.failed) return current;
+                    otherlv_2=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleOperation4862); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                       		newLeafNode(otherlv_2, grammarAccess.getOperationAccess().getFormalParametersASortCrossReference_2_0_0()); 
@@ -6027,7 +5990,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                     }
 
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2227:2: (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )*
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2209:2: (otherlv_3= ',' ( (otherlv_4= RULE_ID ) ) )*
                     loop23:
                     do {
                         int alt23=2;
@@ -6040,19 +6003,19 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
                         switch (alt23) {
                     	case 1 :
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2227:4: otherlv_3= ',' ( (otherlv_4= RULE_ID ) )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2209:4: otherlv_3= ',' ( (otherlv_4= RULE_ID ) )
                     	    {
-                    	    otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleOperation4896); if (state.failed) return current;
+                    	    otherlv_3=(Token)match(input,18,FollowSets000.FOLLOW_18_in_ruleOperation4875); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
 
                     	          	newLeafNode(otherlv_3, grammarAccess.getOperationAccess().getCommaKeyword_2_1_0());
                     	          
                     	    }
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2231:1: ( (otherlv_4= RULE_ID ) )
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2232:1: (otherlv_4= RULE_ID )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2213:1: ( (otherlv_4= RULE_ID ) )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2214:1: (otherlv_4= RULE_ID )
                     	    {
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2232:1: (otherlv_4= RULE_ID )
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2233:3: otherlv_4= RULE_ID
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2214:1: (otherlv_4= RULE_ID )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2215:3: otherlv_4= RULE_ID
                     	    {
                     	    if ( state.backtracking==0 ) {
 
@@ -6061,7 +6024,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                     	      	        }
                     	              
                     	    }
-                    	    otherlv_4=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleOperation4916); if (state.failed) return current;
+                    	    otherlv_4=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleOperation4895); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
 
                     	      		newLeafNode(otherlv_4, grammarAccess.getOperationAccess().getFormalParametersASortCrossReference_2_1_1_0()); 
@@ -6082,7 +6045,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
                         }
                     } while (true);
 
-                    otherlv_5=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleOperation4930); if (state.failed) return current;
+                    otherlv_5=(Token)match(input,40,FollowSets000.FOLLOW_40_in_ruleOperation4909); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
                           	newLeafNode(otherlv_5, grammarAccess.getOperationAccess().getHyphenMinusGreaterThanSignKeyword_2_2());
@@ -6094,11 +6057,11 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
             }
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2248:3: ( (otherlv_6= RULE_ID ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2249:1: (otherlv_6= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2230:3: ( (otherlv_6= RULE_ID ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2231:1: (otherlv_6= RULE_ID )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2249:1: (otherlv_6= RULE_ID )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2250:3: otherlv_6= RULE_ID
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2231:1: (otherlv_6= RULE_ID )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2232:3: otherlv_6= RULE_ID
             {
             if ( state.backtracking==0 ) {
 
@@ -6107,7 +6070,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
               	        }
                       
             }
-            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleOperation4952); if (state.failed) return current;
+            otherlv_6=(Token)match(input,RULE_ID,FollowSets000.FOLLOW_RULE_ID_in_ruleOperation4931); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               		newLeafNode(otherlv_6, grammarAccess.getOperationAccess().getReturnTypeASortCrossReference_3_0()); 
@@ -6142,10 +6105,10 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
     // $ANTLR start synpred1_InternalTransitionSystemDsl
     public final void synpred1_InternalTransitionSystemDsl_fragment() throws RecognitionException {   
-        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:421:3: ( rulePredefStrats )
-        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:421:5: rulePredefStrats
+        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:403:3: ( rulePredefStrats )
+        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:403:5: rulePredefStrats
         {
-        pushFollow(FollowSets000.FOLLOW_rulePredefStrats_in_synpred1_InternalTransitionSystemDsl815);
+        pushFollow(FollowSets000.FOLLOW_rulePredefStrats_in_synpred1_InternalTransitionSystemDsl794);
         rulePredefStrats();
 
         state._fsp--;
@@ -6157,10 +6120,10 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
     // $ANTLR start synpred2_InternalTransitionSystemDsl
     public final void synpred2_InternalTransitionSystemDsl_fragment() throws RecognitionException {   
-        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1535:4: ( 'Axioms' )
-        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1535:6: 'Axioms'
+        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1517:4: ( 'Axioms' )
+        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1517:6: 'Axioms'
         {
-        match(input,34,FollowSets000.FOLLOW_34_in_synpred2_InternalTransitionSystemDsl3477); if (state.failed) return ;
+        match(input,34,FollowSets000.FOLLOW_34_in_synpred2_InternalTransitionSystemDsl3456); if (state.failed) return ;
 
         }
     }
@@ -6168,10 +6131,10 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
     // $ANTLR start synpred3_InternalTransitionSystemDsl
     public final void synpred3_InternalTransitionSystemDsl_fragment() throws RecognitionException {   
-        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1576:7: ( 'Variables' )
-        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1576:9: 'Variables'
+        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1558:7: ( 'Variables' )
+        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1558:9: 'Variables'
         {
-        match(input,35,FollowSets000.FOLLOW_35_in_synpred3_InternalTransitionSystemDsl3544); if (state.failed) return ;
+        match(input,35,FollowSets000.FOLLOW_35_in_synpred3_InternalTransitionSystemDsl3523); if (state.failed) return ;
 
         }
     }
@@ -6179,10 +6142,10 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
     // $ANTLR start synpred4_InternalTransitionSystemDsl
     public final void synpred4_InternalTransitionSystemDsl_fragment() throws RecognitionException {   
-        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1682:6: ( 'Generators' )
-        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1682:8: 'Generators'
+        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1664:6: ( 'Generators' )
+        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1664:8: 'Generators'
         {
-        match(input,37,FollowSets000.FOLLOW_37_in_synpred4_InternalTransitionSystemDsl3751); if (state.failed) return ;
+        match(input,37,FollowSets000.FOLLOW_37_in_synpred4_InternalTransitionSystemDsl3730); if (state.failed) return ;
 
         }
     }
@@ -6190,10 +6153,10 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
 
     // $ANTLR start synpred5_InternalTransitionSystemDsl
     public final void synpred5_InternalTransitionSystemDsl_fragment() throws RecognitionException {   
-        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1723:6: ( 'Operations' )
-        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1723:8: 'Operations'
+        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1705:6: ( 'Operations' )
+        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1705:8: 'Operations'
         {
-        match(input,38,FollowSets000.FOLLOW_38_in_synpred5_InternalTransitionSystemDsl3817); if (state.failed) return ;
+        match(input,38,FollowSets000.FOLLOW_38_in_synpred5_InternalTransitionSystemDsl3796); if (state.failed) return ;
 
         }
     }
@@ -6333,7 +6296,7 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
             this.transition = DFA6_transition;
         }
         public String getDescription() {
-            return "421:1: ( ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats ) | this_DeclaredStrategyInstance_1= ruleDeclaredStrategyInstance )";
+            return "403:1: ( ( ( rulePredefStrats )=>this_PredefStrats_0= rulePredefStrats ) | this_DeclaredStrategyInstance_1= ruleDeclaredStrategyInstance )";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
@@ -6395,211 +6358,210 @@ public class InternalTransitionSystemDslParser extends AbstractInternalAntlrPars
         public static final BitSet FOLLOW_ruleTerm_in_ruleTransitionSystem188 = new BitSet(new long[]{0x0000000000008000L});
         public static final BitSet FOLLOW_15_in_ruleTransitionSystem200 = new BitSet(new long[]{0x0000000000010010L});
         public static final BitSet FOLLOW_ruleAuxiliary_in_ruleTransitionSystem221 = new BitSet(new long[]{0x0000000000010010L});
-        public static final BitSet FOLLOW_16_in_ruleTransitionSystem234 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_16_in_ruleTransitionSystem234 = new BitSet(new long[]{0x0000000000000012L});
         public static final BitSet FOLLOW_ruleTransition_in_ruleTransitionSystem255 = new BitSet(new long[]{0x0000000000000012L});
-        public static final BitSet FOLLOW_ruleTransition_in_ruleTransitionSystem276 = new BitSet(new long[]{0x0000000000000012L});
-        public static final BitSet FOLLOW_ruleTransition_in_entryRuleTransition313 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleTransition323 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleTransition365 = new BitSet(new long[]{0x0000000000004000L});
-        public static final BitSet FOLLOW_14_in_ruleTransition382 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleNonVariableStrategy_in_ruleTransition403 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleAuxiliary_in_entryRuleAuxiliary439 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleAuxiliary449 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleAuxiliary491 = new BitSet(new long[]{0x0000000000024000L});
-        public static final BitSet FOLLOW_17_in_ruleAuxiliary509 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_ruleVariableStrategy_in_ruleAuxiliary530 = new BitSet(new long[]{0x00000000000C0000L});
-        public static final BitSet FOLLOW_18_in_ruleAuxiliary543 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_ruleVariableStrategy_in_ruleAuxiliary564 = new BitSet(new long[]{0x00000000000C0000L});
-        public static final BitSet FOLLOW_19_in_ruleAuxiliary578 = new BitSet(new long[]{0x0000000000004000L});
-        public static final BitSet FOLLOW_14_in_ruleAuxiliary592 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleNonVariableStrategy_in_ruleAuxiliary613 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleStrategy_in_entryRuleStrategy649 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleStrategy659 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleNonVariableStrategy_in_ruleStrategy706 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleVariableStrategy_in_ruleStrategy733 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleNonVariableStrategy_in_entryRuleNonVariableStrategy768 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleNonVariableStrategy778 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_rulePredefStrats_in_ruleNonVariableStrategy831 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleDeclaredStrategyInstance_in_ruleNonVariableStrategy859 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_rulePredefStrats_in_entryRulePredefStrats894 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRulePredefStrats904 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleIdentity_in_rulePredefStrats951 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleFail_in_rulePredefStrats978 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleChoice_in_rulePredefStrats1005 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSequence_in_rulePredefStrats1032 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleFixpoint_in_rulePredefStrats1059 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleIfThenElse_in_rulePredefStrats1086 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleNot_in_rulePredefStrats1113 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSimpleStrategy_in_rulePredefStrats1140 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleOne_in_rulePredefStrats1167 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSaturation_in_rulePredefStrats1194 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleUnion_in_rulePredefStrats1221 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleOne_in_entryRuleOne1256 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleOne1266 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_20_in_ruleOne1303 = new BitSet(new long[]{0x0000000000020000L});
-        public static final BitSet FOLLOW_17_in_ruleOne1315 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleOne1336 = new BitSet(new long[]{0x0000000000040000L});
-        public static final BitSet FOLLOW_18_in_ruleOne1348 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_INT_in_ruleOne1365 = new BitSet(new long[]{0x0000000000080000L});
-        public static final BitSet FOLLOW_19_in_ruleOne1382 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleDeclaredStrategyInstance_in_entryRuleDeclaredStrategyInstance1418 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleDeclaredStrategyInstance1428 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleDeclaredStrategyInstance1482 = new BitSet(new long[]{0x0000000000020000L});
-        public static final BitSet FOLLOW_17_in_ruleDeclaredStrategyInstance1494 = new BitSet(new long[]{0x00000000FEF80010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleDeclaredStrategyInstance1516 = new BitSet(new long[]{0x00000000000C0000L});
-        public static final BitSet FOLLOW_18_in_ruleDeclaredStrategyInstance1529 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleDeclaredStrategyInstance1550 = new BitSet(new long[]{0x00000000000C0000L});
-        public static final BitSet FOLLOW_19_in_ruleDeclaredStrategyInstance1566 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSaturation_in_entryRuleSaturation1602 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSaturation1612 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_21_in_ruleSaturation1649 = new BitSet(new long[]{0x0000000000020000L});
-        public static final BitSet FOLLOW_17_in_ruleSaturation1661 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleSaturation1682 = new BitSet(new long[]{0x0000000000040000L});
-        public static final BitSet FOLLOW_18_in_ruleSaturation1694 = new BitSet(new long[]{0x0000000000000020L});
-        public static final BitSet FOLLOW_RULE_INT_in_ruleSaturation1711 = new BitSet(new long[]{0x0000000000080000L});
-        public static final BitSet FOLLOW_19_in_ruleSaturation1728 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleIfThenElse_in_entryRuleIfThenElse1764 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleIfThenElse1774 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_22_in_ruleIfThenElse1811 = new BitSet(new long[]{0x0000000000020000L});
-        public static final BitSet FOLLOW_17_in_ruleIfThenElse1823 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleIfThenElse1844 = new BitSet(new long[]{0x0000000000040000L});
-        public static final BitSet FOLLOW_18_in_ruleIfThenElse1856 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleIfThenElse1877 = new BitSet(new long[]{0x0000000000040000L});
-        public static final BitSet FOLLOW_18_in_ruleIfThenElse1889 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleIfThenElse1910 = new BitSet(new long[]{0x0000000000080000L});
-        public static final BitSet FOLLOW_19_in_ruleIfThenElse1922 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSimpleStrategy_in_entryRuleSimpleStrategy1958 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSimpleStrategy1968 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_23_in_ruleSimpleStrategy2005 = new BitSet(new long[]{0x0000000000000050L});
-        public static final BitSet FOLLOW_ruleRewriteRule_in_ruleSimpleStrategy2026 = new BitSet(new long[]{0x0000000001040000L});
-        public static final BitSet FOLLOW_18_in_ruleSimpleStrategy2039 = new BitSet(new long[]{0x0000000000000050L});
-        public static final BitSet FOLLOW_ruleRewriteRule_in_ruleSimpleStrategy2060 = new BitSet(new long[]{0x0000000001040000L});
-        public static final BitSet FOLLOW_24_in_ruleSimpleStrategy2074 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleNot_in_entryRuleNot2110 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleNot2120 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_25_in_ruleNot2157 = new BitSet(new long[]{0x0000000000020000L});
-        public static final BitSet FOLLOW_17_in_ruleNot2169 = new BitSet(new long[]{0x0000000000800000L});
-        public static final BitSet FOLLOW_ruleSimpleStrategy_in_ruleNot2190 = new BitSet(new long[]{0x0000000000080000L});
-        public static final BitSet FOLLOW_19_in_ruleNot2202 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleFixpoint_in_entryRuleFixpoint2238 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleFixpoint2248 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_26_in_ruleFixpoint2285 = new BitSet(new long[]{0x0000000000020000L});
-        public static final BitSet FOLLOW_17_in_ruleFixpoint2297 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleFixpoint2318 = new BitSet(new long[]{0x0000000000080000L});
-        public static final BitSet FOLLOW_19_in_ruleFixpoint2330 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleChoice_in_entryRuleChoice2366 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleChoice2376 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_27_in_ruleChoice2413 = new BitSet(new long[]{0x0000000000020000L});
-        public static final BitSet FOLLOW_17_in_ruleChoice2425 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleChoice2446 = new BitSet(new long[]{0x0000000000040000L});
-        public static final BitSet FOLLOW_18_in_ruleChoice2458 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleChoice2479 = new BitSet(new long[]{0x0000000000080000L});
-        public static final BitSet FOLLOW_19_in_ruleChoice2491 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleUnion_in_entryRuleUnion2527 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleUnion2537 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_28_in_ruleUnion2574 = new BitSet(new long[]{0x0000000000020000L});
-        public static final BitSet FOLLOW_17_in_ruleUnion2586 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleUnion2607 = new BitSet(new long[]{0x0000000000040000L});
-        public static final BitSet FOLLOW_18_in_ruleUnion2619 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleUnion2640 = new BitSet(new long[]{0x0000000000080000L});
-        public static final BitSet FOLLOW_19_in_ruleUnion2652 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSequence_in_entryRuleSequence2688 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSequence2698 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_29_in_ruleSequence2735 = new BitSet(new long[]{0x0000000000020000L});
-        public static final BitSet FOLLOW_17_in_ruleSequence2747 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleSequence2768 = new BitSet(new long[]{0x0000000000040000L});
-        public static final BitSet FOLLOW_18_in_ruleSequence2780 = new BitSet(new long[]{0x00000000FEF00010L});
-        public static final BitSet FOLLOW_ruleStrategy_in_ruleSequence2801 = new BitSet(new long[]{0x0000000000080000L});
-        public static final BitSet FOLLOW_19_in_ruleSequence2813 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleIdentity_in_entryRuleIdentity2849 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleIdentity2859 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_30_in_ruleIdentity2896 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleFail_in_entryRuleFail2941 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleFail2951 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_31_in_ruleFail2988 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleVariableStrategy_in_entryRuleVariableStrategy3033 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleVariableStrategy3043 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleVariableStrategy3084 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleATerm_in_entryRuleATerm3124 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleATerm3134 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleTerm_in_ruleATerm3181 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleVariable_in_ruleATerm3208 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleASort_in_entryRuleASort3243 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleASort3253 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSubSort_in_ruleASort3300 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSort_in_ruleASort3327 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleADT_in_entryRuleADT3362 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleADT3372 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_32_in_ruleADT3409 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleADT3426 = new BitSet(new long[]{0x0000000200000000L});
-        public static final BitSet FOLLOW_33_in_ruleADT3443 = new BitSet(new long[]{0x0000001000000000L});
-        public static final BitSet FOLLOW_ruleSignature_in_ruleADT3464 = new BitSet(new long[]{0x0000000C00000002L});
-        public static final BitSet FOLLOW_34_in_ruleADT3485 = new BitSet(new long[]{0x0000000000000050L});
+        public static final BitSet FOLLOW_ruleTransition_in_entryRuleTransition292 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleTransition302 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleTransition344 = new BitSet(new long[]{0x0000000000004000L});
+        public static final BitSet FOLLOW_14_in_ruleTransition361 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleNonVariableStrategy_in_ruleTransition382 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleAuxiliary_in_entryRuleAuxiliary418 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleAuxiliary428 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleAuxiliary470 = new BitSet(new long[]{0x0000000000024000L});
+        public static final BitSet FOLLOW_17_in_ruleAuxiliary488 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_ruleVariableStrategy_in_ruleAuxiliary509 = new BitSet(new long[]{0x00000000000C0000L});
+        public static final BitSet FOLLOW_18_in_ruleAuxiliary522 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_ruleVariableStrategy_in_ruleAuxiliary543 = new BitSet(new long[]{0x00000000000C0000L});
+        public static final BitSet FOLLOW_19_in_ruleAuxiliary557 = new BitSet(new long[]{0x0000000000004000L});
+        public static final BitSet FOLLOW_14_in_ruleAuxiliary571 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleNonVariableStrategy_in_ruleAuxiliary592 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleStrategy_in_entryRuleStrategy628 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleStrategy638 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleNonVariableStrategy_in_ruleStrategy685 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleVariableStrategy_in_ruleStrategy712 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleNonVariableStrategy_in_entryRuleNonVariableStrategy747 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleNonVariableStrategy757 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_rulePredefStrats_in_ruleNonVariableStrategy810 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleDeclaredStrategyInstance_in_ruleNonVariableStrategy838 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_rulePredefStrats_in_entryRulePredefStrats873 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRulePredefStrats883 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleIdentity_in_rulePredefStrats930 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleFail_in_rulePredefStrats957 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleChoice_in_rulePredefStrats984 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSequence_in_rulePredefStrats1011 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleFixpoint_in_rulePredefStrats1038 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleIfThenElse_in_rulePredefStrats1065 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleNot_in_rulePredefStrats1092 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSimpleStrategy_in_rulePredefStrats1119 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleOne_in_rulePredefStrats1146 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSaturation_in_rulePredefStrats1173 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleUnion_in_rulePredefStrats1200 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleOne_in_entryRuleOne1235 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleOne1245 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_20_in_ruleOne1282 = new BitSet(new long[]{0x0000000000020000L});
+        public static final BitSet FOLLOW_17_in_ruleOne1294 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleOne1315 = new BitSet(new long[]{0x0000000000040000L});
+        public static final BitSet FOLLOW_18_in_ruleOne1327 = new BitSet(new long[]{0x0000000000000020L});
+        public static final BitSet FOLLOW_RULE_INT_in_ruleOne1344 = new BitSet(new long[]{0x0000000000080000L});
+        public static final BitSet FOLLOW_19_in_ruleOne1361 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleDeclaredStrategyInstance_in_entryRuleDeclaredStrategyInstance1397 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleDeclaredStrategyInstance1407 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleDeclaredStrategyInstance1461 = new BitSet(new long[]{0x0000000000020000L});
+        public static final BitSet FOLLOW_17_in_ruleDeclaredStrategyInstance1473 = new BitSet(new long[]{0x00000000FEF80010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleDeclaredStrategyInstance1495 = new BitSet(new long[]{0x00000000000C0000L});
+        public static final BitSet FOLLOW_18_in_ruleDeclaredStrategyInstance1508 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleDeclaredStrategyInstance1529 = new BitSet(new long[]{0x00000000000C0000L});
+        public static final BitSet FOLLOW_19_in_ruleDeclaredStrategyInstance1545 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSaturation_in_entryRuleSaturation1581 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSaturation1591 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_21_in_ruleSaturation1628 = new BitSet(new long[]{0x0000000000020000L});
+        public static final BitSet FOLLOW_17_in_ruleSaturation1640 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleSaturation1661 = new BitSet(new long[]{0x0000000000040000L});
+        public static final BitSet FOLLOW_18_in_ruleSaturation1673 = new BitSet(new long[]{0x0000000000000020L});
+        public static final BitSet FOLLOW_RULE_INT_in_ruleSaturation1690 = new BitSet(new long[]{0x0000000000080000L});
+        public static final BitSet FOLLOW_19_in_ruleSaturation1707 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleIfThenElse_in_entryRuleIfThenElse1743 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleIfThenElse1753 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_22_in_ruleIfThenElse1790 = new BitSet(new long[]{0x0000000000020000L});
+        public static final BitSet FOLLOW_17_in_ruleIfThenElse1802 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleIfThenElse1823 = new BitSet(new long[]{0x0000000000040000L});
+        public static final BitSet FOLLOW_18_in_ruleIfThenElse1835 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleIfThenElse1856 = new BitSet(new long[]{0x0000000000040000L});
+        public static final BitSet FOLLOW_18_in_ruleIfThenElse1868 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleIfThenElse1889 = new BitSet(new long[]{0x0000000000080000L});
+        public static final BitSet FOLLOW_19_in_ruleIfThenElse1901 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSimpleStrategy_in_entryRuleSimpleStrategy1937 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSimpleStrategy1947 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_23_in_ruleSimpleStrategy1984 = new BitSet(new long[]{0x0000000000000050L});
+        public static final BitSet FOLLOW_ruleRewriteRule_in_ruleSimpleStrategy2005 = new BitSet(new long[]{0x0000000001040000L});
+        public static final BitSet FOLLOW_18_in_ruleSimpleStrategy2018 = new BitSet(new long[]{0x0000000000000050L});
+        public static final BitSet FOLLOW_ruleRewriteRule_in_ruleSimpleStrategy2039 = new BitSet(new long[]{0x0000000001040000L});
+        public static final BitSet FOLLOW_24_in_ruleSimpleStrategy2053 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleNot_in_entryRuleNot2089 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleNot2099 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_25_in_ruleNot2136 = new BitSet(new long[]{0x0000000000020000L});
+        public static final BitSet FOLLOW_17_in_ruleNot2148 = new BitSet(new long[]{0x0000000000800000L});
+        public static final BitSet FOLLOW_ruleSimpleStrategy_in_ruleNot2169 = new BitSet(new long[]{0x0000000000080000L});
+        public static final BitSet FOLLOW_19_in_ruleNot2181 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleFixpoint_in_entryRuleFixpoint2217 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleFixpoint2227 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_26_in_ruleFixpoint2264 = new BitSet(new long[]{0x0000000000020000L});
+        public static final BitSet FOLLOW_17_in_ruleFixpoint2276 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleFixpoint2297 = new BitSet(new long[]{0x0000000000080000L});
+        public static final BitSet FOLLOW_19_in_ruleFixpoint2309 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleChoice_in_entryRuleChoice2345 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleChoice2355 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_27_in_ruleChoice2392 = new BitSet(new long[]{0x0000000000020000L});
+        public static final BitSet FOLLOW_17_in_ruleChoice2404 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleChoice2425 = new BitSet(new long[]{0x0000000000040000L});
+        public static final BitSet FOLLOW_18_in_ruleChoice2437 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleChoice2458 = new BitSet(new long[]{0x0000000000080000L});
+        public static final BitSet FOLLOW_19_in_ruleChoice2470 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleUnion_in_entryRuleUnion2506 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleUnion2516 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_28_in_ruleUnion2553 = new BitSet(new long[]{0x0000000000020000L});
+        public static final BitSet FOLLOW_17_in_ruleUnion2565 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleUnion2586 = new BitSet(new long[]{0x0000000000040000L});
+        public static final BitSet FOLLOW_18_in_ruleUnion2598 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleUnion2619 = new BitSet(new long[]{0x0000000000080000L});
+        public static final BitSet FOLLOW_19_in_ruleUnion2631 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSequence_in_entryRuleSequence2667 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSequence2677 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_29_in_ruleSequence2714 = new BitSet(new long[]{0x0000000000020000L});
+        public static final BitSet FOLLOW_17_in_ruleSequence2726 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleSequence2747 = new BitSet(new long[]{0x0000000000040000L});
+        public static final BitSet FOLLOW_18_in_ruleSequence2759 = new BitSet(new long[]{0x00000000FEF00010L});
+        public static final BitSet FOLLOW_ruleStrategy_in_ruleSequence2780 = new BitSet(new long[]{0x0000000000080000L});
+        public static final BitSet FOLLOW_19_in_ruleSequence2792 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleIdentity_in_entryRuleIdentity2828 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleIdentity2838 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_30_in_ruleIdentity2875 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleFail_in_entryRuleFail2920 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleFail2930 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_31_in_ruleFail2967 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleVariableStrategy_in_entryRuleVariableStrategy3012 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleVariableStrategy3022 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleVariableStrategy3063 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleATerm_in_entryRuleATerm3103 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleATerm3113 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleTerm_in_ruleATerm3160 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleVariable_in_ruleATerm3187 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleASort_in_entryRuleASort3222 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleASort3232 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSubSort_in_ruleASort3279 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSort_in_ruleASort3306 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleADT_in_entryRuleADT3341 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleADT3351 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_32_in_ruleADT3388 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleADT3405 = new BitSet(new long[]{0x0000000200000000L});
+        public static final BitSet FOLLOW_33_in_ruleADT3422 = new BitSet(new long[]{0x0000001000000000L});
+        public static final BitSet FOLLOW_ruleSignature_in_ruleADT3443 = new BitSet(new long[]{0x0000000C00000002L});
+        public static final BitSet FOLLOW_34_in_ruleADT3464 = new BitSet(new long[]{0x0000000000000050L});
+        public static final BitSet FOLLOW_ruleEquation_in_ruleADT3486 = new BitSet(new long[]{0x0000000800000052L});
         public static final BitSet FOLLOW_ruleEquation_in_ruleADT3507 = new BitSet(new long[]{0x0000000800000052L});
-        public static final BitSet FOLLOW_ruleEquation_in_ruleADT3528 = new BitSet(new long[]{0x0000000800000052L});
-        public static final BitSet FOLLOW_35_in_ruleADT3552 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_35_in_ruleADT3531 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_ruleVariableDeclaration_in_ruleADT3553 = new BitSet(new long[]{0x0000000000000012L});
         public static final BitSet FOLLOW_ruleVariableDeclaration_in_ruleADT3574 = new BitSet(new long[]{0x0000000000000012L});
-        public static final BitSet FOLLOW_ruleVariableDeclaration_in_ruleADT3595 = new BitSet(new long[]{0x0000000000000012L});
-        public static final BitSet FOLLOW_ruleSignature_in_entryRuleSignature3634 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSignature3644 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_36_in_ruleSignature3681 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_ruleASort_in_ruleSignature3702 = new BitSet(new long[]{0x0000002000040000L});
-        public static final BitSet FOLLOW_18_in_ruleSignature3715 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_ruleASort_in_ruleSignature3736 = new BitSet(new long[]{0x0000002000040000L});
-        public static final BitSet FOLLOW_37_in_ruleSignature3759 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_ruleSignature_in_entryRuleSignature3613 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSignature3623 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_36_in_ruleSignature3660 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_ruleASort_in_ruleSignature3681 = new BitSet(new long[]{0x0000002000040000L});
+        public static final BitSet FOLLOW_18_in_ruleSignature3694 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_ruleASort_in_ruleSignature3715 = new BitSet(new long[]{0x0000002000040000L});
+        public static final BitSet FOLLOW_37_in_ruleSignature3738 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_ruleOperation_in_ruleSignature3760 = new BitSet(new long[]{0x0000004000000012L});
         public static final BitSet FOLLOW_ruleOperation_in_ruleSignature3781 = new BitSet(new long[]{0x0000004000000012L});
-        public static final BitSet FOLLOW_ruleOperation_in_ruleSignature3802 = new BitSet(new long[]{0x0000004000000012L});
-        public static final BitSet FOLLOW_38_in_ruleSignature3825 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_38_in_ruleSignature3804 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_ruleOperation_in_ruleSignature3826 = new BitSet(new long[]{0x0000000000000012L});
         public static final BitSet FOLLOW_ruleOperation_in_ruleSignature3847 = new BitSet(new long[]{0x0000000000000012L});
-        public static final BitSet FOLLOW_ruleOperation_in_ruleSignature3868 = new BitSet(new long[]{0x0000000000000012L});
-        public static final BitSet FOLLOW_ruleVariableDeclaration_in_entryRuleVariableDeclaration3907 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleVariableDeclaration3917 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleVariableDeclaration3959 = new BitSet(new long[]{0x0000008000000000L});
-        public static final BitSet FOLLOW_39_in_ruleVariableDeclaration3976 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleVariableDeclaration3996 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleEquation_in_entryRuleEquation4032 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleEquation4042 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleATerm_in_ruleEquation4088 = new BitSet(new long[]{0x0000000000004000L});
-        public static final BitSet FOLLOW_14_in_ruleEquation4100 = new BitSet(new long[]{0x0000000000000050L});
-        public static final BitSet FOLLOW_ruleATerm_in_ruleEquation4121 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleRewriteRule_in_entryRuleRewriteRule4157 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleRewriteRule4167 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleATerm_in_ruleRewriteRule4213 = new BitSet(new long[]{0x0000010000000000L});
-        public static final BitSet FOLLOW_40_in_ruleRewriteRule4225 = new BitSet(new long[]{0x0000000000000050L});
-        public static final BitSet FOLLOW_ruleATerm_in_ruleRewriteRule4246 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSubSort_in_entryRuleSubSort4282 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSubSort4292 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleSubSort4334 = new BitSet(new long[]{0x0000020000000000L});
-        public static final BitSet FOLLOW_41_in_ruleSubSort4351 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleSubSort4371 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleSort_in_entryRuleSort4407 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleSort4417 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleSort4468 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleTerm_in_entryRuleTerm4509 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleTerm4519 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleTerm4573 = new BitSet(new long[]{0x0000000000020002L});
-        public static final BitSet FOLLOW_17_in_ruleTerm4586 = new BitSet(new long[]{0x0000000000000050L});
-        public static final BitSet FOLLOW_ruleATerm_in_ruleTerm4607 = new BitSet(new long[]{0x00000000000C0000L});
-        public static final BitSet FOLLOW_18_in_ruleTerm4620 = new BitSet(new long[]{0x0000000000000050L});
-        public static final BitSet FOLLOW_ruleATerm_in_ruleTerm4641 = new BitSet(new long[]{0x00000000000C0000L});
-        public static final BitSet FOLLOW_19_in_ruleTerm4655 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleVariable_in_entryRuleVariable4693 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleVariable4703 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_TERMVAR_in_ruleVariable4757 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_ruleOperation_in_entryRuleOperation4793 = new BitSet(new long[]{0x0000000000000000L});
-        public static final BitSet FOLLOW_EOF_in_entryRuleOperation4803 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleOperation4845 = new BitSet(new long[]{0x0000008000000000L});
-        public static final BitSet FOLLOW_39_in_ruleOperation4862 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleOperation4883 = new BitSet(new long[]{0x0000010000040000L});
-        public static final BitSet FOLLOW_18_in_ruleOperation4896 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleOperation4916 = new BitSet(new long[]{0x0000010000040000L});
-        public static final BitSet FOLLOW_40_in_ruleOperation4930 = new BitSet(new long[]{0x0000000000000010L});
-        public static final BitSet FOLLOW_RULE_ID_in_ruleOperation4952 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_rulePredefStrats_in_synpred1_InternalTransitionSystemDsl815 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_34_in_synpred2_InternalTransitionSystemDsl3477 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_35_in_synpred3_InternalTransitionSystemDsl3544 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_37_in_synpred4_InternalTransitionSystemDsl3751 = new BitSet(new long[]{0x0000000000000002L});
-        public static final BitSet FOLLOW_38_in_synpred5_InternalTransitionSystemDsl3817 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleVariableDeclaration_in_entryRuleVariableDeclaration3886 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleVariableDeclaration3896 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleVariableDeclaration3938 = new BitSet(new long[]{0x0000008000000000L});
+        public static final BitSet FOLLOW_39_in_ruleVariableDeclaration3955 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleVariableDeclaration3975 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleEquation_in_entryRuleEquation4011 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleEquation4021 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleATerm_in_ruleEquation4067 = new BitSet(new long[]{0x0000000000004000L});
+        public static final BitSet FOLLOW_14_in_ruleEquation4079 = new BitSet(new long[]{0x0000000000000050L});
+        public static final BitSet FOLLOW_ruleATerm_in_ruleEquation4100 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleRewriteRule_in_entryRuleRewriteRule4136 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleRewriteRule4146 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleATerm_in_ruleRewriteRule4192 = new BitSet(new long[]{0x0000010000000000L});
+        public static final BitSet FOLLOW_40_in_ruleRewriteRule4204 = new BitSet(new long[]{0x0000000000000050L});
+        public static final BitSet FOLLOW_ruleATerm_in_ruleRewriteRule4225 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSubSort_in_entryRuleSubSort4261 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSubSort4271 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleSubSort4313 = new BitSet(new long[]{0x0000020000000000L});
+        public static final BitSet FOLLOW_41_in_ruleSubSort4330 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleSubSort4350 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleSort_in_entryRuleSort4386 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleSort4396 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleSort4447 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleTerm_in_entryRuleTerm4488 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleTerm4498 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleTerm4552 = new BitSet(new long[]{0x0000000000020002L});
+        public static final BitSet FOLLOW_17_in_ruleTerm4565 = new BitSet(new long[]{0x0000000000000050L});
+        public static final BitSet FOLLOW_ruleATerm_in_ruleTerm4586 = new BitSet(new long[]{0x00000000000C0000L});
+        public static final BitSet FOLLOW_18_in_ruleTerm4599 = new BitSet(new long[]{0x0000000000000050L});
+        public static final BitSet FOLLOW_ruleATerm_in_ruleTerm4620 = new BitSet(new long[]{0x00000000000C0000L});
+        public static final BitSet FOLLOW_19_in_ruleTerm4634 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleVariable_in_entryRuleVariable4672 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleVariable4682 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_TERMVAR_in_ruleVariable4736 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_ruleOperation_in_entryRuleOperation4772 = new BitSet(new long[]{0x0000000000000000L});
+        public static final BitSet FOLLOW_EOF_in_entryRuleOperation4782 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleOperation4824 = new BitSet(new long[]{0x0000008000000000L});
+        public static final BitSet FOLLOW_39_in_ruleOperation4841 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleOperation4862 = new BitSet(new long[]{0x0000010000040000L});
+        public static final BitSet FOLLOW_18_in_ruleOperation4875 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleOperation4895 = new BitSet(new long[]{0x0000010000040000L});
+        public static final BitSet FOLLOW_40_in_ruleOperation4909 = new BitSet(new long[]{0x0000000000000010L});
+        public static final BitSet FOLLOW_RULE_ID_in_ruleOperation4931 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_rulePredefStrats_in_synpred1_InternalTransitionSystemDsl794 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_34_in_synpred2_InternalTransitionSystemDsl3456 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_35_in_synpred3_InternalTransitionSystemDsl3523 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_37_in_synpred4_InternalTransitionSystemDsl3730 = new BitSet(new long[]{0x0000000000000002L});
+        public static final BitSet FOLLOW_38_in_synpred5_InternalTransitionSystemDsl3796 = new BitSet(new long[]{0x0000000000000002L});
     }
 
 

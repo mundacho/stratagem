@@ -174,7 +174,7 @@ public class VariableImpl extends ATermImpl implements Variable {
 	
 	@Override
 	public String toString() {
-		return getSymbol();
+		return "$" + getSymbol();
 	}
 	
 } //VariableImpl

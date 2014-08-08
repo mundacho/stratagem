@@ -169,24 +169,6 @@ ruleTransitionSystem returns [EObject current=null]
 	    }
 
 )
-)(
-(
-		{ 
-	        newCompositeNode(grammarAccess.getTransitionSystemAccess().getTransitionsTransitionParserRuleCall_9_0()); 
-	    }
-		lv_transitions_9_0=ruleTransition		{
-	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getTransitionSystemRule());
-	        }
-       		add(
-       			$current, 
-       			"transitions",
-        		lv_transitions_9_0, 
-        		"Transition");
-	        afterParserOrEnumRuleCall();
-	    }
-
-)
 )*)
 ;
 

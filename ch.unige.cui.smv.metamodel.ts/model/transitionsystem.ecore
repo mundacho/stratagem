@@ -2,8 +2,8 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ts" nsURI="http://cui.unige.ch/smv/transitionsystem.ecore" nsPrefix="ts">
   <eAnnotations source="http://www.eclipse.org/OCL/Import">
-    <details key="adt_0" value="/resource/ch.unige.cui.smv.metamodel.adt/model/adt.ecore#/"/>
-    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore#/"/>
+    <details key="adt_0" value="http://cui.unige.ch/smv/adt.ecore#/"/>
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
   </eAnnotations>
   <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
     <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
@@ -38,6 +38,12 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DeclaredStrategy">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="UniqueVariableParameters"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="UniqueVariableParameters" value="Tuple {&#xA;&#x9;message : String = 'The parameter names are not unique for declared strategy: ' + name,&#xA;&#x9;status : Boolean = formalParams &lt;> null implies formalParams->isUnique(name)&#xA;}.status"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//NonVariableStrategy"
         containment="true"/>
@@ -63,8 +69,7 @@
       <details key="constraints" value="RightNumberOfParams"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="RightNumberOfParams" value="declaration &lt;> null implies declaration.formalParams&#xA;&#x9;&#x9;&#x9;->size() = actualParams&#xA;&#x9;&#x9;&#x9;->size()"/>
-      <details key="RightNumberOfParams$message" value="'Invalid number of parameters'"/>
+      <details key="RightNumberOfParams" value="Tuple {&#xA;&#x9;message : String = 'Invalid number of parameters for strategy ' + name + '. Required ' + declaration.formalParams->size()->toString() + ', found ' + actualParams->size()->toString(),&#xA;&#x9;status : Boolean = declaration &lt;> null implies declaration.formalParams&#xA;&#x9;&#x9;&#x9;->size() = actualParams&#xA;&#x9;&#x9;&#x9;->size()&#xA;}.status"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="declaration" lowerBound="1"

@@ -3,11 +3,13 @@
 package ch.unige.smv.cui.metamodel.adt.util;
 
 import java.util.Map;
+
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.EObjectValidator;
+import org.eclipse.ocl.examples.xtext.oclinecore.validation.OCLinEcoreEObjectValidator;
+
 import ch.unige.smv.cui.metamodel.adt.ADT;
 import ch.unige.smv.cui.metamodel.adt.ASort;
 import ch.unige.smv.cui.metamodel.adt.ATerm;
@@ -28,7 +30,7 @@ import ch.unige.smv.cui.metamodel.adt.VariableDeclaration;
  * @see ch.unige.smv.cui.metamodel.adt.AdtPackage
  * @generated
  */
-public class AdtValidator extends EObjectValidator {
+public class AdtValidator extends OCLinEcoreEObjectValidator {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -144,8 +146,11 @@ public class AdtValidator extends EObjectValidator {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String ADT__UNIQUE_VARIABLE_NAMES__EEXPRESSION = "variables\n" +
-		"\t\t\t->isUnique(name)";
+	protected static final String ADT__UNIQUE_VARIABLE_NAMES__EEXPRESSION = "Tuple {\n" +
+		"\tmessage : String = 'The following variables are defined more than once: ' + variables->select(v | (variables->select(v1 | (v1.name = v.name))->size() > 1))->collect(name)->toString(),\n" +
+		"\tstatus : Boolean = variables\n" +
+		"\t\t\t->isUnique(name)\n" +
+		"}.status";
 
 	/**
 	 * Validates the UniqueVariableNames constraint of '<em>ADT</em>'. <!--
@@ -193,7 +198,10 @@ public class AdtValidator extends EObjectValidator {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String ASORT__NAME_NOT_EMPTY__EEXPRESSION = "name <> ''";
+	protected static final String ASORT__NAME_NOT_EMPTY__EEXPRESSION = "Tuple {\n" +
+		"\tmessage : String = 'Cannot assign empty name to sort',\n" +
+		"\tstatus : Boolean = name <> ''\n" +
+		"}.status";
 
 	/**
 	 * Validates the NameNotEmpty constraint of '<em>ASort</em>'. <!--
@@ -242,7 +250,10 @@ public class AdtValidator extends EObjectValidator {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String SUB_SORT__SUPER_SORT_NOT_NULL__EEXPRESSION = "superSort <> null";
+	protected static final String SUB_SORT__SUPER_SORT_NOT_NULL__EEXPRESSION = "Tuple {\n" +
+		"\tmessage : String = 'The super sort of sort ' + name + 'cannot be null',\n" +
+		"\tstatus : Boolean = superSort <> null\n" +
+		"}.status";
 
 	/**
 	 * Validates the SuperSortNotNull constraint of '<em>Sub Sort</em>'. <!--
@@ -310,8 +321,11 @@ public class AdtValidator extends EObjectValidator {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String SIGNATURE__UNIQUE_SORTS__EEXPRESSION = "sorts <> null implies sorts\n" +
-		"\t\t\t->isUnique(name)";
+	protected static final String SIGNATURE__UNIQUE_SORTS__EEXPRESSION = "Tuple {\n" +
+		"\tmessage : String = 'There are some sorts in the adt that appear more than once: ' + sorts->select(s1 | (sorts->select(s2 | (s2.name = s1.name))->size() > 1))->collect(name)->toString(),\n" +
+		"\tstatus : Boolean = sorts <> null implies sorts\n" +
+		"\t\t\t->isUnique(name)\n" +
+		"}.status";
 
 	/**
 	 * Validates the UniqueSorts constraint of '<em>Signature</em>'. <!--
@@ -340,8 +354,11 @@ public class AdtValidator extends EObjectValidator {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String SIGNATURE__UNIQUE_OPERATIONS__EEXPRESSION = "allOperations\n" +
-		"\t\t\t->isUnique(name)";
+	protected static final String SIGNATURE__UNIQUE_OPERATIONS__EEXPRESSION = "Tuple {\n" +
+		"\tmessage : String = 'There are some operations in the adt that appear more than once: ' + allOperations->select(op1 | (allOperations->select(op2 | (op2.name = op1.name))->size() > 1))->collect(name)->toString(),\n" +
+		"\tstatus : Boolean = allOperations\n" +
+		"\t\t\t->isUnique(name)\n" +
+		"}.status";
 
 	/**
 	 * Validates the UniqueOperations constraint of '<em>Signature</em>'. <!--
@@ -441,7 +458,10 @@ public class AdtValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String OPERATION__VALID_RETURN_TYPE__EEXPRESSION = "returnType <> null";
+	protected static final String OPERATION__VALID_RETURN_TYPE__EEXPRESSION = "Tuple {\n" +
+		"\tmessage : String = 'The return type for operation ' + name + ' was not set.',\n" +
+		"\tstatus : Boolean = returnType <> null\n" +
+		"}.status";
 
 	/**
 	 * Validates the ValidReturnType constraint of '<em>Operation</em>'.
@@ -501,7 +521,10 @@ public class AdtValidator extends EObjectValidator {
 	 * 
 	 * @generated
 	 */
-	protected static final String TERM__CORRECT_NUMBER_OF_PARAMETERS__EEXPRESSION = "(operationSymbol <> null) implies  subterms->size() = operationSymbol.formalParameters->size()";
+	protected static final String TERM__CORRECT_NUMBER_OF_PARAMETERS__EEXPRESSION = "Tuple {\n" +
+		"\tmessage : String = 'Invalid number of parameters for term: ' + self.toString() + '. Required ' + operationSymbol.formalParameters->size()->toString() + ', found ' + subterms->size()->toString(),\n" +
+		"\tstatus : Boolean = (operationSymbol <> null) implies  subterms->size() = operationSymbol.formalParameters->size()\n" +
+		"}.status";
 
 	/**
 	 * Validates the CorrectNumberOfParameters constraint of '<em>Term</em>'.
@@ -531,10 +554,13 @@ public class AdtValidator extends EObjectValidator {
 	 * 
 	 * @generated
 	 */
-	protected static final String TERM__CORRECT_TYPE_OF_PARAMETERS__EEXPRESSION = "subterms <> null implies subterms\n" +
+	protected static final String TERM__CORRECT_TYPE_OF_PARAMETERS__EEXPRESSION = "Tuple {\n" +
+		"\tmessage : String = 'Invalid type of parameters for term: ' + self.toString(),\n" +
+		"\tstatus : Boolean = subterms <> null implies subterms\n" +
 		"\t\t\t->forAll(p | ((p.sort <> null) and (operationSymbol <> null)) implies p.sort.isSubSortOf(operationSymbol.formalParameters\n" +
 		"\t\t\t\t\t->at(subterms\n" +
-		"\t\t\t\t\t\t->indexOf(p))))";
+		"\t\t\t\t\t\t->indexOf(p))))\n" +
+		"}.status";
 
 	/**
 	 * Validates the CorrectTypeOfParameters constraint of '<em>Term</em>'. <!--
@@ -564,7 +590,10 @@ public class AdtValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String TERM__RIGHT_ADT_SUBTERMS__EEXPRESSION = "(subterms <> null) implies subterms->forAll(t | t.adt = self.adt)";
+	protected static final String TERM__RIGHT_ADT_SUBTERMS__EEXPRESSION = "Tuple {\n" +
+		"\tmessage : String = 'Some subterms do not have the same adt as the parent term: ' + self.toString(),\n" +
+		"\tstatus : Boolean = (subterms <> null) implies subterms->forAll(t | t.adt = self.adt)\n" +
+		"}.status";
 
 	/**
 	 * Validates the RightAdtSubterms constraint of '<em>Term</em>'.

@@ -12,7 +12,6 @@ resolvers += Resolver.url("smv-shared").artifacts(
         "http://alpina.unige.ch/ivy/[organisation]/[module]/([branch]/)[revision]/[artifact].[ext]").ivys("http://alpina.unige.ch/ivy/[organisation]/[module]/([branch]/)ivys/[module]-[revision].xml")  
 
 
-
 // emf required libraries
 
 libraryDependencies += "javax" % "inject" % "1.0.0.v20091030"
@@ -72,5 +71,13 @@ libraryDependencies += "org.eclipse" % "emf-mwe2-launch" % "2.6.1.v201406120758"
 libraryDependencies += "org.eclipse" % "emf-mwe2-language" % "2.6.1.v201406120758"
 
 libraryDependencies += "org.objectweb" % "asm" % "5.0.1.v201404251740"
+
+libraryDependencies += "org.eclipse" % "xtend-core" % "2.6.2.v201407030533"
+
+libraryDependencies += "org.eclipse" % "jdt-core" % "3.9.2.v20140114-1555"
+
+libraryDependencies += "org.eclipse" % "jdt-compiler-apt" % "1.0.600.v20130530-1010"
+
+libraryDependencies += "org.eclipse" % "jdt-compiler-tool" % "1.0.200.v20130530-1010"
 
 libraryDependencies += "org.apache" % "log4j" % "1.2.15.v201012070815"

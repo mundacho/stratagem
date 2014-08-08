@@ -710,7 +710,7 @@ public class AdtPackageImpl extends EPackageImpl implements AdtPackage {
 		  (this, 
 		   source, 
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore#/"
+			 "ecore", "http://www.eclipse.org/emf/2002/Ecore"
 		   });
 	}
 
@@ -786,31 +786,26 @@ public class AdtPackageImpl extends EPackageImpl implements AdtPackage {
 		  (adtEClass, 
 		   source, 
 		   new String[] {
-			 "UniqueVariableNames", "variables\n\t\t\t->isUnique(name)",
-			 "UniqueVariableNames$message", "\'The following variables are defined more than once: \' + variables->select(v | (variables->select(v1 | (v1.name = v.name))->size() > 1))->collect(name)->toString()"
+			 "UniqueVariableNames", "Tuple {\n\tmessage : String = \'The following variables are defined more than once: \' + variables->select(v | (variables->select(v1 | (v1.name = v.name))->size() > 1))->collect(name)->toString(),\n\tstatus : Boolean = variables\n\t\t\t->isUnique(name)\n}.status"
 		   });	
 		addAnnotation
 		  (aSortEClass, 
 		   source, 
 		   new String[] {
-			 "NameNotEmpty", "name <> \'\'",
-			 "NameNotEmpty$message", "\'Cannot assign empty name to sort\'"
+			 "NameNotEmpty", "Tuple {\n\tmessage : String = \'Cannot assign empty name to sort\',\n\tstatus : Boolean = name <> \'\'\n}.status"
 		   });	
 		addAnnotation
 		  (subSortEClass, 
 		   source, 
 		   new String[] {
-			 "SuperSortNotNull", "superSort <> null",
-			 "SuperSortNotNull$message", "\'The super sort of sort \' + name + \'cannot be null\'"
+			 "SuperSortNotNull", "Tuple {\n\tmessage : String = \'The super sort of sort \' + name + \'cannot be null\',\n\tstatus : Boolean = superSort <> null\n}.status"
 		   });	
 		addAnnotation
 		  (signatureEClass, 
 		   source, 
 		   new String[] {
-			 "UniqueSorts", "sorts <> null implies sorts\n\t\t\t->isUnique(name)",
-			 "UniqueSorts$message", "\'There are some sorts in the adt that appear more than once: \' + sorts->select(s1 | (sorts->select(s2 | (s2.name = s1.name))->size() > 1))->collect(name)->toString()",
-			 "UniqueOperations", "allOperations\n\t\t\t->isUnique(name)",
-			 "UniqueOperations$message", "\'There are some operations in the adt that appear more than once: \' + allOperations->select(op1 | (allOperations->select(op2 | (op2.name = op1.name))->size() > 1))->collect(name)->toString()"
+			 "UniqueSorts", "Tuple {\n\tmessage : String = \'There are some sorts in the adt that appear more than once: \' + sorts->select(s1 | (sorts->select(s2 | (s2.name = s1.name))->size() > 1))->collect(name)->toString(),\n\tstatus : Boolean = sorts <> null implies sorts\n\t\t\t->isUnique(name)\n}.status",
+			 "UniqueOperations", "Tuple {\n\tmessage : String = \'There are some operations in the adt that appear more than once: \' + allOperations->select(op1 | (allOperations->select(op2 | (op2.name = op1.name))->size() > 1))->collect(name)->toString(),\n\tstatus : Boolean = allOperations\n\t\t\t->isUnique(name)\n}.status"
 		   });	
 		addAnnotation
 		  (variableDeclarationEClass, 
@@ -822,19 +817,15 @@ public class AdtPackageImpl extends EPackageImpl implements AdtPackage {
 		  (operationEClass, 
 		   source, 
 		   new String[] {
-			 "ValidReturnType", "returnType <> null",
-			 "ValidReturnType$message", "\'The return type for operation \' + name + \' was not set.\'"
+			 "ValidReturnType", "Tuple {\n\tmessage : String = \'The return type for operation \' + name + \' was not set.\',\n\tstatus : Boolean = returnType <> null\n}.status"
 		   });	
 		addAnnotation
 		  (termEClass, 
 		   source, 
 		   new String[] {
-			 "CorrectNumberOfParameters", "(operationSymbol <> null) implies  subterms->size() = operationSymbol.formalParameters->size()",
-			 "CorrectNumberOfParameters$message", "\'Invalid number of parameters for term: \' + self.toString() + \'. Required \' + operationSymbol.formalParameters->size()->toString() + \', found \' + subterms->size()->toString()",
-			 "CorrectTypeOfParameters", "subterms <> null implies subterms\n\t\t\t->forAll(p | ((p.sort <> null) and (operationSymbol <> null)) implies p.sort.isSubSortOf(operationSymbol.formalParameters\n\t\t\t\t\t->at(subterms\n\t\t\t\t\t\t->indexOf(p))))",
-			 "CorrectTypeOfParameters$message", "\'Invalid type of parameters for term: \' + self.toString()",
-			 "RightAdtSubterms", "(subterms <> null) implies subterms->forAll(t | t.adt = self.adt)",
-			 "RightAdtSubterms$message", "\'Some subterms do not have the same adt as the parent term: \' + self.toString()"
+			 "CorrectNumberOfParameters", "Tuple {\n\tmessage : String = \'Invalid number of parameters for term: \' + self.toString() + \'. Required \' + operationSymbol.formalParameters->size()->toString() + \', found \' + subterms->size()->toString(),\n\tstatus : Boolean = (operationSymbol <> null) implies  subterms->size() = operationSymbol.formalParameters->size()\n}.status",
+			 "CorrectTypeOfParameters", "Tuple {\n\tmessage : String = \'Invalid type of parameters for term: \' + self.toString(),\n\tstatus : Boolean = subterms <> null implies subterms\n\t\t\t->forAll(p | ((p.sort <> null) and (operationSymbol <> null)) implies p.sort.isSubSortOf(operationSymbol.formalParameters\n\t\t\t\t\t->at(subterms\n\t\t\t\t\t\t->indexOf(p))))\n}.status",
+			 "RightAdtSubterms", "Tuple {\n\tmessage : String = \'Some subterms do not have the same adt as the parent term: \' + self.toString(),\n\tstatus : Boolean = (subterms <> null) implies subterms->forAll(t | t.adt = self.adt)\n}.status"
 		   });
 	}
 

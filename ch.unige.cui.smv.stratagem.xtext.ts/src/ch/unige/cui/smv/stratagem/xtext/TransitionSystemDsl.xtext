@@ -12,7 +12,7 @@ TransitionSystem returns ts::TransitionSystem:
 	'Strategies'
 	(auxiliary+=Auxiliary)*
 	'Transitions'
-	transitions+=Transition (transitions+=Transition)*;
+	(transitions+=Transition)*;
 
 terminal TERMVAR		: '$''^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
 

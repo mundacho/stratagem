@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="main/scala/|test/scala/|test/java/" kind="src" output="target/scala-2.10/classes" path="src"/>
-	<classpathentry kind="lib" path="/Users/mundacho/.ivy2/cache/org.eclipse.emf/org.eclipse.emf.ecore/jars/org.eclipse.emf.ecore-2.10.0-v20140514-1158.jar"/>
+	<classpathentry kind="lib" path="/Users/mundacho/.ivy2/cache/org.eclipse.emf/org.eclipse.emf.ecore/jars/org.eclipse.emf.ecore-2.10.0-v20140514-1158.jar" sourcepath="/Users/mundacho/work/eclipses/scala-ide/plugins/org.eclipse.emf.ecore.source_2.10.0.v20140514-1158.jar"/>
 	<classpathentry kind="lib" path="/Users/mundacho/.ivy2/cache/org.eclipse.emf/org.eclipse.emf.common/jars/org.eclipse.emf.common-2.10.0-v20140514-1158.jar"/>
 	<classpathentry kind="lib" path="/Users/mundacho/.ivy2/cache/org.eclipse.emf/org.eclipse.emf.ecore.xmi/jars/org.eclipse.emf.ecore.xmi-2.10.0-v20140514-1158.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>

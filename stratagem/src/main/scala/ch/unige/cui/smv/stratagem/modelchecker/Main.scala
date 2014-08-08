@@ -40,10 +40,15 @@ import ch.unige.cui.smv.stratagem.transformers.FileSuperModularizer
 import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
 import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
 import org.eclipse.xtext.parser.IParser
+import org.eclipse.emf.ecore.EPackage
 import ch.unige.cui.smv.stratagem.xtext.TransitionSystemDslStandaloneSetup
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.resource.XtextResourceSet
 import org.eclipse.xtext.resource.XtextResource
+import org.eclipse.xtext.validation.CheckMode
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.common.util.Diagnostic
+import org.eclipse.emf.ecore.util.Diagnostician
 import ch.unige.smv.cui.metamodel.adt.AdtPackage
 import ch.unige.cui.smv.metamodel.ts.TransitionSystem
 import ch.unige.cui.smv.metamodel.ts.TsPackage
@@ -74,12 +79,7 @@ object Main extends Logging {
       if (config.verbose && config.quiet) logger.warn("Set quiet and verbose flag at the same time")
 
       if (config.mode == "transition-system") {
-        // ocl registration
-        org.eclipse.ocl.examples.pivot.OCL.initialize(null);
-        org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
-        org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
-        OCLinEcoreStandaloneSetup.doSetup()
-        OCLstdlibStandaloneSetup.doSetup()
+
         logger.trace("Finished OCL registration")
 
         // register ADT
@@ -91,9 +91,39 @@ object Main extends Logging {
         resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, true);
         val uri = config.model.toURI().toString()
         val resource = resourceSet.getResource(URI.createURI(uri), true);
-        logger.trace(s"Starting to load model from url: $uri")
+
+        // ocl registration
+        org.eclipse.ocl.examples.pivot.OCL.initialize(resourceSet);
+        org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
+        org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(resourceSet)
+        OCLinEcoreStandaloneSetup.doSetup()
+        OCLstdlibStandaloneSetup.doSetup()
+
+
         val ts = resource.getContents().get(0).asInstanceOf[TransitionSystem];
         if (resource.getErrors().isEmpty()) {
+          val diagnostic = Diagnostician.INSTANCE.validate(ts);
+          diagnostic.getSeverity() match {
+            case Diagnostic.ERROR =>
+              logger.error(s"Model has errors:")
+              val errors = diagnostic.getChildren()
+              for (error <- errors) {
+                //            	  val node = org.eclipse.xtext.nodemodel.util.NodeModelUtils.getNode()
+                val dataList = error.getData().headOption
+                for (data <- dataList) {
+                  val node = org.eclipse.xtext.nodemodel.util.NodeModelUtils.getNode(data.asInstanceOf[EObject])
+                  // we show ecore errors only in debug mode
+                  if (error.getSource() == "org.eclipse.emf.ecore") logger.trace(s"At line ${node.getStartLine}: ${error.getMessage()}") else{
+                	  logger.error(s"At line ${node.getStartLine}: ${error.getMessage()}")
+                  }
+                }
+              }
+              System.exit(-1)
+            case Diagnostic.WARNING =>
+              logger.error(s"Model has warnings: $diagnostic")
+            case _ => // No problem
+          }
+
           logger.trace(s"Finished loading")
           val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
           val initialState = sigmaDDFactory.create(ts.getInitialState())
@@ -106,7 +136,10 @@ object Main extends Logging {
           logger.debug("State space size:")
           logger.info(s"$stateSpaceSize")
         } else {
-          for (error <- resource.getErrors()) logger.error(s"${error.getLocation()}: ${error.getMessage()}")
+          logger.error("There were syntactic errors in your model:")
+          for (error <- resource.getErrors()) {
+            logger.error(s"At line ${error.getLine()}: ${error.getMessage()}")
+          }
         }
 
       } else { // pnml file

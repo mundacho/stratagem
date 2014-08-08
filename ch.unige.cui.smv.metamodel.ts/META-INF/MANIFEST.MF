@@ -12,6 +12,7 @@ Export-Package: ch.unige.cui.smv.metamodel.ts,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- ch.unige.cui.smv.metamodel.adt;bundle-version="1.0.0"
+ ch.unige.cui.smv.metamodel.adt;bundle-version="1.0.0";visibility:=reexport,
+ org.eclipse.ocl.examples.xtext.oclinecore
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy

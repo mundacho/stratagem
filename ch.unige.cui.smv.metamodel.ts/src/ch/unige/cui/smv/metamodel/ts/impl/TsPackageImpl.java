@@ -21,15 +21,12 @@ import ch.unige.cui.smv.metamodel.ts.TsFactory;
 import ch.unige.cui.smv.metamodel.ts.TsPackage;
 import ch.unige.cui.smv.metamodel.ts.Union;
 import ch.unige.cui.smv.metamodel.ts.VariableStrategy;
-
 import ch.unige.cui.smv.metamodel.ts.util.TsValidator;
 import ch.unige.smv.cui.metamodel.adt.AdtPackage;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
@@ -863,8 +860,8 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 		  (this, 
 		   source, 
 		   new String[] {
-			 "adt_0", "/resource/ch.unige.cui.smv.metamodel.adt/model/adt.ecore#/",
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore#/"
+			 "adt_0", "http://cui.unige.ch/smv/adt.ecore#/",
+			 "ecore", "http://www.eclipse.org/emf/2002/Ecore"
 		   });
 	}
 
@@ -883,6 +880,12 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"
+		   });	
+		addAnnotation
+		  (declaredStrategyEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "UniqueVariableParameters"
 		   });	
 		addAnnotation
 		  (declaredStrategyInstanceEClass, 
@@ -929,11 +932,16 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 	protected void createPivotAnnotations() {
 		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot";	
 		addAnnotation
+		  (declaredStrategyEClass, 
+		   source, 
+		   new String[] {
+			 "UniqueVariableParameters", "Tuple {\n\tmessage : String = \'The parameter names are not unique for declared strategy: \' + name,\n\tstatus : Boolean = formalParams <> null implies formalParams->isUnique(name)\n}.status"
+		   });	
+		addAnnotation
 		  (declaredStrategyInstanceEClass, 
 		   source, 
 		   new String[] {
-			 "RightNumberOfParams", "declaration <> null implies declaration.formalParams\n\t\t\t->size() = actualParams\n\t\t\t->size()",
-			 "RightNumberOfParams$message", "\'Invalid number of parameters\'"
+			 "RightNumberOfParams", "Tuple {\n\tmessage : String = \'Invalid number of parameters for strategy \' + name + \'. Required \' + declaration.formalParams->size()->toString() + \', found \' + actualParams->size()->toString(),\n\tstatus : Boolean = declaration <> null implies declaration.formalParams\n\t\t\t->size() = actualParams\n\t\t\t->size()\n}.status"
 		   });
 	}
 

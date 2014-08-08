@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * @see ch.unige.smv.cui.metamodel.adt.AdtPackage#getSignature()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='UniqueSorts UniqueOperations'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot UniqueSorts='sorts <> null implies sorts\n\t\t\t->isUnique(name)' UniqueSorts$message='\'There are some sorts in the adt that appear more than once: \' + sorts->select(s1 | (sorts->select(s2 | (s2.name = s1.name))->size() > 1))->collect(name)->toString()' UniqueOperations='allOperations\n\t\t\t->isUnique(name)' UniqueOperations$message='\'There are some operations in the adt that appear more than once: \' + allOperations->select(op1 | (allOperations->select(op2 | (op2.name = op1.name))->size() > 1))->collect(name)->toString()'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot UniqueSorts='Tuple {\n\tmessage : String = \'There are some sorts in the adt that appear more than once: \' + sorts->select(s1 | (sorts->select(s2 | (s2.name = s1.name))->size() > 1))->collect(name)->toString(),\n\tstatus : Boolean = sorts <> null implies sorts\n\t\t\t->isUnique(name)\n}.status' UniqueOperations='Tuple {\n\tmessage : String = \'There are some operations in the adt that appear more than once: \' + allOperations->select(op1 | (allOperations->select(op2 | (op2.name = op1.name))->size() > 1))->collect(name)->toString(),\n\tstatus : Boolean = allOperations\n\t\t\t->isUnique(name)\n}.status'"
  * @generated
  */
 public interface Signature extends EObject {

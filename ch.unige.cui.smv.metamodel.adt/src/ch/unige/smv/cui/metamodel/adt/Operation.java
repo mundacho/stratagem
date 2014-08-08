@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see ch.unige.smv.cui.metamodel.adt.AdtPackage#getOperation()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ValidReturnType'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot ValidReturnType='returnType <> null' ValidReturnType$message='\'The return type for operation \' + name + \' was not set.\''"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot ValidReturnType='Tuple {\n\tmessage : String = \'The return type for operation \' + name + \' was not set.\',\n\tstatus : Boolean = returnType <> null\n}.status'"
  * @generated
  */
 public interface Operation extends EObject {

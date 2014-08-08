@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EReference;
  * <!-- end-user-doc -->
  * @see ch.unige.cui.smv.metamodel.ts.TsFactory
  * @model kind="package"
- *        annotation="http://www.eclipse.org/OCL/Import adt_0='/resource/ch.unige.cui.smv.metamodel.adt/model/adt.ecore#/' ecore='http://www.eclipse.org/emf/2002/Ecore#/'"
+ *        annotation="http://www.eclipse.org/OCL/Import adt_0='http://cui.unige.ch/smv/adt.ecore#/' ecore='http://www.eclipse.org/emf/2002/Ecore'"
  *        annotation="http://www.eclipse.org/emf/2002/Ecore invocationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot' settingDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot' validationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot'"
  * @generated
  */
