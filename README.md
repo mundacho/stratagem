@@ -13,7 +13,7 @@ Features
 
 Stratagem v0.4 can perform the following tasks:
 
-- Read transition systems in its own langauge (.ts) directly from the a text file and perform its state space calculation.
+- Read transition systems in its own langauge (.ts) directly from the a text file and perform its state space calculation. You can see an example of a transition system file [here](https://github.com/mundacho/stratagem/blob/master/stratagem/resources/philo.ts)
 - Read a Place/Transition Petri net and calculate its state space.
 - Automatically decompose a P/T Petri net in modules.
 - Transform a P/T Petri net into a rewriting based transition system.
