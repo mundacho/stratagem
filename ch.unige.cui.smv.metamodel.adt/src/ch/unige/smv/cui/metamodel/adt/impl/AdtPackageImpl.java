@@ -650,11 +650,11 @@ public class AdtPackageImpl extends EPackageImpl implements AdtPackage {
 		initEClass(sortEClass, Sort.class, "Sort", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(signatureEClass, Signature.class, "Signature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSignature_Ops(), ecorePackage.getEFeatureMapEntry(), "ops", null, 0, -1, Signature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSignature_Ops(), ecorePackage.getEFeatureMapEntry(), "ops", null, 0, -1, Signature.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSignature_AllOperations(), this.getOperation(), null, "allOperations", null, 0, -1, Signature.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getSignature_Sorts(), this.getASort(), null, "sorts", null, 1, -1, Signature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSignature_Operations(), this.getOperation(), null, "operations", null, 0, -1, Signature.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getSignature_Generators(), this.getOperation(), null, "generators", null, 1, -1, Signature.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getSignature_Operations(), this.getOperation(), null, "operations", null, 0, -1, Signature.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getSignature_Generators(), this.getOperation(), null, "generators", null, 1, -1, Signature.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(variableDeclarationEClass, VariableDeclaration.class, "VariableDeclaration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getVariableDeclaration_Sort(), this.getASort(), null, "sort", null, 1, 1, VariableDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -666,7 +666,7 @@ public class AdtPackageImpl extends EPackageImpl implements AdtPackage {
 		initEAttribute(getOperation_Name(), ecorePackage.getEString(), "name", "op", 1, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(aTermEClass, ATerm.class, "ATerm", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getATerm_Adt(), this.getADT(), null, "adt", null, 1, 1, ATerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getATerm_Adt(), this.getADT(), null, "adt", null, 1, 1, ATerm.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getATerm_Sort(), this.getASort(), null, "sort", null, 1, 1, ATerm.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getATerm_Symbol(), ecorePackage.getEString(), "symbol", null, 1, 1, ATerm.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
@@ -786,7 +786,7 @@ public class AdtPackageImpl extends EPackageImpl implements AdtPackage {
 		  (adtEClass, 
 		   source, 
 		   new String[] {
-			 "UniqueVariableNames", "Tuple {\n\tmessage : String = \'The following variables are defined more than once: \' + variables->select(v | (variables->select(v1 | (v1.name = v.name))->size() > 1))->collect(name)->toString(),\n\tstatus : Boolean = variables\n\t\t\t->isUnique(name)\n}.status"
+			 "UniqueVariableNames", "Tuple {\n\tmessage : String = \'The following variables are defined more than once: \' + variables\n\t\t\t->select(v | (variables\n\t\t\t\t->select(v1 | (v1.name = v.name))\n\t\t\t\t->size() > 1))\n\t\t\t->collect(name)\n\t\t\t->toString(),\n\tstatus : Boolean = variables\n\t\t\t->isUnique(name)\n}.status"
 		   });	
 		addAnnotation
 		  (aSortEClass, 
@@ -804,8 +804,8 @@ public class AdtPackageImpl extends EPackageImpl implements AdtPackage {
 		  (signatureEClass, 
 		   source, 
 		   new String[] {
-			 "UniqueSorts", "Tuple {\n\tmessage : String = \'There are some sorts in the adt that appear more than once: \' + sorts->select(s1 | (sorts->select(s2 | (s2.name = s1.name))->size() > 1))->collect(name)->toString(),\n\tstatus : Boolean = sorts <> null implies sorts\n\t\t\t->isUnique(name)\n}.status",
-			 "UniqueOperations", "Tuple {\n\tmessage : String = \'There are some operations in the adt that appear more than once: \' + allOperations->select(op1 | (allOperations->select(op2 | (op2.name = op1.name))->size() > 1))->collect(name)->toString(),\n\tstatus : Boolean = allOperations\n\t\t\t->isUnique(name)\n}.status"
+			 "UniqueSorts", "Tuple {\n\tmessage : String = \'There are some sorts in the adt that appear more than once: \' + sorts\n\t\t\t->select(s1 | (sorts\n\t\t\t\t->select(s2 | (s2.name = s1.name))\n\t\t\t\t->size() > 1))\n\t\t\t->collect(name)\n\t\t\t->toString(),\n\tstatus : Boolean = sorts <> null implies sorts\n\t\t\t->isUnique(name)\n}.status",
+			 "UniqueOperations", "Tuple {\n\tmessage : String = \'There are some operations in the adt that appear more than once: \' + allOperations\n\t\t\t->select(op1 | (allOperations\n\t\t\t\t->select(op2 | (op2.name = op1.name))\n\t\t\t\t->size() > 1))\n\t\t\t->collect(name)\n\t\t\t->toString(),\n\tstatus : Boolean = allOperations\n\t\t\t->isUnique(name)\n}.status"
 		   });	
 		addAnnotation
 		  (variableDeclarationEClass, 
@@ -823,9 +823,9 @@ public class AdtPackageImpl extends EPackageImpl implements AdtPackage {
 		  (termEClass, 
 		   source, 
 		   new String[] {
-			 "CorrectNumberOfParameters", "Tuple {\n\tmessage : String = \'Invalid number of parameters for term: \' + self.toString() + \'. Required \' + operationSymbol.formalParameters->size()->toString() + \', found \' + subterms->size()->toString(),\n\tstatus : Boolean = (operationSymbol <> null) implies  subterms->size() = operationSymbol.formalParameters->size()\n}.status",
-			 "CorrectTypeOfParameters", "Tuple {\n\tmessage : String = \'Invalid type of parameters for term: \' + self.toString(),\n\tstatus : Boolean = subterms <> null implies subterms\n\t\t\t->forAll(p | ((p.sort <> null) and (operationSymbol <> null)) implies p.sort.isSubSortOf(operationSymbol.formalParameters\n\t\t\t\t\t->at(subterms\n\t\t\t\t\t\t->indexOf(p))))\n}.status",
-			 "RightAdtSubterms", "Tuple {\n\tmessage : String = \'Some subterms do not have the same adt as the parent term: \' + self.toString(),\n\tstatus : Boolean = (subterms <> null) implies subterms->forAll(t | t.adt = self.adt)\n}.status"
+			 "CorrectNumberOfParameters", "Tuple {\n\tmessage : String = \'Invalid number of parameters for term: \' + self.toString() + \'. Required \' +\n\t\t\toperationSymbol.formalParameters\n\t\t\t->size()\n\t\t\t->toString() + \', found \' + subterms\n\t\t\t->size()\n\t\t\t->toString(),\n\tstatus : Boolean = (operationSymbol <> null) implies subterms\n\t\t\t->size() = operationSymbol.formalParameters\n\t\t\t->size()\n}.status",
+			 "CorrectTypeOfParameters", "Tuple {\n\tmessage : String = \'Invalid type of parameters for term: \' + self.toString(),\n\tstatus : Boolean = subterms <> null\n\t\t\timplies subterms\n\t\t\t->forAll(p | ((p.sort <> null) and (operationSymbol <> null)) implies\n\t\t\t\tp.sort.isSubSortOf(operationSymbol.formalParameters\n\t\t\t\t\t->at(subterms\n\t\t\t\t\t\t->indexOf(p))))\n}.status",
+			 "RightAdtSubterms", "Tuple {\n\tmessage : String = \'Some subterms do not have the same adt as the parent term: \' +\n\t\t\tself.toString(),\n\tstatus : Boolean = (subterms <> null) implies subterms\n\t\t\t->forAll(t | t.adt = self.adt)\n}.status"
 		   });
 	}
 

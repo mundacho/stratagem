@@ -775,9 +775,9 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 		initEClass(transitionSystemEClass, TransitionSystem.class, "TransitionSystem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTransitionSystem_Adt(), theAdtPackage.getADT(), null, "adt", null, 1, 1, TransitionSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTransitionSystem_InitialState(), theAdtPackage.getATerm(), null, "initialState", null, 1, 1, TransitionSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTransitionSystem_Transitions(), this.getDeclaredStrategy(), null, "transitions", null, 1, -1, TransitionSystem.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getTransitionSystem_Auxiliary(), this.getDeclaredStrategy(), null, "auxiliary", null, 0, -1, TransitionSystem.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTransitionSystem_Strats(), ecorePackage.getEFeatureMapEntry(), "strats", null, 1, -1, TransitionSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTransitionSystem_Transitions(), this.getDeclaredStrategy(), null, "transitions", null, 1, -1, TransitionSystem.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getTransitionSystem_Auxiliary(), this.getDeclaredStrategy(), null, "auxiliary", null, 0, -1, TransitionSystem.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTransitionSystem_Strats(), ecorePackage.getEFeatureMapEntry(), "strats", null, 1, -1, TransitionSystem.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(declaredStrategyEClass, DeclaredStrategy.class, "DeclaredStrategy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDeclaredStrategy_Name(), ecorePackage.getEString(), "name", null, 1, 1, DeclaredStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -800,7 +800,7 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 		initEReference(getChoice_S2(), this.getStrategy(), null, "S2", null, 1, 1, Choice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(declaredStrategyInstanceEClass, DeclaredStrategyInstance.class, "DeclaredStrategyInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDeclaredStrategyInstance_Name(), ecorePackage.getEString(), "name", null, 0, 1, DeclaredStrategyInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDeclaredStrategyInstance_Name(), ecorePackage.getEString(), "name", null, 0, 1, DeclaredStrategyInstance.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDeclaredStrategyInstance_Declaration(), this.getDeclaredStrategy(), null, "declaration", null, 1, 1, DeclaredStrategyInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDeclaredStrategyInstance_ActualParams(), this.getStrategy(), null, "actualParams", null, 0, -1, DeclaredStrategyInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

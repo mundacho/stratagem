@@ -38,6 +38,7 @@ import ch.unige.cui.smv.stratagem.transformers.Modularizer
 import ch.unige.cui.smv.stratagem.transformers.FileModularizer
 import ch.unige.cui.smv.stratagem.transformers.FileSuperModularizer
 import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
 import org.eclipse.xtext.parser.IParser
 import org.eclipse.emf.ecore.EPackage
@@ -46,6 +47,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.resource.XtextResourceSet
 import org.eclipse.xtext.resource.XtextResource
 import org.eclipse.xtext.validation.CheckMode
+import org.eclipse.xtext.serializer.impl.Serializer
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.common.util.Diagnostic
 import org.eclipse.emf.ecore.util.Diagnostician
@@ -62,7 +64,7 @@ import scala.collection.JavaConversions._
 object Main extends Logging {
 
   val programName = "stratagem"
-  val sversion = "0.4"
+  val sversion = "0.4.1"
   val quietMode = "activate quiet mode. Only errors are printed."
   val fileComment = "the model in pnml format (using extension PNML) or native representation (extension ts)"
   val debugMode = "activate debug mode. Lots of output."
@@ -78,6 +80,7 @@ object Main extends Logging {
       if (config.verbose) root.setLevel(Level.TRACE)
       if (config.verbose && config.quiet) logger.warn("Set quiet and verbose flag at the same time")
 
+      val injector = (new TransitionSystemDslStandaloneSetup()).createInjectorAndDoEMFRegistration();
       if (config.mode == "transition-system") {
 
         logger.trace("Finished OCL registration")
@@ -86,7 +89,6 @@ object Main extends Logging {
         AdtPackage.eINSTANCE.eClass()
         TsPackage.eINSTANCE.eClass()
         // create injector
-        val injector = (new TransitionSystemDslStandaloneSetup()).createInjectorAndDoEMFRegistration();
         val resourceSet: XtextResourceSet = injector.getInstance(classOf[XtextResourceSet]);
         resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, true);
         val uri = config.model.toURI().toString()
@@ -98,7 +100,6 @@ object Main extends Logging {
         org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(resourceSet)
         OCLinEcoreStandaloneSetup.doSetup()
         OCLstdlibStandaloneSetup.doSetup()
-
 
         val ts = resource.getContents().get(0).asInstanceOf[TransitionSystem];
         if (resource.getErrors().isEmpty()) {
@@ -113,8 +114,8 @@ object Main extends Logging {
                 for (data <- dataList) {
                   val node = org.eclipse.xtext.nodemodel.util.NodeModelUtils.getNode(data.asInstanceOf[EObject])
                   // we show ecore errors only in debug mode
-                  if (error.getSource() == "org.eclipse.emf.ecore") logger.trace(s"At line ${node.getStartLine}: ${error.getMessage()}") else{
-                	  logger.error(s"At line ${node.getStartLine}: ${error.getMessage()}")
+                  if (error.getSource() == "org.eclipse.emf.ecore") logger.trace(s"At line ${node.getStartLine}: ${error.getMessage()}") else {
+                    logger.error(s"At line ${node.getStartLine}: ${error.getMessage()}")
                   }
                 }
               }
@@ -156,7 +157,12 @@ object Main extends Logging {
           }.mkString(", ")).mkString("\n"))
           if (config.transitionSystem) {
             val ts = model2ts(config.model)
-            logger.info(ts.toString)
+            val serializer = injector.getInstance(classOf[Serializer]);
+            // we need to create a resourse to be able to serialize :-S
+            val resSet = new ResourceSetImpl()
+            val resource = resSet.createResource(URI.createURI("temp.ts")) // TODO	
+            resource.getContents().add(ts)
+            logger.info(serializer.serialize(ts))
           }
         } else {
           val ts = model2ts(config.model)

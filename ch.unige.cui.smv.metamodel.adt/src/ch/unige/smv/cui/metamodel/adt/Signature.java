@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * @see ch.unige.smv.cui.metamodel.adt.AdtPackage#getSignature()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='UniqueSorts UniqueOperations'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot UniqueSorts='Tuple {\n\tmessage : String = \'There are some sorts in the adt that appear more than once: \' + sorts->select(s1 | (sorts->select(s2 | (s2.name = s1.name))->size() > 1))->collect(name)->toString(),\n\tstatus : Boolean = sorts <> null implies sorts\n\t\t\t->isUnique(name)\n}.status' UniqueOperations='Tuple {\n\tmessage : String = \'There are some operations in the adt that appear more than once: \' + allOperations->select(op1 | (allOperations->select(op2 | (op2.name = op1.name))->size() > 1))->collect(name)->toString(),\n\tstatus : Boolean = allOperations\n\t\t\t->isUnique(name)\n}.status'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot UniqueSorts='Tuple {\n\tmessage : String = \'There are some sorts in the adt that appear more than once: \' + sorts\n\t\t\t->select(s1 | (sorts\n\t\t\t\t->select(s2 | (s2.name = s1.name))\n\t\t\t\t->size() > 1))\n\t\t\t->collect(name)\n\t\t\t->toString(),\n\tstatus : Boolean = sorts <> null implies sorts\n\t\t\t->isUnique(name)\n}.status' UniqueOperations='Tuple {\n\tmessage : String = \'There are some operations in the adt that appear more than once: \' + allOperations\n\t\t\t->select(op1 | (allOperations\n\t\t\t\t->select(op2 | (op2.name = op1.name))\n\t\t\t\t->size() > 1))\n\t\t\t->collect(name)\n\t\t\t->toString(),\n\tstatus : Boolean = allOperations\n\t\t\t->isUnique(name)\n}.status'"
  * @generated
  */
 public interface Signature extends EObject {
@@ -111,7 +111,7 @@ public interface Signature extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Operations</em>' containment reference list.
 	 * @see ch.unige.smv.cui.metamodel.adt.AdtPackage#getSignature_Operations()
-	 * @model containment="true" transient="true" volatile="true" derived="true"
+	 * @model containment="true" volatile="true" derived="true"
 	 *        extendedMetaData="group='#ops'"
 	 * @generated
 	 */
@@ -128,7 +128,7 @@ public interface Signature extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Generators</em>' containment reference list.
 	 * @see ch.unige.smv.cui.metamodel.adt.AdtPackage#getSignature_Generators()
-	 * @model containment="true" required="true" transient="true" volatile="true" derived="true"
+	 * @model containment="true" required="true" volatile="true" derived="true"
 	 *        extendedMetaData="group='#ops'"
 	 * @generated
 	 */
@@ -145,7 +145,7 @@ public interface Signature extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ops</em>' attribute list.
 	 * @see ch.unige.smv.cui.metamodel.adt.AdtPackage#getSignature_Ops()
-	 * @model dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+	 * @model dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true" transient="true"
 	 *        extendedMetaData="kind='group'"
 	 * @generated
 	 */

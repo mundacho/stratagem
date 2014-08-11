@@ -17,21 +17,21 @@
         eType="ecore:EClass ../../ch.unige.cui.smv.metamodel.adt/model/adt.ecore#//ATerm"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" lowerBound="1"
-        upperBound="-1" eType="#//DeclaredStrategy" volatile="true" transient="true"
-        derived="true" containment="true">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="group" value="#strats"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="auxiliary" upperBound="-1"
-        eType="#//DeclaredStrategy" volatile="true" transient="true" derived="true"
+        upperBound="-1" eType="#//DeclaredStrategy" volatile="true" derived="true"
         containment="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="group" value="#strats"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auxiliary" upperBound="-1"
+        eType="#//DeclaredStrategy" volatile="true" derived="true" containment="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="group" value="#strats"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="strats" lowerBound="1"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFeatureMapEntry">
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFeatureMapEntry"
+        transient="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="group"/>
       </eAnnotations>
@@ -71,7 +71,8 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
       <details key="RightNumberOfParams" value="Tuple {&#xA;&#x9;message : String = 'Invalid number of parameters for strategy ' + name + '. Required ' + declaration.formalParams->size()->toString() + ', found ' + actualParams->size()->toString(),&#xA;&#x9;status : Boolean = declaration &lt;> null implies declaration.formalParams&#xA;&#x9;&#x9;&#x9;->size() = actualParams&#xA;&#x9;&#x9;&#x9;->size()&#xA;}.status"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="declaration" lowerBound="1"
         eType="#//DeclaredStrategy"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="actualParams" upperBound="-1"

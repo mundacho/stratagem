@@ -18,10 +18,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.ipf
 
 import org.scalatest.Suites
+import org.scalatest.Ignore
 
 /**
  * Test suite for the package.
  * @author mundacho
  *
  */
+@Ignore
 class IPFTestSuite extends Suites(new TestIPFOperationCache, new TestIPFOperations, new TestSetWrapperFactory)

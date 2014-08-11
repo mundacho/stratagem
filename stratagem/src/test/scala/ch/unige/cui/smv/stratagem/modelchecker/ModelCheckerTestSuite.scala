@@ -18,12 +18,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.modelchecker
 
 import org.scalatest.Suites
+import org.scalatest.Ignore
 
 /**
  * Represents the tests for the model checker.
  * @author mundacho
  *
  */
+@Ignore
 class ModelCheckerTestSuite extends Suites(
   new BEEMTest,
   new ModularizerTest,

@@ -34,7 +34,7 @@ public interface ATerm extends EObject {
 	 * @return the value of the '<em>Adt</em>' reference.
 	 * @see #setAdt(ADT)
 	 * @see ch.unige.smv.cui.metamodel.adt.AdtPackage#getATerm_Adt()
-	 * @model required="true"
+	 * @model required="true" transient="true"
 	 * @generated
 	 */
 	ADT getAdt();

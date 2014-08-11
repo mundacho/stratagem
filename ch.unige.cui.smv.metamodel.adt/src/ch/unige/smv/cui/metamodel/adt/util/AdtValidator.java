@@ -147,7 +147,12 @@ public class AdtValidator extends OCLinEcoreEObjectValidator {
 	 * @generated
 	 */
 	protected static final String ADT__UNIQUE_VARIABLE_NAMES__EEXPRESSION = "Tuple {\n" +
-		"\tmessage : String = 'The following variables are defined more than once: ' + variables->select(v | (variables->select(v1 | (v1.name = v.name))->size() > 1))->collect(name)->toString(),\n" +
+		"\tmessage : String = 'The following variables are defined more than once: ' + variables\n" +
+		"\t\t\t->select(v | (variables\n" +
+		"\t\t\t\t->select(v1 | (v1.name = v.name))\n" +
+		"\t\t\t\t->size() > 1))\n" +
+		"\t\t\t->collect(name)\n" +
+		"\t\t\t->toString(),\n" +
 		"\tstatus : Boolean = variables\n" +
 		"\t\t\t->isUnique(name)\n" +
 		"}.status";
@@ -322,7 +327,12 @@ public class AdtValidator extends OCLinEcoreEObjectValidator {
 	 * @generated
 	 */
 	protected static final String SIGNATURE__UNIQUE_SORTS__EEXPRESSION = "Tuple {\n" +
-		"\tmessage : String = 'There are some sorts in the adt that appear more than once: ' + sorts->select(s1 | (sorts->select(s2 | (s2.name = s1.name))->size() > 1))->collect(name)->toString(),\n" +
+		"\tmessage : String = 'There are some sorts in the adt that appear more than once: ' + sorts\n" +
+		"\t\t\t->select(s1 | (sorts\n" +
+		"\t\t\t\t->select(s2 | (s2.name = s1.name))\n" +
+		"\t\t\t\t->size() > 1))\n" +
+		"\t\t\t->collect(name)\n" +
+		"\t\t\t->toString(),\n" +
 		"\tstatus : Boolean = sorts <> null implies sorts\n" +
 		"\t\t\t->isUnique(name)\n" +
 		"}.status";
@@ -355,7 +365,12 @@ public class AdtValidator extends OCLinEcoreEObjectValidator {
 	 * @generated
 	 */
 	protected static final String SIGNATURE__UNIQUE_OPERATIONS__EEXPRESSION = "Tuple {\n" +
-		"\tmessage : String = 'There are some operations in the adt that appear more than once: ' + allOperations->select(op1 | (allOperations->select(op2 | (op2.name = op1.name))->size() > 1))->collect(name)->toString(),\n" +
+		"\tmessage : String = 'There are some operations in the adt that appear more than once: ' + allOperations\n" +
+		"\t\t\t->select(op1 | (allOperations\n" +
+		"\t\t\t\t->select(op2 | (op2.name = op1.name))\n" +
+		"\t\t\t\t->size() > 1))\n" +
+		"\t\t\t->collect(name)\n" +
+		"\t\t\t->toString(),\n" +
 		"\tstatus : Boolean = allOperations\n" +
 		"\t\t\t->isUnique(name)\n" +
 		"}.status";
@@ -522,8 +537,15 @@ public class AdtValidator extends OCLinEcoreEObjectValidator {
 	 * @generated
 	 */
 	protected static final String TERM__CORRECT_NUMBER_OF_PARAMETERS__EEXPRESSION = "Tuple {\n" +
-		"\tmessage : String = 'Invalid number of parameters for term: ' + self.toString() + '. Required ' + operationSymbol.formalParameters->size()->toString() + ', found ' + subterms->size()->toString(),\n" +
-		"\tstatus : Boolean = (operationSymbol <> null) implies  subterms->size() = operationSymbol.formalParameters->size()\n" +
+		"\tmessage : String = 'Invalid number of parameters for term: ' + self.toString() + '. Required ' +\n" +
+		"\t\t\toperationSymbol.formalParameters\n" +
+		"\t\t\t->size()\n" +
+		"\t\t\t->toString() + ', found ' + subterms\n" +
+		"\t\t\t->size()\n" +
+		"\t\t\t->toString(),\n" +
+		"\tstatus : Boolean = (operationSymbol <> null) implies subterms\n" +
+		"\t\t\t->size() = operationSymbol.formalParameters\n" +
+		"\t\t\t->size()\n" +
 		"}.status";
 
 	/**
@@ -556,8 +578,10 @@ public class AdtValidator extends OCLinEcoreEObjectValidator {
 	 */
 	protected static final String TERM__CORRECT_TYPE_OF_PARAMETERS__EEXPRESSION = "Tuple {\n" +
 		"\tmessage : String = 'Invalid type of parameters for term: ' + self.toString(),\n" +
-		"\tstatus : Boolean = subterms <> null implies subterms\n" +
-		"\t\t\t->forAll(p | ((p.sort <> null) and (operationSymbol <> null)) implies p.sort.isSubSortOf(operationSymbol.formalParameters\n" +
+		"\tstatus : Boolean = subterms <> null\n" +
+		"\t\t\timplies subterms\n" +
+		"\t\t\t->forAll(p | ((p.sort <> null) and (operationSymbol <> null)) implies\n" +
+		"\t\t\t\tp.sort.isSubSortOf(operationSymbol.formalParameters\n" +
 		"\t\t\t\t\t->at(subterms\n" +
 		"\t\t\t\t\t\t->indexOf(p))))\n" +
 		"}.status";
@@ -591,8 +615,10 @@ public class AdtValidator extends OCLinEcoreEObjectValidator {
 	 * @generated
 	 */
 	protected static final String TERM__RIGHT_ADT_SUBTERMS__EEXPRESSION = "Tuple {\n" +
-		"\tmessage : String = 'Some subterms do not have the same adt as the parent term: ' + self.toString(),\n" +
-		"\tstatus : Boolean = (subterms <> null) implies subterms->forAll(t | t.adt = self.adt)\n" +
+		"\tmessage : String = 'Some subterms do not have the same adt as the parent term: ' +\n" +
+		"\t\t\tself.toString(),\n" +
+		"\tstatus : Boolean = (subterms <> null) implies subterms\n" +
+		"\t\t\t->forAll(t | t.adt = self.adt)\n" +
 		"}.status";
 
 	/**

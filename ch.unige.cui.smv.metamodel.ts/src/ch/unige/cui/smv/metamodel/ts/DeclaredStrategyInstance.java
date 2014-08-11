@@ -35,7 +35,7 @@ public interface DeclaredStrategyInstance extends NonVariableStrategy {
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see ch.unige.cui.smv.metamodel.ts.TsPackage#getDeclaredStrategyInstance_Name()
-	 * @model
+	 * @model transient="true"
 	 * @generated
 	 */
 	String getName();

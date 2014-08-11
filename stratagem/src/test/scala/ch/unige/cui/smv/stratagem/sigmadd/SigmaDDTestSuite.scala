@@ -18,10 +18,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.sigmadd
 
 import org.scalatest.Suites
+import org.scalatest.Ignore
 
 /**
  * The sigmaDD test suite.
  * @author mundacho
  *
  */
+@Ignore
 class SigmaDDTestSuite extends Suites(new StateSpaceGenerationTest, new TestSigmaDD, new TestStrategies)

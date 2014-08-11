@@ -21,10 +21,12 @@ import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
 import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.Suites
+import org.scalatest.Ignore
 
 /**
  *
  * @author mundacho
  *
  */
+@Ignore
 class ADTTestSuite extends Suites(new ADTTest, new SignatureTest, new SortTest, new TermTest) with BeforeAndAfterAll

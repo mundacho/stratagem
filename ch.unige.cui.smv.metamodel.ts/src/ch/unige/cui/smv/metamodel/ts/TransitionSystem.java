@@ -99,7 +99,7 @@ public interface TransitionSystem extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Transitions</em>' containment reference list.
 	 * @see ch.unige.cui.smv.metamodel.ts.TsPackage#getTransitionSystem_Transitions()
-	 * @model containment="true" required="true" transient="true" volatile="true" derived="true"
+	 * @model containment="true" required="true" volatile="true" derived="true"
 	 *        extendedMetaData="group='#strats'"
 	 * @generated
 	 */
@@ -116,7 +116,7 @@ public interface TransitionSystem extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Auxiliary</em>' containment reference list.
 	 * @see ch.unige.cui.smv.metamodel.ts.TsPackage#getTransitionSystem_Auxiliary()
-	 * @model containment="true" transient="true" volatile="true" derived="true"
+	 * @model containment="true" volatile="true" derived="true"
 	 *        extendedMetaData="group='#strats'"
 	 * @generated
 	 */
@@ -133,7 +133,7 @@ public interface TransitionSystem extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Strats</em>' attribute list.
 	 * @see ch.unige.cui.smv.metamodel.ts.TsPackage#getTransitionSystem_Strats()
-	 * @model dataType="org.eclipse.emf.ecore.EFeatureMapEntry" required="true" many="true"
+	 * @model dataType="org.eclipse.emf.ecore.EFeatureMapEntry" required="true" many="true" transient="true"
 	 *        extendedMetaData="kind='group'"
 	 * @generated
 	 */

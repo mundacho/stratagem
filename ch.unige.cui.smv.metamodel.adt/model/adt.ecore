@@ -14,7 +14,7 @@
       <details key="constraints" value="UniqueVariableNames"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="UniqueVariableNames" value="Tuple {&#xA;&#x9;message : String = 'The following variables are defined more than once: ' + variables->select(v | (variables->select(v1 | (v1.name = v.name))->size() > 1))->collect(name)->toString(),&#xA;&#x9;status : Boolean = variables&#xA;&#x9;&#x9;&#x9;->isUnique(name)&#xA;}.status"/>
+      <details key="UniqueVariableNames" value="Tuple {&#xA;&#x9;message : String = 'The following variables are defined more than once: ' + variables&#xA;&#x9;&#x9;&#x9;->select(v | (variables&#xA;&#x9;&#x9;&#x9;&#x9;->select(v1 | (v1.name = v.name))&#xA;&#x9;&#x9;&#x9;&#x9;->size() > 1))&#xA;&#x9;&#x9;&#x9;->collect(name)&#xA;&#x9;&#x9;&#x9;->toString(),&#xA;&#x9;status : Boolean = variables&#xA;&#x9;&#x9;&#x9;->isUnique(name)&#xA;}.status"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="adt"/>
@@ -54,10 +54,11 @@
       <details key="constraints" value="UniqueSorts UniqueOperations"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="UniqueSorts" value="Tuple {&#xA;&#x9;message : String = 'There are some sorts in the adt that appear more than once: ' + sorts->select(s1 | (sorts->select(s2 | (s2.name = s1.name))->size() > 1))->collect(name)->toString(),&#xA;&#x9;status : Boolean = sorts &lt;> null implies sorts&#xA;&#x9;&#x9;&#x9;->isUnique(name)&#xA;}.status"/>
-      <details key="UniqueOperations" value="Tuple {&#xA;&#x9;message : String = 'There are some operations in the adt that appear more than once: ' + allOperations->select(op1 | (allOperations->select(op2 | (op2.name = op1.name))->size() > 1))->collect(name)->toString(),&#xA;&#x9;status : Boolean = allOperations&#xA;&#x9;&#x9;&#x9;->isUnique(name)&#xA;}.status"/>
+      <details key="UniqueSorts" value="Tuple {&#xA;&#x9;message : String = 'There are some sorts in the adt that appear more than once: ' + sorts&#xA;&#x9;&#x9;&#x9;->select(s1 | (sorts&#xA;&#x9;&#x9;&#x9;&#x9;->select(s2 | (s2.name = s1.name))&#xA;&#x9;&#x9;&#x9;&#x9;->size() > 1))&#xA;&#x9;&#x9;&#x9;->collect(name)&#xA;&#x9;&#x9;&#x9;->toString(),&#xA;&#x9;status : Boolean = sorts &lt;> null implies sorts&#xA;&#x9;&#x9;&#x9;->isUnique(name)&#xA;}.status"/>
+      <details key="UniqueOperations" value="Tuple {&#xA;&#x9;message : String = 'There are some operations in the adt that appear more than once: ' + allOperations&#xA;&#x9;&#x9;&#x9;->select(op1 | (allOperations&#xA;&#x9;&#x9;&#x9;&#x9;->select(op2 | (op2.name = op1.name))&#xA;&#x9;&#x9;&#x9;&#x9;->size() > 1))&#xA;&#x9;&#x9;&#x9;->collect(name)&#xA;&#x9;&#x9;&#x9;->toString(),&#xA;&#x9;status : Boolean = allOperations&#xA;&#x9;&#x9;&#x9;->isUnique(name)&#xA;}.status"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ops" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFeatureMapEntry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ops" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFeatureMapEntry"
+        transient="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="group"/>
       </eAnnotations>
@@ -71,14 +72,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="sorts" lowerBound="1" upperBound="-1"
         eType="#//ASort" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
-        eType="#//Operation" volatile="true" transient="true" derived="true" containment="true">
+        eType="#//Operation" volatile="true" derived="true" containment="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="group" value="#ops"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="generators" lowerBound="1"
-        upperBound="-1" eType="#//Operation" volatile="true" transient="true" derived="true"
-        containment="true">
+        upperBound="-1" eType="#//Operation" volatile="true" derived="true" containment="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="group" value="#ops"/>
       </eAnnotations>
@@ -115,7 +115,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Object" instanceClassName="java.lang.Object"/>
   <eClassifiers xsi:type="ecore:EClass" name="ATerm" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="adt" lowerBound="1" eType="#//ADT"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adt" lowerBound="1" eType="#//ADT"
+        transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="sort" lowerBound="1" eType="#//ASort"
         changeable="false" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="symbol" lowerBound="1"
@@ -127,9 +128,9 @@
       <details key="constraints" value="CorrectNumberOfParameters CorrectTypeOfParameters RightAdtSubterms"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="CorrectNumberOfParameters" value="Tuple {&#xA;&#x9;message : String = 'Invalid number of parameters for term: ' + self.toString() + '. Required ' + operationSymbol.formalParameters->size()->toString() + ', found ' + subterms->size()->toString(),&#xA;&#x9;status : Boolean = (operationSymbol &lt;> null) implies  subterms->size() = operationSymbol.formalParameters->size()&#xA;}.status"/>
-      <details key="CorrectTypeOfParameters" value="Tuple {&#xA;&#x9;message : String = 'Invalid type of parameters for term: ' + self.toString(),&#xA;&#x9;status : Boolean = subterms &lt;> null implies subterms&#xA;&#x9;&#x9;&#x9;->forAll(p | ((p.sort &lt;> null) and (operationSymbol &lt;> null)) implies p.sort.isSubSortOf(operationSymbol.formalParameters&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->at(subterms&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;->indexOf(p))))&#xA;}.status"/>
-      <details key="RightAdtSubterms" value="Tuple {&#xA;&#x9;message : String = 'Some subterms do not have the same adt as the parent term: ' + self.toString(),&#xA;&#x9;status : Boolean = (subterms &lt;> null) implies subterms->forAll(t | t.adt = self.adt)&#xA;}.status"/>
+      <details key="CorrectNumberOfParameters" value="Tuple {&#xA;&#x9;message : String = 'Invalid number of parameters for term: ' + self.toString() + '. Required ' +&#xA;&#x9;&#x9;&#x9;operationSymbol.formalParameters&#xA;&#x9;&#x9;&#x9;->size()&#xA;&#x9;&#x9;&#x9;->toString() + ', found ' + subterms&#xA;&#x9;&#x9;&#x9;->size()&#xA;&#x9;&#x9;&#x9;->toString(),&#xA;&#x9;status : Boolean = (operationSymbol &lt;> null) implies subterms&#xA;&#x9;&#x9;&#x9;->size() = operationSymbol.formalParameters&#xA;&#x9;&#x9;&#x9;->size()&#xA;}.status"/>
+      <details key="CorrectTypeOfParameters" value="Tuple {&#xA;&#x9;message : String = 'Invalid type of parameters for term: ' + self.toString(),&#xA;&#x9;status : Boolean = subterms &lt;> null&#xA;&#x9;&#x9;&#x9;implies subterms&#xA;&#x9;&#x9;&#x9;->forAll(p | ((p.sort &lt;> null) and (operationSymbol &lt;> null)) implies&#xA;&#x9;&#x9;&#x9;&#x9;p.sort.isSubSortOf(operationSymbol.formalParameters&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->at(subterms&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;->indexOf(p))))&#xA;}.status"/>
+      <details key="RightAdtSubterms" value="Tuple {&#xA;&#x9;message : String = 'Some subterms do not have the same adt as the parent term: ' +&#xA;&#x9;&#x9;&#x9;self.toString(),&#xA;&#x9;status : Boolean = (subterms &lt;> null) implies subterms&#xA;&#x9;&#x9;&#x9;->forAll(t | t.adt = self.adt)&#xA;}.status"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operationSymbol" lowerBound="1"
         eType="#//Operation"/>
