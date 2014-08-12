@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.transformers
 
 import scala.language.implicitConversions
+import ch.unige.cui.smv.stratagem.ts.RichTransitionSystem
 import com.typesafe.scalalogging.slf4j.Logging
 import ch.unige.cui.smv.stratagem.adt.PredefADT
 import ch.unige.cui.smv.stratagem.adt.PredefADT.NAT_SORT_NAME
@@ -60,6 +61,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
   // 3.- map from superCluster to strategies working on that super cluster
   // 4.- map place to position in clusters 
   type CalculationState = (TransitionSystem, Map[NonVariableStrategy, String], Map[Int, Map[Int, Set[String]]], Map[Place, (Int, Int, Int)])
+
+  def ___Saturation(v: Strategy) = DeclaredStrategyInstance("___Saturation", v)
 
   /**
    * A variable strategy to be used later.
@@ -372,9 +375,17 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val initialTransitionSystem = TsFactory.eINSTANCE.createTransitionSystem() // new TransitionSystem(adt, createInitialState(modules, recursiveSet)(adt.term(END_SUPERCLUSTER)))
     initialTransitionSystem.setAdt(adt)
     initialTransitionSystem.setInitialState(createInitialState(modules, recursiveSet)(adt.term(END_SUPERCLUSTER)))
+
     initialTransitionSystem
       .declareStrategy("applyOnce", S)(Choice(S, One(ApplyOnce(S), 2)))(false)
       .declareStrategy("applyOnceAndThen", S, Q)(IfThenElse(S, One(Q, 2), One(ApplyOnceAndThen(S, Q), 2)))(false)
+      .declareStrategy("___Saturation", S) {
+        Sequence(
+          Choice(
+            One(___Saturation(S), 2),
+            FixPointStrategy(S)),
+          IfThenElse(FixPointStrategy(S), Identity, ___Saturation(S)))
+      }(false)
 
     val recursiveToSize = Map(recursiveSet.toList.view.map(n => (n -> modules(n).size)): _*)
 
@@ -452,12 +463,12 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val listOfClusterFixPointStrategies = for (clusterIndex <- cluster2localStrategies.keys.toList.sortWith(_ < _) if (clusterIndex != -1)) yield (clusterFixPointStrategy(cluster2localStrategies(clusterIndex)), clusterIndex)
     if (cluster2localStrategies.isDefinedAt(-1)) {
       val superClusterStrategies: NonVariableStrategy = (for (stratName <- cluster2localStrategies(-1)) yield FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(stratName)))): NonVariableStrategy).reduceLeft((a, b) => Union(a, b))
-      Saturation(Union(Identity, Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), superClusterStrategies)), 2)
+      ___Saturation(Union(Identity, Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), superClusterStrategies)))
     } else
       FixPointStrategy(Union(Identity, chainClusterFixPointStrategies(listOfClusterFixPointStrategies)))
   }
-
-  def clusterFixPointStrategy(strategyNames: Set[String]): NonVariableStrategy = FixPointStrategy(Union(Identity, strategyNames.map(a => FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(a)))): NonVariableStrategy).reduceLeft((a, b) => Union(a, b))))
+  // TODO check if its better
+  def clusterFixPointStrategy(strategyNames: Set[String]): NonVariableStrategy = FixPointStrategy(Union(Identity, strategyNames.map(a => ___Saturation(Union(Identity, Try(DeclaredStrategyInstance(a)))): NonVariableStrategy).reduceLeft((a, b) => Union(a, b))))
 
   def chainClusterFixPointStrategies(strategies: List[(NonVariableStrategy, Int)]): NonVariableStrategy = strategies match {
     case Nil => Identity
@@ -589,7 +600,11 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
                 if (eltPrefix == "p") S else One(S, 1),
                 One(Q, 2)), // if we are in the right cluster, apply the strategy
             IfThenElse(DeclaredStrategyInstance(checkBiggerThanName + i),
-              Fail,
+              if (fixpoint) {
+                if ((i + 1) > (maxElt - 1)) {
+                  Fail
+                } else  Q
+              }  else Fail,
               One(DeclaredStrategyInstance(s"$applyForName$i", S, Q), 2))) // else we enter the recursion only if we are not bigger than the cluster          
         }(false)
   }).reduceLeft(_ compose _)
