@@ -540,14 +540,17 @@ public class TransitionSystemDslGrammarAccess extends AbstractGrammarElementFind
 		private final Keyword cNotKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cSAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cSSimpleStrategyParserRuleCall_2_0 = (RuleCall)cSAssignment_2.eContents().get(0);
+		private final Alternatives cSAlternatives_2_0 = (Alternatives)cSAssignment_2.eContents().get(0);
+		private final RuleCall cSSimpleStrategyParserRuleCall_2_0_0 = (RuleCall)cSAlternatives_2_0.eContents().get(0);
+		private final RuleCall cSDeclaredStrategyInstanceParserRuleCall_2_0_1 = (RuleCall)cSAlternatives_2_0.eContents().get(1);
+		private final RuleCall cSVariableStrategyParserRuleCall_2_0_2 = (RuleCall)cSAlternatives_2_0.eContents().get(2);
 		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		
 		//Not returns ts::Not:
-		//	"Not" "(" S=SimpleStrategy ")";
+		//	"Not" "(" S=(SimpleStrategy | DeclaredStrategyInstance | VariableStrategy) ")";
 		public ParserRule getRule() { return rule; }
 
-		//"Not" "(" S=SimpleStrategy ")"
+		//"Not" "(" S=(SimpleStrategy | DeclaredStrategyInstance | VariableStrategy) ")"
 		public Group getGroup() { return cGroup; }
 
 		//"Not"
@@ -556,11 +559,20 @@ public class TransitionSystemDslGrammarAccess extends AbstractGrammarElementFind
 		//"("
 		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
 
-		//S=SimpleStrategy
+		//S=(SimpleStrategy | DeclaredStrategyInstance | VariableStrategy)
 		public Assignment getSAssignment_2() { return cSAssignment_2; }
 
+		//SimpleStrategy | DeclaredStrategyInstance | VariableStrategy
+		public Alternatives getSAlternatives_2_0() { return cSAlternatives_2_0; }
+
 		//SimpleStrategy
-		public RuleCall getSSimpleStrategyParserRuleCall_2_0() { return cSSimpleStrategyParserRuleCall_2_0; }
+		public RuleCall getSSimpleStrategyParserRuleCall_2_0_0() { return cSSimpleStrategyParserRuleCall_2_0_0; }
+
+		//DeclaredStrategyInstance
+		public RuleCall getSDeclaredStrategyInstanceParserRuleCall_2_0_1() { return cSDeclaredStrategyInstanceParserRuleCall_2_0_1; }
+
+		//VariableStrategy
+		public RuleCall getSVariableStrategyParserRuleCall_2_0_2() { return cSVariableStrategyParserRuleCall_2_0_2; }
 
 		//")"
 		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
@@ -1521,7 +1533,7 @@ public class TransitionSystemDslGrammarAccess extends AbstractGrammarElementFind
 	}
 
 	//Not returns ts::Not:
-	//	"Not" "(" S=SimpleStrategy ")";
+	//	"Not" "(" S=(SimpleStrategy | DeclaredStrategyInstance | VariableStrategy) ")";
 	public NotElements getNotAccess() {
 		return (pNot != null) ? pNot : (pNot = new NotElements());
 	}

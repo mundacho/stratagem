@@ -57,10 +57,10 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
   type SuperCluster = List[Cluster]
   // the calculation state contains the following elements:
   // 1.- transition system, 
-  // 2.- map from strategies bodies to strategies names,
+  // 2.- map from strategies bodies as string to strategies names,
   // 3.- map from superCluster to strategies working on that super cluster
   // 4.- map place to position in clusters 
-  type CalculationState = (TransitionSystem, Map[NonVariableStrategy, String], Map[Int, Map[Int, Set[String]]], Map[Place, (Int, Int, Int)])
+  type CalculationState = (TransitionSystem, Map[String, String], Map[Int, Map[Int, Set[String]]], Map[Place, (Int, Int, Int)])
 
   def ___Saturation(v: Strategy) = DeclaredStrategyInstance("___Saturation", v)
 
@@ -160,20 +160,20 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       logger.trace(s"Did redefine strategy $name in order to have it as a fixpoint")
       (name,
         (ts.declareStrategy(name) { strategy }(isTransition),
-          strat2Name + (strategy -> name),
+          strat2Name + (strategy.toString -> name),
           superCluster2Strategies,
           place2Position))
-    } else if (strat2Name.isDefinedAt(strategy)) {
+    } else if (strat2Name.isDefinedAt(strategy.toString)) {
       logger.trace(s"Did not redefine strategy $name because it was already defined")
-      (name,
-        (ts.declareStrategy(name) { strategy }(isTransition),
-          strat2Name + (strategy -> name),
+      (strat2Name(strategy.toString),
+        (ts,
+          strat2Name,
           superCluster2Strategies,
           place2Position))
     } else {
       (name,
         (ts.declareStrategy(name) { strategy }(isTransition),
-          strat2Name + (strategy -> name),
+          strat2Name + (strategy.toString -> name),
           superCluster2Strategies,
           place2Position))
     }
@@ -186,7 +186,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
         strat2Name,
         superCluster2Strategies.updated(sClusterIndex,
           superCluster2Strategies.getOrElse(sClusterIndex, Map()).updated(
-            clusterIndex, superCluster2Strategies.getOrElse(sClusterIndex, Map()).getOrElse(clusterIndex, Set()) + strat2Name(tranStrategy))),
+            clusterIndex, superCluster2Strategies.getOrElse(sClusterIndex, Map()).getOrElse(clusterIndex, Set()) + strat2Name(tranStrategy.toString))),
           place2Position))
   })
 
@@ -336,9 +336,9 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       strategyBody <- arcStrategyB(arc);
       res <- State((cs: CalculationState) => {
         val (ts, strat2Name, superCluster2Strategies, place2Position) = cs
-        strat2Name.lift(strategyBody) match {
+        strat2Name.lift(strategyBody.toString) match {
           case None =>
-            (DeclaredStrategyInstance(arc.id), (ts.declareStrategy(arc.id) { strategyBody }(false), strat2Name + (strategyBody -> arc.id), superCluster2Strategies, place2Position))
+            (DeclaredStrategyInstance(arc.id), (ts.declareStrategy(arc.id) { strategyBody }(false), strat2Name + (strategyBody.toString -> arc.id), superCluster2Strategies, place2Position))
           case Some(stratName) =>
             (DeclaredStrategyInstance(stratName), (ts, strat2Name, superCluster2Strategies, place2Position))
         }
@@ -399,7 +399,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
 
     val computationInitialState = (
       transSystemState.eval(initialTransitionSystem)._1,
-      Map[NonVariableStrategy, String](),
+      Map[String, String](),
       Map[Int, Map[Int, Set[String]]](),
       placeToSClusterClusterPosition)
 
@@ -468,7 +468,9 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       FixPointStrategy(Union(Identity, chainClusterFixPointStrategies(listOfClusterFixPointStrategies)))
   }
   // TODO check if its better
-  def clusterFixPointStrategy(strategyNames: Set[String]): NonVariableStrategy = FixPointStrategy(Union(Identity, strategyNames.map(a => ___Saturation(Union(Identity, Try(DeclaredStrategyInstance(a)))): NonVariableStrategy).reduceLeft((a, b) => Union(a, b))))
+  def clusterFixPointStrategy(strategyNames: Set[String]): NonVariableStrategy = {
+    FixPointStrategy(Union(Identity, strategyNames.map(a => ___Saturation(Union(Identity, Try(DeclaredStrategyInstance(a)))): NonVariableStrategy).reduceLeft((a, b) => Union(a, b))))
+  }
 
   def chainClusterFixPointStrategies(strategies: List[(NonVariableStrategy, Int)]): NonVariableStrategy = strategies match {
     case Nil => Identity

@@ -79,15 +79,14 @@ object Main extends Logging {
       if (config.quiet) root.setLevel(Level.INFO)
       if (config.verbose) root.setLevel(Level.TRACE)
       if (config.verbose && config.quiet) logger.warn("Set quiet and verbose flag at the same time")
-
+      // register ADT and TS: WARNING must be done before creating the injector!!
+      AdtPackage.eINSTANCE.eClass()
+      TsPackage.eINSTANCE.eClass()
       val injector = (new TransitionSystemDslStandaloneSetup()).createInjectorAndDoEMFRegistration();
       if (config.mode == "transition-system") {
 
         logger.trace("Finished OCL registration")
 
-        // register ADT
-        AdtPackage.eINSTANCE.eClass()
-        TsPackage.eINSTANCE.eClass()
         // create injector
         val resourceSet: XtextResourceSet = injector.getInstance(classOf[XtextResourceSet]);
         resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, true);

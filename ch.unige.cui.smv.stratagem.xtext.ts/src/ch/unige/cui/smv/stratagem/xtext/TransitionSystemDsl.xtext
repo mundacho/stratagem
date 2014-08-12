@@ -64,7 +64,7 @@ SimpleStrategy returns ts::SimpleStrategy:
 
 
 Not returns ts::Not:
-	'Not' '(' S=(SimpleStrategy) ')'
+	'Not' '(' S=(SimpleStrategy | DeclaredStrategyInstance | VariableStrategy) ')'
 ;
 
 Fixpoint returns ts::FixPointStrategy:

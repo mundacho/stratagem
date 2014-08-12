@@ -119,7 +119,7 @@ class SigmaDDRewriterFactory private[sigmadd] (sigmaDDFactory: SigmaDDFactoryImp
       override def caseNot(st1: Not) = st1.getS()
     }).doSwitch(st.getS())
     override def defaultCase(obj: EObject) = throw new IllegalStateException("Invalid declared strategy after Not: %s".format(strategy.getName()))
-  }).doSwitch(ts.getDeclaredStrategyByName(strategy.getName()).getBody())
+  }).doSwitch(EcoreUtil.copy(ts.getDeclaredStrategyByName(strategy.getName()).getBody()))
 
   /**
    * Transforms a transition system to a rewriter for SigmaDDs.

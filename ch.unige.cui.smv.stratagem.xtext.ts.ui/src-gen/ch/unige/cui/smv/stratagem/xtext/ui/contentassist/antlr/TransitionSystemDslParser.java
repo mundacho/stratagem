@@ -40,6 +40,7 @@ public class TransitionSystemDslParser extends AbstractContentAssistParser {
 					put(grammarAccess.getStrategyAccess().getAlternatives(), "rule__Strategy__Alternatives");
 					put(grammarAccess.getNonVariableStrategyAccess().getAlternatives(), "rule__NonVariableStrategy__Alternatives");
 					put(grammarAccess.getPredefStratsAccess().getAlternatives(), "rule__PredefStrats__Alternatives");
+					put(grammarAccess.getNotAccess().getSAlternatives_2_0(), "rule__Not__SAlternatives_2_0");
 					put(grammarAccess.getATermAccess().getAlternatives(), "rule__ATerm__Alternatives");
 					put(grammarAccess.getASortAccess().getAlternatives(), "rule__ASort__Alternatives");
 					put(grammarAccess.getTransitionSystemAccess().getGroup(), "rule__TransitionSystem__Group__0");

@@ -370,17 +370,10 @@ public abstract class AbstractTransitionSystemDslSemanticSequencer extends Abstr
 	
 	/**
 	 * Constraint:
-	 *     S=SimpleStrategy
+	 *     (S=SimpleStrategy | S=DeclaredStrategyInstance | S=VariableStrategy)
 	 */
 	protected void sequence_Not(EObject context, Not semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, TsPackage.Literals.NOT__S) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, TsPackage.Literals.NOT__S));
-		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getNotAccess().getSSimpleStrategyParserRuleCall_2_0(), semanticObject.getS());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	

@@ -978,20 +978,53 @@ ruleNot returns [EObject current=null]
     }
 (
 (
+(
 		{ 
-	        newCompositeNode(grammarAccess.getNotAccess().getSSimpleStrategyParserRuleCall_2_0()); 
+	        newCompositeNode(grammarAccess.getNotAccess().getSSimpleStrategyParserRuleCall_2_0_0()); 
 	    }
-		lv_S_2_0=ruleSimpleStrategy		{
+		lv_S_2_1=ruleSimpleStrategy		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getNotRule());
 	        }
        		set(
        			$current, 
        			"S",
-        		lv_S_2_0, 
+        		lv_S_2_1, 
         		"SimpleStrategy");
 	        afterParserOrEnumRuleCall();
 	    }
+
+    |		{ 
+	        newCompositeNode(grammarAccess.getNotAccess().getSDeclaredStrategyInstanceParserRuleCall_2_0_1()); 
+	    }
+		lv_S_2_2=ruleDeclaredStrategyInstance		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getNotRule());
+	        }
+       		set(
+       			$current, 
+       			"S",
+        		lv_S_2_2, 
+        		"DeclaredStrategyInstance");
+	        afterParserOrEnumRuleCall();
+	    }
+
+    |		{ 
+	        newCompositeNode(grammarAccess.getNotAccess().getSVariableStrategyParserRuleCall_2_0_2()); 
+	    }
+		lv_S_2_3=ruleVariableStrategy		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getNotRule());
+	        }
+       		set(
+       			$current, 
+       			"S",
+        		lv_S_2_3, 
+        		"VariableStrategy");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
 
 )
 )	otherlv_3=')' 

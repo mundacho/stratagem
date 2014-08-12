@@ -1046,6 +1046,34 @@ finally {
 	restoreStackSize(stackSize);
 }
 
+rule__Not__SAlternatives_2_0
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+(
+{ before(grammarAccess.getNotAccess().getSSimpleStrategyParserRuleCall_2_0_0()); }
+	ruleSimpleStrategy
+{ after(grammarAccess.getNotAccess().getSSimpleStrategyParserRuleCall_2_0_0()); }
+)
+
+    |(
+{ before(grammarAccess.getNotAccess().getSDeclaredStrategyInstanceParserRuleCall_2_0_1()); }
+	ruleDeclaredStrategyInstance
+{ after(grammarAccess.getNotAccess().getSDeclaredStrategyInstanceParserRuleCall_2_0_1()); }
+)
+
+    |(
+{ before(grammarAccess.getNotAccess().getSVariableStrategyParserRuleCall_2_0_2()); }
+	ruleVariableStrategy
+{ after(grammarAccess.getNotAccess().getSVariableStrategyParserRuleCall_2_0_2()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
 rule__ATerm__Alternatives
     @init {
 		int stackSize = keepStackSize();
@@ -6066,8 +6094,9 @@ rule__Not__SAssignment_2
     }
 :
 (
-{ before(grammarAccess.getNotAccess().getSSimpleStrategyParserRuleCall_2_0()); }
-	ruleSimpleStrategy{ after(grammarAccess.getNotAccess().getSSimpleStrategyParserRuleCall_2_0()); }
+{ before(grammarAccess.getNotAccess().getSAlternatives_2_0()); }
+(rule__Not__SAlternatives_2_0)
+{ after(grammarAccess.getNotAccess().getSAlternatives_2_0()); }
 )
 
 ;
