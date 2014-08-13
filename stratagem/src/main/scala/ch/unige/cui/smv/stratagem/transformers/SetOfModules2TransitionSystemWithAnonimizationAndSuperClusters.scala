@@ -165,9 +165,15 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
           place2Position))
     } else if (strat2Name.isDefinedAt(strategy.toString)) {
       logger.trace(s"Did not redefine strategy $name because it was already defined")
-      (strat2Name(strategy.toString),
-        (ts,
-          strat2Name,
+      // FIXME: Put the commented version back
+//      (strat2Name(strategy.toString),
+//        (ts,
+//          strat2Name,
+//          superCluster2Strategies,
+//          place2Position))
+      (name,
+        (ts.declareStrategy(name) { strategy }(isTransition),
+          strat2Name + (strategy.toString -> name),
           superCluster2Strategies,
           place2Position))
     } else {
@@ -383,10 +389,10 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       .declareStrategy("applyOnceAndThen", S, Q)(IfThenElse(S, One(Q, 2), One(ApplyOnceAndThen(S, Q), 2)))(false)
       .declareStrategy("___Saturation", S) {
         Sequence(
-          Choice(
+          FixPointStrategy(Choice(
             One(___Saturation(S), 2),
-            FixPointStrategy(S)),
-          FixPointStrategy(S))
+            S)),
+          S)
       }(false)
 
     val recursiveToSize = Map(recursiveSet.toList.view.map(n => (n -> modules(n).size)): _*)
@@ -620,7 +626,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
                   Fail
                 } else Q
               } else Fail,
-              One(DeclaredStrategyInstance(s"$applyForName$i", S, Q), 2))) // else we enter the recursion only if we are not bigger than the cluster          
+              if (fixpoint) Identity
+              else One(DeclaredStrategyInstance(s"$applyForName$i", S, Q), 2))) // else we enter the recursion only if we are not bigger than the cluster          
         }(false)
   }).reduceLeft(_ compose _)
 
