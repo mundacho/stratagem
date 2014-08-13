@@ -25,6 +25,7 @@ import ch.unige.cui.smv.metamodel.ts.NonVariableStrategy
 import ch.unige.cui.smv.metamodel.ts.SimpleStrategy
 import ch.unige.cui.smv.stratagem.util.StrategyDSL.Try
 import scala.collection.JavaConversions._
+import ch.unige.cui.smv.stratagem.util.StrategyDSL.transitionSystem2RichTransitionSystem
 import ch.unige.cui.smv.metamodel.ts.VariableStrategy
 import ch.unige.cui.smv.metamodel.ts.Fail
 import ch.unige.cui.smv.metamodel.ts.FixPointStrategy
@@ -93,9 +94,6 @@ class SigmaDDRewriterFactory private[sigmadd] (sigmaDDFactory: SigmaDDFactoryImp
     }
 
     override def caseFixPointStrategy(st: FixPointStrategy) = {
-      if (st.getS == null) {
-        println("")
-      }
       rewriterCache.getOrElseUpdate(st.toString(), new FixpointRewriter(strategyToRewriter(st.getS), sigmaDDFactory) with SigmaDDRewritingCache)
     }
 
@@ -139,8 +137,21 @@ class SigmaDDRewriterFactory private[sigmadd] (sigmaDDFactory: SigmaDDFactoryImp
   def transitionSystemToStateSpaceRewriterWithSaturation(ts: TransitionSystem, firstStrat: NonVariableStrategy, n: Integer): SigmaDDRewriter = {
     def fullStateSpaceCaculation = StrategyDSL.Union(StrategyDSL.Identity, ts.getTransitions().map(s => Try(EcoreUtil.copy(StrategyDSL.DeclaredStrategyInstance(s.getName()))))
       .reduce((s1: Strategy, s2: Strategy) => StrategyDSL.Union(s1, s2)))
-    strategyToRewriter(StrategyDSL.Union(StrategyDSL.Saturation(fullStateSpaceCaculation, n),
-      StrategyDSL.FixPointStrategy(StrategyDSL.Union(firstStrat, StrategyDSL.Saturation(fullStateSpaceCaculation, n)))))(ts)
+    def S = StrategyDSL.VariableStrategy("S")
+    def Saturation(myS: Strategy) = StrategyDSL.DeclaredStrategyInstance("___Internal_Saturation", myS)
+    ts
+    .declareStrategy("___Internal_Saturation", S) {
+        StrategyDSL.Sequence(
+          StrategyDSL.FixPointStrategy(
+          StrategyDSL.Choice(
+            StrategyDSL.One(Saturation(S), n),
+            StrategyDSL.FixPointStrategy(S))),
+          StrategyDSL.FixPointStrategy(S))
+      }(false) 
+      if (firstStrat.isInstanceOf[Identity]) {
+        strategyToRewriter(Saturation(fullStateSpaceCaculation))(ts)
+      } else 
+    strategyToRewriter(StrategyDSL.FixPointStrategy(StrategyDSL.Union(StrategyDSL.Identity, StrategyDSL.Union(Saturation(fullStateSpaceCaculation), firstStrat))))(ts)
   }
 
 }
