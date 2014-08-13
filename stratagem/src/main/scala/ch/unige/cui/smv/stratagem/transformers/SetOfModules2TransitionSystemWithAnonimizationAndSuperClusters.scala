@@ -464,14 +464,25 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     // for each cluster in the super cluster we are treating we get a fixpoint strategy that works only in that cluster
     val listOfClusterFixPointStrategies = for (clusterIndex <- cluster2localStrategies.keys.toList.sortWith(_ < _) if (clusterIndex != -1)) yield (clusterFixPointStrategy(cluster2localStrategies(clusterIndex)), clusterIndex)
     if (cluster2localStrategies.isDefinedAt(-1)) {
-      val superClusterStrategies: NonVariableStrategy = (for (stratName <- cluster2localStrategies(-1)) yield FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(stratName)))): NonVariableStrategy).reduceLeft((a, b) => Union(a, b))
-      ___Saturation(Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), superClusterStrategies))
+      val superClusterStrategies: NonVariableStrategy = (for (stratName <- cluster2localStrategies(-1)) yield {
+        IfThenElse(Union(Identity, DeclaredStrategyInstance(stratName)),
+            FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(stratName)))),
+            Identity): NonVariableStrategy
+      }).reduceLeft((a, b) => Union(a, b))
+      ___Saturation(FixPointStrategy(Union(Identity, Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), superClusterStrategies))))
     } else
       ___Saturation(FixPointStrategy(chainClusterFixPointStrategies(listOfClusterFixPointStrategies)))
   }
 
+  //  def clusterFixPointStrategy(strategyNames: Set[String]): NonVariableStrategy = {
+  //    ___Saturation(Union(Identity, strategyNames.map(a => FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(a)))): NonVariableStrategy).reduceLeft((a, b) => Union(a, b))))
+  //  }
+
   def clusterFixPointStrategy(strategyNames: Set[String]): NonVariableStrategy = {
-    ___Saturation(Union(Identity, strategyNames.map(a => FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(a)))): NonVariableStrategy).reduceLeft((a, b) => Union(a, b))))
+    ___Saturation(Union(Identity, strategyNames.map(a =>
+      IfThenElse(Union(Identity, DeclaredStrategyInstance(a)),
+        FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(a)))),
+        Identity): NonVariableStrategy).reduceLeft((a, b) => Union(a, b))))
   }
 
   def chainClusterFixPointStrategies(strategies: List[(NonVariableStrategy, Int)]): NonVariableStrategy = strategies match {
@@ -599,7 +610,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
         .declareStrategy(s"$applyForName$i", S, Q) {
           IfThenElse(
             DeclaredStrategyInstance(checkForName + i),
-            if (fixpoint) Union(Try(One(S, 1)), Try(One(Q, 2))) else
+            if (fixpoint) Try(One(S, 1)) else
               Sequence(
                 if (eltPrefix == "p") S else One(S, 1),
                 One(Q, 2)), // if we are in the right cluster, apply the strategy
@@ -607,10 +618,10 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
               if (fixpoint) {
                 if ((i + 1) > (maxElt - 1)) {
                   Fail
-                } else  Q
-              }  else Fail,
+                } else Q
+              } else Fail,
               One(DeclaredStrategyInstance(s"$applyForName$i", S, Q), 2))) // else we enter the recursion only if we are not bigger than the cluster          
-  }(false)
+        }(false)
   }).reduceLeft(_ compose _)
 
 }
