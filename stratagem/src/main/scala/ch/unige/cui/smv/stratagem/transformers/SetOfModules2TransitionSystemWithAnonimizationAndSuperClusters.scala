@@ -166,14 +166,9 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     } else if (strat2Name.isDefinedAt(strategy.toString)) {
       logger.trace(s"Did not redefine strategy $name because it was already defined")
       // FIXME: Put the commented version back
-//      (strat2Name(strategy.toString),
-//        (ts,
-//          strat2Name,
-//          superCluster2Strategies,
-//          place2Position))
-      (name,
-        (ts.declareStrategy(name) { strategy }(isTransition),
-          strat2Name + (strategy.toString -> name),
+      (strat2Name(strategy.toString),
+        (ts,
+          strat2Name,
           superCluster2Strategies,
           place2Position))
     } else {
@@ -472,8 +467,8 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     if (cluster2localStrategies.isDefinedAt(-1)) {
       val superClusterStrategies: NonVariableStrategy = (for (stratName <- cluster2localStrategies(-1)) yield {
         IfThenElse(Union(Identity, DeclaredStrategyInstance(stratName)),
-            FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(stratName)))),
-            Identity): NonVariableStrategy
+          FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(stratName)))),
+          Identity): NonVariableStrategy
       }).reduceLeft((a, b) => Union(a, b))
       ___Saturation(FixPointStrategy(Union(Identity, Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), superClusterStrategies))))
     } else
@@ -616,16 +611,16 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
         .declareStrategy(s"$applyForName$i", S, Q) {
           IfThenElse(
             DeclaredStrategyInstance(checkForName + i),
-            if (fixpoint) Try(One(S, 1)) else
+            if (fixpoint) Union(Try(One(S, 1)), Identity) else
               Sequence(
                 if (eltPrefix == "p") S else One(S, 1),
                 One(Q, 2)), // if we are in the right cluster, apply the strategy
             IfThenElse(DeclaredStrategyInstance(checkBiggerThanName + i),
               if (fixpoint) {
                 if ((i + 1) > (maxElt - 1)) {
-                  Fail
+                  Identity
                 } else Q
-              } else Fail,
+              } else Identity,
               if (fixpoint) Identity
               else One(DeclaredStrategyInstance(s"$applyForName$i", S, Q), 2))) // else we enter the recursion only if we are not bigger than the cluster          
         }(false)
