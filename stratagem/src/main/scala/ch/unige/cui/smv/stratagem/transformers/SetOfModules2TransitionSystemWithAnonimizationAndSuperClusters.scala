@@ -458,7 +458,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
 
   def chainPlacesSaturationStrategies(strategies: List[(Int, NonVariableStrategy)]): NonVariableStrategy = strategies match {
     case Nil => Identity
-    case (n, strat) :: tail => if (tail == Identity) FixPointStrategy(strat)
+    case (n, strat) :: tail => if (tail == Identity || tail == Nil) strat
     else PlacesSaturationAndThen(strat, chainPlacesSaturationStrategies(tail), n)
   }
 
@@ -468,7 +468,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       val fixpointStrat = if (cluster2localStrategies.isDefinedAt(index)) Set(One(clusterFixPointStrategy(cluster2localStrategies(index)), 1)) else Set[NonVariableStrategy]()
       val clusterStrats = if (cluster2localStrategies.isDefinedAt(-1)) cluster2localStrategies(-1).filter(_._1 == index).map(e => DeclaredStrategyInstance(e._2): NonVariableStrategy) else Set[NonVariableStrategy]()
       val allStrats = (clusterStrats ++ fixpointStrat)
-      val returnedStrat =  if (allStrats.size == 1) allStrats.head else FixPointStrategy(Union(Identity, allStrats.map(s => FixPointStrategy(Union(Identity, Try(s))):NonVariableStrategy).reduce((a, b) => Union(a, b))))
+      val returnedStrat =  if (allStrats.size == 1) Union(Identity, Try(allStrats.head)) else FixPointStrategy(Union(Identity, allStrats.map(s => FixPointStrategy(Union(Identity, Try(s))):NonVariableStrategy).reduce((a, b) => Union(a, b))))
       (index,  returnedStrat)
     }
     chainClusterSaturationStrategies(listOfLevelStrategies)
@@ -619,9 +619,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
         IfThenElse(DeclaredStrategyInstance(checkForName + i), // if we are at the right spot
           Sequence( // we do an innermost rewriting but with the next saturation
             if ((i + 1) == maxElt) Identity else
-              FixPointStrategy(Choice(
-                One(Q, 2),
-                S)),
+              One(FixPointStrategy(Q), 2),
             S), // when we are done with the inner most saturation, we apply S 
           Choice(DeclaredStrategyInstance(checkBiggerThanName + i), One(DeclaredStrategyInstance(s"$applyForName$i", S, Q), 2))) // if we are are not yet at the right level, then we go down
       }(false)
