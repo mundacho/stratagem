@@ -60,7 +60,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
   // 2.- map from strategies bodies as string to strategies names,
   // 3.- map from superCluster to strategies working on that super cluster
   // 4.- map place to position in clusters 
-  type CalculationState = (TransitionSystem, Map[String, String], Map[Int, Map[Int, Set[String]]], Map[Place, (Int, Int, Int)])
+  type CalculationState = (TransitionSystem, Map[String, String], Map[Int, Map[Int, Set[(Int, String)]]], Map[Place, (Int, Int, Int)])
 
   def ___Saturation(v: Strategy) = DeclaredStrategyInstance("___Saturation", v)
 
@@ -94,6 +94,9 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
   def ApplyToClusterAndThen(s: Strategy, q: Strategy, n: Int) = DeclaredStrategyInstance(s"applyForCluster$n", s, q)
   def SuperClusterFixPointAndThen(s: Strategy, q: Strategy, n: Int) = DeclaredStrategyInstance(s"superClusterFixPointAndThen$n", s, q)
   def ClusterFixPointAndThen(s: Strategy, q: Strategy, n: Int) = DeclaredStrategyInstance(s"clusterFixPointAndThen$n", s, q)
+  def SClusterSaturationAndThen(s: Strategy, q: Strategy, n: Int) = DeclaredStrategyInstance(s"SClusterSaturationAndThen$n", s, q)
+  def ClusterSaturationAndThen(s: Strategy, q: Strategy, n: Int) = DeclaredStrategyInstance(s"ClusterSaturationAndThen$n", s, q)
+  def PlacesSaturationAndThen(s: Strategy, q: Strategy, n: Int) = DeclaredStrategyInstance(s"PlacesSaturationAndThen$n", s, q)
 
   /**
    * The signature we use for clustered petri nets.
@@ -115,13 +118,6 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     val modSize = if (modules.size > 1) modules.size else 2
     (for (i <- 0 to modSize) yield (sign: Signature) => sign.withGenerator(s"sc$i", SUPER_CLUSTER_SORT_NAME, CLUSTER_SORT_NAME, SUPER_CLUSTER_SORT_NAME)).reduceLeft(_ compose _)(s)
   }
-
-  private def buildSequenceOfDependentStrategiesMonadic(l: List[State[CalculationState, NonVariableStrategy]]): State[CalculationState, NonVariableStrategy] =
-    if (l.isEmpty) State.insert(Identity) else
-      (if (l.size == 1) (State.insert[CalculationState, NonVariableStrategy](Identity) :: l).reverse
-      else (State.insert[CalculationState, NonVariableStrategy](Identity) :: l.reverse).reverse).reduceRight((s1, s2) => s1.flatMap(a => State(cs => {
-        (ApplyOnceAndThen(a, s2.eval(cs)._2), cs)
-      })))
 
   private def inputArcStrategy(arc: Arc): State[CalculationState, NonVariableStrategy] =
     State(cs => {
@@ -148,10 +144,12 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     (ts, strat2Name, superCluster2Strategies, place2Position) = cs;
     placesGroupedBySuperClusters = transition.arcs.groupBy(a => place2Position(a.place)._1);
     placesGroupedByClusters = transition.arcs.groupBy(a => place2Position(a.place)._2);
+    minimalPlace = transition.arcs.groupBy(a => place2Position(a.place)._3).keys.toList.sortWith(_ < _).head;
     res <- calculateTransitionStrategy(transition, placesGroupedBySuperClusters, placesGroupedByClusters, recursiveSetToSize);
+    minimalClusterOrPlace = if (placesGroupedByClusters.keys.size == 1) minimalPlace else placesGroupedByClusters.keys.toList.sortWith(_ < _).head;
     (tranStrategy, isTransition) = res;
     _ <- addStrategyToClusteringMapAtPosition(tranStrategy, placesGroupedBySuperClusters.keys.head,
-      if (placesGroupedByClusters.keys.size == 1) placesGroupedByClusters.keys.head else -1) if (!isTransition)
+      if (placesGroupedByClusters.keys.size == 1) placesGroupedByClusters.keys.head else -1, minimalClusterOrPlace) if (!isTransition)
   ) yield ()
 
   def saveStrategyWithName(name: String, strategy: NonVariableStrategy, isTransition: Boolean): State[CalculationState, String] = State((cs: CalculationState) => {
@@ -165,7 +163,6 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
           place2Position))
     } else if (strat2Name.isDefinedAt(strategy.toString)) {
       logger.trace(s"Did not redefine strategy $name because it was already defined")
-      // FIXME: Put the commented version back
       (strat2Name(strategy.toString),
         (ts,
           strat2Name,
@@ -180,14 +177,14 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     }
   })
 
-  def addStrategyToClusteringMapAtPosition(tranStrategy: NonVariableStrategy, sClusterIndex: Int, clusterIndex: Int) = State((cs: CalculationState) => {
+  def addStrategyToClusteringMapAtPosition(tranStrategy: NonVariableStrategy, sClusterIndex: Int, clusterIndex: Int, minimalClusterOrPlace: Int) = State((cs: CalculationState) => {
     val (ts, strat2Name, superCluster2Strategies, place2Position) = cs
     ((),
       (ts,
         strat2Name,
         superCluster2Strategies.updated(sClusterIndex,
           superCluster2Strategies.getOrElse(sClusterIndex, Map()).updated(
-            clusterIndex, superCluster2Strategies.getOrElse(sClusterIndex, Map()).getOrElse(clusterIndex, Set()) + strat2Name(tranStrategy.toString))),
+            clusterIndex, superCluster2Strategies.getOrElse(sClusterIndex, Map()).getOrElse(clusterIndex, Set()) + Tuple2(minimalClusterOrPlace, strat2Name(tranStrategy.toString)))),
           place2Position))
   })
 
@@ -255,7 +252,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
         for {
           cs <- State.get((cs: CalculationState) => cs)
           (ts, strat2Name, superCluster2Strategies, place2Position) = cs
-          strategyBody = chainStrategiesForPlaces(arc2Strategies(transition.inputArcs, transition.outputArcs, ts, place2Position), true)
+          strategyBody = chainStrategiesForPlaces(arc2Strategies(transition.inputArcs, transition.outputArcs, ts, place2Position))
           normalName <- saveStrategyWithName(transition.name, strategyBody, false)
         } yield {
           (strategyBody, false)
@@ -276,7 +273,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
             cs <- State.get((cs: CalculationState) => cs)
             (ts, strat2Name, superCluster2Strategies, place2Position) = cs
             strategyList = createListOfStrategiesForClusters(transition.inputArcs, transition.outputArcs, ts, place2Position)
-            strategyBody = chainStrategiesForClusters(strategyList, true)
+            strategyBody = chainStrategiesForClusters(strategyList)
             normalName <- saveStrategyWithName(transition.name, strategyBody, false)
           } yield (strategyBody, false)
       } else {
@@ -300,18 +297,15 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       ApplyToSClusterAndThen(strat, chainStrategiesForSuperClusters(tail), n)
   }
 
-  def chainStrategiesForClusters(strategies: List[(NonVariableStrategy, Int)], firstCall: Boolean = false): NonVariableStrategy = strategies match {
+  def chainStrategiesForClusters(strategies: List[(NonVariableStrategy, Int)]): NonVariableStrategy = strategies match {
     case Nil => Identity
-    case (strat, n) :: tail =>
-      if (firstCall) Sequence(DeclaredStrategyInstance(s"checkForCluster$n"), ApplyToClusterAndThen(strat, chainStrategiesForClusters(tail), n))
-      else ApplyToClusterAndThen(strat, chainStrategiesForClusters(tail), n)
+    case (strat, n) :: tail =>  ApplyToClusterAndThen(strat, chainStrategiesForClusters(tail), n)
   }
 
-  def chainStrategiesForPlaces(strategies: List[(NonVariableStrategy, Int)], firstCall: Boolean = false): NonVariableStrategy = strategies match {
+  def chainStrategiesForPlaces(strategies: List[(NonVariableStrategy, Int)]): NonVariableStrategy = strategies match {
     case Nil => Identity
     case (strat, n) :: tail =>
-      if (firstCall) Sequence(DeclaredStrategyInstance(s"checkForPlace$n"), ApplyToPlaceAndThen(strat, chainStrategiesForPlaces(tail), n))
-      else ApplyToPlaceAndThen(strat, chainStrategiesForPlaces(tail), n)
+      ApplyToPlaceAndThen(strat, chainStrategiesForPlaces(tail), n)
   }
 
   def createListOfStrategiesForSuperClusters(inputArcs: Set[Arc], outputArcs: Set[Arc], ts: TransitionSystem, place2Position: Map[Place, (Int, Int, Int)], recursiveSetToSize: Map[Int, Int]): List[(NonVariableStrategy, Int)] = {
@@ -382,13 +376,6 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     initialTransitionSystem
       .declareStrategy("applyOnce", S)(Choice(S, One(ApplyOnce(S), 2)))(false)
       .declareStrategy("applyOnceAndThen", S, Q)(IfThenElse(S, One(Q, 2), One(ApplyOnceAndThen(S, Q), 2)))(false)
-      .declareStrategy("___Saturation", S) {
-        Sequence(
-          FixPointStrategy(Choice(
-            One(___Saturation(S), 2),
-            S)),
-          S)
-      }(false)
 
     val recursiveToSize = Map(recursiveSet.toList.view.map(n => (n -> modules(n).size)): _*)
 
@@ -398,12 +385,14 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       _ <- addApplyToPlace(maxPlaces)
       _ <- addSuperClusterFixPointAndThen(if (modules.size > 1) modules.size else 2)
       _ <- addClusterFixPointAndThen(maxClusters)
+      _ <- addSaturateClusterAndThen(maxClusters)
+      _ <- addSaturatePlaceAndThen(maxPlaces)
     } yield ()
 
     val computationInitialState = (
       transSystemState.eval(initialTransitionSystem)._1,
       Map[String, String](),
-      Map[Int, Map[Int, Set[String]]](),
+      Map[Int, Map[Int, Set[(Int, String)]]](),
       placeToSClusterClusterPosition)
 
     val computation = (for (
@@ -420,7 +409,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     _ <- saveStrategyWithName("superClusterSaturationStrategy", strategyBody, true)
   } yield ()
 
-  def recursiveSuperClusterFixPointStrategy(cluster2localStrategies: Map[Int, Set[String]], fixPointStrategies: Set[String], maxCluster: Int, superClusterName: String): NonVariableStrategy = {
+  def recursiveSuperClusterFixPointStrategy(cluster2localStrategies: Map[Int, Set[(Int, String)]], fixPointStrategies: Set[String], maxCluster: Int, superClusterName: String): NonVariableStrategy = {
     val clusterFixPointNameStart = "__fixpoint_" + superClusterName + "_end"
     val (currentFixPointStrategies, removedCurrentFixPointStrategies) = fixPointStrategies.partition(_.startsWith(clusterFixPointNameStart))
     // fixPointsForSuperClusterStrategies is the fixpoint for the current superCluster FIXME: go higher even when there is no local cluster up there
@@ -448,11 +437,11 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     }
   }
 
-  def createFixpointStrategieForSuperClusters(superCluster2LocalStrategies: Map[Int, Map[Int, Set[String]]], recursiveSetToSize: Map[Int, Int]): NonVariableStrategy = {
+  def createFixpointStrategieForSuperClusters(superCluster2LocalStrategies: Map[Int, Map[Int, Set[(Int, String)]]], recursiveSetToSize: Map[Int, Int]): NonVariableStrategy = {
     val listOfSuperClusterFixPointStrategies = for (superClusterIndex <- superCluster2LocalStrategies.keys.toList.sortWith(_ < _)) yield {
       val strat = if (recursiveSetToSize.keySet contains superClusterIndex) {
         recursiveSuperClusterFixPointStrategy(superCluster2LocalStrategies(superClusterIndex) - (-1),
-          if (superCluster2LocalStrategies(superClusterIndex).isDefinedAt(-1)) superCluster2LocalStrategies(superClusterIndex)(-1) else Set(), recursiveSetToSize(superClusterIndex), "")
+          if (superCluster2LocalStrategies(superClusterIndex).isDefinedAt(-1)) superCluster2LocalStrategies(superClusterIndex)(-1).map(_._2) else Set(), recursiveSetToSize(superClusterIndex), "")
       } else {
         superClusterFixPointStrategy(superCluster2LocalStrategies(superClusterIndex))
       }
@@ -461,29 +450,36 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     chainSuperClusterFixPointStrategies(listOfSuperClusterFixPointStrategies)
   }
 
-  def superClusterFixPointStrategy(cluster2localStrategies: Map[Int, Set[String]]): NonVariableStrategy = {
-    // for each cluster in the super cluster we are treating we get a fixpoint strategy that works only in that cluster
-    val listOfClusterFixPointStrategies = for (clusterIndex <- cluster2localStrategies.keys.toList.sortWith(_ < _) if (clusterIndex != -1)) yield (clusterFixPointStrategy(cluster2localStrategies(clusterIndex)), clusterIndex)
-    if (cluster2localStrategies.isDefinedAt(-1)) {
-      val superClusterStrategies: NonVariableStrategy = (for (stratName <- cluster2localStrategies(-1)) yield {
-        IfThenElse(Union(Identity, DeclaredStrategyInstance(stratName)),
-          FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(stratName)))),
-          Identity): NonVariableStrategy
-      }).reduceLeft((a, b) => Union(a, b))
-      ___Saturation(FixPointStrategy(Union(Identity, Union(chainClusterFixPointStrategies(listOfClusterFixPointStrategies), superClusterStrategies))))
-    } else
-      ___Saturation(FixPointStrategy(chainClusterFixPointStrategies(listOfClusterFixPointStrategies)))
+  def chainClusterSaturationStrategies(strategies: List[(Int, NonVariableStrategy)]): NonVariableStrategy = strategies match {
+    case Nil => Identity
+    case (n, strat) :: tail => if (tail == Identity) FixPointStrategy(strat) else
+      ClusterSaturationAndThen(strat, chainClusterSaturationStrategies(tail), n)
   }
 
-  //  def clusterFixPointStrategy(strategyNames: Set[String]): NonVariableStrategy = {
-  //    ___Saturation(Union(Identity, strategyNames.map(a => FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(a)))): NonVariableStrategy).reduceLeft((a, b) => Union(a, b))))
-  //  }
+  def chainPlacesSaturationStrategies(strategies: List[(Int, NonVariableStrategy)]): NonVariableStrategy = strategies match {
+    case Nil => Identity
+    case (n, strat) :: tail => if (tail == Identity) FixPointStrategy(strat)
+    else PlacesSaturationAndThen(strat, chainPlacesSaturationStrategies(tail), n)
+  }
 
-  def clusterFixPointStrategy(strategyNames: Set[String]): NonVariableStrategy = {
-    ___Saturation(Union(Identity, strategyNames.map(a =>
-      IfThenElse(Union(Identity, DeclaredStrategyInstance(a)),
-        FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(a)))),
-        Identity): NonVariableStrategy).reduceLeft((a, b) => Union(a, b))))
+  def superClusterFixPointStrategy(cluster2localStrategies: Map[Int, Set[(Int, String)]]): NonVariableStrategy = {
+    val setOfIndexes = cluster2localStrategies.keys.filter(_ != -1) ++ (if (cluster2localStrategies.isDefinedAt(-1)) cluster2localStrategies(-1).map(_._1) else Set())
+    val listOfLevelStrategies = for (index <- setOfIndexes.toList.sortWith(_ < _)) yield {
+      val fixpointStrat = if (cluster2localStrategies.isDefinedAt(index)) Set(One(clusterFixPointStrategy(cluster2localStrategies(index)), 1)) else Set[NonVariableStrategy]()
+      val clusterStrats = if (cluster2localStrategies.isDefinedAt(-1)) cluster2localStrategies(-1).filter(_._1 == index).map(e => DeclaredStrategyInstance(e._2): NonVariableStrategy) else Set[NonVariableStrategy]()
+      val allStrats = (clusterStrats ++ fixpointStrat)
+      val returnedStrat =  if (allStrats.size == 1) allStrats.head else FixPointStrategy(Union(Identity, allStrats.map(s => FixPointStrategy(Union(Identity, Try(s))):NonVariableStrategy).reduce((a, b) => Union(a, b))))
+      (index,  returnedStrat)
+    }
+    chainClusterSaturationStrategies(listOfLevelStrategies)
+  }
+
+  def clusterFixPointStrategy(strategyNames: Set[(Int, String)]): NonVariableStrategy = {
+    val strategyNamesGrouped = strategyNames.groupBy(_._1)
+    val listOfPlaceLevelStrategies = for (index <- strategyNamesGrouped.keys.toList.sortWith(_ < _)) yield {
+      (index, strategyNamesGrouped(index).map(a => FixPointStrategy(Union(Identity, Try(DeclaredStrategyInstance(a._2)))): NonVariableStrategy).reduceLeft((a, b) => Union(a, b)))
+    }
+    chainPlacesSaturationStrategies(listOfPlaceLevelStrategies)
   }
 
   def chainClusterFixPointStrategies(strategies: List[(NonVariableStrategy, Int)]): NonVariableStrategy = strategies match {
@@ -593,6 +589,43 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     // this function adds the checks
     ((), modifyTSForApplyFor(maxCluster, checkForName, checkBiggerThanName, applyForName, elementPrefix, elementVariable, containedElementVariable, true)(ts))
   })
+
+  def addSaturateClusterAndThen(maxCluster: Int) = State((ts: TransitionSystem) => {
+    val checkForName = "checkForCluster"
+    val checkBiggerThanName = "checkBiggerThanCluster"
+    val applyForName = "ClusterSaturationAndThen"
+    // We use def instead of val because our variables are based on EMF, i.e. they are mutable and we cannot use them in different terms
+    def elementVariable = ts.getAdt().term("c")
+    def containedElementVariable = ts.getAdt().term("p")
+    // this function adds the checks
+    ((), modifyTSForSaturateFor(maxCluster, checkForName, checkBiggerThanName, applyForName, elementVariable, containedElementVariable, true)(ts))
+  })
+
+  def addSaturatePlaceAndThen(maxPlace: Int) = State((ts: TransitionSystem) => {
+    val checkForName = "checkForPlace"
+    val checkBiggerThanName = "checkBiggerThanPlace"
+    val applyForName = "PlacesSaturationAndThen"
+    // We use def instead of val because our variables are based on EMF, i.e. they are mutable and we cannot use them in different terms
+    def elementVariable = ts.getAdt().term("c")
+    def containedElementVariable = ts.getAdt().term("p")
+    // this function adds the checks
+    ((), modifyTSForSaturateFor(maxPlace, checkForName, checkBiggerThanName, applyForName, elementVariable, containedElementVariable, true)(ts))
+  })
+
+  private def modifyTSForSaturateFor(maxElt: Int, checkForName: String, checkBiggerThanName: String, applyForName: String, eltVariable: => ATerm, containedVariable: => ATerm, fixpoint: Boolean = false) = (for (i <- (0 to (maxElt - 1))) yield {
+    (ts: TransitionSystem) =>
+      // we declare the applyForClusterStrategy
+      ts.declareStrategy(s"$applyForName$i", S, Q) { // S represents the strategy that we are doing at the level, Q represents the strategy one level down
+        IfThenElse(DeclaredStrategyInstance(checkForName + i), // if we are at the right spot
+          Sequence( // we do an innermost rewriting but with the next saturation
+            if ((i + 1) == maxElt) Identity else
+              FixPointStrategy(Choice(
+                One(Q, 2),
+                S)),
+            S), // when we are done with the inner most saturation, we apply S 
+          Choice(DeclaredStrategyInstance(checkBiggerThanName + i), One(DeclaredStrategyInstance(s"$applyForName$i", S, Q), 2))) // if we are are not yet at the right level, then we go down
+      }(false)
+  }).reduceLeft(_ compose _)
 
   private def modifyTSForApplyFor(maxElt: Int, checkForName: String, checkBiggerThanName: String, applyForName: String, eltPrefix: String, eltVariable: => ATerm, containedVariable: => ATerm, fixpoint: Boolean = false) = (for (i <- (0 to (maxElt - 1))) yield {
     (ts: TransitionSystem) =>
