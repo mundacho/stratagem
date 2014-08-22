@@ -20,7 +20,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see ch.unige.cui.smv.metamodel.ts.TsPackage#getDeclaredStrategyInstance()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='RightNumberOfParams'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot RightNumberOfParams='Tuple {\n\tmessage : String = \'Invalid number of parameters for strategy \' + name + \'. Required \' + declaration.formalParams->size()->toString() + \', found \' + actualParams->size()->toString(),\n\tstatus : Boolean = declaration <> null implies declaration.formalParams\n\t\t\t->size() = actualParams\n\t\t\t->size()\n}.status'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot RightNumberOfParams='Tuple {\n\tmessage : String = \'Invalid number of parameters for strategy \' + name + \'. Required \' +\n\t\t\tdeclaration.formalParams\n\t\t\t->size()\n\t\t\t->toString() + \', found \' + actualParams\n\t\t\t->size()\n\t\t\t->toString(),\n\tstatus : Boolean = (declaration <> null) implies declaration.formalParams\n\t\t\t->size() = actualParams\n\t\t\t->size()\n}.status'"
  * @generated
  */
 public interface DeclaredStrategyInstance extends NonVariableStrategy {

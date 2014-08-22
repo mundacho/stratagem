@@ -885,7 +885,7 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 		  (declaredStrategyEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "UniqueVariableParameters"
+			 "constraints", "UniqueVariableParameters ValidFormalParams"
 		   });	
 		addAnnotation
 		  (declaredStrategyInstanceEClass, 
@@ -935,13 +935,14 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 		  (declaredStrategyEClass, 
 		   source, 
 		   new String[] {
-			 "UniqueVariableParameters", "Tuple {\n\tmessage : String = \'The parameter names are not unique for declared strategy: \' + name,\n\tstatus : Boolean = formalParams <> null implies formalParams->isUnique(name)\n}.status"
+			 "UniqueVariableParameters", "Tuple {\n\tmessage : String = \'The parameter names are not unique for declared strategy: \' + name,\n\tstatus : Boolean = formalParams\n\t\t\t<> null implies formalParams\n\t\t\t->isUnique(name)\n}.status",
+			 "ValidFormalParams", "Tuple {\n\tmessage : String = \'Formal params for strategy \' + name + \' are null\',\n\tstatus : Boolean = formalParams <> null\n}.status"
 		   });	
 		addAnnotation
 		  (declaredStrategyInstanceEClass, 
 		   source, 
 		   new String[] {
-			 "RightNumberOfParams", "Tuple {\n\tmessage : String = \'Invalid number of parameters for strategy \' + name + \'. Required \' + declaration.formalParams->size()->toString() + \', found \' + actualParams->size()->toString(),\n\tstatus : Boolean = declaration <> null implies declaration.formalParams\n\t\t\t->size() = actualParams\n\t\t\t->size()\n}.status"
+			 "RightNumberOfParams", "Tuple {\n\tmessage : String = \'Invalid number of parameters for strategy \' + name + \'. Required \' +\n\t\t\tdeclaration.formalParams\n\t\t\t->size()\n\t\t\t->toString() + \', found \' + actualParams\n\t\t\t->size()\n\t\t\t->toString(),\n\tstatus : Boolean = (declaration <> null) implies declaration.formalParams\n\t\t\t->size() = actualParams\n\t\t\t->size()\n}.status"
 		   });
 	}
 

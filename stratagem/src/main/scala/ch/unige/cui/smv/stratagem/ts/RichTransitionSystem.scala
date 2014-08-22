@@ -66,8 +66,6 @@ class RichTransitionSystem(val ts: TransitionSystem) {
     require(ts.getDeclaredStrategyByName(declaredStrategy.getName()) == null, s"A strategy with the name ${declaredStrategy.getName()} is already defined in this transition system")
     require(!isTransition || declaredStrategy.getFormalParams().isEmpty) // being a transition implies that there are no formal parameters.
     if (isTransition) ts.getTransitions().add(declaredStrategy) else ts.getAuxiliary().add(declaredStrategy)
-    val (result, message) = declaredStrategy.syntaxCheck(ts)
-    require(result, s"There is a syntax error in the declaration of strategy ${declaredStrategy.getName()}: $message")
     ts
   }
 

@@ -366,7 +366,6 @@ public class ADTImpl extends MinimalEObjectImpl.Container implements ADT {
 	
 	@Override
 	public ADT declareVariable(String name, String sort) {
-		this.setName(name);
 		VariableDeclaration vd = AdtFactory.eINSTANCE.createVariableDeclaration();
 		vd.setName(name);
 		vd.setSort(getSignature().getSortByName(sort));

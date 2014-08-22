@@ -21,8 +21,8 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see ch.unige.cui.smv.metamodel.ts.TsPackage#getDeclaredStrategy()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='UniqueVariableParameters'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot UniqueVariableParameters='Tuple {\n\tmessage : String = \'The parameter names are not unique for declared strategy: \' + name,\n\tstatus : Boolean = formalParams <> null implies formalParams->isUnique(name)\n}.status'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='UniqueVariableParameters ValidFormalParams'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot UniqueVariableParameters='Tuple {\n\tmessage : String = \'The parameter names are not unique for declared strategy: \' + name,\n\tstatus : Boolean = formalParams\n\t\t\t<> null implies formalParams\n\t\t\t->isUnique(name)\n}.status' ValidFormalParams='Tuple {\n\tmessage : String = \'Formal params for strategy \' + name + \' are null\',\n\tstatus : Boolean = formalParams <> null\n}.status'"
  * @generated
  */
 public interface DeclaredStrategy extends EObject {

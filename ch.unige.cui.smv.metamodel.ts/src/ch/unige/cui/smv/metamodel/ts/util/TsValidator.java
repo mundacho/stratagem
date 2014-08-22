@@ -165,6 +165,7 @@ public class TsValidator extends OCLinEcoreEObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(declaredStrategy, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(declaredStrategy, diagnostics, context);
 		if (result || diagnostics != null) result &= validateDeclaredStrategy_UniqueVariableParameters(declaredStrategy, diagnostics, context);
+		if (result || diagnostics != null) result &= validateDeclaredStrategy_ValidFormalParams(declaredStrategy, diagnostics, context);
 		return result;
 	}
 
@@ -176,7 +177,9 @@ public class TsValidator extends OCLinEcoreEObjectValidator {
 	 */
 	protected static final String DECLARED_STRATEGY__UNIQUE_VARIABLE_PARAMETERS__EEXPRESSION = "Tuple {\n" +
 		"\tmessage : String = 'The parameter names are not unique for declared strategy: ' + name,\n" +
-		"\tstatus : Boolean = formalParams <> null implies formalParams->isUnique(name)\n" +
+		"\tstatus : Boolean = formalParams\n" +
+		"\t\t\t<> null implies formalParams\n" +
+		"\t\t\t->isUnique(name)\n" +
 		"}.status";
 
 	/**
@@ -195,6 +198,38 @@ public class TsValidator extends OCLinEcoreEObjectValidator {
 				 "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
 				 "UniqueVariableParameters",
 				 DECLARED_STRATEGY__UNIQUE_VARIABLE_PARAMETERS__EEXPRESSION,
+				 Diagnostic.ERROR,
+				 DIAGNOSTIC_SOURCE,
+				 0);
+	}
+
+	/**
+	 * The cached validation expression for the ValidFormalParams constraint of '<em>Declared Strategy</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected static final String DECLARED_STRATEGY__VALID_FORMAL_PARAMS__EEXPRESSION = "Tuple {\n" +
+		"\tmessage : String = 'Formal params for strategy ' + name + ' are null',\n" +
+		"\tstatus : Boolean = formalParams <> null\n" +
+		"}.status";
+
+	/**
+	 * Validates the ValidFormalParams constraint of '<em>Declared Strategy</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateDeclaredStrategy_ValidFormalParams(DeclaredStrategy declaredStrategy, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return
+			validate
+				(TsPackage.Literals.DECLARED_STRATEGY,
+				 declaredStrategy,
+				 diagnostics,
+				 context,
+				 "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
+				 "ValidFormalParams",
+				 DECLARED_STRATEGY__VALID_FORMAL_PARAMS__EEXPRESSION,
 				 Diagnostic.ERROR,
 				 DIAGNOSTIC_SOURCE,
 				 0);
@@ -280,8 +315,13 @@ public class TsValidator extends OCLinEcoreEObjectValidator {
 	 * @generated
 	 */
 	protected static final String DECLARED_STRATEGY_INSTANCE__RIGHT_NUMBER_OF_PARAMS__EEXPRESSION = "Tuple {\n" +
-		"\tmessage : String = 'Invalid number of parameters for strategy ' + name + '. Required ' + declaration.formalParams->size()->toString() + ', found ' + actualParams->size()->toString(),\n" +
-		"\tstatus : Boolean = declaration <> null implies declaration.formalParams\n" +
+		"\tmessage : String = 'Invalid number of parameters for strategy ' + name + '. Required ' +\n" +
+		"\t\t\tdeclaration.formalParams\n" +
+		"\t\t\t->size()\n" +
+		"\t\t\t->toString() + ', found ' + actualParams\n" +
+		"\t\t\t->size()\n" +
+		"\t\t\t->toString(),\n" +
+		"\tstatus : Boolean = (declaration <> null) implies declaration.formalParams\n" +
 		"\t\t\t->size() = actualParams\n" +
 		"\t\t\t->size()\n" +
 		"}.status";

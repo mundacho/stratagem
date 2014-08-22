@@ -37,17 +37,19 @@ private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter, override
   }
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
+//    logger.trace(s"Entering fixpoint rewriter: ${this}")
+    logger.trace(s"Fixpoint rewriter was applied on top of term with functor: ${sigmaDD.iipf.alpha.keys.head}")
     var result = rewriter(sigmaDD)
     //    logger.trace(s"Fixpoint rewriter was applied on top of term with functor:\n" + s"${sigmaDD}")
     if (result == None) { None } // no fixpoint
     else {
       var newResult = rewriter(result.get)
+      logger.trace(s"Fixpoint rewriter has generated a decision diagram of size: ${newResult.get.size}")
       while ((newResult != None) && (result.get ne newResult.get)) {
         result = newResult
         newResult = rewriter(result.get)
 //        if (newResult.get.iipf.alpha.keys.head.toString.startsWith("{sc")) {
           logger.trace(s"Fixpoint rewriter has generated a decision diagram of size: ${newResult.get.size}")
-          logger.trace(s"Fixpoint rewriter was applied on top of term with functor: ${newResult.get.iipf.alpha.keys.head}")
 //        }
       }
       newResult

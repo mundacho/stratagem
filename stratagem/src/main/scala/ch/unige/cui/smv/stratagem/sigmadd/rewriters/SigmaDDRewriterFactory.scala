@@ -42,6 +42,7 @@ import ch.unige.cui.smv.metamodel.ts.Union
 import ch.unige.cui.smv.metamodel.ts.Saturation
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
+import ch.unige.cui.smv.stratagem.util.StrategyMapKeyWrapper
 
 /**
  * Represents a factory of rewriters.
@@ -53,17 +54,18 @@ class SigmaDDRewriterFactory private[sigmadd] (sigmaDDFactory: SigmaDDFactoryImp
    */
   def resetCaches { SigmaDDRewritingCacheStats.callsCounter = 0; SigmaDDRewritingCacheStats.hitCounter = 0; this.resetOperationCaches }
 
-  private var rewriterCache = scala.collection.mutable.HashMap[String, SigmaDDRewriter]()
+  private var rewriterCache = scala.collection.mutable.HashMap[StrategyMapKeyWrapper, SigmaDDRewriter]()
 
-  def resetOperationCaches { rewriterCache = scala.collection.mutable.HashMap[String, SigmaDDRewriter]() }
+  def resetOperationCaches { rewriterCache = scala.collection.mutable.HashMap[StrategyMapKeyWrapper, SigmaDDRewriter]() }
 
+ 
   /**
    * Transforms a strategy to a SigmaDD rewriter.
    * @param s the strategy to be transformed.
    * @param ts the transition system in which the strategies are (it is necessary to obtain the declarations of the strategies)
    */
   def strategyToRewriter(strategyToRewrite: Strategy)(implicit ts: TransitionSystem): SigmaDDRewriter = (new TsSwitch[SigmaDDRewriter] {
-    override def caseSaturation(st: Saturation) = rewriterCache.getOrElseUpdate(st.toString(),
+    override def caseSaturation(st: Saturation) = rewriterCache.getOrElseUpdate(StrategyMapKeyWrapper(st),
       strategyToRewriter(
         StrategyDSL.Sequence(
           StrategyDSL.Choice(
@@ -71,13 +73,13 @@ class SigmaDDRewriterFactory private[sigmadd] (sigmaDDFactory: SigmaDDFactoryImp
             StrategyDSL.FixPointStrategy(EcoreUtil.copy(st.getS))),
           StrategyDSL.FixPointStrategy(EcoreUtil.copy(st.getS)))))
 
-    override def caseChoice(st: Choice) = rewriterCache.getOrElseUpdate(st.toString, new ChoiceRewriter(strategyToRewriter(st.getS1), strategyToRewriter(st.getS2), sigmaDDFactory) with SigmaDDRewritingCache)
+    override def caseChoice(st: Choice) = rewriterCache.getOrElseUpdate(StrategyMapKeyWrapper(st), new ChoiceRewriter(strategyToRewriter(st.getS1), strategyToRewriter(st.getS2), sigmaDDFactory) with SigmaDDRewritingCache)
 
     override def caseFail(strat: Fail) = FailRewriter(sigmaDDFactory)
 
     override def caseIdentity(strat: Identity) = IdentityRewriter(sigmaDDFactory)
 
-    override def caseOne(st: One) = rewriterCache.getOrElseUpdate(st.toString(), new OneRewriter(strategyToRewriter(st.getS), st.getN(), sigmaDDFactory) with SigmaDDRewritingCache)
+    override def caseOne(st: One) = rewriterCache.getOrElseUpdate(StrategyMapKeyWrapper(st), new OneRewriter(strategyToRewriter(st.getS), st.getN(), sigmaDDFactory) with SigmaDDRewritingCache)
 
     override def caseNot(strat: Not) = {
       (new TsSwitch[SigmaDDRewriter] {
@@ -85,7 +87,7 @@ class SigmaDDRewriterFactory private[sigmadd] (sigmaDDFactory: SigmaDDFactoryImp
           strategyToRewriter(st.getS)
         }
         override def caseSimpleStrategy(st: SimpleStrategy) = {
-          rewriterCache.getOrElseUpdate(strat.toString(), new SimpleSigmaDDRewriter(st, sigmaDDFactory, true) with SigmaDDRewritingCache) // we create the rewriter
+          rewriterCache.getOrElseUpdate(StrategyMapKeyWrapper(strat), new SimpleSigmaDDRewriter(st, sigmaDDFactory, true) with SigmaDDRewritingCache) // we create the rewriter
         }
         override def caseDeclaredStrategyInstance(s: DeclaredStrategyInstance) = {
           strategyToRewriter(StrategyDSL.Not(unwindDeclaredStrategyInstance(s, ts)))
@@ -94,21 +96,21 @@ class SigmaDDRewriterFactory private[sigmadd] (sigmaDDFactory: SigmaDDFactoryImp
     }
 
     override def caseFixPointStrategy(st: FixPointStrategy) = {
-      rewriterCache.getOrElseUpdate(st.toString(), new FixpointRewriter(strategyToRewriter(st.getS), sigmaDDFactory) with SigmaDDRewritingCache)
+      rewriterCache.getOrElseUpdate(StrategyMapKeyWrapper(st), new FixpointRewriter(strategyToRewriter(st.getS), sigmaDDFactory) with SigmaDDRewritingCache)
     }
 
-    override def caseSequence(st: Sequence) = rewriterCache.getOrElseUpdate(st.toString(), new SequenceRewriter(strategyToRewriter(st.getS1), strategyToRewriter(st.getS2), sigmaDDFactory) with SigmaDDRewritingCache)
+    override def caseSequence(st: Sequence) = rewriterCache.getOrElseUpdate(StrategyMapKeyWrapper(st), new SequenceRewriter(strategyToRewriter(st.getS1), strategyToRewriter(st.getS2), sigmaDDFactory) with SigmaDDRewritingCache)
 
-    override def caseUnion(st: Union) = rewriterCache.getOrElseUpdate(st.toString(), new UnionRewriter(strategyToRewriter(st.getS1), strategyToRewriter(st.getS2), sigmaDDFactory) with SigmaDDRewritingCache)
+    override def caseUnion(st: Union) = rewriterCache.getOrElseUpdate(StrategyMapKeyWrapper(st), new UnionRewriter(strategyToRewriter(st.getS1), strategyToRewriter(st.getS2), sigmaDDFactory) with SigmaDDRewritingCache)
 
-    override def caseIfThenElse(st: IfThenElse) = rewriterCache.getOrElseUpdate(st.toString(), new IfThenElseRewriter(strategyToRewriter(st.getS1()), strategyToRewriter(st.getS2), strategyToRewriter(st.getS3()), sigmaDDFactory) with SigmaDDRewritingCache)
+    override def caseIfThenElse(st: IfThenElse) = rewriterCache.getOrElseUpdate(StrategyMapKeyWrapper(st), new IfThenElseRewriter(strategyToRewriter(st.getS1()), strategyToRewriter(st.getS2), strategyToRewriter(st.getS3()), sigmaDDFactory) with SigmaDDRewritingCache)
 
-    override def caseSimpleStrategy(st: SimpleStrategy) = rewriterCache.getOrElseUpdate(st.toString(), new SimpleSigmaDDRewriter(st, sigmaDDFactory) with SigmaDDRewritingCache)
+    override def caseSimpleStrategy(st: SimpleStrategy) = rewriterCache.getOrElseUpdate(StrategyMapKeyWrapper(st), new SimpleSigmaDDRewriter(st, sigmaDDFactory) with SigmaDDRewritingCache)
 
     override def caseDeclaredStrategyInstance(strategyInstance: DeclaredStrategyInstance) = 
-      rewriterCache.getOrElseUpdate(strategyInstance.toString(), new DeclaredStrategyRewriter(strategyInstance, ts, sigmaDDFactory) with SigmaDDRewritingCache)
+      rewriterCache.getOrElseUpdate(StrategyMapKeyWrapper(strategyInstance), new DeclaredStrategyRewriter(strategyInstance, ts, sigmaDDFactory) with SigmaDDRewritingCache)
 
-  }).doSwitch(EcoreUtil.copy(strategyToRewrite))
+  }).doSwitch(strategyToRewrite)
 
   def unwindDeclaredStrategyInstance(strategy: DeclaredStrategyInstance, ts: TransitionSystem): Strategy = (new TsSwitch[Strategy] {
     override def caseDeclaredStrategyInstance(strategyInstance: DeclaredStrategyInstance) = unwindDeclaredStrategyInstance(strategy, ts)

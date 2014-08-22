@@ -27,12 +27,10 @@ import ch.unige.cui.smv.stratagem.util.AuxFunctions.timeAndSpace
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats.stats
 import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 import ch.unige.cui.smv.stratagem.transformers.Model2TransitionSystem
-import ch.unige.cui.smv.stratagem.transformers.PetriNet2TransitionSystem
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
 import ch.unige.cui.smv.stratagem.petrinets.Place
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
-import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters
-import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystem
+import ch.unige.cui.smv.stratagem.transformers.ListOfModules2TransitionSystem
 import ch.unige.cui.smv.stratagem.transformers.PNML2PetriNet
 import ch.unige.cui.smv.stratagem.transformers.Modularizer
 import ch.unige.cui.smv.stratagem.transformers.FileModularizer
@@ -53,8 +51,12 @@ import org.eclipse.emf.common.util.Diagnostic
 import org.eclipse.emf.ecore.util.Diagnostician
 import ch.unige.smv.cui.metamodel.adt.AdtPackage
 import ch.unige.cui.smv.metamodel.ts.TransitionSystem
+import ch.unige.cui.smv.metamodel.ts.SimpleStrategy
+import ch.unige.cui.smv.metamodel.ts.DeclaredStrategyInstance
 import ch.unige.cui.smv.metamodel.ts.TsPackage
 import scala.collection.JavaConversions._
+import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.common.util.TreeIterator
 
 /**
  * The main class of stratagem. It is used to launch the model checker.
@@ -83,6 +85,12 @@ object Main extends Logging {
       AdtPackage.eINSTANCE.eClass()
       TsPackage.eINSTANCE.eClass()
       val injector = (new TransitionSystemDslStandaloneSetup()).createInjectorAndDoEMFRegistration();
+      // ocl registration
+      org.eclipse.ocl.examples.pivot.OCL.initialize(null);
+      org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
+      org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
+      OCLinEcoreStandaloneSetup.doSetup()
+      OCLstdlibStandaloneSetup.doSetup()
       if (config.mode == "transition-system") {
 
         logger.trace("Finished OCL registration")
@@ -92,13 +100,6 @@ object Main extends Logging {
         resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, true);
         val uri = config.model.toURI().toString()
         val resource = resourceSet.getResource(URI.createURI(uri), true);
-
-        // ocl registration
-        org.eclipse.ocl.examples.pivot.OCL.initialize(resourceSet);
-        org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
-        org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(resourceSet)
-        OCLinEcoreStandaloneSetup.doSetup()
-        OCLstdlibStandaloneSetup.doSetup()
 
         val ts = resource.getContents().get(0).asInstanceOf[TransitionSystem];
         if (resource.getErrors().isEmpty()) {
@@ -161,6 +162,43 @@ object Main extends Logging {
             val resSet = new ResourceSetImpl()
             val resource = resSet.createResource(URI.createURI("temp.ts")) // TODO	
             resource.getContents().add(ts)
+            // we need to do the linking ourselves
+            for (declaredStrategy <- ts.getAuxiliary() ++ ts.getTransitions()) {
+              val treeIterator = EcoreUtil.getAllContents(declaredStrategy, true).asInstanceOf[TreeIterator[EObject]]
+              while (treeIterator.hasNext()) {
+                treeIterator.next() match {
+                  case s: DeclaredStrategyInstance =>
+                    s.setDeclaration(ts.getDeclaredStrategyByName(s.getName()))
+                    if (ts.getDeclaredStrategyByName(s.getName()) == null) {
+                      println(s"Usage of invalid strategy ${s.getName()} in declared strategy ${declaredStrategy.getName()}")
+                    }
+
+                  case s: SimpleStrategy => treeIterator.prune
+                  case _ => // do nothing
+                }
+              }
+            }
+            val diagnostic = Diagnostician.INSTANCE.validate(ts);
+            diagnostic.getSeverity() match {
+              case Diagnostic.ERROR =>
+                logger.error(s"Model has errors:")
+                val errors = diagnostic.getChildren()
+                for (error <- errors) {
+                  //            	  val node = org.eclipse.xtext.nodemodel.util.NodeModelUtils.getNode()
+                  val dataList = error.getData().headOption
+                  for (data <- dataList) {
+                    val node = org.eclipse.xtext.nodemodel.util.NodeModelUtils.getNode(data.asInstanceOf[EObject])
+                    // we show ecore errors only in debug mode
+                    //                    if (error.getSource() == "org.eclipse.emf.ecore") logger.trace(s"At line ${node.getStartLine}: ${error.getMessage()}") else {
+                    logger.error(s"${error.getMessage()}")
+                    //                    }
+                  }
+                }
+                System.exit(-1)
+              case Diagnostic.WARNING =>
+                logger.error(s"Model has warnings: $diagnostic")
+              case _ => // No problem
+            }
             logger.info(serializer.serialize(ts))
           }
         } else {
@@ -243,22 +281,6 @@ places. The intersection of two modules is empty."""),
   }
 
   def createModelToTransitionSystemTransformation(transformationName: String, clusteringFile: Option[File], withNames: Boolean) = transformationName match {
-    case "naive" => new Model2TransitionSystem {
-      type ModelType = PetriNet
-      type PreprocessedModelType = PetriNet
-
-      val file2Model = PNML2PetriNet
-      val modelPreprocessor = (m: PetriNet) => m
-      val preprocessedModel2TransitionSystem = PetriNet2TransitionSystem
-    }
-    case "naive-modular" => new Model2TransitionSystem {
-      type ModelType = PetriNet
-      type PreprocessedModelType = (List[PTModule], PetriNet)
-
-      val file2Model = PNML2PetriNet
-      val modelPreprocessor = (model: PetriNet) => (Modularizer(model), model)
-      val preprocessedModel2TransitionSystem = SetOfModules2TransitionSystem.tupled
-    }
     case "anonymized-modular" | "" =>
       clusteringFile match {
         case None =>
@@ -267,7 +289,7 @@ places. The intersection of two modules is empty."""),
             val file2Model = PNML2PetriNet
             type PreprocessedModelType = (List[List[List[Place]]], Set[Int], PetriNet)
             val modelPreprocessor = (model: PetriNet) => (modulesToLisOfSuperClusters(Modularizer(model)), Set[Int](), model)
-            val preprocessedModel2TransitionSystem = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters.tupled
+            val preprocessedModel2TransitionSystem = ListOfModules2TransitionSystem.tupled
 
             def modulesToLisOfSuperClusters(listOfModules: List[PTModule]): List[List[List[Place]]] = {
               List(listOfModules.map(_.net.places.toList.sortBy(p => (p.id, p.name))))
@@ -283,7 +305,7 @@ places. The intersection of two modules is empty."""),
               val (modules, recursiveSet) = new FileSuperModularizer(file, withNames)(model)
               (modules, recursiveSet, model)
             }
-            val preprocessedModel2TransitionSystem = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters.tupled
+            val preprocessedModel2TransitionSystem = ListOfModules2TransitionSystem.tupled
           }
 
       }

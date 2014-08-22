@@ -18,11 +18,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.transformers
 
 import scala.language.implicitConversions
-
 import org.eclipse.emf.ecore.util.EcoreUtil
-
 import com.typesafe.scalalogging.slf4j.Logging
-
 import ch.unige.cui.smv.metamodel.ts.NonVariableStrategy
 import ch.unige.cui.smv.metamodel.ts.Strategy
 import ch.unige.cui.smv.metamodel.ts.TransitionSystem
@@ -45,9 +42,12 @@ import ch.unige.cui.smv.stratagem.ts.RichTransitionSystem
 import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 import ch.unige.smv.cui.metamodel.adt.ADT
 import ch.unige.smv.cui.metamodel.adt.ATerm
+import org.eclipse.emf.ecore.util.EcoreUtil
 import ch.unige.smv.cui.metamodel.adt.AdtFactory
 import ch.unige.smv.cui.metamodel.adt.Equation
 import ch.unige.smv.cui.metamodel.adt.Signature
+import ch.unige.cui.smv.stratagem.util.StrategyMapKeyWrapper
+import ch.unige.cui.smv.metamodel.ts.VariableStrategy
 
 /**
  * This object creates represents a function that takes a set of super clusters, a petri net and some sets that are to be encoded recursively and
@@ -64,7 +64,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
   // 2.- map from strategies bodies as string to strategies names,
   // 3.- map from superCluster to strategies working on that super cluster
   // 4.- map place to position in clusters 
-  type CalculationState = (TransitionSystem, Map[String, String], Map[Int, Map[Int, Set[(Int, String)]]], Map[Place, (Int, Int, Int)])
+  type CalculationState = (TransitionSystem, Map[StrategyMapKeyWrapper, String], Map[Int, Map[Int, Set[(Int, String)]]], Map[Place, (Int, Int, Int)])
 
   def ___Saturation(v: Strategy) = DeclaredStrategyInstance("___Saturation", v)
 
@@ -159,25 +159,25 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       logger.trace(s"Did redefine strategy $name in order to have it as a fixpoint")
       (name,
         (ts.declareStrategy(name) { strategy }(isTransition),
-          strat2Name + (strategy.toString() -> name),
+          strat2Name + (StrategyMapKeyWrapper(strategy) -> name),
           superCluster2Strategies,
           place2Position))
-    } else if (strat2Name.isDefinedAt(strategy.toString())) {
-      //            logger.trace(s"Did not redefine strategy $name because it was already defined")
-      //                  (strat2Name(strategy.toString()),
-      //                    (ts,
-      //                      strat2Name,
-      //                      superCluster2Strategies,
-      //                      place2Position))
-      (name,
-        (ts.declareStrategy(name) { strategy }(isTransition),
-          strat2Name + (strategy.toString() -> name),
+    } else if (strat2Name.isDefinedAt(StrategyMapKeyWrapper(strategy))) {
+      logger.trace(s"Did not redefine strategy $name because it was already defined")
+      (strat2Name(StrategyMapKeyWrapper(strategy)),
+        (ts,
+          strat2Name,
           superCluster2Strategies,
           place2Position))
+      //      (name,
+      //        (ts.declareStrategy(name) { strategy }(isTransition),
+      //          strat2Name + (StrategyMapKeyWrapper(strategy) -> name),
+      //          superCluster2Strategies,
+      //          place2Position))
     } else {
       (name,
         (ts.declareStrategy(name) { strategy }(isTransition),
-          strat2Name + (strategy.toString() -> name),
+          strat2Name + (StrategyMapKeyWrapper(strategy) -> name),
           superCluster2Strategies,
           place2Position))
     }
@@ -190,7 +190,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
         strat2Name,
         superCluster2Strategies.updated(sClusterIndex,
           superCluster2Strategies.getOrElse(sClusterIndex, Map()).updated(
-            clusterIndex, superCluster2Strategies.getOrElse(sClusterIndex, Map()).getOrElse(clusterIndex, Set()) + Tuple2(minimalClusterOrPlace, strat2Name(tranStrategy.toString())))),
+            clusterIndex, superCluster2Strategies.getOrElse(sClusterIndex, Map()).getOrElse(clusterIndex, Set()) + Tuple2(minimalClusterOrPlace, strat2Name(StrategyMapKeyWrapper(tranStrategy))))),
           place2Position))
   })
 
@@ -339,15 +339,16 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
       strategyBody <- arcStrategyB(arc);
       res <- State((cs: CalculationState) => {
         val (ts, strat2Name, superCluster2Strategies, place2Position) = cs
-        strat2Name.lift(strategyBody.toString()) match {
+        strat2Name.lift(StrategyMapKeyWrapper(strategyBody)) match {
           case None =>
-            (DeclaredStrategyInstance(arc.id), (ts.declareStrategy(arc.id) { strategyBody }(false), strat2Name + (strategyBody.toString() -> arc.id), superCluster2Strategies, place2Position))
+            (DeclaredStrategyInstance(arc.id), (ts.declareStrategy(arc.id) { strategyBody }(false), strat2Name + (StrategyMapKeyWrapper(strategyBody) -> arc.id), superCluster2Strategies, place2Position))
           case Some(stratName) =>
             (DeclaredStrategyInstance(stratName), (ts, strat2Name, superCluster2Strategies, place2Position))
         }
       })
     ) yield res
   }
+
 
   /**
    * Takes a list of petri net modules and transforms it to a transition system.
@@ -395,10 +396,9 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
 
     val computationInitialState = (
       transSystemState.eval(initialTransitionSystem)._1,
-      Map[String, String](),
+      Map[StrategyMapKeyWrapper, String](),
       Map[Int, Map[Int, Set[(Int, String)]]](),
       placeToSClusterClusterPosition)
-
     val computation = (for (
       _ <- calculateTransitionSystem(net.transitions, recursiveToSize);
       _ <- calculateSClusterSaturationStrategies(recursiveToSize)
@@ -459,7 +459,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     case (n, strat) :: tail => {
       if (n == 0) strat
       else {
-        val nextStrat = (for (i <- 0 to (n - 1)) yield (s: Strategy) => One(s, 2): NonVariableStrategy).reduce(_ compose _)(FixPointStrategy(chainClusterSaturationStrategies(tail)))
+        def nextStrat = (for (i <- 0 to (n - 1)) yield (s: Strategy) => One(s, 2): NonVariableStrategy).reduce(_ compose _)(FixPointStrategy(chainClusterSaturationStrategies(tail)))
         Sequence(Sequence(nextStrat, Union(Identity, strat)), Union(Identity, nextStrat))
       }
     }
@@ -470,7 +470,7 @@ object SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters extends Lo
     case (n, strat) :: tail => {
       if (n == 0) strat
       else {
-        val nextStrat = (for (i <- 0 to (n - 1)) yield (s: Strategy) => One(s, 2): NonVariableStrategy).reduce(_ compose _)(FixPointStrategy(chainClusterSaturationStrategies(tail)))
+        def nextStrat = (for (i <- 0 to (n - 1)) yield (s: Strategy) => One(s, 2): NonVariableStrategy).reduce(_ compose _)(FixPointStrategy(chainPlacesSaturationStrategies(tail)))
         Sequence(Sequence(nextStrat, Union(Identity, strat)), Union(Identity, nextStrat))
       }
     }

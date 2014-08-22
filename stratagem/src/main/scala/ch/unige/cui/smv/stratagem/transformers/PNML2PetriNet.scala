@@ -64,7 +64,7 @@ object PNML2PetriNet extends Logging with ((File*) => PetriNet) {
     val transitions = (xml \ "net" \ "page" \ "transition").map(t =>
       new Transition(
         (t \ "@id").text, // extract id
-        (t \ "name" \ "text").text, // extract name
+        (t \ "name" \ "text").text.replaceAll("[^a-zA-Z_0-9]", "_"), // extract name
         // now extract the input arcs
         arcsByTarget.getOrElse((t \ "@id").text, Set.empty).map(arc =>
           new Arc((arc \ "@id").text, // extract id of the arc
@@ -84,10 +84,10 @@ object PNML2PetriNet extends Logging with ((File*) => PetriNet) {
       logger.warn("This petri net has no name")
       "anonymous petri net"
     } else if (nameList.size == 1) {
-      nameList.head.text
+      nameList.head.text.replaceAll("[^a-zA-Z_0-9]", "_")
     } else {
       logger.warn("This file has several name tags, chosing the first one")
-      nameList(1).text
+      nameList(1).text.replaceAll("[^a-zA-Z_0-9]", "_")
     }
 
   private def loadFile(input: java.io.File): scala.xml.Elem = {

@@ -433,7 +433,6 @@ public class SignatureImpl extends MinimalEObjectImpl.Container implements
 				break;
 			}
 		}
-		assert (result != null); // didn't find it :-S
 		return result;
 	}
 

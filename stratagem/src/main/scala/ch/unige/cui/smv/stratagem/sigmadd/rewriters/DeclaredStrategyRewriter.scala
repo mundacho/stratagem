@@ -110,7 +110,12 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
       override def caseVariableStrategy(v: VariableStrategy) = StrategyDSL.Not(EcoreUtil.copy(formalToActualParameterMap(v.getName())))
     }).doSwitch(strat.getS())
 
-    override def caseFixPointStrategy(strat: FixPointStrategy) = StrategyDSL.FixPointStrategy(doSwitch(strat.getS()))
+    override def caseFixPointStrategy(strat: FixPointStrategy) = {
+      if (strat.getS() == null) {
+        println()
+      }
+      StrategyDSL.FixPointStrategy(doSwitch(strat.getS()))
+    }
 
     override def caseSequence(strat: Sequence) = StrategyDSL.Sequence(doSwitch(strat.getS1()), doSwitch(strat.getS2()))
 
@@ -123,6 +128,6 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
     override def caseSimpleStrategy(strat: SimpleStrategy) = strat
 
     override def caseDeclaredStrategyInstance(strat: DeclaredStrategyInstance) = StrategyDSL.DeclaredStrategyInstance(strat.getName(), strat.getActualParams().map(instanciate(_)).toArray: _*)
-  }).doSwitch(EcoreUtil.copy(strategy)) // we use EcoreUtil.copy because otherwise we would create side effects.
+  }).doSwitch(strategy)
 
 }
