@@ -26,19 +26,27 @@ import org.eclipse.ocl.examples.pivot.OCL
 import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
 import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
 import java.io.File
-import ch.unige.cui.smv.stratagem.transformers.SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters
+import ch.unige.cui.smv.stratagem.transformers.ListOfModules2TransitionSystem
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.util.StrategyDSL._
+import org.eclipse.emf.ecore.util.Diagnostician
+import org.eclipse.emf.common.util.Diagnostic
+import scala.collection.JavaConversions._
+import org.eclipse.emf.ecore.EObject
+import ch.unige.smv.cui.metamodel.adt.AdtPackage
+import ch.unige.cui.smv.metamodel.ts.TsPackage
 
 /**
- * Tests the SetOfModules2TransitionSystem object
+ * Tests the ListOfModules2TransitionSystemTest object
  *
  * @author mundacho
  *
  */
-class SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest extends FlatSpec with Logging with BeforeAndAfter {
+class ListOfModules2TransitionSystemTest extends FlatSpec with Logging with BeforeAndAfter {
 
   before {
+    AdtPackage.eINSTANCE.eClass()
+    TsPackage.eINSTANCE.eClass()
     OCL.initialize(null);
     org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
     org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
@@ -52,7 +60,7 @@ class SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest extends
     val modularizer = new FileSuperModularizer(new File("resources/test/clustering-philo-500.txt"), true)
     val (modules, set) = modularizer(net)
     println("Modularizer finished")
-    val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, Set(0), net)
+    val ts = ListOfModules2TransitionSystem(modules, Set(0), net)
     val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val initialState = sigmaDDFactory.create(ts.getInitialState())
     logger.debug("Starting translation to SigmaDD")
@@ -67,7 +75,7 @@ class SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest extends
     val modularizer = new FileSuperModularizer(new File("resources/test/clustering-philo-5.txt"), true)
     val (modules, set) = modularizer(net)
     println("Modularizer finished")
-    val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, Set(0), net)
+    val ts = ListOfModules2TransitionSystem(modules, Set(0), net)
     val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val initialState = sigmaDDFactory.create(ts.getInitialState())
     logger.debug("Starting translation to SigmaDD")
@@ -76,14 +84,28 @@ class SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest extends
     assert(rewriter(initialState).get.size == 243)
   }
 
-  it should "be able to do Kanban-5" in {
+  it should "be able to do Kanban-5 without recursive activated" in {
     val net = PNML2PetriNet(new File("resources/test/Kanban-5.pnml"))
     val modularizer = new FileSuperModularizer(new File("resources/test/standard-kanban-sclustering.txt"), true)
     val (modules, set) = modularizer(net)
-    val ts = SetOfModules2TransitionSystemWithAnonimizationAndSuperClusters(modules, Set(0), net)
+    val ts = ListOfModules2TransitionSystem(modules, Set(), net)
+    Main.doLinking(ts)
     val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val initialState = sigmaDDFactory.create(ts.getInitialState())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
+    assert(rewriter(initialState).get.size == 2546432)
+  }
+
+  it should "be able to do Kanban-5 with recursive activated" in {
+    val net = PNML2PetriNet(new File("resources/test/Kanban-5.pnml"))
+    val modularizer = new FileSuperModularizer(new File("resources/test/standard-kanban-sclustering.txt"), true)
+    val (modules, set) = modularizer(net)
+    val ts = ListOfModules2TransitionSystem(modules, Set(0), net)
+    Main.doLinking(ts)
+    val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
+    val initialState = sigmaDDFactory.create(ts.getInitialState())
+    val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
+    println(rewriter(initialState).get.size)
     assert(rewriter(initialState).get.size == 2546432)
   }
 

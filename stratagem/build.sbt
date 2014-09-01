@@ -14,8 +14,6 @@ javaOptions in run += "-Xss16M"
 
 javaOptions in run += "-XX:+UseParallelGC"  
 
-
-
 libraryDependencies += "org.scalatest" % "scalatest_2.10" % "2.0.M8" % "test"
 
 testOptions in Test += Tests.Argument("-oD")

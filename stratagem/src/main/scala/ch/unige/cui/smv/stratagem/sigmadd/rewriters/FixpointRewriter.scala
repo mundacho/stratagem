@@ -37,7 +37,7 @@ private[sigmadd] case class FixpointRewriter(rewriter: SigmaDDRewriter, override
   }
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
-//    logger.trace(s"Entering fixpoint rewriter: ${this}")
+    logger.trace(s"Entering fixpoint rewriter: ${this}")
     logger.trace(s"Fixpoint rewriter was applied on top of term with functor: ${sigmaDD.iipf.alpha.keys.head}")
     var result = rewriter(sigmaDD)
     //    logger.trace(s"Fixpoint rewriter was applied on top of term with functor:\n" + s"${sigmaDD}")

@@ -31,5 +31,4 @@ class ModelCheckerTestSuite extends Suites(
   new ModularizerTest,
   new PNML2TransitionSystemTest,
   new SetOfModules2TransitionSystemTest,
-  new SetOfModules2TransitionSystemWithAnonimizationAndSuperClustersTest,
-  new SetOfModules2TransitionSystemWithAnonimizationTest)
+  new ListOfModules2TransitionSystemTest)

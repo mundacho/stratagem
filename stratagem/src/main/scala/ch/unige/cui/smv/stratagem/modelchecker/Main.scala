@@ -163,21 +163,7 @@ object Main extends Logging {
             val resource = resSet.createResource(URI.createURI("temp.ts")) // TODO	
             resource.getContents().add(ts)
             // we need to do the linking ourselves
-            for (declaredStrategy <- ts.getAuxiliary() ++ ts.getTransitions()) {
-              val treeIterator = EcoreUtil.getAllContents(declaredStrategy, true).asInstanceOf[TreeIterator[EObject]]
-              while (treeIterator.hasNext()) {
-                treeIterator.next() match {
-                  case s: DeclaredStrategyInstance =>
-                    s.setDeclaration(ts.getDeclaredStrategyByName(s.getName()))
-                    if (ts.getDeclaredStrategyByName(s.getName()) == null) {
-                      println(s"Usage of invalid strategy ${s.getName()} in declared strategy ${declaredStrategy.getName()}")
-                    }
-
-                  case s: SimpleStrategy => treeIterator.prune
-                  case _ => // do nothing
-                }
-              }
-            }
+            doLinking(ts)
             val diagnostic = Diagnostician.INSTANCE.validate(ts);
             diagnostic.getSeverity() match {
               case Diagnostic.ERROR =>
@@ -278,6 +264,24 @@ places. The intersection of two modules is empty."""),
       opt[Unit]("print-transition-system") abbr ("ts") action { (_, c) =>
         c.copy(transitionSystem = true)
       } text ("Print the generated transition system"))
+  }
+
+  def doLinking(ts: TransitionSystem) {
+    for (declaredStrategy <- ts.getAuxiliary() ++ ts.getTransitions()) {
+      val treeIterator = EcoreUtil.getAllContents(declaredStrategy, true).asInstanceOf[TreeIterator[EObject]]
+      while (treeIterator.hasNext()) {
+        treeIterator.next() match {
+          case s: DeclaredStrategyInstance =>
+            s.setDeclaration(ts.getDeclaredStrategyByName(s.getName()))
+            if (ts.getDeclaredStrategyByName(s.getName()) == null) {
+              println(s"Usage of invalid strategy ${s.getName()} in declared strategy ${declaredStrategy.getName()}")
+            }
+
+          case s: SimpleStrategy => treeIterator.prune
+          case _ => // do nothing
+        }
+      }
+    }
   }
 
   def createModelToTransitionSystemTransformation(transformationName: String, clusteringFile: Option[File], withNames: Boolean) = transformationName match {

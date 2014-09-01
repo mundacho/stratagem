@@ -139,11 +139,13 @@ object ListOfModules2TransitionSystem extends Logging with ((List[List[List[Plac
       addCheckFunction(SClusterDef)(i)
       addCheckBiggerFunction(SClusterDef)(i, maxSClusters)
       addApplyForStrategies(SClusterDef)(i)
+      addFixPointStrategies(SClusterDef)(i)
     }
     for (i <- 0 to maxClusters) {
       addCheckFunction(ClusterDef)(i)
       addCheckBiggerFunction(ClusterDef)(i, maxClusters)
       addApplyForStrategies(ClusterDef)(i)
+      addFixPointStrategies(ClusterDef)(i)
     }
     for (i <- 0 to maxPlaces) {
       addCheckFunction(PlaceDef)(i)
@@ -197,39 +199,24 @@ object ListOfModules2TransitionSystem extends Logging with ((List[List[List[Plac
 
     val possibleSClusterLevels = (sCluster2Cluster.keys ++ sClusterLevel2Transition.keys).toSet // to set to remove duplicates
     var lastCalculatedSClusterLevel = possibleSClusterLevels.max
-    for (sClusterLevel <- possibleSClusterLevels.toList.sortWith(_ > _)) {
+    for (sClusterLevel <- possibleSClusterLevels.toList.sortWith(_ > _)) yield {
       val sClusterLevelName = SClusterDef.levelStratName + s"_${sClusterLevel}"
       val possibleClusterLevels = ((sCluster2Cluster.getOrElse(sClusterLevel, Map()).keys ++ sCluster2Cluster.getOrElse(sClusterLevel, Map[Int, Map[Int, String]]()).getOrElse(-1, Map[Int, String]()).map(_._1)).filter(_ != -1)).toSet // to set to remove duplicates
       var lastCalculatedClusterLevel = if (possibleClusterLevels.isEmpty) 0 else possibleClusterLevels.max
       val distance2nextSClusterLevel = lastCalculatedSClusterLevel - sClusterLevel
-      val superClusterFixPointStrat = if (possibleClusterLevels.isEmpty) None else {
-        for (clusterLevel <- possibleClusterLevels.toList.sortWith(_ > _)) {
+      val superClusterFixPointStrat = if (possibleClusterLevels.isEmpty) {
+        None
+      } else if (recursiveSet contains sClusterLevel) { // we have a recursive scluster
+        // there are transitions in this cluster since possibleClusterLevels is not empty
+        Some(RecursiveHelper.recursiveSuperClusterFixPointStrategy(sClusterLevel, sCluster2Cluster(sClusterLevel) - (-1), if (sCluster2Cluster(sClusterLevel).isDefinedAt(-1)) sCluster2Cluster(sClusterLevel)(-1).map(_._2) else Set(), recursiveToSize(sClusterLevel), ""))
+      } else {
+        for (clusterLevel <- possibleClusterLevels.toList.sortWith(_ > _)) yield {
           val clusterLevelName = ClusterDef.levelStratName + s"_${sClusterLevel}_${clusterLevel}"
           val distance2nextClusterLevel = lastCalculatedClusterLevel - clusterLevel
-          val fixPointStratForThisLevel = sCluster2Cluster(sClusterLevel).lift(clusterLevel) match {
-            case None => None
-            case Some(setOfTuples) =>
-              val groupedStrategies = setOfTuples.groupBy(_._1)
-              var lastCalculatedPlaceLevel = groupedStrategies.keys.max
-              for (placeLevel <- groupedStrategies.keys.toList.sortWith(_ > _)) {
-                val distance2nextPlaceLevel = lastCalculatedPlaceLevel - placeLevel
-                val placeLevelName = PlaceDef.levelStratName + s"_${sClusterLevel}_${clusterLevel}_${placeLevel}"
-                if (distance2nextPlaceLevel == 0) { // this is the last strategy
-                  declareStrategy(placeLevelName) {
-                    groupedStrategies(placeLevel).map(e => Union(Identity, Try(DeclaredStrategyInstance(e._2)))).reduce((a, b) => Union(a, b))
-                  }(false)
-                } else {
-                  val currentStrat = groupedStrategies(placeLevel).map(e => Union(Identity, Try(DeclaredStrategyInstance(e._2)))).reduce((a, b) => Union(a, b))
-                  def nextPlaceStrat = (for (i <- 0 to (distance2nextPlaceLevel - 1)) yield (s: Strategy) => One(s, 2): NonVariableStrategy).reduce(_ compose _)(FixPointStrategy(PlaceDef.levelStrat(sClusterLevel, clusterLevel, lastCalculatedPlaceLevel)))
-                  declareStrategy(placeLevelName) {
-                    Sequence(Sequence(nextPlaceStrat, currentStrat), Union(Identity, nextPlaceStrat))
-                  }(false)
-                }
-                lastCalculatedPlaceLevel = placeLevel
-              }
-              if (lastCalculatedPlaceLevel == 0) Some(FixPointStrategy(Union(Identity, PlaceDef.levelStrat(sClusterLevel, clusterLevel, lastCalculatedPlaceLevel))))
-              else Some((for (i <- 0 to (lastCalculatedPlaceLevel - 1)) yield (s: Strategy) => One(s, 2): NonVariableStrategy).reduce(_ compose _)(FixPointStrategy(Union(Identity, PlaceDef.levelStrat(sClusterLevel, clusterLevel, lastCalculatedPlaceLevel)))))
-          }
+          val fixPointStratForThisLevel = for (
+            setOfTuples <- sCluster2Cluster(sClusterLevel).lift(clusterLevel);
+            result <- clusterFixpointStrategy(sClusterLevel, clusterLevel, setOfTuples)
+          ) yield result
           val clusterLevelStrategies = sCluster2Cluster(sClusterLevel).getOrElse(-1, Set()).filter(_._1 == clusterLevel)
           val clusterLevelStrat = if (clusterLevelStrategies.isEmpty) None else Some(clusterLevelStrategies.map(e => Union(Identity, Try(DeclaredStrategyInstance(e._2)))).reduce((a, b) => Union(a, b)))
           if (fixPointStratForThisLevel == None && clusterLevelStrat == None) None
@@ -309,16 +296,12 @@ object ListOfModules2TransitionSystem extends Logging with ((List[List[List[Plac
     }
   }
 
-  def saveStrategyWithName(name: String, strategy: NonVariableStrategy, isTransition: Boolean)(implicit cs: ComputationState): String =
-    if (cs.strat2Name.isDefinedAt(StrategyMapKeyWrapper(strategy))) {
-      logger.trace(s"Did not redefine strategy $name because it was already defined")
-      cs.strat2Name(StrategyMapKeyWrapper(strategy))
-    } else {
-      implicit val ts = cs.ts
-      declareStrategy(name) { strategy }(isTransition)
-      cs.strat2Name.put(StrategyMapKeyWrapper(strategy), name)
-      name
-    }
+  def saveStrategyWithName(name: String, strategy: NonVariableStrategy, isTransition: Boolean)(implicit cs: ComputationState): String = {
+    implicit val ts = cs.ts
+    declareStrategy(name) { strategy }(isTransition)
+    cs.strat2Name.put(StrategyMapKeyWrapper(strategy), name)
+    name
+  }
 
   def chainStrategiesFor(structure: StructureDef, strategies: List[(NonVariableStrategy, Int)]): NonVariableStrategy = strategies match {
     case Nil => Identity
@@ -427,6 +410,29 @@ object ListOfModules2TransitionSystem extends Logging with ((List[List[List[Plac
     val strat = TsFactory.eINSTANCE.createVariableStrategy()
     strat.setName("Q")
     strat
+  }
+
+  private[transformers] def clusterFixpointStrategy(sClusterLevel: Int, clusterLevel: Int, setOfTuples: Set[(Int, String)])(implicit ts: TransitionSystem) = {
+    val groupedStrategies = setOfTuples.groupBy(_._1)
+    var lastCalculatedPlaceLevel = groupedStrategies.keys.max
+    for (placeLevel <- groupedStrategies.keys.toList.sortWith(_ > _)) {
+      val distance2nextPlaceLevel = lastCalculatedPlaceLevel - placeLevel
+      val placeLevelName = PlaceDef.levelStratName + s"_${sClusterLevel}_${clusterLevel}_${placeLevel}"
+      if (distance2nextPlaceLevel == 0) { // this is the last strategy
+        declareStrategy(placeLevelName) {
+          groupedStrategies(placeLevel).map(e => Union(Identity, Try(DeclaredStrategyInstance(e._2)))).reduce((a, b) => Union(a, b))
+        }(false)
+      } else {
+        val currentStrat = groupedStrategies(placeLevel).map(e => Union(Identity, Try(DeclaredStrategyInstance(e._2)))).reduce((a, b) => Union(a, b))
+        def nextPlaceStrat = (for (i <- 0 to (distance2nextPlaceLevel - 1)) yield (s: Strategy) => One(s, 2): NonVariableStrategy).reduce(_ compose _)(FixPointStrategy(PlaceDef.levelStrat(sClusterLevel, clusterLevel, lastCalculatedPlaceLevel)))
+        declareStrategy(placeLevelName) {
+          Sequence(Sequence(nextPlaceStrat, currentStrat), Union(Identity, nextPlaceStrat))
+        }(false)
+      }
+      lastCalculatedPlaceLevel = placeLevel
+    }
+    if (lastCalculatedPlaceLevel == 0) Some(FixPointStrategy(Union(Identity, PlaceDef.levelStrat(sClusterLevel, clusterLevel, lastCalculatedPlaceLevel))))
+    else Some((for (i <- 0 to (lastCalculatedPlaceLevel - 1)) yield (s: Strategy) => One(s, 2): NonVariableStrategy).reduce(_ compose _)(FixPointStrategy(Union(Identity, PlaceDef.levelStrat(sClusterLevel, clusterLevel, lastCalculatedPlaceLevel)))))
   }
 
 }
