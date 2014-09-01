@@ -33,8 +33,6 @@ import ch.unige.smv.cui.metamodel.adt.Equation
  */
 class RichTransitionSystem(val ts: TransitionSystem) {
 
-  implicit def declaredStrategy2RichDeclaredStrategy(declaredStrat: DeclaredStrategy) = new RichDeclaredStrategy(declaredStrat)
-
   /**
    * Returns a transition system with a declared strategy that uses this
    * equation.

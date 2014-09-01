@@ -17,8 +17,19 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.util
 
-import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats
+import scala.collection.JavaConversions._
+
+import org.eclipse.emf.common.util.Diagnostic
+import org.eclipse.emf.common.util.TreeIterator
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.util.Diagnostician
+import org.eclipse.emf.ecore.util.EcoreUtil
+
 import com.typesafe.scalalogging.slf4j.Logging
+
+import ch.unige.cui.smv.metamodel.ts.DeclaredStrategyInstance
+import ch.unige.cui.smv.metamodel.ts.SimpleStrategy
+import ch.unige.cui.smv.metamodel.ts.TransitionSystem
 
 /**
  * @author mundacho
@@ -36,4 +47,51 @@ object AuxFunctions extends Logging {
     logger.debug("Total memory used: " + Runtime.getRuntime().totalMemory() / 1048576 + "[MB]")
     result
   }
+
+  /**
+   * Does the diagnostics of a transition system. For it to work it is necessary to do the linking first when is a manually created transition system.
+   * @param ts the transtion system
+   */
+  def doDiagnostics(ts: TransitionSystem) = {
+    def returnDiagnosticsAsListOfString(diagnostic: Diagnostic) = {
+      val errors = diagnostic.getChildren()
+      (for (error <- errors) yield {
+        //            	  val node = org.eclipse.xtext.nodemodel.util.NodeModelUtils.getNode()
+        val dataList = error.getData().headOption
+        for (
+          data <- dataList;
+          if (error.getSource() != "org.eclipse.emf.ecore")
+        ) yield {
+          val node = org.eclipse.xtext.nodemodel.util.NodeModelUtils.getNode(data.asInstanceOf[EObject])
+          (if (node != null) s"At line ${node.getStartLine}" else "") + s"${error.getMessage()}"
+        }
+      }).toList.collect({ case Some(e) => e })
+    }
+    val diagnostic = Diagnostician.INSTANCE.validate(ts);
+    diagnostic.getSeverity() match {
+      case Diagnostic.ERROR =>
+        throw new IllegalTransitionSystemException(returnDiagnosticsAsListOfString(diagnostic))
+      case Diagnostic.WARNING =>
+        throw new IllegalTransitionSystemException(returnDiagnosticsAsListOfString(diagnostic))
+      case _ => List() // No problem
+    }
+  }
+
+  def doLinking(ts: TransitionSystem) {
+    for (declaredStrategy <- ts.getAuxiliary() ++ ts.getTransitions()) {
+      val treeIterator = EcoreUtil.getAllContents(declaredStrategy, true).asInstanceOf[TreeIterator[EObject]]
+      while (treeIterator.hasNext()) {
+        treeIterator.next() match {
+          case s: DeclaredStrategyInstance =>
+            s.setDeclaration(ts.getDeclaredStrategyByName(s.getName()))
+            if (ts.getDeclaredStrategyByName(s.getName()) == null) {
+              throw new IllegalTransitionSystemException(List(s"Usage of invalid strategy ${s.getName()} in declared strategy ${declaredStrategy.getName()}"))
+            }
+          case s: SimpleStrategy => treeIterator.prune
+          case _ => // do nothing
+        }
+      }
+    }
+  }
+
 }

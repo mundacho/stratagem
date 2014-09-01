@@ -19,16 +19,47 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.ts
 
 import org.scalatest.FlatSpec
-import ch.unige.smv.cui.metamodel.adt.AdtFactory
-import ch.unige.smv.cui.metamodel.adt.Signature
-import ch.unige.smv.cui.metamodel.adt.ATerm
-import ch.unige.smv.cui.metamodel.adt.ADT
-import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
-import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 import ch.unige.cui.smv.metamodel.ts.Strategy
+import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
+import ch.unige.cui.smv.stratagem.util.StrategyDSL.Choice
+import ch.unige.cui.smv.stratagem.util.StrategyDSL.DeclaredStrategyInstance
+import ch.unige.cui.smv.stratagem.util.StrategyDSL.Identity
+import ch.unige.cui.smv.stratagem.util.StrategyDSL.One
+import ch.unige.cui.smv.stratagem.util.StrategyDSL.Sequence
+import ch.unige.cui.smv.stratagem.util.StrategyDSL.TransitionSystem
+import ch.unige.cui.smv.stratagem.util.StrategyDSL.Union
+import ch.unige.cui.smv.stratagem.util.StrategyDSL.VariableStrategy
+import ch.unige.cui.smv.stratagem.util.StrategyDSL.transitionSystem2RichTransitionSystem
+import ch.unige.smv.cui.metamodel.adt.ATerm
+import ch.unige.smv.cui.metamodel.adt.AdtFactory
+import ch.unige.cui.smv.stratagem.modelchecker.Main
+import ch.unige.cui.smv.stratagem.util.AuxFunctions
+import ch.unige.cui.smv.stratagem.util.IllegalTransitionSystemException
+import org.scalatest.BeforeAndAfter
+import ch.unige.smv.cui.metamodel.adt.AdtPackage
+import ch.unige.cui.smv.metamodel.ts.TsPackage
+import org.eclipse.ocl.examples.pivot.OCL
+import org.eclipse.ocl.examples.xtext.oclinecore.OCLinEcoreStandaloneSetup
+import org.eclipse.ocl.examples.xtext.oclstdlib.OCLstdlibStandaloneSetup
+import ch.unige.cui.smv.stratagem.xtext.TransitionSystemDslStandaloneSetup
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.common.util.URI
 
-  // scalastyle:off number.of.methods
-class TransitionSystemTest extends FlatSpec {
+// scalastyle:off number.of.methods
+class TransitionSystemTest extends FlatSpec with BeforeAndAfter {
+
+  before {
+    AdtPackage.eINSTANCE.eClass()
+    TsPackage.eINSTANCE.eClass()
+
+    val injector = (new TransitionSystemDslStandaloneSetup()).createInjectorAndDoEMFRegistration();
+    OCL.initialize(null);
+    org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
+    org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
+    OCLinEcoreStandaloneSetup.doSetup()
+    OCLstdlibStandaloneSetup.doSetup()
+  }
+
   // scalastyle:on
   "A transition system" should "allow to declare strategies" in {
     val signature = AdtFactory.eINSTANCE.createSignature()
@@ -45,7 +76,7 @@ class TransitionSystemTest extends FlatSpec {
       .withGenerator("emptytable", "ph")
       .withGenerator("philo", "ph", "state", "fork", "ph")
 
-    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
+    val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a }
       .declareVariable("x", "fork")
       .declareVariable("p", "ph")
       .declareVariable("s", "state")
@@ -90,7 +121,7 @@ class TransitionSystemTest extends FlatSpec {
       .withGenerator("emptytable", "ph")
       .withGenerator("philo", "ph", "state", "fork", "ph")
 
-    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
+    val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a }
       .declareVariable("x", "fork")
       .declareVariable("p", "ph")
       .declareVariable("s", "state")
@@ -119,7 +150,7 @@ class TransitionSystemTest extends FlatSpec {
     def DoForAllPhil(s: Strategy) = DeclaredStrategyInstance("doForAllPhil", s)
     def DoForLastPhil(s: Strategy) = DeclaredStrategyInstance("doForLastPhil", s)
 
-    var ts = ( TransitionSystem(adt, philo(thinking, forkFree, philo(thinking, forkFree, philo(thinking, forkFree, emptytable)))))
+    var ts = (TransitionSystem(adt, philo(thinking, forkFree, philo(thinking, forkFree, philo(thinking, forkFree, emptytable)))))
       .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
       .declareStrategy("takeRightForkFromWaitingPhilo", philo(waiting, forkFree, P) -> philo(waitingForLeftFork, forkUsed, P))(false)
       .declareStrategy("takeRightForkFromWaitingForRightForkPhilo", philo(waitingForRightFork, forkFree, P) -> philo(eating, forkUsed, P))(false)
@@ -145,17 +176,19 @@ class TransitionSystemTest extends FlatSpec {
       .withSort("ph")
       .withGenerator("p0", "ph")
 
-    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
+    val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a }
 
-    val S1 = VariableStrategy("S1")
+    def S1 = VariableStrategy("S1")
 
     def Try(s: Strategy) = DeclaredStrategyInstance("try", s)
-    val e = intercept[IllegalArgumentException] {
-      val ts =  TransitionSystem(adt, adt.term("p0"))
-        .declareStrategy("newStrategy", S1) { Try(S1) } { false }
-    }
-    assert(e.getMessage().endsWith(RichDeclaredStrategy.errorMessageStringNotDefined.format("try")))
+    val ts = TransitionSystem(adt, adt.term("p0"))
+      .declareStrategy("newStrategy", S1) { Try(S1) } { false }
 
+    val e = intercept[IllegalTransitionSystemException] {
+      AuxFunctions.doLinking(ts)
+      AuxFunctions.doDiagnostics(ts)
+    }
+    assert(e.errors.head.startsWith("Usage of invalid strategy try in declared strategy newStrategy"))
   }
 
   "A transition system" should "not allow to use a strategy with the wrong number of parameters" in {
@@ -163,16 +196,21 @@ class TransitionSystemTest extends FlatSpec {
       .withSort("ph")
       .withGenerator("p0", "ph")
 
-    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
+    val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a }
 
     def S1 = VariableStrategy("S1")
+    def S2 = VariableStrategy("S2")
 
-    val e = intercept[IllegalArgumentException] {
-      val ts =  TransitionSystem(adt, adt.term("p0"))
-        .declareStrategy("try", S1) { Identity }(false)
-        .declareStrategy("newStrategy", S1) { DeclaredStrategyInstance("try", S1, S1) } { false }
+    val ts = TransitionSystem(adt, adt.term("p0"))
+      .declareStrategy("try", S1) { Identity }(false)
+      .declareStrategy("newStrategy", S1) { DeclaredStrategyInstance("try", S1, S2) } { false }
+      .declareStrategy("trans") { Identity } { true }
+
+    val e = intercept[IllegalTransitionSystemException] {
+      AuxFunctions.doLinking(ts)
+      AuxFunctions.doDiagnostics(ts)
     }
-    assert(e.getMessage().endsWith(RichDeclaredStrategy.errorBadNumberOfParameters.format("try", 1, 2)))
+    assert(e.errors.head.startsWith("Invalid number of parameters for strategy try. Required Set{1}, found Set{2}"))
   }
 
   "A transition system" should "not allow to define a strategy that uses a variable that is not exatly the same as that used in its definition." in {
@@ -180,17 +218,26 @@ class TransitionSystemTest extends FlatSpec {
       .withSort("ph")
       .withGenerator("p0", "ph")
 
-    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
+    val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a }
 
     def S1 = VariableStrategy("S1")
     def S2 = VariableStrategy("S2")
 
-    val e = intercept[IllegalArgumentException] {
-      val ts =  TransitionSystem(adt, adt.term("p0"))
-        .declareStrategy("try", S1) { Identity }(false)
-        .declareStrategy("newStrategy", S1) { DeclaredStrategyInstance("try", S2) } { false }
+    val ts = TransitionSystem(adt, adt.term("p0"))
+      .declareStrategy("try", S1) { Identity }(false)
+      .declareStrategy("newStrategy", S1) { DeclaredStrategyInstance("try", S2) } { false }
+      .declareStrategy("newStrategy2") { Identity } { true }
+
+    // this is necessary to activate xtext checks (for some reason :-S)
+    val resSet = new ResourceSetImpl()
+    val resource = resSet.createResource(URI.createURI("temp.ts"))
+    resource.getContents().add(ts)
+    val e = intercept[IllegalTransitionSystemException] {
+      AuxFunctions.doLinking(ts)
+      AuxFunctions.doDiagnostics(ts)
     }
-    assert(e.getMessage().endsWith(RichDeclaredStrategy.errorInvalidVariable.format(S2.getName())))
+    println(e.errors)
+    assert(e.errors.head.endsWith("Strategy variable name 'S2' is not in declaration"))
   }
 
   "A transition system" should "not allow to declare twice a strategy with the same name" in {
@@ -208,7 +255,7 @@ class TransitionSystemTest extends FlatSpec {
       .withGenerator("emptytable", "ph")
       .withGenerator("philo", "ph", "state", "fork", "ph")
 
-    val adt = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
+    val adt = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a }
       .declareVariable("x", "fork")
       .declareVariable("p", "ph")
       .declareVariable("s", "state")
@@ -228,7 +275,7 @@ class TransitionSystemTest extends FlatSpec {
     def F = adt.term("f")
     def philo(state: ATerm, fork: ATerm, ph: ATerm) = adt.term("philo", state, fork, ph)
     intercept[IllegalArgumentException] {
-      val ts = ( TransitionSystem(adt, philo(thinking, forkFree, philo(thinking, forkFree, philo(thinking, forkFree, emptytable))))
+      val ts = (TransitionSystem(adt, philo(thinking, forkFree, philo(thinking, forkFree, philo(thinking, forkFree, emptytable))))
         .declareStrategy("goToWaitPhilo", philo(thinking, X, P) -> philo(waiting, X, P))(false)
         .declareStrategy("goToWaitPhilo", philo(waiting, forkFree, P) -> philo(waitingForLeftFork, forkUsed, P))(false))
     }
@@ -239,8 +286,8 @@ class TransitionSystemTest extends FlatSpec {
       .withSort("ph")
       .withGenerator("p0", "ph")
 
-    val adt1 = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
-    val adt2 = {val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a}
+    val adt1 = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a }
+    val adt2 = { val a = AdtFactory.eINSTANCE.createADT(); a.setName("philoModel"); a.setSignature(signature); a }
 
     intercept[IllegalArgumentException] {
       val ts = (TransitionSystem(adt1, adt2.term("p0")))

@@ -21,9 +21,11 @@ import java.io.File
 import org.slf4j.Logger
 import com.typesafe.scalalogging.slf4j.Logging
 import ch.qos.logback.classic.Level
+import ch.unige.cui.smv.stratagem.util.IllegalTransitionSystemException
 import ch.unige.cui.smv.stratagem.sigmadd.SigmaDDFactoryImpl
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewriterFactory
 import ch.unige.cui.smv.stratagem.util.AuxFunctions.timeAndSpace
+import ch.unige.cui.smv.stratagem.util.AuxFunctions
 import ch.unige.cui.smv.stratagem.sigmadd.rewriters.SigmaDDRewritingCacheStats.stats
 import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 import ch.unige.cui.smv.stratagem.transformers.Model2TransitionSystem
@@ -103,28 +105,9 @@ object Main extends Logging {
 
         val ts = resource.getContents().get(0).asInstanceOf[TransitionSystem];
         if (resource.getErrors().isEmpty()) {
-          val diagnostic = Diagnostician.INSTANCE.validate(ts);
-          diagnostic.getSeverity() match {
-            case Diagnostic.ERROR =>
-              logger.error(s"Model has errors:")
-              val errors = diagnostic.getChildren()
-              for (error <- errors) {
-                //            	  val node = org.eclipse.xtext.nodemodel.util.NodeModelUtils.getNode()
-                val dataList = error.getData().headOption
-                for (data <- dataList) {
-                  val node = org.eclipse.xtext.nodemodel.util.NodeModelUtils.getNode(data.asInstanceOf[EObject])
-                  // we show ecore errors only in debug mode
-                  if (error.getSource() == "org.eclipse.emf.ecore") logger.trace(s"At line ${node.getStartLine}: ${error.getMessage()}") else {
-                    logger.error(s"At line ${node.getStartLine}: ${error.getMessage()}")
-                  }
-                }
-              }
-              System.exit(-1)
-            case Diagnostic.WARNING =>
-              logger.error(s"Model has warnings: $diagnostic")
-            case _ => // No problem
+          try {
+            AuxFunctions.doDiagnostics(ts)
           }
-
           logger.trace(s"Finished loading")
           val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
           val initialState = sigmaDDFactory.create(ts.getInitialState())
@@ -160,35 +143,31 @@ object Main extends Logging {
             val serializer = injector.getInstance(classOf[Serializer]);
             // we need to create a resourse to be able to serialize :-S
             val resSet = new ResourceSetImpl()
-            val resource = resSet.createResource(URI.createURI("temp.ts")) // TODO	
+            val resource = resSet.createResource(URI.createURI("temp.ts"))
             resource.getContents().add(ts)
             // we need to do the linking ourselves
-            doLinking(ts)
-            val diagnostic = Diagnostician.INSTANCE.validate(ts);
-            diagnostic.getSeverity() match {
-              case Diagnostic.ERROR =>
-                logger.error(s"Model has errors:")
-                val errors = diagnostic.getChildren()
-                for (error <- errors) {
-                  //            	  val node = org.eclipse.xtext.nodemodel.util.NodeModelUtils.getNode()
-                  val dataList = error.getData().headOption
-                  for (data <- dataList) {
-                    val node = org.eclipse.xtext.nodemodel.util.NodeModelUtils.getNode(data.asInstanceOf[EObject])
-                    // we show ecore errors only in debug mode
-                    //                    if (error.getSource() == "org.eclipse.emf.ecore") logger.trace(s"At line ${node.getStartLine}: ${error.getMessage()}") else {
-                    logger.error(s"${error.getMessage()}")
-                    //                    }
-                  }
-                }
-                System.exit(-1)
-              case Diagnostic.WARNING =>
-                logger.error(s"Model has warnings: $diagnostic")
-              case _ => // No problem
-            }
+            AuxFunctions.doLinking(ts)
+            AuxFunctions.doDiagnostics(ts)
             logger.info(serializer.serialize(ts))
           }
         } else {
           val ts = model2ts(config.model)
+          val resSet = new ResourceSetImpl()
+          val resource = resSet.createResource(URI.createURI("temp.ts"))
+          resource.getContents().add(ts)
+          // we need to do the linking ourselves
+          try {
+            AuxFunctions.doLinking(ts)
+            AuxFunctions.doDiagnostics(ts)
+          } catch {
+            case t: IllegalTransitionSystemException =>
+              logger.error("There are errors in the generated transition system")
+              for (error <- t.errors) {
+                logger.error(error)
+              }
+              System.exit(-1)
+          }
+
           if (config.transitionSystem) {
             logger.info(ts.toString)
           }
@@ -264,24 +243,6 @@ places. The intersection of two modules is empty."""),
       opt[Unit]("print-transition-system") abbr ("ts") action { (_, c) =>
         c.copy(transitionSystem = true)
       } text ("Print the generated transition system"))
-  }
-
-  def doLinking(ts: TransitionSystem) {
-    for (declaredStrategy <- ts.getAuxiliary() ++ ts.getTransitions()) {
-      val treeIterator = EcoreUtil.getAllContents(declaredStrategy, true).asInstanceOf[TreeIterator[EObject]]
-      while (treeIterator.hasNext()) {
-        treeIterator.next() match {
-          case s: DeclaredStrategyInstance =>
-            s.setDeclaration(ts.getDeclaredStrategyByName(s.getName()))
-            if (ts.getDeclaredStrategyByName(s.getName()) == null) {
-              println(s"Usage of invalid strategy ${s.getName()} in declared strategy ${declaredStrategy.getName()}")
-            }
-
-          case s: SimpleStrategy => treeIterator.prune
-          case _ => // do nothing
-        }
-      }
-    }
   }
 
   def createModelToTransitionSystemTransformation(transformationName: String, clusteringFile: Option[File], withNames: Boolean) = transformationName match {

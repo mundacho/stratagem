@@ -35,6 +35,7 @@ import scala.collection.JavaConversions._
 import org.eclipse.emf.ecore.EObject
 import ch.unige.smv.cui.metamodel.adt.AdtPackage
 import ch.unige.cui.smv.metamodel.ts.TsPackage
+import ch.unige.cui.smv.stratagem.util.AuxFunctions
 
 /**
  * Tests the ListOfModules2TransitionSystemTest object
@@ -89,7 +90,7 @@ class ListOfModules2TransitionSystemTest extends FlatSpec with Logging with Befo
     val modularizer = new FileSuperModularizer(new File("resources/test/standard-kanban-sclustering.txt"), true)
     val (modules, set) = modularizer(net)
     val ts = ListOfModules2TransitionSystem(modules, Set(), net)
-    Main.doLinking(ts)
+    AuxFunctions.doLinking(ts)
     val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val initialState = sigmaDDFactory.create(ts.getInitialState())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
@@ -101,7 +102,7 @@ class ListOfModules2TransitionSystemTest extends FlatSpec with Logging with Befo
     val modularizer = new FileSuperModularizer(new File("resources/test/standard-kanban-sclustering.txt"), true)
     val (modules, set) = modularizer(net)
     val ts = ListOfModules2TransitionSystem(modules, Set(0), net)
-    Main.doLinking(ts)
+    AuxFunctions.doLinking(ts)
     val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
     val initialState = sigmaDDFactory.create(ts.getInitialState())
     val rewriter = sigmaDDFactory.rewriterFactory.transitionSystemToStateSpaceRewriterWithSaturation(ts, Identity, 2)
