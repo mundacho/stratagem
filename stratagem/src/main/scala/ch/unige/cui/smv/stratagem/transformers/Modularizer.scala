@@ -131,16 +131,24 @@ object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
     resultAsList
   }
 
-  def calculateModuleDistance(modules: Set[PTModule], net: PetriNet) = Map((for (
-    m1 <- modules;
-    m2 <- modules;
-    if (m1 != m2)
-  ) yield if (net.transitions.exists(t => {
-    val allArcs = (t.inputArcs ++ t.outputArcs)
-    allArcs.exists(a => (m1.net.places contains a.place)) && allArcs.exists(a => (m2.net.places contains a.place))
-  }))
-    (Set(m1, m2), 1)
-  else (Set(m1, m2), 0)).toList: _*)
+  def calculateModuleDistance(modules: Set[PTModule], net: PetriNet) = {
+    logger.debug("Calculating pairs")
+    val transitionModulePairs = for {
+      t <- net.transitions
+      allPlaces = (t.inputArcs ++ t.outputArcs).map(_.place)
+      m <- modules
+      if (allPlaces.exists(p => m.net.places contains p))
+    } yield (t, m)
+    val transition2SetOfModules = transitionModulePairs.groupBy(_._1)
+    val pairs = for {t <- transition2SetOfModules.keys
+    	 init <- transition2SetOfModules(t).inits
+    	 if (!init.isEmpty)
+    	 m1 = init.head
+    	 m2 <- init.tail
+    } yield (Set(m1._2, m2._2), 1)
+    logger.debug("Finished calculating pairs")
+    Map(pairs.toList: _*)
+  }
 
   def isFireable(module: PTModule, net: PetriNet) = net.transitions.exists(t => t.inputArcs.forall(iArc => ((module.net.places contains iArc.place) && iArc.place.initialMarking >= iArc.annotation)))
 
