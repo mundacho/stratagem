@@ -124,35 +124,43 @@ object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
     var resultAsList = firstModule :: Nil
     unorderedResult -= firstModule
     val numberOfModules = unorderedResult.size + 1
+    var currentListOfSuccessors: List[PTModule] = Nil
     while (resultAsList.size != numberOfModules) {
       // the successor is the module with most connection to the last one
-      val orderedListOfSuccessors = unorderedResult.view.map(m => (pairOfModules2ModuleDistance.getOrElse((Set(m, resultAsList.head)), 0), m)).toList.sortWith((a, b) => a._1 > b._1)
+      if (currentListOfSuccessors.isEmpty) {
+        currentListOfSuccessors = unorderedResult.view.map(m => (pairOfModules2ModuleDistance.getOrElse((Set(m, resultAsList.head)), 0), m)).toList.sortWith((a, b) => a._1 > b._1).filter(_._1 > 0).map(_._2)
+        if (currentListOfSuccessors.isEmpty) {
+          currentListOfSuccessors = unorderedResult.head::Nil
+        }
+      }
       // for the successors that are directly connected
 
-      resultAsList = orderedListOfSuccessors.head._2 :: resultAsList
-      unorderedResult -= orderedListOfSuccessors.head._2 // we remove the module from unordered result
+      resultAsList = currentListOfSuccessors.head :: resultAsList
+      unorderedResult -= currentListOfSuccessors.head // we remove the module from unordered result
+      currentListOfSuccessors = currentListOfSuccessors.tail
     }
     resultAsList
   }
 
   def calculateModuleDistance(modules: Set[PTModule], net: PetriNet) = {
-    logger.debug("Calculating pairs")
-    val transitionModulePairs = for {
+    val transition2Modules = scala.collection.mutable.Map[Transition, Set[PTModule]]()
+    for {
       t <- net.transitions
       allPlaces = t.arcs.map(_.place)
       m <- modules
       if (allPlaces.exists(p => m.net.places contains p))
-    } yield (t, m)
-    val transition2SetOfModules = transitionModulePairs.groupBy(_._1)
-    val pairs = for {
-      t <- transition2SetOfModules.keys
-      init <- transition2SetOfModules(t).inits
-      if (!init.isEmpty)
-      m1 = init.head
-      m2 <- init.tail
-    } yield (Set(m1._2, m2._2), 1)
-    logger.debug("Finished calculating pairs")
-    Map(pairs.toList: _*)
+    } {
+      transition2Modules.update(t, transition2Modules.getOrElse(t, Set()) + m)
+    }
+
+    val result = scala.collection.mutable.Map[Set[PTModule], Int]()
+    for (
+      connectedModules <- transition2Modules.values;
+      combination <- connectedModules.toList.combinations(2)
+    ) {
+      result.update(combination.toSet, 1)
+    }
+    Map(result.toList: _*)
   }
 
   def isFireable(module: PTModule, net: PetriNet) = net.transitions.exists(t => t.inputArcs.forall(iArc => ((module.net.places contains iArc.place) && iArc.place.initialMarking >= iArc.annotation)))
@@ -163,12 +171,11 @@ object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
     val transition2Modules = scala.collection.mutable.Map[Transition, Set[PTModule]]()
     var module2Transition = scala.collection.mutable.Map[PTModule, Set[Transition]]()
     var function2Minimize = scala.collection.mutable.Map[PTModule, Set[PTModule]]()
-    val placeModuleCache = scala.collection.mutable.Map[(Place, PTModule), Boolean]()
     for {
       t <- net.transitions
       allPlaces = t.arcs.map(_.place)
       m <- modules
-      if (allPlaces.exists(p => placeModuleCache.getOrElseUpdate((p, m), m.net.places contains p)))
+      if (allPlaces.exists(p => m.net.places contains p))
     } {
       transition2Modules.update(t, transition2Modules.getOrElse(t, Set()) + m)
       module2Transition.update(m, module2Transition.getOrElse(m, Set()) + t)
