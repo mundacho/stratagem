@@ -27,6 +27,8 @@ import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
+import ch.unige.cui.smv.stratagem.petrinets.Transition
+import ch.unige.cui.smv.stratagem.petrinets.PetriNet
 
 /**
  * This object encapsulates a method to transform a petri net in to a modular petri net automatically.
@@ -80,7 +82,7 @@ object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
     logger.trace(s"Number places after removing overlapping modules ${newModules.map(_.net.places).reduce(_ ++ _).toSet.size}")
     logger.trace(s"Number of transitions after removing overlapping modules ${newModules.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
     // for each place, we decide in which cluster it goes
-    var unorderedResult = removeDuplicatedPlaces(net.places, newModules)
+    var unorderedResult = removeDuplicatedPlaces(net, newModules)
     logger.trace(s"Number places before returning ${unorderedResult.map(_.net.places).reduce(_ ++ _).toSet.size}")
     logger.trace(s"Number of transitions before returning ${unorderedResult.map(_.net.transitions).reduce(_ ++ _).toSet.size}")
     logger.trace(s"Number of modules before returning ${unorderedResult.size}")
@@ -125,6 +127,8 @@ object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
     while (resultAsList.size != numberOfModules) {
       // the successor is the module with most connection to the last one
       val orderedListOfSuccessors = unorderedResult.view.map(m => (pairOfModules2ModuleDistance.getOrElse((Set(m, resultAsList.head)), 0), m)).toList.sortWith((a, b) => a._1 > b._1)
+      // for the successors that are directly connected
+
       resultAsList = orderedListOfSuccessors.head._2 :: resultAsList
       unorderedResult -= orderedListOfSuccessors.head._2 // we remove the module from unordered result
     }
@@ -135,16 +139,17 @@ object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
     logger.debug("Calculating pairs")
     val transitionModulePairs = for {
       t <- net.transitions
-      allPlaces = (t.inputArcs ++ t.outputArcs).map(_.place)
+      allPlaces = t.arcs.map(_.place)
       m <- modules
       if (allPlaces.exists(p => m.net.places contains p))
     } yield (t, m)
     val transition2SetOfModules = transitionModulePairs.groupBy(_._1)
-    val pairs = for {t <- transition2SetOfModules.keys
-    	 init <- transition2SetOfModules(t).inits
-    	 if (!init.isEmpty)
-    	 m1 = init.head
-    	 m2 <- init.tail
+    val pairs = for {
+      t <- transition2SetOfModules.keys
+      init <- transition2SetOfModules(t).inits
+      if (!init.isEmpty)
+      m1 = init.head
+      m2 <- init.tail
     } yield (Set(m1._2, m2._2), 1)
     logger.debug("Finished calculating pairs")
     Map(pairs.toList: _*)
@@ -152,30 +157,114 @@ object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
 
   def isFireable(module: PTModule, net: PetriNet) = net.transitions.exists(t => t.inputArcs.forall(iArc => ((module.net.places contains iArc.place) && iArc.place.initialMarking >= iArc.annotation)))
 
-  private def removeDuplicatedPlaces(places: Set[Place], modules: Set[PTModule]): (Set[PTModule]) = {
+  private def removeDuplicatedPlaces(net: PetriNet, modules: Set[PTModule]): (Set[PTModule]) = {
+    val places = net.places
     var newModules = modules
+    val transition2Modules = scala.collection.mutable.Map[Transition, Set[PTModule]]()
+    var module2Transition = scala.collection.mutable.Map[PTModule, Set[Transition]]()
+    var function2Minimize = scala.collection.mutable.Map[PTModule, Set[PTModule]]()
+    val placeModuleCache = scala.collection.mutable.Map[(Place, PTModule), Boolean]()
+    for {
+      t <- net.transitions
+      allPlaces = t.arcs.map(_.place)
+      m <- modules
+      if (allPlaces.exists(p => placeModuleCache.getOrElseUpdate((p, m), m.net.places contains p)))
+    } {
+      transition2Modules.update(t, transition2Modules.getOrElse(t, Set()) + m)
+      module2Transition.update(m, module2Transition.getOrElse(m, Set()) + t)
+    }
+
+    for (
+      set <- transition2Modules.values;
+      combination <- set.toList.combinations(2)
+    ) {
+      function2Minimize.update(combination.head, function2Minimize.getOrElse(combination.head, Set()) + combination.tail.head)
+      function2Minimize.update(combination.tail.head, function2Minimize.getOrElse(combination.tail.head, Set()) + combination.head)
+    }
+
     places.foreach { p =>
       // we group all the modules that share this place by their ranking of how good are they as modules
-      val modulesForThisPlace = newModules.filter(_.net.places.contains(p)).groupBy(m => m.innerPlaces.size.toDouble / m.net.places.size).toList.sortWith(_._1 > _._1)
-      // we take the first element
-      if (modulesForThisPlace.size > 0) {
-        // we remove the place from all elements of the first element's tail, if any
-        modulesForThisPlace.head._2.tail.foreach { m =>
-          newModules -= m
-          val newPlaces = m.net.places - p
-          val theNewModule = m.copy(net = m.net.copy(places = newPlaces), innerPlaces = m.innerPlaces - p, outputPlaces = m.outputPlaces - p, inputPlaces = m.inputPlaces - p)
-          if (newPlaces != Set.empty) newModules += theNewModule
-        }
-        // we remove the places for all elements of the tail, if any
-        modulesForThisPlace.tail.foreach { e =>
-          e._2.foreach { m =>
-            newModules -= m
+      val modForThisPlace = newModules.filter(_.net.places.contains(p))
+      if (modForThisPlace.size > 1) {
+        val modulesForThisPlace = modForThisPlace.groupBy(m => m.innerPlaces.size.toDouble / m.net.places.size).toList.sortWith(_._1 > _._1)
+        // we take the first element
+        if (modulesForThisPlace.size > 0) {
+          // we need to find the best modules to keep the place
+          var moduleToBeKept: PTModule = modulesForThisPlace.head._2.head
+          var bestScore = Int.MaxValue
+          var toBeKeptFunction2Minimize = function2Minimize
+          var toBeKeptlModule2Transition = module2Transition
+          //        var toBeKeptTransition2Module = scala.collection.mutable.Map[Transition, Set[PTModule]]()
+          // we search the best module to keep the place
+          for (updatableModule <- modulesForThisPlace.head._2) {
+            val localFunction2Minimize = scala.collection.mutable.Map[PTModule, Set[PTModule]]() ++ function2Minimize
+            val localModule2Transition = scala.collection.mutable.Map[PTModule, Set[Transition]]() ++ module2Transition
+            //          val localTransition2Module = scala.collection.mutable.Map[Transition, Set[PTModule]]() ++ transition2Modules
+            // we remove the place from all other possible modules and modify the function to optimize accordingly
+            modulesForThisPlace.head._2.filter(_ != updatableModule).foreach { m =>
+              val newPlaces = m.net.places - p
+              val theNewModule = m.copy(net = m.net.copy(places = newPlaces), innerPlaces = m.innerPlaces - p, outputPlaces = m.outputPlaces - p, inputPlaces = m.inputPlaces - p)
+              localFunction2Minimize.update(theNewModule, Set())
+              // update the function to minimize to reflect that this m doesn't exist
+              for (moduleConnectedToM <- localFunction2Minimize(m)) {
+                // first we disconnect
+                localFunction2Minimize.update(moduleConnectedToM, localFunction2Minimize(moduleConnectedToM) - m)
+                // check if the module is still connected to theNewModule
+                // we reconnect them only if they are still connected
+                for (t <- localModule2Transition(moduleConnectedToM)) {
+                  val allPlaces = t.arcs.map(_.place)
+                  if (allPlaces.exists(p => theNewModule.net.places contains p)) { // if there is one transition that connects them
+                    localFunction2Minimize.update(moduleConnectedToM, localFunction2Minimize(moduleConnectedToM) + theNewModule)
+                    localFunction2Minimize.update(theNewModule, localFunction2Minimize.getOrElse(theNewModule, Set()) + moduleConnectedToM)
+                    localModule2Transition.update(theNewModule, localModule2Transition.getOrElse(theNewModule, Set()) + t)
+                  }
+                }
+              }
+              localFunction2Minimize.remove(m)
+            }
+            val score = localFunction2Minimize.map(_._2.size).reduce(_ + _)
+            if (score < bestScore) {
+              bestScore = score
+              toBeKeptFunction2Minimize = localFunction2Minimize
+              toBeKeptlModule2Transition = localModule2Transition
+              moduleToBeKept = updatableModule
+            }
+          }
+          modulesForThisPlace.head._2.filter(_ != moduleToBeKept).foreach { m =>
             val newPlaces = m.net.places - p
             val theNewModule = m.copy(net = m.net.copy(places = newPlaces), innerPlaces = m.innerPlaces - p, outputPlaces = m.outputPlaces - p, inputPlaces = m.inputPlaces - p)
-            val unorderedPairOfModules = Set(theNewModule, modulesForThisPlace.head._2.head)
-            val oldDistancePair = Set(m, modulesForThisPlace.head._2.head)
-            if (newPlaces != Set.empty) newModules += theNewModule
+            newModules -= m
+            newModules += theNewModule
           }
+          modulesForThisPlace.tail.foreach { e =>
+            e._2.foreach { m =>
+              newModules -= m
+              val newPlaces = m.net.places - p
+              val theNewModule = m.copy(net = m.net.copy(places = newPlaces), innerPlaces = m.innerPlaces - p, outputPlaces = m.outputPlaces - p, inputPlaces = m.inputPlaces - p)
+              val unorderedPairOfModules = Set(theNewModule, modulesForThisPlace.head._2.head)
+              val oldDistancePair = Set(m, modulesForThisPlace.head._2.head)
+              if (newPlaces != Set.empty) newModules += theNewModule
+
+              for (moduleConnectedToM <- toBeKeptFunction2Minimize(m)) {
+                // first we disconnect
+                toBeKeptFunction2Minimize.update(moduleConnectedToM, toBeKeptFunction2Minimize(moduleConnectedToM) - m)
+                // check if the module is still connected to theNewModule
+                // we reconnect them only if they are still connected
+                for (t <- toBeKeptlModule2Transition(moduleConnectedToM)) {
+                  val allPlaces = t.arcs.map(_.place)
+                  if (allPlaces.exists(p => theNewModule.net.places contains p)) { // if there is one transition that connects them
+                    toBeKeptFunction2Minimize.update(moduleConnectedToM, toBeKeptFunction2Minimize(moduleConnectedToM) + theNewModule)
+                    toBeKeptFunction2Minimize.update(theNewModule, toBeKeptFunction2Minimize.getOrElse(theNewModule, Set()) + moduleConnectedToM)
+                    toBeKeptlModule2Transition.update(theNewModule, toBeKeptlModule2Transition.getOrElse(theNewModule, Set()) + t)
+                  }
+                }
+              }
+              toBeKeptFunction2Minimize.remove(m)
+
+            }
+          }
+          function2Minimize = toBeKeptFunction2Minimize
+          module2Transition = toBeKeptlModule2Transition
         }
       }
     }
