@@ -29,6 +29,7 @@ import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.petrinets.Transition
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
+import ch.unige.cui.smv.stratagem.util.AlphaNumOrdering
 
 /**
  * This object encapsulates a method to transform a petri net in to a modular petri net automatically.
@@ -130,7 +131,7 @@ object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
       if (currentListOfSuccessors.isEmpty) {
         currentListOfSuccessors = unorderedResult.view.map(m => (pairOfModules2ModuleDistance.getOrElse((Set(m, resultAsList.head)), 0), m)).toList.sortWith((a, b) => a._1 > b._1).filter(_._1 > 0).map(_._2)
         if (currentListOfSuccessors.isEmpty) {
-          currentListOfSuccessors = unorderedResult.head::Nil
+          currentListOfSuccessors = unorderedResult.head :: Nil
         }
       }
       // for the successors that are directly connected
@@ -189,7 +190,7 @@ object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
       function2Minimize.update(combination.tail.head, function2Minimize.getOrElse(combination.tail.head, Set()) + combination.head)
     }
 
-    places.foreach { p =>
+    places.toList.sorted(AlphaNumOrdering).foreach { p =>
       // we group all the modules that share this place by their ranking of how good are they as modules
       val modForThisPlace = newModules.filter(_.net.places.contains(p))
       if (modForThisPlace.size > 1) {

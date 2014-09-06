@@ -59,6 +59,7 @@ import ch.unige.cui.smv.metamodel.ts.TsPackage
 import scala.collection.JavaConversions._
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.common.util.TreeIterator
+import ch.unige.cui.smv.stratagem.util.AlphaNumOrdering
 
 /**
  * The main class of stratagem. It is used to launch the model checker.
@@ -257,7 +258,7 @@ places. The intersection of two modules is empty."""),
             val preprocessedModel2TransitionSystem = ListOfModules2TransitionSystem.tupled
 
             def modulesToLisOfSuperClusters(listOfModules: List[PTModule]): List[List[List[Place]]] = {
-              List(listOfModules.map(_.net.places.toList.sortBy(p => (p.id, p.name))))
+              List(listOfModules.map(_.net.places.toList.sorted(AlphaNumOrdering)))
             }
 
           }
