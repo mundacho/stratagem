@@ -60,6 +60,17 @@ class TransitionSystemDslScopeProvider extends AbstractDeclarativeScopeProvider 
 			variable.adt = (container as TransitionSystem).adt
 		} else if (container instanceof ATerm) {
 			variable.adt = (container as ATerm).adt
+		} else if (container instanceof Equation) {
+			val superContainer = (container as Equation).eContainer
+			if (superContainer instanceof ADT) {
+				variable.adt = superContainer as ADT
+			} else { // we can be anywhere in the strategies tree, we go up
+			 	var superSuperContainer = superContainer.eContainer
+				while (!(superSuperContainer instanceof TransitionSystem)) {
+					superSuperContainer = superSuperContainer.eContainer
+				}
+				variable.adt = (superSuperContainer as TransitionSystem).adt
+			}
 		}
 		scopeFor(variable.adt.variables, nameProvider, IScope.NULLSCOPE)
 	}
