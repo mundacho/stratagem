@@ -29,4 +29,7 @@ package ch.unige.cui.smv.stratagem.petrinets
  */
 case class Transition(val id: String, val name: String, val inputArcs: Set[Arc], val outputArcs: Set[Arc]) {
   lazy val arcs = inputArcs ++ outputArcs
+  
+  override val hashCode = (id, name, inputArcs, outputArcs).hashCode()
+  
 }

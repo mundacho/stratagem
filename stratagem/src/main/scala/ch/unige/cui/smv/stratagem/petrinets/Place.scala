@@ -30,5 +30,5 @@ package ch.unige.cui.smv.stratagem.petrinets
 case class Place(val id: String, val name: String, val initialMarking: Int) {
   require(initialMarking >= 0, s"Invalid initial marking for place $id with name $name")
   
-  override val hashCode = id.hashCode
+  override val hashCode = (id, name).hashCode
 }
