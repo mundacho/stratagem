@@ -11,7 +11,7 @@ You can download the binaries from [here](https://sourceforge.net/projects/strat
 Features
 ========
 
-Stratagem v0.4 can perform the following tasks:
+Stratagem v0.4.1 can perform the following tasks:
 
 - Read transition systems in its own langauge (.ts) directly from the a text file and perform its state space calculation. You can see an example of a transition system file [here](https://github.com/mundacho/stratagem/blob/master/stratagem/resources/philo.ts)
 - Read a Place/Transition Petri net and calculate its state space.
@@ -35,12 +35,12 @@ Requirements
 
 To run stratagem you need:
 
-- Java 1.6 or later
+- Java 1.7 or later
 
 To compile stratagem you need:
 
 - sbt 0.13.5
-- Java 1.6 or later
+- Java 1.7 or later
 
 Documentation
 =============
