@@ -237,7 +237,7 @@ class TransitionSystemTest extends FlatSpec with BeforeAndAfter {
       AuxFunctions.doDiagnostics(ts)
     }
     println(e.errors)
-    assert(e.errors.head.endsWith("Strategy variable name 'S2' is not in declaration"))
+    assert(e.errors.head.endsWith("Strategy variable name 'S2' is not in declaration. If you wanted to use a declared strategy you need to append parentheses to it, like this: S2()"))
   }
 
   "A transition system" should "not allow to declare twice a strategy with the same name" in {

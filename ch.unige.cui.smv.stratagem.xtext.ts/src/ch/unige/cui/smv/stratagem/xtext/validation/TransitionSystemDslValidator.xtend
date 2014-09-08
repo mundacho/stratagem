@@ -112,7 +112,7 @@ class TransitionSystemDslValidator extends AbstractTransitionSystemDslValidator 
 
 	def dispatch checkStratForRightVariableNames(VariableStrategy v, Set<String> variableNames) {
 		if (!variableNames.contains(v.name)) {
-			error("Strategy variable name \'" + v.name + "\' is not in declaration. If you wanted to use a declared strategy you need to append parentheses to it,	 like this: " + v.name + "()",
+			error("Strategy variable name \'" + v.name + "\' is not in declaration. If you wanted to use a declared strategy you need to append parentheses to it, like this: " + v.name + "()",
 				TsPackage.Literals.DECLARED_STRATEGY__BODY)
 		}
 	}
