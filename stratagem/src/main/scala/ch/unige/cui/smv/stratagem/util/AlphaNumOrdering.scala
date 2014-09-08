@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ch.unige.cui.smv.stratagem.util
 
 import ch.unige.cui.smv.stratagem.petrinets.Place
+import ch.unige.cui.smv.stratagem.petrinets.PTModule
 
 /**
  * @author mundacho
@@ -26,4 +27,9 @@ import ch.unige.cui.smv.stratagem.petrinets.Place
 object AlphaNumOrdering extends Ordering[Place] {
   val comparator = new AlphanumComparator();
   def compare(a: Place, b: Place) = comparator.compare(a.name, b.name)
+}
+
+object AlphaNumOrderingModule extends Ordering[PTModule] {
+  val comparator = new AlphanumComparator();
+  def compare(a: PTModule, b: PTModule) = comparator.compare(a.toString, b.toString)
 }

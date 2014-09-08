@@ -16,20 +16,22 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package ch.unige.cui.smv.stratagem.transformers
+
 import com.typesafe.scalalogging.slf4j.Logging
 import ch.unige.cui.smv.stratagem.petrinets.PTModule
+import ch.unige.cui.smv.stratagem.petrinets.PTModule
+import ch.unige.cui.smv.stratagem.petrinets.PTModule
+import ch.unige.cui.smv.stratagem.petrinets.PTModule
+import ch.unige.cui.smv.stratagem.petrinets.PTModule
+import ch.unige.cui.smv.stratagem.petrinets.PTModule
+import ch.unige.cui.smv.stratagem.petrinets.PTModule
+import ch.unige.cui.smv.stratagem.petrinets.PetriNet
+import ch.unige.cui.smv.stratagem.petrinets.PetriNet
 import ch.unige.cui.smv.stratagem.petrinets.PetriNet
 import ch.unige.cui.smv.stratagem.petrinets.Place
-import ch.unige.cui.smv.stratagem.petrinets.PTModule
-import ch.unige.cui.smv.stratagem.petrinets.PetriNet
-import ch.unige.cui.smv.stratagem.petrinets.PTModule
-import ch.unige.cui.smv.stratagem.petrinets.PTModule
-import ch.unige.cui.smv.stratagem.petrinets.PTModule
-import ch.unige.cui.smv.stratagem.petrinets.PTModule
-import ch.unige.cui.smv.stratagem.petrinets.PTModule
 import ch.unige.cui.smv.stratagem.petrinets.Transition
-import ch.unige.cui.smv.stratagem.petrinets.PetriNet
 import ch.unige.cui.smv.stratagem.util.AlphaNumOrdering
+import ch.unige.cui.smv.stratagem.util.AlphaNumOrderingModule
 
 /**
  * This object encapsulates a method to transform a petri net in to a modular petri net automatically.
@@ -117,9 +119,9 @@ object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
     val pairOfModules2ModuleDistance: Map[Set[PTModule], Int] = calculateModuleDistance(modules, net)
 
     // the last module has to be one that has an internal fireable 
-    val firstModule = modules.find(m => isFireable(m, net)) match {
-      case Some(s) => s
-      case None => unorderedResult.head
+    val firstModule = modules.toList.filter(m => isFireable(m, net)) match {
+      case Nil => unorderedResult.toList.sorted(AlphaNumOrderingModule).reverse.head
+      case l => l.sorted(AlphaNumOrderingModule).reverse.head
     }
 
     var resultAsList = firstModule :: Nil
@@ -129,7 +131,7 @@ object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
     while (resultAsList.size != numberOfModules) {
       // the successor is the module with most connection to the last one
       if (currentListOfSuccessors.isEmpty) {
-        currentListOfSuccessors = unorderedResult.view.map(m => (pairOfModules2ModuleDistance.getOrElse((Set(m, resultAsList.head)), 0), m)).toList.sortWith((a, b) => a._1 > b._1).filter(_._1 > 0).map(_._2)
+        currentListOfSuccessors = unorderedResult.view.map(m => (pairOfModules2ModuleDistance.getOrElse((Set(m, resultAsList.head)), 0), m)).toList.sortWith((a, b) => a._1 > b._1).filter(_._1 > 0).map(_._2).sorted(AlphaNumOrderingModule).reverse
         if (currentListOfSuccessors.isEmpty) {
           currentListOfSuccessors = unorderedResult.head :: Nil
         }

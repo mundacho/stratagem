@@ -45,7 +45,7 @@ class ModularizerTest extends FlatSpec with Logging {
   it should "find the right number of modules in simple load balancer" in {
     val net = PNML2PetriNet(new File("resources/test/simple_lbs-5.pnml"))
     val modules = Modularizer(net)
-    assert(modules.size == 19)
+    assert(modules.size == 20)
   }
 
 }
