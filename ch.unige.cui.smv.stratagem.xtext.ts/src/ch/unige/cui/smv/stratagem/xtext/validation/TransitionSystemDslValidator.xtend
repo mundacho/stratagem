@@ -35,31 +35,31 @@ import org.eclipse.xtext.validation.Check
 class TransitionSystemDslValidator extends AbstractTransitionSystemDslValidator {
 	@Check
 	def checkForNonLinearRules(Equation eq) {
-		checkNoNonLinearRules(eq.leftHandTerm, new HashSet<VariableDeclaration>(), eq, AdtPackage.Literals.EQUATION__LEFT_HAND_TERM)
-		checkNoNonLinearRules(eq.rightHandTerm, new HashSet<VariableDeclaration>(), eq, AdtPackage.Literals.EQUATION__RIGHT_HAND_TERM)
+		checkNoNonLinearRules(eq.leftHandTerm, new HashSet<VariableDeclaration>(), eq,
+			AdtPackage.Literals.EQUATION__LEFT_HAND_TERM)
+		checkNoNonLinearRules(eq.rightHandTerm, new HashSet<VariableDeclaration>(), eq,
+			AdtPackage.Literals.EQUATION__RIGHT_HAND_TERM)
 	}
 
 	def dispatch checkNoNonLinearRules(Variable v, Set<VariableDeclaration> varSet, Equation eq, EReference ref) {
 		if (varSet.contains(v.declaration)) {
-			error("Non linear rules are not allowed in equations: " + eq,	ref)
+			error("Non linear rules are not allowed in equations: " + eq, ref)
 		} else {
 			varSet.add(v.declaration)
 		}
 	}
-	
+
 	def dispatch checkNoNonLinearRules(Term t, Set<VariableDeclaration> varSet, Equation eq, EReference ref) {
 		for (subterm : t.subterms) {
 			checkNoNonLinearRules(subterm, varSet, eq, ref)
 		}
-	}	
+	}
 
 	@Check
-	def checkDeclaredStrategyUsesOnlyDefinedVariables(DeclaredStrategy ds) {
+	def checkDeclaredStrategyUsesOnlyDefinedVariablesAndNoNotIsBadlyUsed(DeclaredStrategy ds) {
 		val setVariableStratNames = ds.formalParams.map[variableStrat|variableStrat.name].toSet
-		if (!setVariableStratNames.empty) {
-			if (ds.body != null) {
-				checkStratForRightVariableNames(ds.body, setVariableStratNames)
-			}
+		if (ds.body != null) {
+			checkStratForRightVariableNames(ds.body, setVariableStratNames)
 		}
 	}
 
@@ -105,14 +105,14 @@ class TransitionSystemDslValidator extends AbstractTransitionSystemDslValidator 
 		checkStratForRightVariableNames(strat.s1, variableNames)
 		checkStratForRightVariableNames(strat.s2, variableNames)
 	}
-	
+
 	def dispatch checkStratForRightVariableNames(NonVariableStrategy strat, Set<String> variableNames) {
 		// nothing
-	} 
+	}
 
 	def dispatch checkStratForRightVariableNames(VariableStrategy v, Set<String> variableNames) {
 		if (!variableNames.contains(v.name)) {
-			error("Strategy variable name \'" + v.name + "\' is not in declaration",
+			error("Strategy variable name \'" + v.name + "\' is not in declaration. If you wanted to use a declared strategy you need to append parentheses to it,	 like this: " + v.name + "()",
 				TsPackage.Literals.DECLARED_STRATEGY__BODY)
 		}
 	}

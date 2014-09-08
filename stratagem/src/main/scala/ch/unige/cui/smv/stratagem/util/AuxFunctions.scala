@@ -63,7 +63,7 @@ object AuxFunctions extends Logging {
           if (error.getSource() != "org.eclipse.emf.ecore")
         ) yield {
           val node = org.eclipse.xtext.nodemodel.util.NodeModelUtils.getNode(data.asInstanceOf[EObject])
-          (if (node != null) s"At line ${node.getStartLine}" else "") + s"${error.getMessage()}"
+          (if (node != null) s"At line ${node.getStartLine}: " else "") + s"${error.getMessage()}"
         }
       }).toList.collect({ case Some(e) => e })
     }

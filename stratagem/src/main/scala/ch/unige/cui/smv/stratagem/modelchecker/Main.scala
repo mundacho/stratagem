@@ -87,13 +87,13 @@ object Main extends Logging {
       // register ADT and TS: WARNING must be done before creating the injector!!
       AdtPackage.eINSTANCE.eClass()
       TsPackage.eINSTANCE.eClass()
-      val injector = (new TransitionSystemDslStandaloneSetup()).createInjectorAndDoEMFRegistration();
       // ocl registration
       org.eclipse.ocl.examples.pivot.OCL.initialize(null);
       org.eclipse.ocl.examples.pivot.model.OCLstdlib.install();
       org.eclipse.ocl.examples.pivot.delegate.OCLDelegateDomain.initialize(null)
       OCLinEcoreStandaloneSetup.doSetup()
       OCLstdlibStandaloneSetup.doSetup()
+      val injector = (new TransitionSystemDslStandaloneSetup()).createInjectorAndDoEMFRegistration();
       if (config.mode == "transition-system") {
 
         logger.trace("Finished OCL registration")
@@ -108,6 +108,11 @@ object Main extends Logging {
         if (resource.getErrors().isEmpty()) {
           try {
             AuxFunctions.doDiagnostics(ts)
+          } catch {
+            case t: IllegalTransitionSystemException => for (line <- t.errors) {
+              logger.error(line)
+            }
+            System.exit(-1)
           }
           logger.trace(s"Finished loading")
           val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
