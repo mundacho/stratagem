@@ -1,50 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Stratagem : Stratagem - DD- and rewriting strategies- based model checker">
+    <title>Stratagem by mundacho</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Stratagem</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
+    <div class="wrapper">
+      <header>
+        <h1>Stratagem</h1>
+        <p>Stratagem - DD- and rewriting strategies- based model checker</p>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/mundacho/stratagem">View on GitHub</a>
+        <p class="view"><a href="https://github.com/mundacho/stratagem">View the Project on GitHub <small>mundacho/stratagem</small></a></p>
 
-          <h1 id="project_title">Stratagem</h1>
-          <h2 id="project_tagline">Stratagem - DD- and rewriting strategies- based model checker</h2>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/mundacho/stratagem/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/mundacho/stratagem/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+        <ul>
+          <li><a href="https://github.com/mundacho/stratagem/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/mundacho/stratagem/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/mundacho/stratagem">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
         <h1>
-<a name="description" class="anchor" href="#description"><span class="octicon octicon-link"></span></a>Description</h1>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h1>
 
 <p>StrataGEM (Strategy Generic Extensible Modelchecker) is a tool aimed at the analysis of Petri nets and other models of concurrency by means of symbolic model-checking techniques. StrataGEM marries the well know concepts of Term Rewriting (TR) to the efficiency of Decision Diagrams (DDs). TR systems are a great way to describe the semantics of a system, being readable and compact, but their direct implementation tends to be rather slow on large sets of terms. On the other hand, DDs have demonstrated their efficiency for model-checking, but translating a system semantics into efficient DDs operations is an expert’s matter. StrataGEM describes the semantics of a system in terms of strategies over a TR system, and automatically translates these rules into operations on DD to handle the model-checking. The ultimate goal of StrataGEM is to become a verification framework for the different variants of Petri nets by separating the semantics of the model from the computation that performs model-checking.</p>
 
 <h1>
-<a name="binary-distribution" class="anchor" href="#binary-distribution"><span class="octicon octicon-link"></span></a>Binary distribution</h1>
+<a id="citation" class="anchor" href="#citation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Citation</h1>
+
+<p>If you want to cite stratagem in your papers, please use the following citation:</p>
+
+<pre><code>@conference {17,
+  title = {StrataGEM: A Generic Petri Net Verification Framework},
+  booktitle = {Proceedings of the 35th International Conference on Application and Theory of Petri Nets and Concurrency},
+  year = {2014},
+  month = {06/2014},
+  publisher = {Springer},
+  organization = {Springer},
+  address = {Tunis, Tunisia},
+  abstract = {In this paper we present the Strategy Generic Extensible Modelchecker (StrataGEM), a tool aimed at the analysis of Petri nets and other models of concurrency by means of symbolic model-checking techniques. StrataGEM marries the well know concepts of Term Rewrit- ing (TR) to the efficiency of Decision Diagrams (DDs). TR systems are a great way to describe the semantics of a system, being readable and com- pact, but their direct implementation tends to be rather slow on large sets of terms. On the other hand, DDs have demonstrated their efficiency for model-checking, but translating a system semantics into efficient DDs operations is an expert{\textquoteright}s matter. StrataGEM describes the semantics of a system in terms of strategies over a TR system, and automatically trans- lates these rules into operations on DD to handle the model-checking. The ultimate goal of StrataGEM is to become a verification framework for the different variants of Petri nets by separating the semantics of the model from the computation that performs model-checking.},
+  url = {http://edmundo.lopezbobeda.net/sites/default/files/pdfs/petrinets2014.pdf},
+  author = {L{\'o}pez B{\'o}beda, Edmundo and Maximilien Colange and Didier Buchs},
+  editor = {Gianfranco Ciardo and Ekkart Kindler}
+}
+</code></pre>
+
+<p>For word users it looks like this:
+<img src="https://raw.githubusercontent.com/mundacho/stratagem/master/stratagem/resources/citation.png" alt="Edmundo López Bóbeda and Maximilien Colange and Didier Buchs, StrataGEM: A Generic Petri Net Verification Framework " title="Citation in word format"></p>
+
+<h1>
+<a id="binary-distribution" class="anchor" href="#binary-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Binary distribution</h1>
 
 <p>You can download the binaries from <a href="https://sourceforge.net/projects/stratagem-mc/">here</a>.</p>
 
 <h1>
-<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h1>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h1>
 
-<p>Stratagem v0.4 can perform the following tasks:</p>
+<p>Stratagem v0.4.2 can perform the following tasks:</p>
 
 <ul>
 <li>Read transition systems in its own langauge (.ts) directly from the a text file and perform its state space calculation. You can see an example of a transition system file <a href="https://github.com/mundacho/stratagem/blob/master/stratagem/resources/philo.ts">here</a>
@@ -54,8 +74,11 @@
 <li>Transform a P/T Petri net into a rewriting based transition system.</li>
 <li>Use different strategies to speed up the calculation of the state space. In particular it can use anonymization and saturation.</li>
 <li>Read a clustering file to optimize the state space generation.</li>
-</ul><h1>
-<a name="input-formats" class="anchor" href="#input-formats"><span class="octicon octicon-link"></span></a>Input formats</h1>
+<li>Write the terms of the state space (warning: There can be a lot of terms in the state space!)</li>
+</ul>
+
+<h1>
+<a id="input-formats" class="anchor" href="#input-formats" aria-hidden="true"><span class="octicon octicon-link"></span></a>Input formats</h1>
 
 <p>The following input formats are supported:</p>
 
@@ -64,34 +87,35 @@
 <li>
 <a href="http://www.pnml.org">PNML</a> for P/T nets</li>
 <li>DiViNe. In the current version the divine formalism can only be used via API.</li>
-</ul><h1>
-<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h1>
+</ul>
+
+<h1>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h1>
 
 <p>To run stratagem you need:</p>
 
 <ul>
-<li>Java 1.6 or later</li>
-</ul><p>To compile stratagem you need:</p>
+<li>Java 1.7 or later</li>
+</ul>
+
+<p>To compile stratagem you need:</p>
 
 <ul>
 <li>sbt 0.13.5</li>
-<li>Java 1.6 or later</li>
-</ul><h1>
-<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h1>
+<li>Java 1.7 or later</li>
+</ul>
+
+<h1>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h1>
 
 <p>ScalaDoc is available <a href="http://alpina.unige.ch/jenkins/job/stratagem/javadoc/?#package">here</a>.</p>
       </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Stratagem maintained by <a href="https://github.com/mundacho">mundacho</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/mundacho">mundacho</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
-
+    <script src="javascripts/scale.fix.js"></script>
     
-
   </body>
 </html>
