@@ -3,6 +3,29 @@ Description
 
 StrataGEM (Strategy Generic Extensible Modelchecker) is a tool aimed at the analysis of Petri nets and other models of concurrency by means of symbolic model-checking techniques. StrataGEM marries the well know concepts of Term Rewriting (TR) to the efficiency of Decision Diagrams (DDs). TR systems are a great way to describe the semantics of a system, being readable and compact, but their direct implementation tends to be rather slow on large sets of terms. On the other hand, DDs have demonstrated their efficiency for model-checking, but translating a system semantics into efficient DDs operations is an expert’s matter. StrataGEM describes the semantics of a system in terms of strategies over a TR system, and automatically translates these rules into operations on DD to handle the model-checking. The ultimate goal of StrataGEM is to become a verification framework for the different variants of Petri nets by separating the semantics of the model from the computation that performs model-checking.
 
+Citation
+========
+
+If you want to cite stratagem in your papers, please use the following citation:
+
+    @conference {17,
+      title = {StrataGEM: A Generic Petri Net Verification Framework},
+      booktitle = {Proceedings of the 35th International Conference on Application and Theory of Petri Nets and Concurrency},
+      year = {2014},
+      month = {06/2014},
+      publisher = {Springer},
+      organization = {Springer},
+      address = {Tunis, Tunisia},
+      abstract = {In this paper we present the Strategy Generic Extensible Modelchecker (StrataGEM), a tool aimed at the analysis of Petri nets and other models of concurrency by means of symbolic model-checking techniques. StrataGEM marries the well know concepts of Term Rewrit- ing (TR) to the efficiency of Decision Diagrams (DDs). TR systems are a great way to describe the semantics of a system, being readable and com- pact, but their direct implementation tends to be rather slow on large sets of terms. On the other hand, DDs have demonstrated their efficiency for model-checking, but translating a system semantics into efficient DDs operations is an expert{\textquoteright}s matter. StrataGEM describes the semantics of a system in terms of strategies over a TR system, and automatically trans- lates these rules into operations on DD to handle the model-checking. The ultimate goal of StrataGEM is to become a verification framework for the different variants of Petri nets by separating the semantics of the model from the computation that performs model-checking.},
+      url = {http://edmundo.lopezbobeda.net/sites/default/files/pdfs/petrinets2014.pdf},
+      author = {L{\'o}pez B{\'o}beda, Edmundo and Maximilien Colange and Didier Buchs},
+      editor = {Gianfranco Ciardo and Ekkart Kindler}
+    }
+
+For word users it looks like this:
+![Edmundo López Bóbeda and Maximilien Colange and Didier Buchs, StrataGEM: A Generic Petri Net Verification Framework ](https://raw.githubusercontent.com/mundacho/stratagem/master/stratagem/resources/citation.png "Citation in word format")
+
+
 Binary distribution
 ===================
 
