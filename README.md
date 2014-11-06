@@ -11,7 +11,7 @@ You can download the binaries from [here](https://sourceforge.net/projects/strat
 Features
 ========
 
-Stratagem v0.4.1 can perform the following tasks:
+Stratagem v0.4.2 can perform the following tasks:
 
 - Read transition systems in its own langauge (.ts) directly from the a text file and perform its state space calculation. You can see an example of a transition system file [here](https://github.com/mundacho/stratagem/blob/master/stratagem/resources/philo.ts)
 - Read a Place/Transition Petri net and calculate its state space.
@@ -19,6 +19,7 @@ Stratagem v0.4.1 can perform the following tasks:
 - Transform a P/T Petri net into a rewriting based transition system.
 - Use different strategies to speed up the calculation of the state space. In particular it can use anonymization and saturation.
 - Read a clustering file to optimize the state space generation.
+- Write the terms of the state space (warning: There can be a lot of terms in the state space!)
 
 Input formats
 =============
