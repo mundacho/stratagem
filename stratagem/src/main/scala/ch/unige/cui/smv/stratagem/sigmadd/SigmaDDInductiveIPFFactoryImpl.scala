@@ -81,6 +81,12 @@ class SigmaDDInductiveIPFFactoryImpl(val sigmaddFactory: SigmaDDFactoryImpl) ext
 
     def wrapped = createWrapped(this)
 
+    def listOfSubtermsVector: List[List[String]] = for (
+      sigmaDD <- alpha.keys.toList;
+      term <- sigmaDD.listOfTermsAsString;
+      listOfSubSequentTerm <- alpha(sigmaDD).listOfSubtermsVector
+    ) yield term :: listOfSubSequentTerm
+
     override lazy val hashCode = alpha##
 
     lazy val size: BigInt = alpha.map((e) => e._1.size * e._2.size).reduce(_ + _)
@@ -127,6 +133,8 @@ class SigmaDDInductiveIPFFactoryImpl(val sigmaddFactory: SigmaDDFactoryImpl) ext
    * It is used as a terminal.
    */
   object TopIPF extends InductiveIPFImpl(HashMap.empty) {
+    
+    override def listOfSubtermsVector: List[List[String]] = List(Nil)
 
     override def toString = "[1]"
 

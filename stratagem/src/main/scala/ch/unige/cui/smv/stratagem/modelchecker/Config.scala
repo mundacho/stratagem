@@ -27,6 +27,7 @@ import java.io.File
  */
 case class Config(quiet: Boolean = false,
   verbose: Boolean = false,
+  statespace: Boolean = false,
   transformation: String = "",
   saturation: Boolean = true,
   model: File = new File("."),

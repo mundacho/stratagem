@@ -221,8 +221,10 @@ object Modularizer extends Logging with ((PetriNet) => List[PTModule]) {
                 localFunction2Minimize.update(moduleConnectedToM, localFunction2Minimize(moduleConnectedToM) - m)
                 // check if the module is still connected to theNewModule
                 // we reconnect them only if they are still connected
-                for (t <- localModule2Transition(moduleConnectedToM)) {
-                  val allPlaces = t.arcs.map(_.place)
+                for (
+                  t <- localModule2Transition(moduleConnectedToM);
+                  allPlaces = t.arcs.map(_.place) if (allPlaces.contains(p))
+                ) {
                   if (allPlaces.exists(p => theNewModule.net.places contains p)) { // if there is one transition that connects them
                     localFunction2Minimize.update(moduleConnectedToM, localFunction2Minimize(moduleConnectedToM) + theNewModule)
                     localFunction2Minimize.update(theNewModule, localFunction2Minimize.getOrElse(theNewModule, Set()) + moduleConnectedToM)

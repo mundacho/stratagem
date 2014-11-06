@@ -72,16 +72,20 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
     ts.getDeclaredStrategyByName(declaredStrategy.getName()).getBody()))(ts)
 
   def apply(sigmaDD: SigmaDDImplType): Option[SigmaDDImplType] = {
-//    logger.trace(s"Entering strategy ${declaredStrategy.toString}")
-    //                    if(declaredStrategy.getName() == "insert_i"){
-//    logger.trace(s"${sigmaDD.iipf.alpha.keySet.head}")
-    //            }
     rewriter(sigmaDD) match {
       case Some(r) =>
-//        logger.trace(s"Strategy ${declaredStrategy.getName()} succeeded")
+        logger.trace(s"Entered strategy ${declaredStrategy.toString}")
+        logger.trace("List of input terms:")
+        logger.trace(sigmaDD.listOfTermsAsString.mkString("\n"))
+        logger.trace(s"Strategy ${declaredStrategy.toString} succeeded.")
+        logger.trace("List of produced terms:")
+        logger.trace(r.listOfTermsAsString.mkString("\n"))
         Some(r)
       case None =>
-//        logger.trace(s"Strategy ${declaredStrategy.getName()} failed")
+        logger.trace(s"Entered strategy ${declaredStrategy.toString}")
+        logger.trace("List of input terms:")
+        logger.trace(sigmaDD.listOfTermsAsString.mkString("\n"))
+        logger.trace(s"Strategy ${declaredStrategy.toString} failed")
         None
     }
   }

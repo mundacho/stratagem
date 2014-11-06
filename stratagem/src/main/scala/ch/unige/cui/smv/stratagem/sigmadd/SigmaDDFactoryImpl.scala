@@ -116,9 +116,20 @@ case class SigmaDDFactoryImpl(signature: Signature) extends CanonicalFactory {
 
     def asElements = Element.elem(s"${sort.getName()}") beside Element.elem("--") beside iipf.asElements
 
+    /**
+     * Returns a string with all the terms represented in this SigmaDD.
+     */
+    def listOfTermsAsString: List[String] = for (
+      key <- iipf.alpha.keys.toList;
+      functor <- key.set;
+      listOfSubterms <- iipf.alpha(key).listOfSubtermsVector
+    ) yield {
+      functor + (if (listOfSubterms.size > 0) listOfSubterms.mkString("(", ", ", ")") else "")
+    }
+
     override def toString = {
-      if(iipf.alpha.size > 0)
-      asElements.toString
+      if (iipf.alpha.size > 0)
+        asElements.toString
       else
         s"Empty DD of sort ${sort}"
     }

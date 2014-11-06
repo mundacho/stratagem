@@ -74,6 +74,7 @@ object Main extends Logging {
   val fileComment = "the model in pnml format (using extension PNML) or native representation (extension ts)"
   val debugMode = "activate debug mode. Lots of output."
   val saturationComment = "Disable saturation."
+  val stateSpaceComment = "Show state space at the end of computation"
 
   def main(args: Array[String]) {
     val parser = configureParser
@@ -109,10 +110,11 @@ object Main extends Logging {
           try {
             AuxFunctions.doDiagnostics(ts)
           } catch {
-            case t: IllegalTransitionSystemException => for (line <- t.errors) {
-              logger.error(line)
-            }
-            System.exit(-1)
+            case t: IllegalTransitionSystemException =>
+              for (line <- t.errors) {
+                logger.error(line)
+              }
+              System.exit(-1)
           }
           logger.trace(s"Finished loading")
           val sigmaDDFactory = SigmaDDFactoryImpl(ts.getAdt().getSignature())
@@ -125,6 +127,7 @@ object Main extends Logging {
           val stateSpaceSize = stateSpace.size
           logger.debug("State space size:")
           logger.info(s"$stateSpaceSize")
+          if (config.statespace) println(stateSpace.listOfTermsAsString.mkString("\n"))
         } else {
           logger.error("There were syntactic errors in your model:")
           for (error <- resource.getErrors()) {
@@ -191,6 +194,7 @@ object Main extends Logging {
           val stateSpaceSize = stateSpace.size
           logger.debug("State space size:")
           logger.info(s"$stateSpaceSize")
+          if (config.statespace) println(stateSpace.listOfTermsAsString.mkString("\n"))
         }
 
       }
@@ -209,6 +213,9 @@ object Main extends Logging {
     opt[Unit]("no-saturate") abbr ("ns") action { (_, c) =>
       c.copy(saturation = false)
     } text (saturationComment)
+    opt[Unit]("state-space") abbr ("ss") action { (_, c) =>
+      c.copy(statespace = true)
+    } text (stateSpaceComment)
     opt[File]("clustering-file") optional () abbr ("cf") action { (x, c) =>
       c.copy(clustering = Some(x))
     } text ("option to specify the clustering file")
