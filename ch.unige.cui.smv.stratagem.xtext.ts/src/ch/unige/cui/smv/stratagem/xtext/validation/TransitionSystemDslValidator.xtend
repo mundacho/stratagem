@@ -14,6 +14,8 @@ import ch.unige.cui.smv.metamodel.ts.Not
 import ch.unige.cui.smv.metamodel.ts.One
 import ch.unige.cui.smv.metamodel.ts.Saturation
 import ch.unige.cui.smv.metamodel.ts.Sequence
+import ch.unige.cui.smv.metamodel.ts.SimpleStrategy
+import ch.unige.cui.smv.metamodel.ts.Strategy
 import ch.unige.cui.smv.metamodel.ts.TsPackage
 import ch.unige.cui.smv.metamodel.ts.Union
 import ch.unige.cui.smv.metamodel.ts.VariableStrategy
@@ -34,6 +36,36 @@ import org.eclipse.xtext.validation.Check
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 class TransitionSystemDslValidator extends AbstractTransitionSystemDslValidator {
+	
+	@Check
+	def checkValidNonStrategy(Not notStrategy) {
+		if (!(notStrategy.s instanceof SimpleStrategy) && !(notStrategy.s instanceof DeclaredStrategyInstance) && !(notStrategy.s instanceof VariableStrategy) ) {
+			error("Not Strategy can only contain simple strategies or declared strategy instances" + notStrategy.s, TsPackage.Literals.NOT__S)
+		} else if (notStrategy.s instanceof DeclaredStrategyInstance) {
+			val dsi = notStrategy.s as DeclaredStrategyInstance
+			checkStrategyInNot(dsi)
+		}
+	}
+	
+	def dispatch checkStrategyInNot(DeclaredStrategyInstance declaredStrategyInstance) {
+		checkStrategyInNot(declaredStrategyInstance.declaration.body) 
+	}
+	
+	def dispatch checkStrategyInNot(SimpleStrategy simpleStrat) {
+		// do nothing, we are OK
+	}
+	
+	def dispatch checkStrategyInNot(Strategy strategy) {
+		// for all other strategies we fail
+			error("Not Strategy can only contain simple strategies or declared strategy instances. If using a declared strategy, please check that it uses only a simple strategy", TsPackage.Literals.NOT__S)
+	}
+	
+	def dispatch checkStrategyInNot(Not notStrat) {
+		checkStrategyInNot(notStrat.s) 
+	}
+	
+	
+	
 	@Check
 	def checkForNonLinearRules(Equation eq) {
 		checkNoNonLinearRules(eq.leftHandTerm, new HashSet<VariableDeclaration>(), eq,
