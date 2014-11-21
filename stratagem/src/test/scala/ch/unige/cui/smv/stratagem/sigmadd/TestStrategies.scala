@@ -26,6 +26,7 @@ import ch.unige.smv.cui.metamodel.adt.AdtFactory
 import ch.unige.cui.smv.stratagem.adt.ATermHelper.term2RichTerm
 import ch.unige.cui.smv.stratagem.util.StrategyDSL._
 import ch.unige.cui.smv.metamodel.ts.Strategy
+import ch.unige.cui.smv.stratagem.sigmadd.rewriters.AllRewriter
 
 /**
  * This class tests the strategies.
@@ -45,7 +46,7 @@ class TestStrategies extends FlatSpec {
       .withOperation("and", "bool", "bool", "bool")
       .withOperation("not", "bool", "bool")
 
-    {val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(sign); a}.declareVariable("b", "bool").declareVariable("x", "nat").declareVariable("y", "nat")
+    { val a = AdtFactory.eINSTANCE.createADT(); a.setName("myADT"); a.setSignature(sign); a }.declareVariable("b", "bool").declareVariable("x", "nat").declareVariable("y", "nat")
   }
 
   // defs for defining terms
@@ -94,6 +95,27 @@ class TestStrategies extends FlatSpec {
     assert(rewrittenSigmaDD4 == None)
   }
 
+  "AllRewriter" should "rewrite all all subterms" in {
+    val allRewriter = new AllRewriter(booleanRewriter, sigmaDDFactory)
+    // not(not(true)), and(not(false), not(true))
+    // it rewrites everything well
+    val sigmaDDToRewrite1 = sigmaDDFactory.create(not(not(trueOp))) v sigmaDDFactory.create(andOp(not(falseOp), not(trueOp)))
+    val rewrittenSigmaDD1 = allRewriter(sigmaDDToRewrite1).get
+    assert(rewrittenSigmaDD1 eq (sigmaDDFactory.create(not(falseOp)) v sigmaDDFactory.create(andOp(trueOp, falseOp))))
+
+    // not(not(true)), and(false, not(true))
+    // will only rewrite the not(not(true)), the other will fail
+    val sigmaDDToRewrite2 = sigmaDDFactory.create(not(not(trueOp))) v sigmaDDFactory.create(andOp(falseOp, not(trueOp)))
+    val rewrittenSigmaDD2 = allRewriter(sigmaDDToRewrite2).get
+    assert(rewrittenSigmaDD2 eq sigmaDDFactory.create(not(falseOp)))
+
+    // not(true), and(not(false), true
+    // will fail everywhere
+    val sigmaDDToRewrite3 = sigmaDDFactory.create(not(trueOp)) v sigmaDDFactory.create(andOp(not(falseOp), trueOp))
+    val rewrittenSigmaDD3 = allRewriter(sigmaDDToRewrite3)
+    assert(rewrittenSigmaDD3 eq None)
+  }
+
   "NotStrategy" should "leave the elements that were not rewritten" in {
     var ts = TransitionSystem(adt, trueOp)
     // sigmaDDToRewrite1 = {not(true), and(true, false), and(true, not(false)}}
@@ -114,7 +136,6 @@ class TestStrategies extends FlatSpec {
     val testStrategy = SimpleStrategy(List(plus(suc(X), suc(Y)) -> plus(X, Y)))
     val expected = sigmaDDFactory.create(plus(zero, zero)) v sigmaDDFactory.create(plus(suc(zero), suc(zero)))
     assert(sigmaDDFactory.rewriterFactory.strategyToRewriter(testStrategy)(ts)(sigmaDD).get == expected)
-    
   }
 
   "DeclaredStrategyRewriter" should "be able to handle common strategies" in {

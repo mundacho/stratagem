@@ -122,4 +122,8 @@
         upperBound="-1" eType="ecore:EClass ../../ch.unige.cui.smv.metamodel.adt/model/adt.ecore#//Equation"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="All" eSuperTypes="#//NonVariableStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="S" lowerBound="1" eType="#//Strategy"
+        containment="true"/>
+  </eClassifiers>
 </ecore:EPackage>

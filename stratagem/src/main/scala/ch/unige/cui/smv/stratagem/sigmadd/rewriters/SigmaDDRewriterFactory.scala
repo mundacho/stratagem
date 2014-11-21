@@ -43,6 +43,7 @@ import ch.unige.cui.smv.metamodel.ts.Saturation
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
 import ch.unige.cui.smv.stratagem.util.StrategyMapKeyWrapper
+import ch.unige.cui.smv.metamodel.ts.All
 
 /**
  * Represents a factory of rewriters.
@@ -81,6 +82,8 @@ class SigmaDDRewriterFactory private[sigmadd] (sigmaDDFactory: SigmaDDFactoryImp
 
     override def caseOne(st: One) = rewriterCache.getOrElseUpdate(StrategyMapKeyWrapper(st), new OneRewriter(strategyToRewriter(st.getS), st.getN(), sigmaDDFactory) with SigmaDDRewritingCache)
 
+    override def caseAll(st: All) = rewriterCache.getOrElseUpdate(StrategyMapKeyWrapper(st), new AllRewriter(strategyToRewriter(st.getS), sigmaDDFactory) with SigmaDDRewritingCache)    
+    
     override def caseNot(strat: Not) = {
       (new TsSwitch[SigmaDDRewriter] {
         override def caseNot(st: Not) = {

@@ -2,6 +2,7 @@
  */
 package ch.unige.cui.smv.metamodel.ts.impl;
 
+import ch.unige.cui.smv.metamodel.ts.All;
 import ch.unige.cui.smv.metamodel.ts.Choice;
 import ch.unige.cui.smv.metamodel.ts.DeclaredStrategy;
 import ch.unige.cui.smv.metamodel.ts.DeclaredStrategyInstance;
@@ -155,6 +156,13 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 	 * @generated
 	 */
 	private EClass simpleStrategyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass allEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -639,6 +647,24 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAll() {
+		return allEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAll_S() {
+		return (EReference)allEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public TsFactory getTsFactory() {
 		return (TsFactory)getEFactoryInstance();
 	}
@@ -723,6 +749,9 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 
 		simpleStrategyEClass = createEClass(SIMPLE_STRATEGY);
 		createEReference(simpleStrategyEClass, SIMPLE_STRATEGY__EQUATIONS);
+
+		allEClass = createEClass(ALL);
+		createEReference(allEClass, ALL__S);
 	}
 
 	/**
@@ -770,6 +799,7 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 		sequenceEClass.getESuperTypes().add(this.getNonVariableStrategy());
 		unionEClass.getESuperTypes().add(this.getNonVariableStrategy());
 		simpleStrategyEClass.getESuperTypes().add(this.getNonVariableStrategy());
+		allEClass.getESuperTypes().add(this.getNonVariableStrategy());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(transitionSystemEClass, TransitionSystem.class, "TransitionSystem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -833,6 +863,9 @@ public class TsPackageImpl extends EPackageImpl implements TsPackage {
 
 		initEClass(simpleStrategyEClass, SimpleStrategy.class, "SimpleStrategy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSimpleStrategy_Equations(), theAdtPackage.getEquation(), null, "equations", null, 1, -1, SimpleStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(allEClass, All.class, "All", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAll_S(), this.getStrategy(), null, "S", null, 1, 1, All.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

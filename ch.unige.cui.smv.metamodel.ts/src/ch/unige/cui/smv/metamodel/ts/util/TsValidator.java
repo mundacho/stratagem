@@ -10,6 +10,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.ocl.examples.xtext.oclinecore.validation.OCLinEcoreEObjectValidator;
 
+import ch.unige.cui.smv.metamodel.ts.All;
 import ch.unige.cui.smv.metamodel.ts.Choice;
 import ch.unige.cui.smv.metamodel.ts.DeclaredStrategy;
 import ch.unige.cui.smv.metamodel.ts.DeclaredStrategyInstance;
@@ -135,6 +136,8 @@ public class TsValidator extends OCLinEcoreEObjectValidator {
 				return validateUnion((Union)value, diagnostics, context);
 			case TsPackage.SIMPLE_STRATEGY:
 				return validateSimpleStrategy((SimpleStrategy)value, diagnostics, context);
+			case TsPackage.ALL:
+				return validateAll((All)value, diagnostics, context);
 			default:
 				return true;
 		}
@@ -417,6 +420,15 @@ public class TsValidator extends OCLinEcoreEObjectValidator {
 	 */
 	public boolean validateSimpleStrategy(SimpleStrategy simpleStrategy, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return validate_EveryDefaultConstraint(simpleStrategy, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateAll(All all, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(all, diagnostics, context);
 	}
 
 	/**

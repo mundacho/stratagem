@@ -35,7 +35,7 @@ NonVariableStrategy returns ts::NonVariableStrategy:
 	=> PredefStrats | DeclaredStrategyInstance;
 
 PredefStrats returns ts::NonVariableStrategy:
-	Identity | Fail | Choice | Sequence | Fixpoint | IfThenElse | Not | SimpleStrategy | One | Saturation | Union
+	Identity | Fail | Choice | Sequence | Fixpoint | IfThenElse | Not | SimpleStrategy | One | Saturation | Union | All
 ;
 
 One returns ts::One:
@@ -69,6 +69,10 @@ Not returns ts::Not:
 
 Fixpoint returns ts::FixPointStrategy:
 	'Fixpoint' '(' S=Strategy ')'
+;
+
+All returns ts::All:
+	'All' '(' S=Strategy ')'
 ;
 
 Choice returns ts::Choice:

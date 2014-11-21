@@ -39,6 +39,7 @@ import ch.unige.cui.smv.metamodel.ts.One
 import ch.unige.cui.smv.metamodel.ts.Identity
 import scala.collection.JavaConversions._
 import org.eclipse.emf.ecore.util.EcoreUtil
+import ch.unige.cui.smv.metamodel.ts.All
 
 /**
  * Implements a rewriter for a declared strategy.
@@ -106,6 +107,8 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
     override def caseIdentity(strat: Identity) = StrategyDSL.Identity
 
     override def caseOne(strat: One) = StrategyDSL.One(doSwitch(strat.getS()), strat.getN())
+    
+    override def caseAll(strat: All) = StrategyDSL.All(doSwitch(strat.getS()))
 
     override def caseNot(strat: Not) = (new TsSwitch[Strategy] {
       override def caseSimpleStrategy(s: SimpleStrategy) = StrategyDSL.Not(s)
@@ -114,9 +117,6 @@ private[sigmadd] case class DeclaredStrategyRewriter(declaredStrategy: DeclaredS
     }).doSwitch(strat.getS())
 
     override def caseFixPointStrategy(strat: FixPointStrategy) = {
-      if (strat.getS() == null) {
-        println()
-      }
       StrategyDSL.FixPointStrategy(doSwitch(strat.getS()))
     }
 

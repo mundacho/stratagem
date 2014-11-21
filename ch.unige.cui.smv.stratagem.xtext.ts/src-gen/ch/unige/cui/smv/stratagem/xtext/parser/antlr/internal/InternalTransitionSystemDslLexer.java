@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("all")
 public class InternalTransitionSystemDslLexer extends Lexer {
+    public static final int T__42=42;
     public static final int T__40=40;
     public static final int RULE_ID=4;
     public static final int T__41=41;
@@ -379,10 +380,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__27;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:26:7: ( 'Choice' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:26:9: 'Choice'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:26:7: ( 'All' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:26:9: 'All'
             {
-            match("Choice"); 
+            match("All"); 
 
 
             }
@@ -400,10 +401,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__28;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:27:7: ( 'Union' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:27:9: 'Union'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:27:7: ( 'Choice' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:27:9: 'Choice'
             {
-            match("Union"); 
+            match("Choice"); 
 
 
             }
@@ -421,10 +422,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__29;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:28:7: ( 'Sequence' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:28:9: 'Sequence'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:28:7: ( 'Union' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:28:9: 'Union'
             {
-            match("Sequence"); 
+            match("Union"); 
 
 
             }
@@ -442,10 +443,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__30;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:29:7: ( 'Identity' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:29:9: 'Identity'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:29:7: ( 'Sequence' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:29:9: 'Sequence'
             {
-            match("Identity"); 
+            match("Sequence"); 
 
 
             }
@@ -463,10 +464,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__31;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:30:7: ( 'Fail' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:30:9: 'Fail'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:30:7: ( 'Identity' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:30:9: 'Identity'
             {
-            match("Fail"); 
+            match("Identity"); 
 
 
             }
@@ -484,10 +485,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__32;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:31:7: ( 'ADT' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:31:9: 'ADT'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:31:7: ( 'Fail' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:31:9: 'Fail'
             {
-            match("ADT"); 
+            match("Fail"); 
 
 
             }
@@ -505,10 +506,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__33;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:32:7: ( 'Signature' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:32:9: 'Signature'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:32:7: ( 'ADT' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:32:9: 'ADT'
             {
-            match("Signature"); 
+            match("ADT"); 
 
 
             }
@@ -526,10 +527,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__34;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:33:7: ( 'Axioms' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:33:9: 'Axioms'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:33:7: ( 'Signature' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:33:9: 'Signature'
             {
-            match("Axioms"); 
+            match("Signature"); 
 
 
             }
@@ -547,10 +548,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__35;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:34:7: ( 'Variables' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:34:9: 'Variables'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:34:7: ( 'Axioms' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:34:9: 'Axioms'
             {
-            match("Variables"); 
+            match("Axioms"); 
 
 
             }
@@ -568,10 +569,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__36;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:35:7: ( 'Sorts' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:35:9: 'Sorts'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:35:7: ( 'Variables' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:35:9: 'Variables'
             {
-            match("Sorts"); 
+            match("Variables"); 
 
 
             }
@@ -589,10 +590,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__37;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:36:7: ( 'Generators' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:36:9: 'Generators'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:36:7: ( 'Sorts' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:36:9: 'Sorts'
             {
-            match("Generators"); 
+            match("Sorts"); 
 
 
             }
@@ -610,10 +611,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__38;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:37:7: ( 'Operations' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:37:9: 'Operations'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:37:7: ( 'Generators' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:37:9: 'Generators'
             {
-            match("Operations"); 
+            match("Generators"); 
 
 
             }
@@ -631,10 +632,11 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__39;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:38:7: ( ':' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:38:9: ':'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:38:7: ( 'Operations' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:38:9: 'Operations'
             {
-            match(':'); 
+            match("Operations"); 
+
 
             }
 
@@ -651,11 +653,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__40;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:39:7: ( '->' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:39:9: '->'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:39:7: ( ':' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:39:9: ':'
             {
-            match("->"); 
-
+            match(':'); 
 
             }
 
@@ -672,10 +673,11 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = T__41;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:40:7: ( '<' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:40:9: '<'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:40:7: ( '->' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:40:9: '->'
             {
-            match('<'); 
+            match("->"); 
+
 
             }
 
@@ -687,16 +689,36 @@ public class InternalTransitionSystemDslLexer extends Lexer {
     }
     // $ANTLR end "T__41"
 
+    // $ANTLR start "T__42"
+    public final void mT__42() throws RecognitionException {
+        try {
+            int _type = T__42;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:41:7: ( '<' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:41:9: '<'
+            {
+            match('<'); 
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__42"
+
     // $ANTLR start "RULE_TERMVAR"
     public final void mRULE_TERMVAR() throws RecognitionException {
         try {
             int _type = RULE_TERMVAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2283:14: ( '$' ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2283:16: '$' ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2344:14: ( '$' ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2344:16: '$' ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
             match('$'); 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2283:20: ( '^' )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2344:20: ( '^' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -705,7 +727,7 @@ public class InternalTransitionSystemDslLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2283:20: '^'
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2344:20: '^'
                     {
                     match('^'); 
 
@@ -723,7 +745,7 @@ public class InternalTransitionSystemDslLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2283:49: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2344:49: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -772,10 +794,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2285:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2285:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2346:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2346:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2285:11: ( '^' )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2346:11: ( '^' )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -784,7 +806,7 @@ public class InternalTransitionSystemDslLexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2285:11: '^'
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2346:11: '^'
                     {
                     match('^'); 
 
@@ -802,7 +824,7 @@ public class InternalTransitionSystemDslLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2285:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2346:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop4:
             do {
                 int alt4=2;
@@ -851,10 +873,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2287:10: ( ( '0' .. '9' )+ )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2287:12: ( '0' .. '9' )+
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2348:10: ( ( '0' .. '9' )+ )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2348:12: ( '0' .. '9' )+
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2287:12: ( '0' .. '9' )+
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2348:12: ( '0' .. '9' )+
             int cnt5=0;
             loop5:
             do {
@@ -868,7 +890,7 @@ public class InternalTransitionSystemDslLexer extends Lexer {
 
                 switch (alt5) {
             	case 1 :
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2287:13: '0' .. '9'
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2348:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -900,10 +922,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2289:13: ( ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2289:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2350:13: ( ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2350:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2289:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2350:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -921,10 +943,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
             }
             switch (alt8) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2289:16: '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2350:16: '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2289:20: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2350:20: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop6:
                     do {
                         int alt6=3;
@@ -940,7 +962,7 @@ public class InternalTransitionSystemDslLexer extends Lexer {
 
                         switch (alt6) {
                     	case 1 :
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2289:21: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2350:21: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
                     	    {
                     	    match('\\'); 
                     	    if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||(input.LA(1)>='t' && input.LA(1)<='u') ) {
@@ -956,7 +978,7 @@ public class InternalTransitionSystemDslLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2289:66: ~ ( ( '\\\\' | '\"' ) )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2350:66: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -981,10 +1003,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2289:86: '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2350:86: '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2289:91: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2350:91: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop7:
                     do {
                         int alt7=3;
@@ -1000,7 +1022,7 @@ public class InternalTransitionSystemDslLexer extends Lexer {
 
                         switch (alt7) {
                     	case 1 :
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2289:92: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2350:92: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
                     	    {
                     	    match('\\'); 
                     	    if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||(input.LA(1)>='t' && input.LA(1)<='u') ) {
@@ -1016,7 +1038,7 @@ public class InternalTransitionSystemDslLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2289:137: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2350:137: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1059,12 +1081,12 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2291:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2291:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2352:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2352:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2291:24: ( options {greedy=false; } : . )*
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2352:24: ( options {greedy=false; } : . )*
             loop9:
             do {
                 int alt9=2;
@@ -1089,7 +1111,7 @@ public class InternalTransitionSystemDslLexer extends Lexer {
 
                 switch (alt9) {
             	case 1 :
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2291:52: .
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2352:52: .
             	    {
             	    matchAny(); 
 
@@ -1119,12 +1141,12 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2293:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2293:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2354:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2354:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2293:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2354:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop10:
             do {
                 int alt10=2;
@@ -1137,7 +1159,7 @@ public class InternalTransitionSystemDslLexer extends Lexer {
 
                 switch (alt10) {
             	case 1 :
-            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2293:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2354:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -1157,7 +1179,7 @@ public class InternalTransitionSystemDslLexer extends Lexer {
                 }
             } while (true);
 
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2293:40: ( ( '\\r' )? '\\n' )?
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2354:40: ( ( '\\r' )? '\\n' )?
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -1166,9 +1188,9 @@ public class InternalTransitionSystemDslLexer extends Lexer {
             }
             switch (alt12) {
                 case 1 :
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2293:41: ( '\\r' )? '\\n'
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2354:41: ( '\\r' )? '\\n'
                     {
-                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2293:41: ( '\\r' )?
+                    // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2354:41: ( '\\r' )?
                     int alt11=2;
                     int LA11_0 = input.LA(1);
 
@@ -1177,7 +1199,7 @@ public class InternalTransitionSystemDslLexer extends Lexer {
                     }
                     switch (alt11) {
                         case 1 :
-                            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2293:41: '\\r'
+                            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2354:41: '\\r'
                             {
                             match('\r'); 
 
@@ -1209,10 +1231,10 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2295:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2295:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2356:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2356:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2295:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2356:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt13=0;
             loop13:
             do {
@@ -1266,8 +1288,8 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2297:16: ( . )
-            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2297:18: .
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2358:16: ( . )
+            // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:2358:18: .
             {
             matchAny(); 
 
@@ -1282,8 +1304,8 @@ public class InternalTransitionSystemDslLexer extends Lexer {
     // $ANTLR end "RULE_ANY_OTHER"
 
     public void mTokens() throws RecognitionException {
-        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:8: ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | RULE_TERMVAR | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
-        int alt14=38;
+        // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:8: ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | RULE_TERMVAR | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
+        int alt14=39;
         alt14 = dfa14.predict(input);
         switch (alt14) {
             case 1 :
@@ -1497,56 +1519,63 @@ public class InternalTransitionSystemDslLexer extends Lexer {
                 }
                 break;
             case 31 :
-                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:190: RULE_TERMVAR
+                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:190: T__42
+                {
+                mT__42(); 
+
+                }
+                break;
+            case 32 :
+                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:196: RULE_TERMVAR
                 {
                 mRULE_TERMVAR(); 
 
                 }
                 break;
-            case 32 :
-                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:203: RULE_ID
+            case 33 :
+                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:209: RULE_ID
                 {
                 mRULE_ID(); 
 
                 }
                 break;
-            case 33 :
-                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:211: RULE_INT
+            case 34 :
+                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:217: RULE_INT
                 {
                 mRULE_INT(); 
 
                 }
                 break;
-            case 34 :
-                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:220: RULE_STRING
+            case 35 :
+                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:226: RULE_STRING
                 {
                 mRULE_STRING(); 
 
                 }
                 break;
-            case 35 :
-                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:232: RULE_ML_COMMENT
+            case 36 :
+                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:238: RULE_ML_COMMENT
                 {
                 mRULE_ML_COMMENT(); 
 
                 }
                 break;
-            case 36 :
-                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:248: RULE_SL_COMMENT
+            case 37 :
+                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:254: RULE_SL_COMMENT
                 {
                 mRULE_SL_COMMENT(); 
 
                 }
                 break;
-            case 37 :
-                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:264: RULE_WS
+            case 38 :
+                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:270: RULE_WS
                 {
                 mRULE_WS(); 
 
                 }
                 break;
-            case 38 :
-                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:272: RULE_ANY_OTHER
+            case 39 :
+                // ../ch.unige.cui.smv.stratagem.xtext.ts/src-gen/ch/unige/cui/smv/stratagem/xtext/parser/antlr/internal/InternalTransitionSystemDsl.g:1:278: RULE_ANY_OTHER
                 {
                 mRULE_ANY_OTHER(); 
 
@@ -1562,28 +1591,28 @@ public class InternalTransitionSystemDslLexer extends Lexer {
     static final String DFA14_eotS =
         "\1\uffff\2\40\1\uffff\1\40\3\uffff\2\40\2\uffff\7\40\1\uffff\1\36"+
         "\1\uffff\2\36\2\uffff\3\36\2\uffff\1\40\1\uffff\1\40\1\uffff\5\40"+
-        "\3\uffff\4\40\2\uffff\11\40\11\uffff\7\40\1\136\3\40\1\142\4\40"+
-        "\1\147\12\40\1\uffff\3\40\1\uffff\1\40\1\166\2\40\1\uffff\11\40"+
-        "\1\u0082\4\40\1\uffff\1\40\1\u0088\11\40\1\uffff\4\40\1\u0096\1"+
-        "\uffff\1\u0097\14\40\2\uffff\6\40\1\u00aa\3\40\1\u00ae\1\u00af\6"+
-        "\40\1\uffff\1\u00b6\2\40\2\uffff\1\u00b9\3\40\1\u00be\1\u00bf\1"+
-        "\uffff\1\u00c0\1\u00c1\1\uffff\1\u00c2\1\40\1\u00c4\1\40\5\uffff"+
-        "\1\40\1\uffff\1\u00c7\1\40\1\uffff\2\40\1\u00cb\1\uffff";
+        "\3\uffff\4\40\2\uffff\12\40\11\uffff\7\40\1\140\3\40\1\144\2\40"+
+        "\1\147\1\150\14\40\1\uffff\3\40\1\uffff\1\40\1\171\2\uffff\13\40"+
+        "\1\u0085\4\40\1\uffff\2\40\1\u008c\10\40\1\uffff\4\40\1\u0099\1"+
+        "\u009a\1\uffff\14\40\2\uffff\6\40\1\u00ad\3\40\1\u00b1\1\u00b2\6"+
+        "\40\1\uffff\1\u00b9\2\40\2\uffff\1\u00bc\3\40\1\u00c1\1\u00c2\1"+
+        "\uffff\1\u00c3\1\u00c4\1\uffff\1\u00c5\1\40\1\u00c7\1\40\5\uffff"+
+        "\1\40\1\uffff\1\u00ca\1\40\1\uffff\2\40\1\u00ce\1\uffff";
     static final String DFA14_eofS =
-        "\u00cc\uffff";
+        "\u00cf\uffff";
     static final String DFA14_minS =
         "\1\0\1\162\1\156\1\uffff\1\141\3\uffff\1\156\1\144\2\uffff\1\157"+
-        "\1\141\1\150\1\156\1\104\1\141\1\145\1\uffff\1\76\1\uffff\2\101"+
+        "\1\141\1\104\1\150\1\156\1\141\1\145\1\uffff\1\76\1\uffff\2\101"+
         "\2\uffff\2\0\1\52\2\uffff\1\141\1\uffff\1\151\1\uffff\1\162\1\164"+
         "\1\161\1\147\1\162\3\uffff\2\145\1\124\1\145\2\uffff\1\164\1\170"+
-        "\1\151\1\157\1\151\1\124\1\151\1\162\1\156\11\uffff\1\156\1\164"+
-        "\1\141\2\165\1\156\1\164\1\60\1\162\1\150\1\156\1\60\1\160\1\154"+
-        "\1\151\1\157\1\60\1\157\1\151\1\145\1\163\1\151\1\164\1\162\1\145"+
-        "\1\141\1\163\1\uffff\1\141\1\145\1\164\1\uffff\1\157\1\60\1\143"+
-        "\1\156\1\uffff\1\155\1\141\1\162\1\151\1\141\1\145\1\141\1\156\1"+
-        "\164\1\60\1\164\1\156\2\151\1\uffff\1\145\1\60\1\163\1\142\1\141"+
-        "\1\164\1\154\1\147\1\164\1\143\1\165\1\uffff\1\151\1\105\1\164\1"+
-        "\156\1\60\1\uffff\1\60\1\154\1\164\1\151\1\123\2\151\1\145\1\162"+
+        "\1\151\1\154\1\124\1\151\1\157\1\151\1\162\1\156\11\uffff\1\156"+
+        "\1\164\1\141\2\165\1\156\1\164\1\60\1\162\1\150\1\156\1\60\1\160"+
+        "\1\154\2\60\1\157\1\151\1\157\1\151\1\145\1\163\1\151\1\164\1\162"+
+        "\1\145\1\141\1\163\1\uffff\1\141\1\145\1\164\1\uffff\1\157\1\60"+
+        "\2\uffff\1\155\1\143\1\156\1\141\1\162\1\151\1\141\1\145\1\141\1"+
+        "\156\1\164\1\60\1\164\1\156\2\151\1\uffff\1\163\1\145\1\60\1\142"+
+        "\1\141\1\164\1\154\1\147\1\164\1\143\1\165\1\uffff\1\151\1\105\1"+
+        "\164\1\156\2\60\1\uffff\1\154\1\164\1\151\1\123\2\151\1\145\1\162"+
         "\1\157\1\154\1\171\1\164\2\uffff\1\145\2\157\1\164\1\145\1\157\1"+
         "\60\1\145\1\156\1\163\2\60\1\163\1\162\1\156\1\141\1\163\1\156\1"+
         "\uffff\1\60\1\163\1\145\2\uffff\1\60\1\163\1\123\1\164\2\60\1\uffff"+
@@ -1591,38 +1620,38 @@ public class InternalTransitionSystemDslLexer extends Lexer {
         "\164\1\uffff\1\145\1\155\1\60\1\uffff";
     static final String DFA14_maxS =
         "\1\uffff\1\162\1\156\1\uffff\1\164\3\uffff\1\160\1\146\2\uffff\1"+
-        "\157\1\151\1\150\1\156\1\170\1\141\1\145\1\uffff\1\76\1\uffff\2"+
+        "\157\1\151\1\170\1\150\1\156\1\141\1\145\1\uffff\1\76\1\uffff\2"+
         "\172\2\uffff\2\uffff\1\57\2\uffff\1\141\1\uffff\1\151\1\uffff\1"+
         "\162\1\164\1\161\1\147\1\162\3\uffff\2\145\1\124\1\145\2\uffff\1"+
-        "\164\1\170\1\151\1\157\1\151\1\124\1\151\1\162\1\156\11\uffff\1"+
-        "\156\1\164\1\141\2\165\1\156\1\164\1\172\1\162\1\150\1\156\1\172"+
-        "\1\160\1\154\1\151\1\157\1\172\1\157\1\151\1\145\1\163\1\151\1\164"+
+        "\164\1\170\1\151\1\154\1\124\1\151\1\157\1\151\1\162\1\156\11\uffff"+
+        "\1\156\1\164\1\141\2\165\1\156\1\164\1\172\1\162\1\150\1\156\1\172"+
+        "\1\160\1\154\2\172\1\157\1\151\1\157\1\151\1\145\1\163\1\151\1\164"+
         "\1\162\1\145\1\141\1\163\1\uffff\1\141\1\145\1\164\1\uffff\1\157"+
-        "\1\172\1\143\1\156\1\uffff\1\155\1\141\1\162\1\151\1\141\1\145\1"+
-        "\141\1\156\1\164\1\172\1\164\1\156\2\151\1\uffff\1\145\1\172\1\163"+
+        "\1\172\2\uffff\1\155\1\143\1\156\1\141\1\162\1\151\1\141\1\145\1"+
+        "\141\1\156\1\164\1\172\1\164\1\156\2\151\1\uffff\1\163\1\145\1\172"+
         "\1\142\1\141\1\164\1\154\1\147\1\164\1\143\1\165\1\uffff\1\151\1"+
-        "\105\1\164\1\156\1\172\1\uffff\1\172\1\154\1\164\1\151\1\123\2\151"+
-        "\1\145\1\162\1\157\1\154\1\171\1\164\2\uffff\1\145\2\157\1\164\1"+
-        "\145\1\157\1\172\1\145\1\156\1\163\2\172\1\163\1\162\1\156\1\141"+
-        "\1\163\1\156\1\uffff\1\172\1\163\1\145\2\uffff\1\172\2\163\1\164"+
-        "\2\172\1\uffff\2\172\1\uffff\1\172\1\171\1\172\1\145\5\uffff\1\163"+
-        "\1\uffff\1\172\1\164\1\uffff\1\145\1\155\1\172\1\uffff";
+        "\105\1\164\1\156\2\172\1\uffff\1\154\1\164\1\151\1\123\2\151\1\145"+
+        "\1\162\1\157\1\154\1\171\1\164\2\uffff\1\145\2\157\1\164\1\145\1"+
+        "\157\1\172\1\145\1\156\1\163\2\172\1\163\1\162\1\156\1\141\1\163"+
+        "\1\156\1\uffff\1\172\1\163\1\145\2\uffff\1\172\2\163\1\164\2\172"+
+        "\1\uffff\2\172\1\uffff\1\172\1\171\1\172\1\145\5\uffff\1\163\1\uffff"+
+        "\1\172\1\164\1\uffff\1\145\1\155\1\172\1\uffff";
     static final String DFA14_acceptS =
-        "\3\uffff\1\3\1\uffff\1\6\1\7\1\10\2\uffff\1\14\1\15\7\uffff\1\34"+
-        "\1\uffff\1\36\2\uffff\1\40\1\41\3\uffff\1\45\1\46\1\uffff\1\40\1"+
-        "\uffff\1\3\5\uffff\1\6\1\7\1\10\4\uffff\1\14\1\15\11\uffff\1\34"+
-        "\1\35\1\36\1\37\1\41\1\42\1\43\1\44\1\45\33\uffff\1\11\3\uffff\1"+
-        "\16\4\uffff\1\25\16\uffff\1\24\13\uffff\1\31\5\uffff\1\21\15\uffff"+
-        "\1\20\1\27\22\uffff\1\22\3\uffff\1\23\1\17\6\uffff\1\26\2\uffff"+
-        "\1\30\4\uffff\1\4\1\12\1\33\1\13\1\32\1\uffff\1\5\2\uffff\1\2\3"+
-        "\uffff\1\1";
+        "\3\uffff\1\3\1\uffff\1\6\1\7\1\10\2\uffff\1\14\1\15\7\uffff\1\35"+
+        "\1\uffff\1\37\2\uffff\1\41\1\42\3\uffff\1\46\1\47\1\uffff\1\41\1"+
+        "\uffff\1\3\5\uffff\1\6\1\7\1\10\4\uffff\1\14\1\15\12\uffff\1\35"+
+        "\1\36\1\37\1\40\1\42\1\43\1\44\1\45\1\46\34\uffff\1\11\3\uffff\1"+
+        "\16\2\uffff\1\20\1\26\20\uffff\1\25\13\uffff\1\32\6\uffff\1\22\14"+
+        "\uffff\1\30\1\21\22\uffff\1\23\3\uffff\1\24\1\17\6\uffff\1\27\2"+
+        "\uffff\1\31\4\uffff\1\4\1\12\1\34\1\13\1\33\1\uffff\1\5\2\uffff"+
+        "\1\2\3\uffff\1\1";
     static final String DFA14_specialS =
-        "\1\1\31\uffff\1\0\1\2\u00b0\uffff}>";
+        "\1\0\31\uffff\1\1\1\2\u00b3\uffff}>";
     static final String[] DFA14_transitionS = {
             "\11\36\2\35\2\36\1\35\22\36\1\35\1\36\1\32\1\36\1\26\2\36\1"+
             "\33\1\5\1\7\2\36\1\6\1\24\1\36\1\34\12\31\1\23\1\36\1\25\1\3"+
-            "\3\36\1\20\1\30\1\16\2\30\1\15\1\22\1\30\1\11\4\30\1\14\1\10"+
-            "\3\30\1\4\1\1\1\17\1\21\4\30\3\36\1\27\1\30\1\36\10\30\1\2\21"+
+            "\3\36\1\16\1\30\1\17\2\30\1\15\1\22\1\30\1\11\4\30\1\14\1\10"+
+            "\3\30\1\4\1\1\1\20\1\21\4\30\3\36\1\27\1\30\1\36\10\30\1\2\21"+
             "\30\1\12\1\36\1\13\uff82\36",
             "\1\37",
             "\1\41",
@@ -1637,42 +1666,41 @@ public class InternalTransitionSystemDslLexer extends Lexer {
             "",
             "\1\61",
             "\1\63\7\uffff\1\62",
-            "\1\64",
-            "\1\65",
-            "\1\66\63\uffff\1\67",
+            "\1\65\47\uffff\1\64\13\uffff\1\66",
+            "\1\67",
             "\1\70",
             "\1\71",
+            "\1\72",
             "",
-            "\1\73",
+            "\1\74",
             "",
-            "\32\75\3\uffff\2\75\1\uffff\32\75",
+            "\32\76\3\uffff\2\76\1\uffff\32\76",
             "\32\40\4\uffff\1\40\1\uffff\32\40",
             "",
             "",
-            "\0\77",
-            "\0\77",
-            "\1\100\4\uffff\1\101",
+            "\0\100",
+            "\0\100",
+            "\1\101\4\uffff\1\102",
             "",
-            "",
-            "\1\103",
             "",
             "\1\104",
             "",
             "\1\105",
+            "",
             "\1\106",
             "\1\107",
             "\1\110",
             "\1\111",
-            "",
-            "",
-            "",
             "\1\112",
+            "",
+            "",
+            "",
             "\1\113",
             "\1\114",
             "\1\115",
-            "",
-            "",
             "\1\116",
+            "",
+            "",
             "\1\117",
             "\1\120",
             "\1\121",
@@ -1681,33 +1709,33 @@ public class InternalTransitionSystemDslLexer extends Lexer {
             "\1\124",
             "\1\125",
             "\1\126",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
             "\1\127",
             "\1\130",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "\1\131",
             "\1\132",
             "\1\133",
             "\1\134",
             "\1\135",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\136",
             "\1\137",
-            "\1\140",
-            "\1\141",
             "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\141",
+            "\1\142",
             "\1\143",
-            "\1\144",
+            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             "\1\145",
             "\1\146",
             "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\1\150",
+            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             "\1\151",
             "\1\152",
             "\1\153",
@@ -1717,17 +1745,18 @@ public class InternalTransitionSystemDslLexer extends Lexer {
             "\1\157",
             "\1\160",
             "\1\161",
-            "",
             "\1\162",
             "\1\163",
             "\1\164",
             "",
             "\1\165",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\166",
             "\1\167",
-            "\1\170",
             "",
-            "\1\171",
+            "\1\170",
+            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "",
+            "",
             "\1\172",
             "\1\173",
             "\1\174",
@@ -1736,34 +1765,34 @@ public class InternalTransitionSystemDslLexer extends Lexer {
             "\1\177",
             "\1\u0080",
             "\1\u0081",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\u0082",
             "\1\u0083",
             "\1\u0084",
-            "\1\u0085",
-            "\1\u0086",
-            "",
-            "\1\u0087",
             "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\u0086",
+            "\1\u0087",
+            "\1\u0088",
             "\1\u0089",
+            "",
             "\1\u008a",
             "\1\u008b",
-            "\1\u008c",
+            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             "\1\u008d",
             "\1\u008e",
             "\1\u008f",
             "\1\u0090",
             "\1\u0091",
-            "",
             "\1\u0092",
             "\1\u0093",
             "\1\u0094",
+            "",
             "\1\u0095",
+            "\1\u0096",
+            "\1\u0097",
+            "\1\u0098",
+            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\1\u0098",
-            "\1\u0099",
-            "\1\u009a",
             "\1\u009b",
             "\1\u009c",
             "\1\u009d",
@@ -1773,36 +1802,39 @@ public class InternalTransitionSystemDslLexer extends Lexer {
             "\1\u00a1",
             "\1\u00a2",
             "\1\u00a3",
-            "",
-            "",
             "\1\u00a4",
             "\1\u00a5",
             "\1\u00a6",
+            "",
+            "",
             "\1\u00a7",
             "\1\u00a8",
             "\1\u00a9",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\u00aa",
             "\1\u00ab",
             "\1\u00ac",
-            "\1\u00ad",
             "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\u00ae",
+            "\1\u00af",
             "\1\u00b0",
-            "\1\u00b1",
-            "\1\u00b2",
+            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             "\1\u00b3",
             "\1\u00b4",
             "\1\u00b5",
-            "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\u00b6",
             "\1\u00b7",
             "\1\u00b8",
             "",
-            "",
             "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             "\1\u00ba",
-            "\1\u00bb\37\uffff\1\u00bc",
+            "\1\u00bb",
+            "",
+            "",
+            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             "\1\u00bd",
+            "\1\u00be\37\uffff\1\u00bf",
+            "\1\u00c0",
             "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             "",
@@ -1810,21 +1842,21 @@ public class InternalTransitionSystemDslLexer extends Lexer {
             "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             "",
             "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\1\u00c3",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\1\u00c5",
-            "",
-            "",
-            "",
-            "",
-            "",
             "\1\u00c6",
-            "",
             "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             "\1\u00c8",
             "",
+            "",
+            "",
+            "",
+            "",
             "\1\u00c9",
-            "\1\u00ca",
+            "",
+            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\u00cb",
+            "",
+            "\1\u00cc",
+            "\1\u00cd",
             "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             ""
     };
@@ -1859,23 +1891,13 @@ public class InternalTransitionSystemDslLexer extends Lexer {
             this.transition = DFA14_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | RULE_TERMVAR | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
+            return "1:1: Tokens : ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | RULE_TERMVAR | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA14_26 = input.LA(1);
-
-                        s = -1;
-                        if ( ((LA14_26>='\u0000' && LA14_26<='\uFFFF')) ) {s = 63;}
-
-                        else s = 30;
-
-                        if ( s>=0 ) return s;
-                        break;
-                    case 1 : 
                         int LA14_0 = input.LA(1);
 
                         s = -1;
@@ -1905,11 +1927,11 @@ public class InternalTransitionSystemDslLexer extends Lexer {
 
                         else if ( (LA14_0=='F') ) {s = 13;}
 
-                        else if ( (LA14_0=='C') ) {s = 14;}
+                        else if ( (LA14_0=='A') ) {s = 14;}
 
-                        else if ( (LA14_0=='U') ) {s = 15;}
+                        else if ( (LA14_0=='C') ) {s = 15;}
 
-                        else if ( (LA14_0=='A') ) {s = 16;}
+                        else if ( (LA14_0=='U') ) {s = 16;}
 
                         else if ( (LA14_0=='V') ) {s = 17;}
 
@@ -1941,11 +1963,21 @@ public class InternalTransitionSystemDslLexer extends Lexer {
 
                         if ( s>=0 ) return s;
                         break;
+                    case 1 : 
+                        int LA14_26 = input.LA(1);
+
+                        s = -1;
+                        if ( ((LA14_26>='\u0000' && LA14_26<='\uFFFF')) ) {s = 64;}
+
+                        else s = 30;
+
+                        if ( s>=0 ) return s;
+                        break;
                     case 2 : 
                         int LA14_27 = input.LA(1);
 
                         s = -1;
-                        if ( ((LA14_27>='\u0000' && LA14_27<='\uFFFF')) ) {s = 63;}
+                        if ( ((LA14_27>='\u0000' && LA14_27<='\uFFFF')) ) {s = 64;}
 
                         else s = 30;
 

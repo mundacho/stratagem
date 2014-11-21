@@ -37,6 +37,7 @@ import ch.unige.smv.cui.metamodel.adt.Variable
 import ch.unige.smv.cui.metamodel.adt.Term
 import ch.unige.cui.smv.metamodel.ts.Union
 import ch.unige.cui.smv.metamodel.ts.VariableStrategy
+import ch.unige.cui.smv.metamodel.ts.All
 
 /**
  * Wraps a strategy so that we can use it in a map as the key
@@ -54,12 +55,14 @@ case class StrategyMapKeyWrapper(wrapped: Strategy) {
     case s: Identity => (s.getClass()).hashCode
     case s: IfThenElse => (s.getClass(), StrategyMapKeyWrapper(s.getS1()), StrategyMapKeyWrapper(s.getS2()), StrategyMapKeyWrapper(s.getS3)).hashCode
     case s: Not => (s.getClass(), StrategyMapKeyWrapper(s.getS())).hashCode
+    case s: All => (s.getClass(), StrategyMapKeyWrapper(s.getS())).hashCode
     case s: One => (s.getClass(), StrategyMapKeyWrapper(s.getS()), s.getN).hashCode
     case s: Saturation => (s.getClass(), StrategyMapKeyWrapper(s.getS()), s.getN).hashCode
     case s: Sequence => (s.getClass(), StrategyMapKeyWrapper(s.getS1()), StrategyMapKeyWrapper(s.getS2())).hashCode
     case s: SimpleStrategy => (s.getClass(), s.getEquations().map(_.toString)).hashCode
     case s: Union => (s.getClass(), StrategyMapKeyWrapper(s.getS1()), StrategyMapKeyWrapper(s.getS2())).hashCode
     case s: VariableStrategy => (s.getClass(), s.getName()).hashCode
+    
     case _ =>{
       throw new NotImplementedError("This strategy was not implemented in the wrapper")
     } 

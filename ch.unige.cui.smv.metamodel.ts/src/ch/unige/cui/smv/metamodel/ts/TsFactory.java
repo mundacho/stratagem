@@ -157,6 +157,15 @@ public interface TsFactory extends EFactory {
 	SimpleStrategy createSimpleStrategy();
 
 	/**
+	 * Returns a new object of class '<em>All</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>All</em>'.
+	 * @generated
+	 */
+	All createAll();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

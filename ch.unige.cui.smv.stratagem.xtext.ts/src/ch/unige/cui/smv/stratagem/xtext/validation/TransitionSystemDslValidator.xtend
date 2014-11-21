@@ -3,6 +3,7 @@
  */
 package ch.unige.cui.smv.stratagem.xtext.validation
 
+import ch.unige.cui.smv.metamodel.ts.All
 import ch.unige.cui.smv.metamodel.ts.Choice
 import ch.unige.cui.smv.metamodel.ts.DeclaredStrategy
 import ch.unige.cui.smv.metamodel.ts.DeclaredStrategyInstance
@@ -78,6 +79,10 @@ class TransitionSystemDslValidator extends AbstractTransitionSystemDslValidator 
 	}
 
 	def dispatch checkStratForRightVariableNames(One strat, Set<String> variableNames) {
+		checkStratForRightVariableNames(strat.s, variableNames)
+	}
+	
+	def dispatch checkStratForRightVariableNames(All strat, Set<String> variableNames) {
 		checkStratForRightVariableNames(strat.s, variableNames)
 	}
 

@@ -71,6 +71,7 @@ public class TsFactoryImpl extends EFactoryImpl implements TsFactory {
 			case TsPackage.SEQUENCE: return createSequence();
 			case TsPackage.UNION: return createUnion();
 			case TsPackage.SIMPLE_STRATEGY: return createSimpleStrategy();
+			case TsPackage.ALL: return createAll();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -224,6 +225,16 @@ public class TsFactoryImpl extends EFactoryImpl implements TsFactory {
 	public SimpleStrategy createSimpleStrategy() {
 		SimpleStrategyImpl simpleStrategy = new SimpleStrategyImpl();
 		return simpleStrategy;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public All createAll() {
+		AllImpl all = new AllImpl();
+		return all;
 	}
 
 	/**

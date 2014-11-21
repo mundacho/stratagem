@@ -549,6 +549,16 @@ rulePredefStrats returns [EObject current=null]
         $current = $this_Union_10.current; 
         afterParserOrEnumRuleCall();
     }
+
+    |
+    { 
+        newCompositeNode(grammarAccess.getPredefStratsAccess().getAllParserRuleCall_11()); 
+    }
+    this_All_11=ruleAll
+    { 
+        $current = $this_All_11.current; 
+        afterParserOrEnumRuleCall();
+    }
 )
 ;
 
@@ -1081,6 +1091,57 @@ ruleFixpoint returns [EObject current=null]
 )	otherlv_3=')' 
     {
     	newLeafNode(otherlv_3, grammarAccess.getFixpointAccess().getRightParenthesisKeyword_3());
+    }
+)
+;
+
+
+
+
+
+// Entry rule entryRuleAll
+entryRuleAll returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getAllRule()); }
+	 iv_ruleAll=ruleAll 
+	 { $current=$iv_ruleAll.current; } 
+	 EOF 
+;
+
+// Rule All
+ruleAll returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(	otherlv_0='All' 
+    {
+    	newLeafNode(otherlv_0, grammarAccess.getAllAccess().getAllKeyword_0());
+    }
+	otherlv_1='(' 
+    {
+    	newLeafNode(otherlv_1, grammarAccess.getAllAccess().getLeftParenthesisKeyword_1());
+    }
+(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getAllAccess().getSStrategyParserRuleCall_2_0()); 
+	    }
+		lv_S_2_0=ruleStrategy		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getAllRule());
+	        }
+       		set(
+       			$current, 
+       			"S",
+        		lv_S_2_0, 
+        		"Strategy");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)	otherlv_3=')' 
+    {
+    	newLeafNode(otherlv_3, grammarAccess.getAllAccess().getRightParenthesisKeyword_3());
     }
 )
 ;
