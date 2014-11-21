@@ -58,6 +58,7 @@ public class TransitionSystemDslParser extends AbstractContentAssistParser {
 					put(grammarAccess.getSimpleStrategyAccess().getGroup_2(), "rule__SimpleStrategy__Group_2__0");
 					put(grammarAccess.getNotAccess().getGroup(), "rule__Not__Group__0");
 					put(grammarAccess.getFixpointAccess().getGroup(), "rule__Fixpoint__Group__0");
+					put(grammarAccess.getAllAccess().getGroup(), "rule__All__Group__0");
 					put(grammarAccess.getChoiceAccess().getGroup(), "rule__Choice__Group__0");
 					put(grammarAccess.getUnionAccess().getGroup(), "rule__Union__Group__0");
 					put(grammarAccess.getSequenceAccess().getGroup(), "rule__Sequence__Group__0");
@@ -106,6 +107,7 @@ public class TransitionSystemDslParser extends AbstractContentAssistParser {
 					put(grammarAccess.getSimpleStrategyAccess().getEquationsAssignment_2_1(), "rule__SimpleStrategy__EquationsAssignment_2_1");
 					put(grammarAccess.getNotAccess().getSAssignment_2(), "rule__Not__SAssignment_2");
 					put(grammarAccess.getFixpointAccess().getSAssignment_2(), "rule__Fixpoint__SAssignment_2");
+					put(grammarAccess.getAllAccess().getSAssignment_2(), "rule__All__SAssignment_2");
 					put(grammarAccess.getChoiceAccess().getS1Assignment_2(), "rule__Choice__S1Assignment_2");
 					put(grammarAccess.getChoiceAccess().getS2Assignment_4(), "rule__Choice__S2Assignment_4");
 					put(grammarAccess.getUnionAccess().getS1Assignment_2(), "rule__Union__S1Assignment_2");

@@ -1,5 +1,6 @@
 package ch.unige.cui.smv.stratagem.xtext.serializer;
 
+import ch.unige.cui.smv.metamodel.ts.All;
 import ch.unige.cui.smv.metamodel.ts.Choice;
 import ch.unige.cui.smv.metamodel.ts.DeclaredStrategy;
 import ch.unige.cui.smv.metamodel.ts.DeclaredStrategyInstance;
@@ -113,6 +114,15 @@ public abstract class AbstractTransitionSystemDslSemanticSequencer extends Abstr
 				else break;
 			}
 		else if(semanticObject.eClass().getEPackage() == TsPackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
+			case TsPackage.ALL:
+				if(context == grammarAccess.getAllRule() ||
+				   context == grammarAccess.getNonVariableStrategyRule() ||
+				   context == grammarAccess.getPredefStratsRule() ||
+				   context == grammarAccess.getStrategyRule()) {
+					sequence_All(context, (All) semanticObject); 
+					return; 
+				}
+				else break;
 			case TsPackage.CHOICE:
 				if(context == grammarAccess.getChoiceRule() ||
 				   context == grammarAccess.getNonVariableStrategyRule() ||
@@ -253,6 +263,22 @@ public abstract class AbstractTransitionSystemDslSemanticSequencer extends Abstr
 	 */
 	protected void sequence_ADT(EObject context, ADT semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     S=Strategy
+	 */
+	protected void sequence_All(EObject context, All semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, TsPackage.Literals.ALL__S) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, TsPackage.Literals.ALL__S));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getAllAccess().getSStrategyParserRuleCall_2_0(), semanticObject.getS());
+		feeder.finish();
 	}
 	
 	

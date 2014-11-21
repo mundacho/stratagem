@@ -238,12 +238,13 @@ public class TransitionSystemDslGrammarAccess extends AbstractGrammarElementFind
 		private final RuleCall cOneParserRuleCall_8 = (RuleCall)cAlternatives.eContents().get(8);
 		private final RuleCall cSaturationParserRuleCall_9 = (RuleCall)cAlternatives.eContents().get(9);
 		private final RuleCall cUnionParserRuleCall_10 = (RuleCall)cAlternatives.eContents().get(10);
+		private final RuleCall cAllParserRuleCall_11 = (RuleCall)cAlternatives.eContents().get(11);
 		
 		//PredefStrats returns ts::NonVariableStrategy:
-		//	Identity | Fail | Choice | Sequence | Fixpoint | IfThenElse | Not | SimpleStrategy | One | Saturation | Union;
+		//	Identity | Fail | Choice | Sequence | Fixpoint | IfThenElse | Not | SimpleStrategy | One | Saturation | Union | All;
 		public ParserRule getRule() { return rule; }
 
-		//Identity | Fail | Choice | Sequence | Fixpoint | IfThenElse | Not | SimpleStrategy | One | Saturation | Union
+		//Identity | Fail | Choice | Sequence | Fixpoint | IfThenElse | Not | SimpleStrategy | One | Saturation | Union | All
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//Identity
@@ -278,6 +279,9 @@ public class TransitionSystemDslGrammarAccess extends AbstractGrammarElementFind
 
 		//Union
 		public RuleCall getUnionParserRuleCall_10() { return cUnionParserRuleCall_10; }
+
+		//All
+		public RuleCall getAllParserRuleCall_11() { return cAllParserRuleCall_11; }
 	}
 
 	public class OneElements extends AbstractParserRuleElementFinder {
@@ -596,6 +600,38 @@ public class TransitionSystemDslGrammarAccess extends AbstractGrammarElementFind
 
 		//"Fixpoint"
 		public Keyword getFixpointKeyword_0() { return cFixpointKeyword_0; }
+
+		//"("
+		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
+
+		//S=Strategy
+		public Assignment getSAssignment_2() { return cSAssignment_2; }
+
+		//Strategy
+		public RuleCall getSStrategyParserRuleCall_2_0() { return cSStrategyParserRuleCall_2_0; }
+
+		//")"
+		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
+	}
+
+	public class AllElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "All");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cAllKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cSAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cSStrategyParserRuleCall_2_0 = (RuleCall)cSAssignment_2.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		
+		//All returns ts::All:
+		//	"All" "(" S=Strategy ")";
+		public ParserRule getRule() { return rule; }
+
+		//"All" "(" S=Strategy ")"
+		public Group getGroup() { return cGroup; }
+
+		//"All"
+		public Keyword getAllKeyword_0() { return cAllKeyword_0; }
 
 		//"("
 		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
@@ -1357,6 +1393,7 @@ public class TransitionSystemDslGrammarAccess extends AbstractGrammarElementFind
 	private SimpleStrategyElements pSimpleStrategy;
 	private NotElements pNot;
 	private FixpointElements pFixpoint;
+	private AllElements pAll;
 	private ChoiceElements pChoice;
 	private UnionElements pUnion;
 	private SequenceElements pSequence;
@@ -1472,7 +1509,7 @@ public class TransitionSystemDslGrammarAccess extends AbstractGrammarElementFind
 	}
 
 	//PredefStrats returns ts::NonVariableStrategy:
-	//	Identity | Fail | Choice | Sequence | Fixpoint | IfThenElse | Not | SimpleStrategy | One | Saturation | Union;
+	//	Identity | Fail | Choice | Sequence | Fixpoint | IfThenElse | Not | SimpleStrategy | One | Saturation | Union | All;
 	public PredefStratsElements getPredefStratsAccess() {
 		return (pPredefStrats != null) ? pPredefStrats : (pPredefStrats = new PredefStratsElements());
 	}
@@ -1550,6 +1587,16 @@ public class TransitionSystemDslGrammarAccess extends AbstractGrammarElementFind
 	
 	public ParserRule getFixpointRule() {
 		return getFixpointAccess().getRule();
+	}
+
+	//All returns ts::All:
+	//	"All" "(" S=Strategy ")";
+	public AllElements getAllAccess() {
+		return (pAll != null) ? pAll : (pAll = new AllElements());
+	}
+	
+	public ParserRule getAllRule() {
+		return getAllAccess().getRule();
 	}
 
 	//Choice returns ts::Choice:

@@ -86,6 +86,12 @@ object StrategyDSL {
     strat.setN(0)
     strat
   }
+  
+  def All(S: Strategy) = {
+    val strat = TsFactory.eINSTANCE.createAll()
+    strat.setS(S)
+    strat
+  }
 
   def Saturation(S: Strategy, n: Int) = {
     val strat = TsFactory.eINSTANCE.createSaturation()

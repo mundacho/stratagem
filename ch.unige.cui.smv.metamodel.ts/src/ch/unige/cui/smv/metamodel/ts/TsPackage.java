@@ -788,6 +788,44 @@ public interface TsPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link ch.unige.cui.smv.metamodel.ts.impl.AllImpl <em>All</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ch.unige.cui.smv.metamodel.ts.impl.AllImpl
+	 * @see ch.unige.cui.smv.metamodel.ts.impl.TsPackageImpl#getAll()
+	 * @generated
+	 */
+	int ALL = 17;
+
+	/**
+	 * The feature id for the '<em><b>S</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL__S = NON_VARIABLE_STRATEGY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>All</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_FEATURE_COUNT = NON_VARIABLE_STRATEGY_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>All</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_OPERATION_COUNT = NON_VARIABLE_STRATEGY_OPERATION_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link ch.unige.cui.smv.metamodel.ts.TransitionSystem <em>Transition System</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1266,6 +1304,27 @@ public interface TsPackage extends EPackage {
 	EReference getSimpleStrategy_Equations();
 
 	/**
+	 * Returns the meta object for class '{@link ch.unige.cui.smv.metamodel.ts.All <em>All</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>All</em>'.
+	 * @see ch.unige.cui.smv.metamodel.ts.All
+	 * @generated
+	 */
+	EClass getAll();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link ch.unige.cui.smv.metamodel.ts.All#getS <em>S</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>S</em>'.
+	 * @see ch.unige.cui.smv.metamodel.ts.All#getS()
+	 * @see #getAll()
+	 * @generated
+	 */
+	EReference getAll_S();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1681,6 +1740,24 @@ public interface TsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SIMPLE_STRATEGY__EQUATIONS = eINSTANCE.getSimpleStrategy_Equations();
+
+		/**
+		 * The meta object literal for the '{@link ch.unige.cui.smv.metamodel.ts.impl.AllImpl <em>All</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ch.unige.cui.smv.metamodel.ts.impl.AllImpl
+		 * @see ch.unige.cui.smv.metamodel.ts.impl.TsPackageImpl#getAll()
+		 * @generated
+		 */
+		EClass ALL = eINSTANCE.getAll();
+
+		/**
+		 * The meta object literal for the '<em><b>S</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ALL__S = eINSTANCE.getAll_S();
 
 	}
 
