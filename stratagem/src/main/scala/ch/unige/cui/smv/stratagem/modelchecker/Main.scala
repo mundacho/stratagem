@@ -69,7 +69,7 @@ import ch.unige.cui.smv.stratagem.util.AlphaNumOrdering
 object Main extends Logging {
 
   val programName = "stratagem"
-  val sversion = "0.4.2"
+  val sversion = "0.5.0"
   val quietMode = "activate quiet mode. Only errors are printed."
   val fileComment = "the model in pnml format (using extension PNML) or native representation (extension ts)"
   val debugMode = "activate debug mode. Lots of output."

@@ -1,6 +1,6 @@
 name := "stratagem"
 
-version := "0.4.2"
+version := "0.5.0"
 
 scalaVersion := "2.10.2"
 
