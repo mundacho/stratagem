@@ -6,26 +6,17 @@ scala:
    - 2.10.3
    - 2.10.2
 
+jdk:
+  - openjdk7
+  - oraclejdk8
+
 os:
   - linux
   - osx
 
 matrix:
-  exclude:
-     # On OSX, run with default JDK only.
-     - os: osx
-       env: CUSTOM_JDK="oraclejdk8"
-     - os: osx
-       env: CUSTOM_JDK="oraclejdk7"
-     - os: osx
-       env: CUSTOM_JDK="openjdk7"
-     # On Linux, run with specific JDKs only.
-     - os: linux
-       env: CUSTOM_JDK="default"
-
-before_install:
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then jdk_switcher use "$CUSTOM_JDK"; fi
+  allow_failures:
+  - os: osx
 
 script:
    - cd stratagem
