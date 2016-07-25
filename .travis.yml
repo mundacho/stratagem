@@ -23,4 +23,4 @@ jdk:
   - oraclejdk8
 script:
    - cd stratagem
-   - sbt test
+   - sbt ++$TRAVIS_SCALA_VERSION test
